@@ -110,7 +110,7 @@ data/         real stream geometry (OSM) and rainfall (Open-Meteo)
 fhir/         open CodeSystems/ValueSet, example Bundle, validator output
 tests/        31 tests: engine rules + the full demo story over HTTP
 tools/        validate_fhir.py (runs the official HL7 validator)
-docs/         Devpost text and demo video script
+docs/         STREAMPROOF-WINNING-PLAN.md (the plan: Devpost text, video script, build order)
 ```
 
 ## Data and licences

@@ -4,3 +4,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .env
+tools/oah-ig/
+tools/node_modules/
+tools/package*.json
+ig/fsh-generated/
+ig/output/
+ig/temp/
+ig/input-cache/

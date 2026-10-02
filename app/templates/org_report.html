@@ -49,7 +49,7 @@
         <h2>Permitted-use gate</h2>
         <p class="muted" style="font-size:.88rem">What this record may be used for at <b>{{ r.rung.label }}</b>. Every output asks the gate first.</p>
         <table><tbody>
-          {% for d in gate %}<tr><td>{{ '✓' if d.allowed else '✕' }}</td><td>{{ d.reason }}</td></tr>{% endfor %}
+          {% for d in gate %}<tr><td style="width:1.5rem;color:{{ 'var(--green)' if d.allowed else 'var(--red)' }};font-weight:800">{{ '✓' if d.allowed else '✕' }}</td><td>{{ USES[d.use] }}</td><td><small class="muted">{{ 'allowed' if d.allowed else 'needs ' + min_rung(d.use).label }}</small></td></tr>{% endfor %}
         </tbody></table>
         <div class="row" style="margin-top:.8rem">
           <a class="btn {{ 'primary' if r.rung.level >= 4 else '' }}" href="/o/r/{{ r.id }}/fhir">Export FHIR R4 Bundle</a>

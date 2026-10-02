@@ -25,7 +25,8 @@ app.add_middleware(SessionMiddleware, secret_key=config.SESSION_SECRET, same_sit
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
 app.mount("/fhir/definitions", StaticFiles(directory=config.ROOT / "fhir" / "definitions"), name="fhirdefs")
 templates = Jinja2Templates(directory=HERE / "templates")
-templates.env.globals.update(INDICATORS=INDICATORS, Rung=Rung)
+templates.env.globals.update(INDICATORS=INDICATORS, Rung=Rung, USES=permitted_use.USES,
+                             min_rung=permitted_use.minimum_rung)
 
 store = Store()
 if not store.all():
@@ -42,6 +43,13 @@ def need(request: Request, role: str) -> dict:
     if not u or u["role"] != role:
         raise HTTPException(303, headers={"Location": f"/login?next={request.url.path}"})
     return u
+
+
+def demo_start() -> list[float]:
+    """Default pin: the demo hotspot on Ribeira de Coselhas, 2.55 km above the Mondego."""
+    s = geo.streams()[0]
+    lat, lon = geo.point_at(s, s.chainage[-1] - 2550)
+    return [round(lat + 0.0001, 6), round(lon, 6)]
 
 
 def stream_geojson() -> list:

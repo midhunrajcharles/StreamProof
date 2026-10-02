@@ -6,7 +6,7 @@
   <article class="brief">
     <div class="kicker">River Health Brief</div>
     <h1>{{ b.area }}</h1>
-    <p class="muted">Generated {{ b.generated.replace('T',' ') }} UTC · last {{ b.window_days }} days · {{ b.total }} citizen reports</p>
+    <p class="muted">Generated {{ b.generated }} UTC · last {{ b.window_days }} days · {{ b.total }} citizen reports</p>
 
     <div class="kpis" style="margin:1rem 0">
       {% for label, n in b.counts.items() if n %}<div class="kpi"><b>{{ n }}</b><span>{{ label }}</span></div>{% endfor %}

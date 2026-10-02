@@ -45,7 +45,7 @@ def run(store: Store | None = None) -> Store:
         store.upsert_observer(p, d, contact="")
     t = now()
 
-    def add(obs, codes, km, days_ago, hours=10, acc=9.0, side=0.0, desc=""):
+    def add(obs, codes, km, days_ago, hours=10, acc=9.0, side=11.0, desc=""):
         lat, lon = _at_km(km, side)
         when = (t - timedelta(days=days_ago)).replace(hour=hours, minute=12, second=0, microsecond=0)
         n = store.next_id("seedphoto", 1)

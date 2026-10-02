@@ -88,7 +88,7 @@ def build(reports: list[Report], missions: list[Mission], at: datetime | None = 
     open_missions = [m for m in missions if m.status == "open"]
     counts = {rung.label: sum(r.rung == rung for r in reports) for rung in Rung}
     return {
-        "generated": at.isoformat(timespec="minutes"),
+        "generated": at.strftime("%Y-%m-%d %H:%M"),
         "area": "Ribeira de Coselhas catchment, Coimbra",
         "window_days": config.NEARBY_WINDOW_DAYS,
         "total": len(reports),

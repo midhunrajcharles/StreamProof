@@ -60,7 +60,7 @@
 {% block scripts %}
 <script>
 const streams = {{ streams|tojson }};
-const start = {{ [mission.lat, mission.lon]|tojson if mission else '[40.2226, -8.4130]' }};
+const start = {{ [mission.lat, mission.lon]|tojson if mission else demo_start|tojson }};
 const map = L.map('map', {zoomControl: false}).setView(start, 16);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'}).addTo(map);
 streams.forEach(s => L.polyline(s, {color: '#0b7a75', weight: 4, opacity: .7}).addTo(map));
@@ -76,6 +76,10 @@ map.on('click', e => { pin.setLatLng(e.latlng); set(e.latlng, 10); document.getE
 if (navigator.geolocation && !{{ 'true' if mission else 'false' }}) {
   navigator.geolocation.getCurrentPosition(p => {
     const ll = L.latLng(p.coords.latitude, p.coords.longitude);
+    if (ll.distanceTo(L.latLng(start)) > 50000) {
+      document.getElementById('gpsmsg').textContent = 'You are outside the demo area (Coimbra). Place the pin on the stream.';
+      return;
+    }
     pin.setLatLng(ll); map.setView(ll, 17); set(ll, Math.round(p.coords.accuracy));
     document.getElementById('gpsmsg').textContent = `GPS ±${Math.round(p.coords.accuracy)} m`;
   }, () => { document.getElementById('gpsmsg').textContent = 'No GPS. Place the pin on the map.'; },

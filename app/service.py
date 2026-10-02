@@ -49,6 +49,9 @@ def submit(store: Store, observer: str, codes: list[str], lat: float, lon: float
             m.submissions.append(r.id)
             store.save_mission(m)
             r.log("evidence-engine", f"Submitted for mission {mission_id}")
+    if created_at is not None:  # backfilled (seed/import): stamp intake events with the report time
+        for e in r.history:
+            e.at = created_at.isoformat(timespec="seconds")
     for o in others:
         if o.id in linked:
             store.save(o)

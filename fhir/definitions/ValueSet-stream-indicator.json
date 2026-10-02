@@ -1,0 +1,24 @@
+{
+  "resourceType": "ValueSet",
+  "id": "stream-indicator",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/stream-indicator",
+  "version": "0.1.0",
+  "name": "StreamIndicator",
+  "title": "Citizen stream observation signs",
+  "status": "draft",
+  "experimental": true,
+  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
+  "description": "All signs in the stream-indicator CodeSystem.",
+  "compose": {
+    "include": [
+      {
+        "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/stream-indicator",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>All signs in the StreamProof stream-indicator CodeSystem.</p></div>"
+  }
+}

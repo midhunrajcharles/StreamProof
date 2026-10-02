@@ -1,0 +1,66 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "permitted-use",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+  "version": "0.1.0",
+  "name": "PermittedUse",
+  "title": "Permitted use",
+  "status": "draft",
+  "experimental": true,
+  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
+  "description": "What a record may be used for at its trust level (the permitted-use matrix).",
+  "caseSensitive": true,
+  "content": "complete",
+  "count": 9,
+  "concept": [
+    {
+      "code": "triage",
+      "display": "Org triage queue",
+      "definition": "Allowed from Report."
+    },
+    {
+      "code": "field_check",
+      "display": "Trigger a field-check request",
+      "definition": "Allowed from Report."
+    },
+    {
+      "code": "mission",
+      "display": "Open a community evidence mission",
+      "definition": "Allowed from Report."
+    },
+    {
+      "code": "org_dashboard",
+      "display": "Org dashboard, labelled unverified",
+      "definition": "Allowed from Assessed."
+    },
+    {
+      "code": "public_map",
+      "display": "Public map as 'reported, being checked'",
+      "definition": "Allowed from Community-supported."
+    },
+    {
+      "code": "oah_dashboard",
+      "display": "OAH dashboard and DSS input",
+      "definition": "Allowed from Expert-verified."
+    },
+    {
+      "code": "fhir_exchange",
+      "display": "FHIR exchange with partner systems",
+      "definition": "Allowed from Expert-verified."
+    },
+    {
+      "code": "recognition",
+      "display": "Contributor recognition (signed certificate)",
+      "definition": "Allowed from Expert-verified."
+    },
+    {
+      "code": "advisory_flag",
+      "display": "Advisory flag to agencies and public-health partners",
+      "definition": "Allowed from Decision-grade."
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Permitted use: triage (Org triage queue), field_check (Trigger a field-check request), mission (Open a community evidence mission), org_dashboard (Org dashboard, labelled unverified), public_map (Public map as 'reported, being checked'), oah_dashboard (OAH dashboard and DSS input), fhir_exchange (FHIR exchange with partner systems), recognition (Contributor recognition (signed certificate)), advisory_flag (Advisory flag to agencies and public-health partners)</p></div>"
+  }
+}

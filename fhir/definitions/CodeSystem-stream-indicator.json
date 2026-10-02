@@ -1,0 +1,72 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "stream-indicator",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/stream-indicator",
+  "version": "0.1.0",
+  "name": "StreamIndicator",
+  "title": "Citizen stream observation signs",
+  "status": "draft",
+  "experimental": true,
+  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
+  "description": "Plain-language signs a citizen can report at an urban stream, for One Health surveillance. Intended to be mapped to the OneAquaHealth Indicators Framework.",
+  "caseSensitive": true,
+  "content": "complete",
+  "count": 10,
+  "concept": [
+    {
+      "code": "algal-scum",
+      "display": "Algal scum or green discoloured water",
+      "definition": "Visible surface scum or green/blue-green discolouration, a possible algal bloom."
+    },
+    {
+      "code": "odour",
+      "display": "Unusual odour from the water",
+      "definition": "A strong septic, chemical or rotten smell noticed at the bank."
+    },
+    {
+      "code": "dead-fish",
+      "display": "Dead or dying fish",
+      "definition": "One or more dead or visibly distressed fish in or at the edge of the water."
+    },
+    {
+      "code": "oil-sheen",
+      "display": "Oily or rainbow sheen on the surface",
+      "definition": "A rainbow or silvery film on the surface that breaks up into patches."
+    },
+    {
+      "code": "stagnant-water",
+      "display": "Stagnant or ponded water",
+      "definition": "Water that is not flowing: ponded side pools, blocked channel or standing water."
+    },
+    {
+      "code": "mosquitoes",
+      "display": "High mosquito activity",
+      "definition": "Many mosquitoes or larvae seen at the site; a possible vector habitat signal."
+    },
+    {
+      "code": "sewage",
+      "display": "Sewage or pipe discharge",
+      "definition": "Grey water, toilet paper, or a pipe discharging into the stream."
+    },
+    {
+      "code": "litter",
+      "display": "Litter in or beside the channel",
+      "definition": "Plastic, bags or dumped items in the channel or on the banks."
+    },
+    {
+      "code": "foam",
+      "display": "Persistent foam on the surface",
+      "definition": "White or brown foam that does not break up quickly."
+    },
+    {
+      "code": "all-clear",
+      "display": "No problem observed",
+      "definition": "The observer checked the site and saw nothing of concern. Credited equally."
+    }
+  ],
+  "valueSet": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/stream-indicator",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Citizen stream observation signs: algal-scum (Algal scum or green discoloured water), odour (Unusual odour from the water), dead-fish (Dead or dying fish), oil-sheen (Oily or rainbow sheen on the surface), stagnant-water (Stagnant or ponded water), mosquitoes (High mosquito activity), sewage (Sewage or pipe discharge), litter (Litter in or beside the channel), foam (Persistent foam on the surface), all-clear (No problem observed)</p></div>"
+  }
+}

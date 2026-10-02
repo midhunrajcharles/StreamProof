@@ -1,0 +1,46 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "evidence-attribute",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+  "version": "0.1.0",
+  "name": "EvidenceAttribute",
+  "title": "Evidence attributes",
+  "status": "draft",
+  "experimental": true,
+  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
+  "description": "Observation.component codes that carry the trust metadata with the data.",
+  "caseSensitive": true,
+  "content": "complete",
+  "count": 5,
+  "concept": [
+    {
+      "code": "evidence-grade",
+      "display": "Evidence grade",
+      "definition": "A-D grade from seven explainable signals."
+    },
+    {
+      "code": "evidence-score",
+      "display": "Evidence score (0-100)",
+      "definition": "Sum of points behind the grade."
+    },
+    {
+      "code": "trust-level",
+      "display": "Trust level",
+      "definition": "Position of the record in the evidence graph."
+    },
+    {
+      "code": "independent-corroborations",
+      "display": "Independent corroborations",
+      "definition": "Number of independent reports by other observers that agree."
+    },
+    {
+      "code": "permitted-use",
+      "display": "Permitted use",
+      "definition": "A use this record is allowed for at its trust level."
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Evidence attributes: evidence-grade (Evidence grade), evidence-score (Evidence score (0-100)), trust-level (Trust level), independent-corroborations (Independent corroborations), permitted-use (Permitted use)</p></div>"
+  }
+}

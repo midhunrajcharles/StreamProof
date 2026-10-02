@@ -1,0 +1,51 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "trust-level",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
+  "version": "0.1.0",
+  "name": "TrustLevel",
+  "title": "Trust level",
+  "status": "draft",
+  "experimental": true,
+  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
+  "description": "Evidence graph levels. Expert-verified is reachable directly from assessed.",
+  "caseSensitive": true,
+  "content": "complete",
+  "count": 6,
+  "concept": [
+    {
+      "code": "report",
+      "display": "Report",
+      "definition": "Submitted by a citizen, not yet assessed."
+    },
+    {
+      "code": "assessed",
+      "display": "Assessed",
+      "definition": "Graded A-D with reasons by the evidence engine."
+    },
+    {
+      "code": "community-supported",
+      "display": "Community-supported",
+      "definition": "Independently corroborated by at least one other observer."
+    },
+    {
+      "code": "expert-verified",
+      "display": "Expert-verified",
+      "definition": "Confirmed by an expert, remotely or in the field."
+    },
+    {
+      "code": "decision-grade",
+      "display": "Decision-grade",
+      "definition": "Expert-verified and part of a signal that meets the advisory threshold."
+    },
+    {
+      "code": "not-confirmed",
+      "display": "Not confirmed",
+      "definition": "Reviewed and not confirmed; kept for the record with a reason."
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Trust level: report (Report), assessed (Assessed), community-supported (Community-supported), expert-verified (Expert-verified), decision-grade (Decision-grade), not-confirmed (Not confirmed)</p></div>"
+  }
+}

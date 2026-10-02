@@ -1,0 +1,44 @@
+# HL7 FHIR Validator run 2026-10-02T19:23:11+00:00
+# java -jar D:\project\Project 2026\Oct\streamproof\tools\validator_cli.jar D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json -version 4.0.1 -ig D:\project\Project 2026\Oct\streamproof\fhir\definitions -output D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-outcome.json
+
+FHIR Validation tool Version 6.10.4 (Git# 1b90fb13f77b). Built 2026-09-04T05:45:41.468Z (28 days old)
+  Java:   21.0.10 from C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot on amd64 (64bit). 4014MB available
+  Paths:  Current = D:\project\Project 2026\Oct\streamproof, Package Cache = C:\Users\hp\.fhir\packages
+  Params: "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json" -version 4.0.1 -ig "D:\project\Project 2026\Oct\streamproof\fhir\definitions" -output "D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-outcome.json"
+  Locale: India/IN
+  Jurisdiction: India
+Loading
+  Loading FHIR v4.0.1 from hl7.fhir.r4.core#4.0.1
+  Load hl7.terminology.r4#6.2.0 - 4288 resources (00:27.819)
+  Load hl7.fhir.uv.extensions.r4#5.2.0 - 759 resources (00:05.500)
+  Loaded FHIR - 8265 resources (00:00.001)
+  Terminology server https://tx.fhir.org - Version Connected to Terminology Server at https://tx.fhir.org (00:04.039)
+  Load hl7.terminology#7.4.0 - 4181 resources (00:06.001)
+  Load hl7.fhir.uv.extensions.r5#5.2.0 - 759 resources (00:01.487)
+  Load hl7.terminology.r5#7.1.0 - 4072 resources (00:04.730)
+  Load hl7.fhir.uv.extensions#5.3.0 - 856 resources (00:00.038)
+  Load D:\project\Project 2026\Oct\streamproof\fhir\definitions - 6 resources (00:00.068)
+  Package Summary: [hl7.fhir.r4.core#4.0.1, hl7.fhir.xver-extensions#0.1.0, hl7.terminology.r4#6.2.0, hl7.fhir.uv.extensions.r4#5.2.0, hl7.terminology#7.4.0, hl7.fhir.uv.extensions.r5#5.2.0, hl7.terminology.r5#7.1.0, hl7.fhir.uv.extensions#5.3.0]
+  Terminology Cache at C:\Users\hp\AppData\Local\Temp\default-tx-cache
+  Get set... 
+  ...go! (00:08.796)
+Cached new session. Cache size = 1
+Sources to validate: D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json
+Validating
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json
+ 00:06.913
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json
+ 00:00.115
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json
+ 00:00.078
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json
+ 00:00.070
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json
+ 00:00.076
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json
+ 00:00.067
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json
+ 00:00.092
+Done. Times: Loading: 00:58.639, validation: 00:07.418 (#7). Memory = 510Mb
+
+Done. Times: Loading: 00:58.639, validation: 00:07.418 (#7). Max Memory = 3Gb

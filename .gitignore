@@ -1,0 +1,6 @@
+tools/validator_cli.jar
+var/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env

@@ -1,14 +1,14 @@
-# StreamProof v5: the winning plan
+# StreamProof: the winning plan
 
-*Written 2026-10-03. Plan only; nothing in this file is built yet. The v4 prototype in this repo is the starting point.*
+*Written 2026-10-03. This is the only plan for StreamProof. Everything here is planned, not yet built; section 3 lists what the code in this repo still needs.*
 *Deadline: **Oct 4, 2026 @ 9:00 pm PDT** (= Oct 5, 09:30 IST). Judging Oct 1–15. Winners announced Oct 24, 2026 at IEEE iGET.*
 
 ---
 
 ## 0. Bottom line
 
-- **Goal:** 1st place. For an 80% chance of 1st, the judges' weighted average has to reach about **9.2–9.4 / 10**, which is close to perfect. No idea can guarantee that. v5 is designed to reach that bar on every criterion.
-- **Estimated v5 score:** about **9.0 / 10**, giving **55–75% for 1st** and **85–95% for a cash prize** (model below). With every "beyond the product" item in section 11 done, and judges who agree with each other, 1st reaches about **79–83%**.
+- **Goal:** 1st place. For an 80% chance of 1st, the judges' weighted average has to reach about **9.2–9.4 / 10**, which is close to perfect. No idea can guarantee that. StreamProof is designed to reach that bar on every criterion.
+- **Estimated score once built:** about **9.0 / 10**, giving **55–75% for 1st** and **85–95% for a cash prize** (model below). With every "beyond the product" item in section 11 done, and judges who agree with each other, 1st reaches about **79–83%**.
 - **The single biggest lever:** StreamProof stops inventing its own standard and becomes **the trust and provenance add-on to the official OneAquaHealth FHIR guide** (HL7 Europe). The judges' own standards work gets *extended*, not *ignored*.
 
 ---
@@ -19,12 +19,12 @@
 |---|---|---|---|
 | E1 | Scoring weights: Impact & alignment 30, Innovation 20, Technical implementation 20, Usability & UX 15, Feasibility & scalability 15. Each scored 1–10. | Devpost rules page | Impact is worth 1.5× any other criterion |
 | E2 | 1,282 registered (270 in July: 98 solo, 89 seeking team, 85 teams). Students only, team required, public repo, 3–5 min video. | Devpost; oneaquahealth.eu 2026-07-07 | Estimated field of 60–150 submissions |
-| E3 | **HL7 Europe maintains an official OAH FHIR guide**: `github.com/hl7-eu/oah`, canonical `http://hl7.eu/fhir/ig/oah`, v0.1.0-ci-build, FHIR R4. Contributors: gcangioli, skokolakis, chronaki, joofio. Last commit 2026-06-11. **No licence file.** The CI build page currently returns 404. | GitHub | v4 ignored it; v5 builds on it |
-| E4 | The guide has CodeSystem `TemporaryOahSystem` (`…/CodeSystem/temporarySystem-oah-eu`) with `#foam` "Foam/colour/smell", `#diptera`, `#fish`, `#amphibians`, `#hydrology`, `#coliforms`, `#birds`, … and health indicators. It also defines profiles `ObservationIndicatorsOah` (status fixed to `final`; `subject` must be `LocationOah`; `performer` 1..; `value[x]` only CodeableConcept or Quantity; component values only CodeableConcept, string or Quantity) and `LocationOah` (`identifier` 1.., `name` 1.., `mode` = instance). | `input/fsh/…` | Exact rules v5 must follow |
+| E3 | **HL7 Europe maintains an official OAH FHIR guide**: `github.com/hl7-eu/oah`, canonical `http://hl7.eu/fhir/ig/oah`, v0.1.0-ci-build, FHIR R4. Contributors: gcangioli, skokolakis, chronaki, joofio. Last commit 2026-06-11. **No licence file.** The CI build page currently returns 404. | GitHub | StreamProof builds on it |
+| E4 | The guide has CodeSystem `TemporaryOahSystem` (`…/CodeSystem/temporarySystem-oah-eu`) with `#foam` "Foam/colour/smell", `#diptera`, `#fish`, `#amphibians`, `#hydrology`, `#coliforms`, `#birds`, … and health indicators. It also defines profiles `ObservationIndicatorsOah` (status fixed to `final`; `subject` must be `LocationOah`; `performer` 1..; `value[x]` only CodeableConcept or Quantity; component values only CodeableConcept, string or Quantity) and `LocationOah` (`identifier` 1.., `name` 1.., `mode` = instance). | `input/fsh/…` | Exact rules StreamProof must follow |
 | E5 | The guide has **no data quality, trust, provenance or citizen-verification artefacts**. | same | The gap StreamProof fills |
 | E6 | **Judge Gora Datta (FHL7) co-wrote HL7's article on OAH FHIR work** (with Nicole Ha). It names the plan: "Develop an OAH FHIR Implementation Guide", using the Gravity and Helios accelerators. He chairs IEEE P3228 / P3271.01. | hl7news.hl7.org/?p=683; sagroups.ieee.org/3228 | The Track 7 judge knows the guide intimately |
 | E7 | **DipteraCAST** (31 Jul 2026) predicts Diptera communities (55 taxa, 85 sites, 5 cities; RF, LR, SVM, XGBoost, multi-label). **Built by ENORA Innovation.** | oneaquahealth.eu | Judge George Koutalieris is ENORA's Chief Business & Innovation Officer |
-| E8 | **OAH Catalogue of Measures** is public (12 May 2026, by Maria Feio). Nature-based, hierarchical, covering morphological, hydrological, chemical, ecological and social dimensions; it feeds the DSS. | oneaquahealth.eu media centre | v4 used made-up measures; Feio is a judge |
+| E8 | **OAH Catalogue of Measures** is public (12 May 2026, by Maria Feio). Nature-based, hierarchical, covering morphological, hydrological, chemical, ecological and social dimensions; it feeds the DSS. | oneaquahealth.eu media centre | The brief must use it; Feio is a judge |
 | E9 | OAH's own test for an "exploitable result": a clear need, a defined user group, concrete value, plus long-term maintenance. Its key results: Citizen Science App, GEOSSIP, DSS, Indicators Framework. | oneaquahealth.eu 2026-05-19 | The adoption story must answer exactly this |
 | E10 | OAH ran a learning session "One Digital Health & FAIR Principles" (15 Jul 2026). | oneaquahealth.eu 2026-07-07 | Judges expect FAIR language |
 | E11 | Prior art: **Alabri & Hunter, "Enhancing the Quality and Trust of Citizen Science Data", IEEE e-Science 2010** (trust metrics, CoralWatch). **Baker et al. 2021, *Citizen Science: Theory and Practice* 6(1), doi:10.5334/cstp.351**: of 259 schemes reviewed, verification info was found for 142. It recommends a **layered approach**: rules or the community check most records, and experts check the flagged ones. iNaturalist "Research Grade" studies show community agreement ≠ accuracy for hard taxa. | IEEE / CSTP / NSF PAR | Cite and differentiate, or be called "a 2010 idea" |
@@ -33,7 +33,7 @@
 
 ---
 
-## 2. The v5 idea
+## 2. The idea
 
 **One sentence (≤ 25 words):** StreamProof makes citizen stream reports trustworthy enough for cities to act on, as a trust add-on to OneAquaHealth's official FHIR standard.
 
@@ -47,12 +47,12 @@
 
 ---
 
-## 3. Flaws cut (v4 → v5)
+## 3. Gaps to close in the current code
 
-| # | v4 flaw | v5 fix | Criterion gain |
+| # | Current gap | Planned change | Criterion gain |
 |---|---|---|---|
 | F1 | Own `stream-indicator` CodeSystem duplicates the official OAH codes | Observation.code uses **OAH `TemporaryOahSystem`** wherever a match exists. The citizen's sign becomes the Observation **value** (from StreamProof's `citizen-sign` CodeSystem). A ConceptMap `citizen-sign → OAH indicator` is published. | Technical +1.0, Impact +0.5 |
-| F2 | Bundles not checked against OAH profiles; `valueBoolean` and `valueInteger` violate `ObservationIndicatorsOah` | v5 profiles **derive from** `ObservationIndicatorsOah` and `LocationOah`. Values become CodeableConcept or Quantity. `LocationOah.identifier` gets a site id. Validation runs with the OAH guide compiled locally by SUSHI: **0 errors against the official profiles**. | Technical +0.8 |
+| F2 | Bundles not checked against OAH profiles; `valueBoolean` and `valueInteger` violate `ObservationIndicatorsOah` | StreamProof profiles **derive from** `ObservationIndicatorsOah` and `LocationOah`. Values become CodeableConcept or Quantity. `LocationOah.identifier` gets a site id. Validation runs with the OAH guide compiled locally by SUSHI: **0 errors against the official profiles**. | Technical +0.8 |
 | F3 | Permitted-use matrix exists only in Python | Published as FHIR: CodeSystem `trust-level` with property **`permits`** (code), one value per allowed use. **The app's gate loads that file at startup.** A test proves the gate and the published file can't disagree. | Innovation +0.8 |
 | F4 | Made-up measures in the brief | Brief actions come from the **real OAH Catalogue of Measures**, cited by measure name and page. Each sign maps to catalogue entries. | Impact +0.5 (Feio) |
 | F5 | No link to OAH tools | **DipteraCAST interface:** expert-verified `#diptera` reports exported as labelled presence/absence ground truth (FHIR Bundle + CSV). A slot for a DipteraCAST prediction as context in grading, labelled "interface only, model not public". | Impact +0.4, Innovation +0.3 (ENORA) |
@@ -62,11 +62,11 @@
 | F9 | Vague adoption story | "Exploitable result" table (need / users / value / maintenance), using OAH's own wording. FAIR mapping table. Proposed path: open an issue or PR on `hl7-eu/oah` offering the add-on (**the user's decision and action**). | Feasibility +0.5, Impact +0.3 |
 | F10 | Grade weights untested | **Calibration report**: run the grader on the seeded cases and on a small set of real photos, and publish the confusion table and limits. Honest numbers only. | Technical +0.2 |
 
-Kept from v4, already right: the evidence *graph* (expert shortcut for rural sites), the "decision-grade" wording (never "policy-grade"), advisory-only health language, pseudonymous provenance, the identity vault and erasure, equal credit for "all clear", a corroboration cap and independence rules, the threshold counting **people not reports**, and a signature that is tamper-evident but not a blockchain.
+Already right in the current code (keep): the evidence *graph* (expert shortcut for rural sites), the "decision-grade" wording (never "policy-grade"), advisory-only health language, pseudonymous provenance, the identity vault and erasure, equal credit for "all clear", a corroboration cap and independence rules, the threshold counting **people not reports**, and a signature that is tamper-evident but not a blockchain.
 
 ---
 
-## 4. Architecture v5
+## 4. Architecture
 
 ```
  CITIZEN PWA (6 languages, 5 cities)          ORGANIZATION PORTAL
@@ -92,7 +92,7 @@ Kept from v4, already right: the evidence *graph* (expert shortcut for rural sit
 
 ---
 
-## 5. FHIR design v5 (the Track 7 core)
+## 5. FHIR design (the Track 7 core)
 
 ### 5.1 Sign → OAH indicator mapping (ConceptMap `citizen-sign-to-oah`)
 
@@ -182,30 +182,29 @@ A city switcher (Coimbra, Benevento, Ghent, Oslo, Toulouse) loads each city's ma
 
 ## 12. Scorecard and odds
 
-| Criterion (weight) | v4 as built | v5 target | What drives it |
-|---|---|---|---|
-| Impact & alignment (30%) | 7.5 | **9.2** | OAH guide + Catalogue + DipteraCAST + 5 cities + One Health advisory |
-| Innovation (20%) | 7.5 | **8.8** | Permitted-use rules as FHIR data, enforced and carried; honest prior-art position |
-| Technical (20%) | 8.0 | **9.4** | Conforms to the official OAH profiles, validator 0 errors, tests, calibration report |
-| UX (15%) | 7.5 | **8.6** | Real photos, 6 languages, 60-second flow, live URL |
-| Feasibility & scale (15%) | 7.5 | **9.0** | Open-core, exploitable-result answers, module for the HL7 Europe guide |
-| **Weighted** | **7.6** | **≈ 9.04** | |
+| Criterion (weight) | Target | What drives it |
+|---|---|---|
+| Impact & alignment (30%) | **9.2** | OAH guide + Catalogue + DipteraCAST + 5 cities + One Health advisory |
+| Innovation (20%) | **8.8** | Permitted-use rules as FHIR data, enforced and carried; honest prior-art position |
+| Technical (20%) | **9.4** | Conforms to the official OAH profiles, validator 0 errors, tests, calibration report |
+| UX (15%) | **8.6** | Real photos, 6 languages, 60-second flow, live URL |
+| Feasibility & scale (15%) | **9.0** | Open-core, exploitable-result answers, module for the HL7 Europe guide |
+| **Weighted** | **≈ 9.04** | |
 
 Monte Carlo (40k runs; field mean 5.9, sd 1.0; judge noise ±0.55; self-scored, so likely optimistic):
 
 | Weighted score | 1st, 60 entries | 1st, 100 entries | 1st, 150 entries |
 |---|---|---|---|
-| 7.6 (v4) | 10% | 5% | 3% |
 | 8.4 | 44% | 32% | 24% |
-| **9.0 (v5)** | **74%** | **64%** | **56%** |
+| **9.0 (target)** | **74%** | **64%** | **56%** |
 | 9.2 | 82% | 74% | 67% |
 | 9.4 | 88% | 83% | 76% |
 
-If judges agree strongly (noise ±0.35), v5 at 9.0 gives about 79% at 100 entries. **80% is reachable only at the top of this range. It is a target, not a promise.**
+If judges agree strongly (noise ±0.35), a 9.0 score gives about 79% at 100 entries. **80% is reachable only at the top of this range. It is a target, not a promise.**
 
 ---
 
-## 13. Video script v5 (4:00)
+## 13. Video script (4:00)
 
 | Time | Screen | Voice-over (summary) |
 |---|---|---|
@@ -218,7 +217,7 @@ If judges agree strongly (noise ±0.35), v5 at 9.0 gives about 79% at 100 entrie
 | 3:10–3:35 | DipteraCAST ground-truth export | Verified field data for ENORA's model |
 | 3:35–4:00 | Certificate + tamper check → closing card | Recognition; honest notes; repo URL |
 
-## 14. Devpost text deltas (use only once built)
+## 14. Devpost text (use only once built)
 
 - **Track alignment:** "Track 7. StreamProof is a trust and provenance add-on to the HL7 Europe OneAquaHealth FHIR Implementation Guide (`http://hl7.eu/fhir/ig/oah`). Our profiles derive from `ObservationIndicatorsOah` and `LocationOah` and validate with 0 errors against them. We add what the guide does not yet carry: evidence grade, trust level, provenance and a published, machine-readable permitted-use rule."
 - **What it does:** add OAH codes, DipteraCAST export, Catalogue measures, 5 cities, 6 languages.
@@ -246,7 +245,7 @@ If judges agree strongly (noise ±0.35), v5 at 9.0 gives about 79% at 100 entrie
 
 | Step | Work | Est. | Cut line |
 |---|---|---|---|
-| 1 | Fetch + SUSHI-compile the OAH guide; v5 profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH | 3.5 h | **Must** |
+| 1 | Fetch + SUSHI-compile the OAH guide; StreamProof profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH | 3.5 h | **Must** |
 | 2 | `trust-level` CodeSystem with `permits`; gate loads it; consistency test | 1.5 h | **Must** |
 | 3 | Catalogue of Measures mapping in the brief | 1.5 h | **Must** |
 | 4 | DipteraCAST ground-truth export + context slot | 1.5 h | **Must** |

@@ -17,8 +17,8 @@ def _days() -> dict[str, float]:
 def rain_summary(on: date) -> dict | None:
     """Dry days in a row before `on`, rain in the last 2 and 7 days. None if no data for that date."""
     days = _days()
-    if on.isoformat() not in days and (on - timedelta(days=1)).isoformat() not in days:
-        return None
+    if not any((on - timedelta(days=k)).isoformat() in days for k in range(4)):
+        return None  # data more than 3 days stale: say so rather than guess
     dry = 0
     d = on - timedelta(days=1)
     while d.isoformat() in days and days[d.isoformat()] < 1.0:

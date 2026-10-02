@@ -100,7 +100,7 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
 - **Demo auth.** Two fixed demo accounts with no passwords. A deployment would use the organization's identity provider, and would need proper GDPR advice.
-- **Canonical URLs.** CodeSystem URLs point to this repository's GitHub Pages path; they resolve once Pages is enabled.
+- **Canonical URLs.** CodeSystem URLs use this repository's GitHub Pages base as identifiers. They don't resolve to a page yet; the definitions themselves are the JSON files in `fhir/definitions/`.
 
 ## Project layout
 

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import leaflet_head %}
+{% block title %}Mission {{ m.id }} · StreamProof{% endblock %}
+{% block head %}{{ leaflet_head() }}{% endblock %}
+{% block body %}
+<main class="phone">
+  <span class="badge community-supported">Community mission {{ m.id }}</span>
+  <h1 style="margin-top:.5rem">Evidence needed near you</h1>
+  <p>{{ m.request }}</p>
+  <div id="map" class="map"></div>
+  <div class="notice safety" style="margin-top:1rem"><b>Safety:</b> {{ m.safety }}</div>
+  <p class="muted" style="font-size:.88rem;margin-top:.8rem">Your report is linked to the original as independent evidence. You can't corroborate your own report, and each account has a daily limit, so a few people can't inflate a signal.</p>
+  <a class="btn primary big" href="/c/report?mission={{ m.id }}">I'm there: report for this mission</a>
+  <p class="muted" style="text-align:center;margin-top:.6rem">{{ m.submissions|length }} report(s) submitted so far</p>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+const map = L.map('map').setView([{{ m.lat }}, {{ m.lon }}], 16);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'}).addTo(map);
+{{ streams|tojson }}.forEach(s => L.polyline(s, {color: '#0b7a75', weight: 4, opacity: .7}).addTo(map));
+L.circle([{{ m.lat }}, {{ m.lon }}], {radius: {{ m.radius_m }}, color: '#5a48b0', fillOpacity: .15}).addTo(map).bindPopup('Check here').openPopup();
+</script>
+{% endblock %}

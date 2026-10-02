@@ -1,0 +1,1 @@
+{"version":"0.0.1","configurations":[{"name":"streamproof","runtimeExecutable":"python","runtimeArgs":["-m","uvicorn","app.main:app","--port","8740"],"port":8765}]}

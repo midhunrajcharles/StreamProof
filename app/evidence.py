@@ -115,15 +115,17 @@ def open_mission(r: Report, by: str, mission_id: str) -> Mission:
         lat, lon, walked = up
     where = f"about {walked:.0f} m upstream of the original report" if walked >= 50 else "at the reported spot"
     signs = ", ".join(INDICATORS[c].chip.lower() for c in r.indicators)
-    target = {"C": "B", "D": "C"}.get(r.grade or "", "a higher grade")
+    target = {"C": "B", "D": "C"}.get(r.grade or "")
+    payoff = (f"This could raise the evidence from {r.grade} to {target}." if target
+              else "This shows how far the problem extends along the stream.")
     m = Mission(
         id=mission_id, report_id=r.id, indicators=list(r.indicators), lat=round(lat, 6), lon=round(lon, 6),
         radius_m=150, created_by=by, created_at=now(),
         request=(f"Evidence needed near you: check the stream {where}. Photograph the water surface, the bank and "
-                 f"any {signs}. If everything looks fine, report that too: it counts the same. "
-                 f"This could raise the evidence from {r.grade} to {target}."),
+                 f"any {signs}. If everything looks fine, report that too: it counts the same. {payoff}"),
     )
-    r.status = "Community mission open nearby"
+    if r.rung.level < Rung.EXPERT.level:
+        r.status = "Community mission open nearby"
     r.log(by, f"More evidence requested: mission {m.id}")
     return m
 
@@ -144,7 +146,7 @@ class Signal:
 
 def signals(reports: list[Report], at: datetime | None = None) -> list[Signal]:
     """Group live reports by sign and place, then apply the decision-grade threshold:
-    >= 2 expert-verified, or >= 3 community-supported-or-better, of the same sign within
+    >= 2 expert-verified, or >= 3 community-supported-or-better, from different observers, of the same sign within
     500 m and 14 days. Expert-verified reports in a qualifying cluster become Decision-grade.
     Health-relevant signs at decision grade raise an advisory flag."""
     at = at or now()
@@ -165,8 +167,9 @@ def signals(reports: list[Report], at: datetime | None = None) -> list[Signal]:
             lat = sum(r.lat for r in members) / len(members)
             lon = sum(r.lon for r in members) / len(members)
             s = Signal(code, members, (lat, lon))
-            s.expert = sum(r.rung in (Rung.EXPERT, Rung.DECISION) for r in members)
-            s.community_or_better = sum(r.rung.level >= Rung.COMMUNITY.level for r in members)
+            # Count distinct observers, not reports: one person reporting twice is one voice.
+            s.expert = len({r.observer for r in members if r.rung in (Rung.EXPERT, Rung.DECISION)})
+            s.community_or_better = len({r.observer for r in members if r.rung.level >= Rung.COMMUNITY.level})
             met = s.expert >= config.ADVISORY_MIN_EXPERT or s.community_or_better >= config.ADVISORY_MIN_COMMUNITY
             if met and s.expert >= 1:
                 s.decision_grade = True

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "_macros.html" import rung_badge, grade_box, tracker, reasons, signs, photo %}
+{% block title %}{{ r.id }} · StreamProof{% endblock %}
+{% block body %}
+<main class="phone">
+  {% if new %}<div class="flash">Report received. Here is how it was assessed.</div>{% endif %}
+  <section class="card">
+    <div class="spread">
+      <div><small class="muted">{{ r.id }} · {{ r.created_at.strftime('%d %b %Y, %H:%M') }} UTC</small><h2 style="margin:.2rem 0">{{ signs(r) }}</h2></div>
+      {{ rung_badge(r) }}
+    </div>
+    {{ tracker(r) }}
+    <p style="margin:.4rem 0 0"><b>Status:</b> {{ r.status }}</p>
+  </section>
+
+  {% if r.safety %}<div class="notice safety" style="margin-top:1rem"><b>Safety:</b> {{ r.safety }}</div>{% endif %}
+
+  {% if r.rung.value == 'not-confirmed' %}
+  <section class="card" style="margin-top:1rem">
+    <h2>Not confirmed</h2>
+    <p>{{ r.rejection }}</p>
+    <small class="muted">Your report is kept for the record. It is not labelled as false.</small>
+  </section>
+  {% endif %}
+
+  <section class="card" style="margin-top:1rem">
+    <div class="row">{{ grade_box(r.grade, 'xl') }}<div><h2 style="margin:0">Evidence grade {{ r.grade }}</h2><small class="muted">{{ r.score }}/100 from seven checks you can read</small></div></div>
+    {{ reasons(r) }}
+    {% if r.hint and r.rung.level < 4 %}<div class="notice hint" style="margin-top:.6rem"><b>What would strengthen this:</b> {{ r.hint }}</div>{% endif %}
+  </section>
+
+  {% if cert %}
+  <section class="card" style="margin-top:1rem;border:2px solid var(--green)">
+    <span class="badge expert-verified">Contribution record</span>
+    <h2 style="margin-top:.4rem">Verified by an expert</h2>
+    <p>{{ r.verification.method|capitalize }} check by {{ r.verification.by }} on {{ r.verification.at[:10] }}. The organization signed a tamper-evident record of your contribution.</p>
+    <div class="row"><a class="btn primary" href="/c/r/{{ r.id }}/certificate.pdf">Download certificate (PDF)</a><a class="btn" href="/verify/{{ r.id }}">Check the signature</a></div>
+  </section>
+  {% endif %}
+
+  <section class="card" style="margin-top:1rem">
+    <h3>Share</h3>
+    <p class="muted" style="font-size:.9rem">The public card shows only the sign, a coarse area and the status. Never your name, contact or exact location.</p>
+    <div class="row"><a class="btn" href="/share/{{ r.id }}" target="_blank">Open public card</a>
+    <button class="btn" onclick="navigator.share ? navigator.share({title:'StreamProof', text:'I reported a stream concern. Help document it.', url: location.origin + '/share/{{ r.id }}'}) : navigator.clipboard.writeText(location.origin + '/share/{{ r.id }}').then(()=>this.textContent='Link copied')">Share link</button></div>
+  </section>
+
+  <section class="card" style="margin-top:1rem">
+    <h3>History</h3>
+    <ul class="reasons">{% for e in r.history %}<li class="info"><span class="ic">·</span><span>{{ e.note }}<br><small class="muted">{{ e.at[:16].replace('T',' ') }} · {{ e.by }}</small></span><span></span></li>{% endfor %}</ul>
+  </section>
+  <p style="text-align:center"><a href="/c">← My reports</a></p>
+</main>
+{% endblock %}

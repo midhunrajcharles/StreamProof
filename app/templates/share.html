@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_macros.html" import signs %}
+{% block title %}A stream concern near {{ area }} · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap">
+  <div class="share-card">
+    <div class="spread"><b>StreamProof</b><span class="badge">{{ r.rung.label }}</span></div>
+    <h1 style="font-size:1.7rem;margin-top:1.2rem">I reported a stream concern near {{ area }}.</h1>
+    <p style="opacity:.9">{{ signs(r) }} · {{ r.created_at.strftime('%d %b %Y') }}</p>
+    {% if r.rung.level >= 4 %}
+      <p style="font-size:1.1rem"><b>Verified by an expert.</b> Thank you to everyone who helped document it.</p>
+    {% else %}
+      <p style="font-size:1.1rem">Status: being checked. If you're nearby, help document it.</p>
+    {% endif %}
+    <p style="opacity:.7;font-size:.8rem;margin-top:1.4rem">Area only (about 100 m). No names, contact details or exact locations are shown.</p>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Permitted-use matrix · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap">
+  <h1>Permitted-use matrix</h1>
+  <p class="muted" style="max-width:760px">The rule that decides what each trust level may be used for. Every StreamProof output (dashboard, public map, FHIR exchange, certificate, advisory flag) checks this table first, and the permitted uses travel inside each FHIR Observation.</p>
+  <section class="card" style="overflow:auto">
+    <table class="matrix">
+      <thead><tr><th>Use</th>{% for r in order %}<th>{{ r.label }}</th>{% endfor %}</tr></thead>
+      <tbody>
+      {% for key, label in uses.items() %}
+        <tr><td>{{ label }}</td>
+        {% for r in order %}
+          {% set ok = key in allowed(r) %}
+          <td class="{{ 'y' if ok else 'n' }} {{ 'new' if key in matrix[r] else '' }}">{{ '✓' if ok else '—' }}</td>
+        {% endfor %}</tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  <section class="card">
+    <h2>The evidence graph</h2>
+    <p>Report → Assessed → (Community-supported) → Expert-verified → Decision-grade. An expert can verify straight from Assessed, so a rural site with no second observer isn't stuck.</p>
+    <p><b>Decision-grade threshold:</b> {{ threshold }}.</p>
+    <p class="muted">Corroboration counts only if it comes from a different person, is spread in time (≥ 30 min) or place (≥ 50 m), and is weighted by that person's track record. Each account can corroborate at most 3 reports a day.</p>
+  </section>
+</main>
+{% endblock %}

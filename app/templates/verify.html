@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Check record {{ rid }} · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap" style="max-width:760px">
+  <h1>Check a contribution record</h1>
+  <div class="notice {{ 'ok' if ok else 'blocked' }}" style="margin:1rem 0">{{ '✓' if ok else '✕' }} {{ msg }}</div>
+  <section class="card stack">
+    <div class="spread"><b>Record {{ rid }}</b><small class="muted">Signed by {{ cert.signed_by }} · {{ cert.issued[:10] }}</small></div>
+    <form method="post" class="stack">
+      <label for="rj">De-identified record (edit any value and check again to see tampering detected)</label>
+      <textarea id="rj" name="record_json" class="mono" style="min-height:300px">{{ record_json }}</textarea>
+      <div class="row"><button class="btn primary">Check signature</button>{% if edited %}<a class="btn" href="/verify/{{ rid }}">Reset</a>{% endif %}</div>
+    </form>
+    <hr>
+    <small class="muted">SHA-256: <span class="mono">{{ cert.sha256 }}</span><br>Ed25519 signature: <span class="mono" style="word-break:break-all">{{ cert.signature }}</span><br>Organization public key: <span class="mono">{{ cert.public_key }}</span></small>
+    <small class="muted">This is a digital signature over a hash of the record, not a blockchain. The record holds a pseudonym and a coarse area only, so removing a person's identity later doesn't break it.</small>
+  </section>
+</main>
+{% endblock %}

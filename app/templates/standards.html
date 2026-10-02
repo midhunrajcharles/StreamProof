@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}FHIR · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap">
+  <h1>FHIR R4: what leaves StreamProof</h1>
+  <div class="grid cols-2">
+    <section class="card">
+      <h2>Official HL7 FHIR Validator</h2>
+      <p class="muted" style="font-size:.85rem">{{ head|join(' · ') }}</p>
+      <table>
+        <thead><tr><th>File</th><th>Errors</th><th>Warnings</th><th>Result</th></tr></thead>
+        <tbody>{% for x in results %}<tr><td class="mono">{{ x.file }}</td><td>{{ x.error + x.fatal }}</td><td>{{ x.warning }}</td><td>{{ x.text }}</td></tr>{% endfor %}</tbody>
+      </table>
+      <p class="muted" style="font-size:.85rem;margin-top:.6rem">Re-run with <code>python tools/validate_fhir.py</code>. Full log in <code>fhir/validation/</code>.</p>
+    </section>
+    <section class="card">
+      <h2>The profile, in one breath</h2>
+      <ul>
+        <li><b>Observation</b> per sign, code from the open <i>stream-indicator</i> CodeSystem, subject = <b>Location</b> (~100 m).</li>
+        <li><b>Components</b> carry the evidence grade, score, trust level, independent corroborations and every <b>permitted use</b>.</li>
+        <li>Three <b>Provenance</b> resources: citizen authored (pseudonym) → engine assessed (Device) → expert verified (Practitioner pseudonym, on behalf of the Organization) with the organization's <b>signature</b>.</li>
+        <li>No Patient resource, no names, no contact details, no exact GPS.</li>
+      </ul>
+      <h3>Open definitions</h3>
+      {% for d in defs %}<p class="mono"><a href="/fhir/definitions/{{ d }}">{{ d }}</a></p>{% endfor %}
+    </section>
+  </div>
+</main>
+{% endblock %}

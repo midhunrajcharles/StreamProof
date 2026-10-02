@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% from "_macros.html" import rung_badge, grade_box, signs, leaflet_head %}
+{% block title %}Review queue · StreamProof{% endblock %}
+{% block head %}{{ leaflet_head() }}{% endblock %}
+{% block body %}
+<main class="wrap">
+  <div class="spread"><h1>Review queue</h1>
+    <form method="post" action="/demo/reset" onsubmit="return confirm('Reset all demo data?')"><button class="btn small">Reset demo data</button></form></div>
+  <div class="kpis" style="margin:.6rem 0 1rem">
+    <div class="kpi"><b>{{ queue|length }}</b><span>waiting for review</span></div>
+    <div class="kpi"><b>{{ done|selectattr('rung.value','in',['expert-verified','decision-grade'])|list|length }}</b><span>expert-verified</span></div>
+    <div class="kpi"><b>{{ signals|selectattr('decision_grade')|list|length }}</b><span>decision-grade signals</span></div>
+    <div class="kpi"><b>{{ missions|selectattr('status','equalto','open')|list|length }}</b><span>open missions</span></div>
+  </div>
+  <div class="grid cols-2">
+    <section class="card">
+      <h2>Needs a decision</h2>
+      <p class="muted" style="font-size:.85rem">Ordered by health relevance, then age. The AI and the rules suggest; a person decides.</p>
+      <table>
+        <thead><tr><th>Grade</th><th>Report</th><th>Level</th><th>Support</th></tr></thead>
+        <tbody>
+        {% for r in queue %}
+          <tr class="click" onclick="location='/o/r/{{ r.id }}'">
+            <td>{{ grade_box(r.grade) }}</td>
+            <td><b>{{ signs(r) }}</b><br><small class="muted">{{ r.id }} · {{ r.created_at.strftime('%d %b %H:%M') }} · {{ display(r.observer) }}</small></td>
+            <td>{{ rung_badge(r) }}</td>
+            <td><small>{{ r.supporters|length }} independent</small></td>
+          </tr>
+        {% else %}<tr><td colspan="4" class="muted">Queue is empty.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+      <h3 style="margin-top:1.2rem">Decided</h3>
+      <table><tbody>
+        {% for r in done %}
+          <tr class="click" onclick="location='/o/r/{{ r.id }}'"><td>{{ grade_box(r.grade) }}</td><td>{{ signs(r) }}<br><small class="muted">{{ r.id }} · {{ display(r.observer) }}</small></td><td>{{ rung_badge(r) }}</td></tr>
+        {% endfor %}
+      </tbody></table>
+    </section>
+    <section class="stack">
+      <div class="card"><h2>Ribeira de Coselhas, Coimbra</h2><div id="map" class="map tall"></div>
+        <small class="muted">Stream line © OpenStreetMap contributors (ODbL). Pins show reports; purple circles are open missions.</small></div>
+      <div class="card"><h2>Signals</h2>
+        <table><tbody>
+        {% for s in signals %}
+          <tr><td><b>{{ INDICATORS[s.indicator].chip }}</b><br><small class="muted">{{ s.reports|length }} report(s) · {{ s.expert }} expert · {{ s.community_or_better }} community+</small></td>
+          <td>{% if s.decision_grade %}<span class="badge decision-grade">Decision-grade</span>{% else %}<small class="muted">{{ s.gaps[0] if s.gaps }}</small>{% endif %}</td></tr>
+        {% endfor %}
+        </tbody></table>
+        <a class="btn primary" href="/o/brief" style="margin-top:.6rem">Open River Health Brief</a>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+const pins = {{ pins|tojson }}, streams = {{ streams|tojson }};
+const colours = {'report':'#6b7f82','assessed':'#6b7f82','community-supported':'#5a48b0','expert-verified':'#1f7a3a','decision-grade':'#10292c','not-confirmed':'#b3261e'};
+const map = L.map('map');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© OpenStreetMap'}).addTo(map);
+const line = streams.map(s => L.polyline(s, {color: '#0b7a75', weight: 4, opacity: .75}).addTo(map));
+map.fitBounds(line[0].getBounds(), {padding: [20, 20]});
+pins.forEach(p => L.circleMarker([p.lat, p.lon], {radius: 8, color: '#fff', weight: 2, fillColor: colours[p.rung], fillOpacity: 1})
+  .addTo(map).bindTooltip(`${p.id} · ${p.signs} · ${p.grade || ''}`).on('click', () => location = '/o/r/' + p.id));
+{% for m in missions if m.status == 'open' %}
+L.circle([{{ m.lat }}, {{ m.lon }}], {radius: {{ m.radius_m }}, color: '#5a48b0', fillOpacity: .12}).addTo(map).bindTooltip('Mission {{ m.id }}');
+{% endfor %}
+</script>
+{% endblock %}

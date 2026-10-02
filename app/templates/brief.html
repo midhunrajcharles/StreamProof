@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}River Health Brief · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap">
+  <div class="row noprint" style="justify-content:flex-end;margin-bottom:.8rem"><button class="btn" onclick="print()">Print / save as PDF</button></div>
+  <article class="brief">
+    <div class="kicker">River Health Brief</div>
+    <h1>{{ b.area }}</h1>
+    <p class="muted">Generated {{ b.generated.replace('T',' ') }} UTC · last {{ b.window_days }} days · {{ b.total }} citizen reports</p>
+
+    <div class="kpis" style="margin:1rem 0">
+      {% for label, n in b.counts.items() if n %}<div class="kpi"><b>{{ n }}</b><span>{{ label }}</span></div>{% endfor %}
+    </div>
+
+    <h2>Advisory flags</h2>
+    {% for a in b.advisories %}
+      <div class="adv"><span class="tag">ADVISORY · DECISION-GRADE</span>
+        <p style="margin-top:.5rem"><b>{{ a.sign }}</b> at {{ a.place }}</p>
+        <p>{{ a.text }}</p>
+        <small class="muted">Why: {{ a.why }}</small>
+      </div>
+    {% else %}
+      <p class="muted">No signal has reached decision grade. Nothing is passed to public-health partners.</p>
+    {% endfor %}
+
+    <h2 style="margin-top:1.4rem">What is being reported</h2>
+    <table>
+      <thead><tr><th>Sign</th><th>Where</th><th>Evidence</th><th>Confidence</th><th>Suggested next step</th></tr></thead>
+      <tbody>
+      {% for row in b.rows %}
+        <tr>
+          <td><b>{{ b.indicators[row.signal.indicator].display }}</b></td>
+          <td>{{ row.place }}</td>
+          <td>{{ row.signal.reports|length }} report(s): {{ row.signal.expert }} expert-verified, {{ row.signal.community_or_better }} community+<br><small class="muted">{{ row.label }}</small></td>
+          <td>{{ row.confidence }}</td>
+          <td>{% if row.signal.decision_grade %}{{ b.measures.get(row.signal.indicator, ['Field inspection'])|join('; ') }}{% else %}{{ row.signal.gaps|join(' ') }}{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <small class="muted">Records below Expert-verified appear here as unverified, because the permitted-use matrix allows Assessed records on the organization dashboard only.</small>
+
+    <h2 style="margin-top:1.4rem">Evidence gaps: open missions</h2>
+    {% for m in b.missions %}<p><b>{{ m.id }}</b> · {{ m.request }}</p>{% else %}<p class="muted">None open.</p>{% endfor %}
+
+    <hr>
+    <small class="muted">Decision-grade threshold: {{ b.threshold }}. Suggested next steps are illustrative and stand in for the OneAquaHealth Decision Support System's Catalogue of Measures. Advisory flags describe environmental conditions that may warrant inspection; they are not health diagnoses.</small>
+  </article>
+</main>
+{% endblock %}

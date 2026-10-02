@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Sign in · StreamProof{% endblock %}
+{% block body %}
+<main class="wrap" style="max-width:860px">
+  <div style="text-align:center;margin:2rem 0 1.5rem">
+    <h1 style="font-size:2rem">From a phone photo to evidence a city can act on.</h1>
+    <p class="muted">StreamProof grades citizen stream reports with visible reasons, lets the community and experts strengthen them, decides what each trust level may be used for, and exports verified evidence as FHIR R4 with provenance.</p>
+  </div>
+  <div class="grid cols-2" style="grid-template-columns:1fr 1fr">
+    <form class="card stack" method="post" action="/login">
+      <input type="hidden" name="role" value="citizen"><input type="hidden" name="next" value="{{ next }}">
+      <span class="badge">Citizen app</span>
+      <h2>Report what you see</h2>
+      <p class="muted">Photo, place and time in about a minute. Track your report as it is checked, share it, and get a signed record when it is verified.</p>
+      <button class="btn primary big">Continue as Maria (demo citizen)</button>
+    </form>
+    <form class="card stack" method="post" action="/login">
+      <input type="hidden" name="role" value="org"><input type="hidden" name="next" value="{{ next }}">
+      <span class="badge expert-verified">Organization portal</span>
+      <h2>Review, verify, act</h2>
+      <p class="muted">Review queue with reasons, one-tap verification, community missions, the River Health Brief, and FHIR export behind the permitted-use gate.</p>
+      <button class="btn big">Sign in as reviewer (demo)</button>
+    </form>
+  </div>
+  <p class="muted" style="text-align:center;margin-top:1.5rem;font-size:.85rem">Demo accounts have no passwords. A real deployment uses the organization's identity provider.</p>
+</main>
+{% endblock %}

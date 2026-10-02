@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "_macros.html" import rung_badge, grade_box, signs %}
+{% block title %}My reports · StreamProof{% endblock %}
+{% block body %}
+<main class="phone">
+  <p class="muted" style="margin:0">Hello, {{ user.name }}</p>
+  <h1>Seen something at the stream?</h1>
+  <a class="btn primary big" href="/c/report">＋ Report an observation</a>
+
+  {% if missions %}
+  <section class="card" style="margin-top:1rem;border-color:#c9c0f0">
+    <div class="spread"><h2 style="margin:0">Evidence needed near you</h2><span class="badge community-supported">{{ missions|length }} open</span></div>
+    {% for m in missions[:2] %}
+      <p style="margin-top:.6rem">{{ m.request }}</p>
+      <a class="btn small" href="/c/missions/{{ m.id }}">See mission {{ m.id }}</a>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <section class="card">
+    <h2>My reports</h2>
+    {% if not mine %}<p class="muted">No reports yet. Your first one takes about a minute.</p>{% endif %}
+    <ul class="rlist">
+      {% for r in mine %}
+      <li><a href="/c/r/{{ r.id }}">
+        {{ grade_box(r.grade) }}
+        <span><b>{{ signs(r) }}</b><br><small>{{ r.id }} · {{ r.created_at.strftime('%d %b, %H:%M') }} · {{ r.status }}</small></span>
+        {{ rung_badge(r) }}
+      </a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>My contribution</h2>
+    <div class="kpis">
+      <div class="kpi"><b>{{ mine|length }}</b><span>reports</span></div>
+      <div class="kpi"><b>{{ verified|length }}</b><span>expert-verified</span></div>
+      <div class="kpi"><b>{{ missions_done }}</b><span>missions helped</span></div>
+    </div>
+    <p class="muted" style="margin-top:.6rem;font-size:.85rem">"Everything looks fine" reports count the same as problem reports. Verified contributors may be selected for recognition by the organization; it is never promised.</p>
+  </section>
+
+  <form method="post" action="/c/forget" onsubmit="return confirm('Remove your contact details and exact locations? Your de-identified reports stay.')" style="text-align:center;margin-top:1rem">
+    <button class="btn small danger">Delete my personal data</button>
+  </form>
+</main>
+{% endblock %}

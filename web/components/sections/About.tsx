@@ -47,7 +47,7 @@ export default function About() {
           <div className="col-span-2 mb-12 lg:mb-0">
             <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image w-full rounded-xs">
               <div className="pixelated-render-image__before is--portrait" />
-              <img src="/media/about.webp" data-pixelate-render-img="true" alt="A waterfall in a forest" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
+              <img src="/media/about.webp" data-pixelate-render-img="true" alt="A rocky forest stream" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
             </div>
             <div className="flex justify-between items-center text-[#767676] pt-2">
               <p>

@@ -231,7 +231,7 @@ export default function Process() {
             <div className="col-span-2 md:col-start-7 md:col-span-6">
               <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-keep="" data-pixelate-render-hover="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" data-process-portrait="" className="pixelated-render-image w-full max-w-56.75 rounded-xs">
                 <div className="pixelated-render-image__before is--portrait" />
-                <img src="/media/process-a.webp" data-pixelate-render-img="true" data-process-portrait-img="default" alt="A mountain river under a cloudy sky" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
+                <img src="/media/process-a.webp" data-pixelate-render-img="true" data-process-portrait-img="default" alt="A stream running through moorland" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
                 <img src="/media/process-b.webp" data-process-portrait-img="hover" alt="" aria-hidden="true" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img opacity-0" />
               </div>
             </div>

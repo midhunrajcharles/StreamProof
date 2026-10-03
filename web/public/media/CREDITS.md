@@ -1,23 +1,32 @@
 # Media credits
 
-Stock footage and stills from [Pexels](https://www.pexels.com/license/) (free to use, attribution not required; credited anyway).
-The stills are frames from the same videos. `product-*.webp` are screenshots of the StreamProof app.
+Photos and footage from [Pexels](https://www.pexels.com/license/) (free to use, attribution not required; credited anyway).
+`product-*.webp` are screenshots of the StreamProof app.
 
-| Pexels video | Used for |
+| Pexels | Used for |
 |---|---|
-| [Serene mountain stream flowing in summer](https://www.pexels.com/video/serene-mountain-stream-flowing-in-summer-39328704/) | hero.mp4, step-1.webp |
-| [A close-up of a stream of water flowing through the forest](https://www.pexels.com/video/a-close-up-of-a-stream-of-water-flowing-through-the-forest-20597710/) | product-citizen.mp4, serves-1.webp |
-| [Drone footage of river at daytime](https://www.pexels.com/video/drone-footage-of-river-at-daytime-7653817/) | product-org.mp4, step-3.webp |
-| [Footage of a dam from above](https://www.pexels.com/video/footage-of-a-dam-from-above-15214302/) | adds.mp4, adds.webp |
-| [A water drop is shown in the water](https://www.pexels.com/video/a-water-drop-is-shown-in-the-water-16478020/) | step-2.webp, faq-1.webp, faq-avatar.webp |
-| [Aerial view of a water treatment plant](https://www.pexels.com/video/aerial-view-of-a-water-treatment-plant-27114631/) | step-4.webp |
-| [Close-up of flowing water](https://www.pexels.com/video/close-up-of-flowing-water-9722037/) | showcase-1.webp, faq-3.webp |
-| [Ruissellement d'eau](https://www.pexels.com/video/ruissellement-d-eau-25546900/) | showcase-2.webp, faq-2.webp |
-| [Time-lapse video of cascade](https://www.pexels.com/video/time-lapse-video-of-cascade-854629/) | serves-2.webp |
-| [Charming evening in historic European town](https://www.pexels.com/video/charming-evening-in-historic-european-town-37800270/) | serves-3.webp |
-| [Close up on water flowing from tree trunk](https://www.pexels.com/video/close-up-on-water-flowing-from-tree-trunk-10728109/) | intro.webp, faq-4.webp |
-| [Serene mountain river with overcast skies](https://www.pexels.com/video/serene-mountain-river-with-overcast-skies-33202267/) | process-a.webp |
-| [Lake and trees in bird's eye view](https://www.pexels.com/video/lake-and-trees-in-birds-eye-view-12399482/) | process-b.webp, faq-8.webp |
-| [Cascading waterfall](https://www.pexels.com/video/cascading-waterfall-5404498/) | about.webp, faq-6.webp |
-| [Close-up video of a fountain](https://www.pexels.com/video/close-up-video-of-a-fountain-6543599/) | faq-5.webp |
-| [Drone footage of Lago del Barbellino in Bergamo, Italy](https://www.pexels.com/video/drone-footage-of-lago-del-barbellino-in-bergamo-italy-14681703/) | faq-7.webp |
+| Video: [A small stream in the woodland](https://www.pexels.com/video/a-small-stream-in-the-woodland-7388473/) | hero.mp4 |
+| Video: [Wastes on the canal](https://www.pexels.com/video/wastes-on-the-canal-4855724/) | product-citizen.mp4 |
+| Video: [People studying the water](https://www.pexels.com/video/people-studying-the-water-1430660/) | product-org.mp4 |
+| Video: [Aerial view of urban canal and bridge infrastructure](https://www.pexels.com/video/aerial-view-of-urban-canal-and-bridge-infrastructure-32312845/) | adds.mp4, adds.webp |
+| Photo: [Person taking a water sample at a stream](https://www.pexels.com/photo/37666113/) | step-1.webp, faq-avatar.webp |
+| Photo: [Green algae scum on water](https://www.pexels.com/photo/36785073/) | step-2.webp |
+| Photo: [Field workers checking a wetland](https://www.pexels.com/photo/30824856/) | step-3.webp |
+| Photo: [Water treatment plant from above](https://www.pexels.com/photo/27490881/) | step-4.webp |
+| Photo: [Forest stream over mossy rocks](https://www.pexels.com/photo/11895413/) | showcase-1.webp |
+| Photo: [Waterfall in a dark forest](https://www.pexels.com/photo/1878304/) | showcase-2.webp |
+| Photo: [Child walking along a creek](https://www.pexels.com/photo/9292790/) | serves-1.webp |
+| Photo: [Scientist working with water samples in a lab](https://www.pexels.com/photo/8851786/) | serves-2.webp |
+| Photo: [Historic town on a river](https://www.pexels.com/photo/33754554/) | serves-3.webp |
+| Photo: [Hand in a clear stream](https://www.pexels.com/photo/5875933/) | intro.webp |
+| Photo: [Stream through moorland](https://www.pexels.com/photo/20736175/) | process-a.webp |
+| Photo: [Rapids over river stones](https://www.pexels.com/photo/158268/) | process-b.webp |
+| Photo: [Rocky forest stream](https://www.pexels.com/photo/8945510/) | about.webp |
+| Photo: [Mosquito, close up](https://www.pexels.com/photo/169357/) | faq-1.webp |
+| Photo: [Scientist holding a water sample](https://www.pexels.com/photo/7402626/) | faq-2.webp |
+| Photo: [River delta from above](https://www.pexels.com/photo/34303715/) | faq-3.webp |
+| Photo: [Researcher in a laboratory](https://www.pexels.com/photo/3735711/) | faq-4.webp |
+| Photo: [Canal in a European city](https://www.pexels.com/photo/39493563/) | faq-5.webp |
+| Photo: [Hand reaching toward light by water](https://www.pexels.com/photo/3772365/) | faq-6.webp |
+| Photo: [Plastic litter floating in water](https://www.pexels.com/photo/27798146/) | faq-7.webp |
+| Photo: [River under trees](https://www.pexels.com/photo/32588450/) | faq-8.webp |

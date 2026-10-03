@@ -58,7 +58,7 @@ export default function Hero() {
         <div className="page-x md:hidden">
           <div className="relative z-1 flex w-full items-end justify-center">
             <div className="aspect-video w-full overflow-hidden border border-black">
-              <video data-hero-video-mobile="" data-src="/media/hero.mp4" preload="none" loop muted playsInline aria-label="A mountain stream flowing over stones" className="block size-full object-cover opacity-0" />
+              <video data-hero-video-mobile="" data-src="/media/hero.mp4" preload="none" loop muted playsInline aria-label="A forest stream running over mossy rocks" className="block size-full object-cover opacity-0" />
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function Hero() {
             {/* Overflow is on an inner clip so the counter-scaled box-shadow border isn't clipped (the old top-edge disappearing bug). */}
             <div data-hero-video-frame="" className="relative aspect-video w-full">
               <div className="absolute inset-0 overflow-hidden">
-                <video data-hero-video-desktop="" data-src="/media/hero.mp4" preload="none" loop muted playsInline aria-label="A mountain stream flowing over stones" className="pointer-events-none block size-full object-cover opacity-0" />
+                <video data-hero-video-desktop="" data-src="/media/hero.mp4" preload="none" loop muted playsInline aria-label="A forest stream running over mossy rocks" className="pointer-events-none block size-full object-cover opacity-0" />
               </div>
             </div>
           </div>

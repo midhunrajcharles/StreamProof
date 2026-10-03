@@ -619,9 +619,9 @@ export default function Services() {
                   <div className="relative">
                     <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image w-full">
                       <div className="pixelated-render-image__before" style={{"paddingTop": "68.75495638382236%"}} />
-                      <img src="/media/adds.webp" data-pixelate-render-img="true" alt="A weir on a river, seen from above" loading="lazy" decoding="async" width="1261" height="867" className="pixelated-render-image__img" />
+                      <img src="/media/adds.webp" data-pixelate-render-img="true" alt="A city river and bridge, seen from above" loading="lazy" decoding="async" width="1261" height="867" className="pixelated-render-image__img" />
                     </div>
-                    <video data-lazy-video="" data-src="/media/adds.mp4" preload="none" loop muted playsInline aria-label="A weir on a river, seen from above" className="absolute inset-0 z-10 h-full w-full pointer-events-none px-5" />
+                    <video data-lazy-video="" data-src="/media/adds.mp4" preload="none" loop muted playsInline aria-label="A city river and bridge, seen from above" className="absolute inset-0 z-10 h-full w-full pointer-events-none px-5" />
                   </div>
                 </div>
               </div>

@@ -1,10 +1,11 @@
-"""Landing-page media: Pexels stock (free licence, no attribution required; credited
-anyway in public/media/CREDITS.md) plus two screenshots of the StreamProof app.
+"""Landing-page media: Pexels photos and videos (free licence, no attribution required;
+credited anyway in public/media/CREDITS.md) plus two screenshots of the StreamProof app.
 
     python tools/media.py              # download, crop, encode -> public/media/
     python tools/media.py --shots      # also re-capture the product screenshots
                                        # (needs the API on :8740 and the web app on :3200)
 
+Photos are fetched at or above each slot's size and only ever scaled down.
 Raw downloads stay in tools/media-src/ (not committed).
 """
 
@@ -21,95 +22,118 @@ SRC = WEB / "tools" / "media-src"
 OUT = WEB / "public" / "media"
 UA = {"User-Agent": "Mozilla/5.0"}
 
-# Pexels video id -> (title, page slug, poster file name)
+# Pexels photo id -> (what it shows, file name on images.pexels.com, download width)
+PHOTOS = {
+    37666113: ("Person taking a water sample at a stream", "pexels-photo-37666113.jpeg", 1600),
+    36785073: ("Green algae scum on water", "pexels-photo-36785073.jpeg", 1600),
+    30824856: ("Field workers checking a wetland", "pexels-photo-30824856.jpeg", 1600),
+    27490881: ("Water treatment plant from above", "pexels-photo-27490881.jpeg", 2000),
+    11895413: ("Forest stream over mossy rocks", "pexels-photo-11895413.jpeg", 3000),
+    1878304: ("Waterfall in a dark forest", "pexels-photo-1878304.jpeg", 3000),
+    9292790: ("Child walking along a creek", "pexels-photo-9292790.jpeg", 2400),
+    8851786: ("Scientist working with water samples in a lab", "pexels-photo-8851786.jpeg", 2400),
+    33754554: ("Historic town on a river", "pexels-photo-33754554.jpeg", 2400),
+    5875933: ("Hand in a clear stream", "pexels-photo-5875933.jpeg", 1400),
+    20736175: ("Stream through moorland", "pexels-photo-20736175.jpeg", 1400),
+    158268: ("Rapids over river stones", "water-bach-river-stones-158268.jpeg", 1400),
+    8945510: ("Rocky forest stream", "pexels-photo-8945510.jpeg", 1400),
+    169357: ("Mosquito, close up", "pexels-photo-169357.jpeg", 1400),
+    7402626: ("Scientist holding a water sample", "pexels-photo-7402626.jpeg", 1400),
+    34303715: ("River delta from above", "pexels-photo-34303715.jpeg", 2000),
+    3735711: ("Researcher in a laboratory", "pexels-photo-3735711.jpeg", 1400),
+    39493563: ("Canal in a European city", "pexels-photo-39493563.jpeg", 1400),
+    3772365: ("Hand reaching toward light by water", "pexels-photo-3772365.jpeg", 1400),
+    27798146: ("Plastic litter floating in water", "pexels-photo-27798146.jpeg", 1400),
+    32588450: ("River under trees", "pexels-photo-32588450.jpeg", 1400),
+}
+
+# Pexels video id -> (title, page slug)
 CLIPS = {
-    39328704: ("Serene mountain stream flowing in summer", "serene-mountain-stream-flowing-in-summer-39328704", "pexels-photo-39328704.jpeg"),
-    20597710: ("A close-up of a stream of water flowing through the forest", "a-close-up-of-a-stream-of-water-flowing-through-the-forest-20597710", "pexels-photo-20597710.jpeg"),
-    7653817: ("Drone footage of river at daytime", "drone-footage-of-river-at-daytime-7653817", "drone-river-riverside-warsaw-7653817.jpeg"),
-    15214302: ("Footage of a dam from above", "footage-of-a-dam-from-above-15214302", "pexels-photo-15214302.jpeg"),
-    16478020: ("A water drop is shown in the water", "a-water-drop-is-shown-in-the-water-16478020", "4k-abstract-background-black-and-blue-16478020.jpeg"),
-    27114631: ("Aerial view of a water treatment plant", "aerial-view-of-a-water-treatment-plant-27114631", "pexels-photo-27114631.jpeg"),
-    9722037: ("Close-up of flowing water", "close-up-of-flowing-water-9722037", "pexels-photo-9722037.jpeg"),
-    25546900: ("Ruissellement d'eau", "ruissellement-d-eau-25546900", "ruissellement-d-eau-25546900.jpeg"),
-    854629: ("Time-lapse video of cascade", "time-lapse-video-of-cascade-854629", "free-video-854629.jpg"),
-    37800270: ("Charming evening in historic European town", "charming-evening-in-historic-european-town-37800270", "pexels-photo-37800270.jpeg"),
-    10728109: ("Close up on water flowing from tree trunk", "close-up-on-water-flowing-from-tree-trunk-10728109", "flowing-fountain-pond-tree-trunk-10728109.jpeg"),
-    33202267: ("Serene mountain river with overcast skies", "serene-mountain-river-with-overcast-skies-33202267", "pexels-photo-33202267.jpeg"),
-    12399482: ("Lake and trees in bird's eye view", "lake-and-trees-in-birds-eye-view-12399482", "lake-lake-views-lakeshore-mountain-lake-12399482.jpeg"),
-    5404498: ("Cascading waterfall", "cascading-waterfall-5404498", "pexels-photo-5404498.jpeg"),
-    6543599: ("Close-up video of a fountain", "close-up-video-of-a-fountain-6543599", "pexels-photo-6543599.jpeg"),
-    14681703: ("Drone footage of Lago del Barbellino in Bergamo, Italy", "drone-footage-of-lago-del-barbellino-in-bergamo-italy-14681703", "alps-bergamo-dam-drone-14681703.jpeg"),
+    7388473: ("A small stream in the woodland", "a-small-stream-in-the-woodland-7388473"),
+    4855724: ("Wastes on the canal", "wastes-on-the-canal-4855724"),
+    1430660: ("People studying the water", "people-studying-the-water-1430660"),
+    32312845: ("Aerial view of urban canal and bridge infrastructure", "aerial-view-of-urban-canal-and-bridge-infrastructure-32312845"),
 }
 
-# output video -> (clip id, source rendition, width, fps, crf). Moving water is hard to
-# compress, so the hover clips are small and the hero trades a little detail for weight.
+# output video -> (clip id, source rendition, width, fps, crf, seconds)
 VIDEOS = {
-    "hero.mp4": (39328704, "16735994_1920_1080_60fps.mp4", 1600, 30, 31),
-    "product-citizen.mp4": (20597710, "20597710-hd_1280_720_24fps.mp4", 960, 24, 30),
-    "product-org.mp4": (7653817, "7653817-hd_1280_720_25fps.mp4", 960, 25, 30),
-    "adds.mp4": (15214302, "15214302-hd_1280_720_30fps.mp4", 960, 30, 30),
+    "hero.mp4": (7388473, "7388473-hd_1920_1080_30fps.mp4", 1600, 30, 26, 12),
+    "product-citizen.mp4": (4855724, "4855724-hd_1280_720_25fps.mp4", 960, 25, 25, 12),
+    "product-org.mp4": (1430660, "1430660-hd_1280_720_30fps.mp4", 960, 30, 25, 12),
+    "adds.mp4": (32312845, "13780939_1920_1080_60fps.mp4", 1280, 30, 25, 14),
 }
 
-# output image -> (clip id, width, height, horizontal focus 0..1)
+FAQ = [169357, 7402626, 34303715, 3735711, 39493563, 3772365, 27798146, 32588450]
+
+# output image -> (photo id, width, height, horizontal focus 0..1, vertical focus 0..1)
 IMAGES = {
-    # process steps: report, grade, strengthen, release
-    "step-1.webp": (39328704, 704, 881, 0.5), "step-2.webp": (16478020, 704, 881, 0.5),
-    "step-3.webp": (7653817, 704, 881, 0.55), "step-4.webp": (27114631, 704, 881, 0.45),
-    "step-1-sm.webp": (39328704, 80, 100, 0.5), "step-2-sm.webp": (16478020, 80, 100, 0.5),
-    "step-3-sm.webp": (7653817, 80, 100, 0.55), "step-4-sm.webp": (27114631, 80, 100, 0.45),
-    # big portrait backgrounds
-    "showcase-1.webp": (9722037, 1500, 1983, 0.5), "showcase-2.webp": (25546900, 1500, 1983, 0.35),
-    # who it serves: citizens, ecologists, municipalities
-    "serves-1.webp": (20597710, 1500, 1000, 0.5), "serves-2.webp": (854629, 1500, 1000, 0.5), "serves-3.webp": (37800270, 1500, 1000, 0.5),
-    "serves-1-sm.webp": (20597710, 72, 72, 0.5), "serves-2-sm.webp": (854629, 72, 72, 0.5), "serves-3-sm.webp": (37800270, 72, 72, 0.5),
-    # former portrait slots
-    "intro.webp": (10728109, 454, 604, 0.3), "process-a.webp": (33202267, 454, 604, 0.5),
-    "process-b.webp": (12399482, 454, 604, 0.5), "about.webp": (5404498, 454, 604, 0.5),
-    # what it adds (poster under the video)
-    "adds.webp": (15214302, 1261, 867, 0.5),
-    # FAQ hover images and their mobile thumbnails
-    **{f"faq-{n}.webp": (c, 640, 863, 0.5) for n, c in enumerate([16478020, 25546900, 9722037, 10728109, 6543599, 5404498, 14681703, 12399482], 1)},
-    **{f"faq-{n}-sm.webp": (c, 240, 324, 0.5) for n, c in enumerate([16478020, 25546900, 9722037, 10728109, 6543599, 5404498, 14681703, 12399482], 1)},
-    "faq-avatar.webp": (16478020, 128, 128, 0.5),
+    "step-1.webp": (37666113, 704, 881, 0.5, 0.5), "step-2.webp": (36785073, 704, 881, 0.5, 0.5),
+    "step-3.webp": (30824856, 704, 881, 0.5, 0.5), "step-4.webp": (27490881, 704, 881, 0.5, 0.5),
+    "step-1-sm.webp": (37666113, 80, 100, 0.5, 0.5), "step-2-sm.webp": (36785073, 80, 100, 0.5, 0.5),
+    "step-3-sm.webp": (30824856, 80, 100, 0.5, 0.5), "step-4-sm.webp": (27490881, 80, 100, 0.5, 0.5),
+    "showcase-1.webp": (11895413, 1500, 1983, 0.55, 0.5), "showcase-2.webp": (1878304, 1500, 1983, 0.5, 0.5),
+    "serves-1.webp": (9292790, 1500, 1000, 0.5, 0.5), "serves-2.webp": (8851786, 1500, 1000, 0.5, 0.4), "serves-3.webp": (33754554, 1500, 1000, 0.5, 0.5),
+    "serves-1-sm.webp": (9292790, 72, 72, 0.5, 0.5), "serves-2-sm.webp": (8851786, 72, 72, 0.5, 0.4), "serves-3-sm.webp": (33754554, 72, 72, 0.5, 0.5),
+    "intro.webp": (5875933, 454, 604, 0.5, 0.5), "process-a.webp": (20736175, 454, 604, 0.45, 0.5),
+    "process-b.webp": (158268, 454, 604, 0.5, 0.5), "about.webp": (8945510, 454, 604, 0.5, 0.5),
+    **{f"faq-{n}.webp": (p, 640, 863, 0.5, 0.5) for n, p in enumerate(FAQ, 1)},
+    **{f"faq-{n}-sm.webp": (p, 240, 324, 0.5, 0.5) for n, p in enumerate(FAQ, 1)},
+    "faq-avatar.webp": (37666113, 128, 128, 0.5, 0.45),
 }
 
 
 def fetch(url: str, dest: Path) -> Path:
     if not dest.exists():
         dest.parent.mkdir(parents=True, exist_ok=True)
-        with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=120) as r, open(dest, "wb") as f:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=180) as r, open(dest, "wb") as f:
             shutil.copyfileobj(r, f)
         print("downloaded", dest.name, f"{dest.stat().st_size / 1e6:.1f} MB")
     return dest
 
 
-def cover(im: Image.Image, w: int, h: int, fx: float) -> Image.Image:
-    """Scale to cover w x h, crop around the horizontal focus fx (vertical centre)."""
+def cover(im: Image.Image, w: int, h: int, fx: float = 0.5, fy: float = 0.5, name: str = "") -> Image.Image:
+    """Scale to cover w x h (down only, warn otherwise), crop around the focus point."""
     s = max(w / im.width, h / im.height)
+    if s > 1.001:
+        print(f"  warning: {name} would be upscaled x{s:.2f}")
     im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
     x = min(max(round(im.width * fx - w / 2), 0), im.width - w)
-    y = (im.height - h) // 2
+    y = min(max(round(im.height * fy - h / 2), 0), im.height - h)
     return im.crop((x, y, x + w, y + h))
 
 
+def photo(pid: int) -> Image.Image:
+    _, fn, width = PHOTOS[pid]
+    p = fetch(f"https://images.pexels.com/photos/{pid}/{fn}?auto=compress&cs=tinysrgb&w={width}", SRC / f"photo-{pid}.jpg")
+    return Image.open(p).convert("RGB")
+
+
 def stills() -> None:
-    for name, (cid, w, h, fx) in IMAGES.items():
-        poster = fetch(f"https://images.pexels.com/videos/{cid}/{CLIPS[cid][2]}?auto=compress&cs=tinysrgb&w=1920",
-                       SRC / f"{cid}.jpg")
-        cover(Image.open(poster).convert("RGB"), w, h, fx).save(OUT / name, "WEBP", quality=80, method=6)
+    for name, (pid, w, h, fx, fy) in IMAGES.items():
+        q = 82 if w >= 400 else 88
+        cover(photo(pid), w, h, fx, fy, name).save(OUT / name, "WEBP", quality=q, method=6)
 
 
 def videos() -> None:
-    for name, (cid, rendition, width, fps, crf) in VIDEOS.items():
+    for name, (cid, rendition, width, fps, crf, secs) in VIDEOS.items():
         raw = fetch(f"https://videos.pexels.com/video-files/{cid}/{rendition}", SRC / rendition)
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-an", "-vf", f"scale={width}:-2,fps={fps}",
-                        "-c:v", "libx264", "-preset", "slow", "-crf", str(crf), "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-t", str(secs), "-an",
+                        "-vf", f"scale={width}:-2:flags=lanczos,fps={fps}", "-c:v", "libx264", "-preset", "slow",
+                        "-crf", str(crf), "-tune", "film", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
                         str(OUT / name)], check=True)
         print("encoded", name, f"{(OUT / name).stat().st_size / 1e6:.1f} MB")
+    # the "what it adds" image sits under its video: use a sharp frame of the same clip
+    frame = SRC / "adds-frame.png"
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "3", "-i", str(SRC / VIDEOS["adds.mp4"][1]), "-frames:v", "1", str(frame)], check=True)
+    cover(Image.open(frame).convert("RGB"), 1261, 867, name="adds.webp").save(OUT / "adds.webp", "WEBP", quality=82)
 
 
 def product_shots() -> None:
     """The two product slots show the real app, not stock."""
+    import io
+    from datetime import datetime
+
+    import numpy as np
     from playwright.sync_api import sync_playwright
     base = "http://localhost:3200"
     with sync_playwright() as p:
@@ -120,9 +144,6 @@ def product_shots() -> None:
         r.post(f"{base}/api/session", form={"role": "org"})
         mine = [x for x in r.get(f"{base}/api/me").json()["reports"] if x["grade"] in ("A", "B")]
         if not mine:  # show a well-evidenced report: file one with a sharp, timestamped photo
-            import io
-            from datetime import datetime
-            import numpy as np
             arr = (np.random.default_rng(3).random((900, 1200, 3)) * 255).astype("uint8")
             exif = Image.Exif()
             exif[0x0132] = datetime.now().strftime("%Y:%m:%d %H:%M:%S")
@@ -146,25 +167,22 @@ def product_shots() -> None:
         page.wait_for_timeout(1200)
         page.screenshot(path=str(SRC / "product-org.png"))
         b.close()
-    cover(Image.open(SRC / "product-citizen.png").convert("RGB"), 808, 1009, 0.5).save(OUT / "product-citizen.webp", "WEBP", quality=85)
-    cover(Image.open(SRC / "product-org.png").convert("RGB"), 1213, 756, 0.5).save(OUT / "product-org.webp", "WEBP", quality=85)
+    cover(Image.open(SRC / "product-citizen.png").convert("RGB"), 808, 1009).save(OUT / "product-citizen.webp", "WEBP", quality=85)
+    cover(Image.open(SRC / "product-org.png").convert("RGB"), 1213, 756).save(OUT / "product-org.webp", "WEBP", quality=85)
     print("product screenshots updated")
 
 
 def credits() -> None:
     lines = ["# Media credits", "",
-             "Stock footage and stills from [Pexels](https://www.pexels.com/license/) (free to use, attribution not required; credited anyway).",
-             "The stills are frames from the same videos. `product-*.webp` are screenshots of the StreamProof app.", "",
-             "| Pexels video | Used for |", "|---|---|"]
-    used: dict[int, list[str]] = {}
-    for n, (cid, *_) in VIDEOS.items():
-        used.setdefault(cid, []).append(n)
-    for n, (cid, *_) in IMAGES.items():
-        if not n.endswith("-sm.webp"):
-            used.setdefault(cid, []).append(n)
-    for cid, names in used.items():
-        title, slug, _ = CLIPS[cid]
-        lines.append(f"| [{title}](https://www.pexels.com/video/{slug}/) | {', '.join(names)} |")
+             "Photos and footage from [Pexels](https://www.pexels.com/license/) (free to use, attribution not required; credited anyway).",
+             "`product-*.webp` are screenshots of the StreamProof app.", "",
+             "| Pexels | Used for |", "|---|---|"]
+    for cid, (title, slug) in CLIPS.items():
+        used = [n for n, v in VIDEOS.items() if v[0] == cid] + (["adds.webp"] if cid == VIDEOS["adds.mp4"][0] else [])
+        lines.append(f"| Video: [{title}](https://www.pexels.com/video/{slug}/) | {', '.join(used)} |")
+    for pid, (what, _, _) in PHOTOS.items():
+        used = [n for n, v in IMAGES.items() if v[0] == pid and not n.endswith("-sm.webp")]
+        lines.append(f"| Photo: [{what}](https://www.pexels.com/photo/{pid}/) | {', '.join(used)} |")
     (OUT / "CREDITS.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

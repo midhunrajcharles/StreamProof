@@ -6,12 +6,22 @@ over the few kilometres a city stream covers.
 
 import json
 import math
+import re
+import unicodedata
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
+from . import config
+
 EARTH_R = 6_371_000.0
 DATA = Path(__file__).resolve().parent.parent / "data" / "streams.json"
+EXTRA = config.DATA_DIR / "streams"  # streams of cities people added (app/cities.py)
+
+
+def slug(text: str) -> str:
+    t = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", t).strip("-") or "city"
 
 
 def _xy(lon: float, lat: float, lat0: float) -> tuple[float, float]:
@@ -58,11 +68,19 @@ class Snap:
 
 @lru_cache(maxsize=1)
 def streams() -> tuple[Stream, ...]:
-    raw = json.loads(DATA.read_text(encoding="utf-8"))
+    """The five OAH cities' streams (data/streams.json), then those of cities people added."""
+    raw = json.loads(DATA.read_text(encoding="utf-8"))["streams"]
+    if EXTRA.exists():
+        for f in sorted(EXTRA.glob("*.json")):
+            raw += json.loads(f.read_text(encoding="utf-8"))["streams"]
     return tuple(
         Stream(s["id"], s["name"], s["city"], tuple((c[0], c[1]) for c in s["coordinates"]))
-        for s in raw["streams"]
+        for s in raw
     )
+
+
+def reload() -> None:
+    streams.cache_clear()
 
 
 def snap(lat: float, lon: float) -> Snap | None:

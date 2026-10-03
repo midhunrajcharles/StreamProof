@@ -95,13 +95,19 @@ export type Meta = {
   uses: { code: string; label: string; min_rung: string }[];
   streams: { name: string; city: string; line: [number, number][] }[];
   start: [number, number];
-  cities: { city: string; stream: string; start: [number, number] }[];
+  cities: City[];
   rules: { radius_m: number; window_days: number; min_expert: number; min_community: number; per_day: number; upstream_m: number };
 };
 
 export type Avatar = "water" | "moss" | "sand" | "stone" | "dusk" | "ink";
 export const AVATARS: Avatar[] = ["water", "moss", "sand", "stone", "dusk", "ink"];
-export const CITIES = ["Coimbra", "Benevento", "Ghent", "Oslo", "Toulouse"] as const;
+/** A city you can report in. The five OneAquaHealth cities ship with the app; any other city is added on demand. */
+export type City = {
+  city: string; country: string; cc: string; oah: boolean; status: "ready" | "pending" | "no-streams" | "unavailable";
+  stream: string | null; streams: number; start: [number, number]; error?: string | null;
+  lines?: { name: string; line: [number, number][] }[];
+};
+export type CityHit = { name: string; country: string; cc: string; region?: string; lat: number; lon: number; kind: string; bbox: number[] | null; known: boolean; oah: boolean };
 
 export type Session = {
   citizen: { id: string; name: string; demo?: boolean; account?: boolean; avatar?: Avatar } | null;

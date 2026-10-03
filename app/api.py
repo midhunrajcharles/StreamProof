@@ -16,7 +16,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 
-from . import auth, brief, certificate, config, evidence, geo, grading, permitted_use, seed, service, signing
+from . import auth, brief, certificate, cities, config, evidence, geo, grading, permitted_use, seed, service, signing
 from .indicators import INDICATORS
 from .models import Mission, Report, Rung, now
 
@@ -75,8 +75,7 @@ def _citizen_session(request: Request, pseudonym: str, demo: bool = False) -> No
 # ---------------- organisation scope: a pilot sees its own city's reports ----------------
 
 def report_city(lat: float, lon: float) -> str | None:
-    s = geo.snap(lat, lon)
-    return s.stream.city if s and s.distance_m <= 5000 else None
+    return cities.city_at(lat, lon)
 
 
 def in_scope(request: Request, lat: float, lon: float) -> bool:
@@ -283,15 +282,49 @@ def meta():
                  for u, l in permitted_use.USES.items()],
         "streams": [{"name": x.name, "city": x.city, "line": [[la, lo] for lo, la in x.coords]} for x in geo.streams()],
         "start": [round(lat + 0.0001, 6), round(lon, 6)],
-        # city switcher: one stream per OneAquaHealth city, starting pin halfway along it
-        "cities": [{"city": x.city, "stream": x.name,
-                    "start": [round(c, 6) for c in (geo.point_at(x, x.chainage[-1] - 2550) if x.city == "Coimbra"
-                                                    else geo.point_at(x, x.chainage[-1] / 2))]}
-                   for x in geo.streams()],
+        # city switcher: the five OneAquaHealth cities, then any city people added
+        "cities": [cities.public(_store(), c) for c in cities.known(_store())],
         "rules": {"radius_m": config.NEARBY_RADIUS_M, "window_days": config.NEARBY_WINDOW_DAYS,
                   "min_expert": config.ADVISORY_MIN_EXPERT, "min_community": config.ADVISORY_MIN_COMMUNITY,
                   "per_day": config.CORROBORATIONS_PER_ACCOUNT_PER_DAY, "upstream_m": config.MISSION_UPSTREAM_M},
     }
+
+
+# ---------------- any city ----------------
+
+@router.get("/cities/search")
+def city_search(request: Request, q: str = "", lang: str = "en"):
+    auth.limit("city-search", auth.client_ip(request), 120, 600)
+    return {"results": cities.search(_store(), q[:80], lang[:5])}
+
+
+@router.post("/cities")
+def city_add(request: Request, name: str = Form(...), country: str = Form(""), cc: str = Form(""),
+             lat: float = Form(...), lon: float = Form(...), bbox: str = Form("")):
+    """Pick a city: registers it and fetches its streams and rainfall in the background."""
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180) or not name.strip():
+        raise HTTPException(400, "That isn't a valid place.")
+    box = None
+    try:
+        b = json.loads(bbox) if bbox else None
+        box = [float(x) for x in b] if b and len(b) == 4 else None
+    except (ValueError, TypeError):
+        pass
+    store = _store()
+    if not cities.exists(store, name.strip()):
+        auth.limit("city-add", auth.client_ip(request), 20, 3600)
+    c = cities.register(store, name.strip()[:80], country.strip()[:80], cc.strip().lower()[:3], lat, lon, box)
+    return cities.public(store, c)
+
+
+@router.get("/cities/{name}")
+def city_get(name: str):
+    store = _store()
+    c = cities.get(store, name)
+    if not c:
+        raise HTTPException(404, "Unknown city.")
+    return {**cities.public(store, c),
+            "lines": [{"name": x.name, "line": [[la, lo] for lo, la in x.coords]} for x in geo.streams() if x.city == c["name"]]}
 
 
 # ---------------- citizen ----------------

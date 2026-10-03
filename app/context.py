@@ -5,16 +5,25 @@ from datetime import date, timedelta
 from functools import lru_cache
 from pathlib import Path
 
+from . import config
+from .geo import slug
+
 DATA = Path(__file__).resolve().parent.parent / "data"
 
 
-@lru_cache(maxsize=8)
+@lru_cache(maxsize=64)
 def _days(city: str) -> dict[str, float]:
-    path = DATA / f"weather_{city.lower()}.json"
+    path = DATA / f"weather_{city.lower()}.json"  # the five OAH cities ship with the repo
+    if not path.exists():
+        path = config.DATA_DIR / "weather" / f"weather_{slug(city)}.json"  # cities people added
     if not path.exists():
         return {}
     raw = json.loads(path.read_text(encoding="utf-8"))
     return {d["date"]: (d["precip_mm"] or 0.0) for d in raw["days"]}
+
+
+def reload() -> None:
+    _days.cache_clear()
 
 
 def rain_summary(on: date, city: str = "Coimbra") -> dict | None:

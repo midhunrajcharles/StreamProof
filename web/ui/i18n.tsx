@@ -38,7 +38,7 @@ const en: Dict = {
   "photo.take": "Take a photo", "photo.optional": "Optional, but it lifts the grade", "photo.another": "Choose another", "photo.remove": "Remove",
   "photo.library": "Choose from library", "photo.alt": "Your photo",
   "where.section": "Where", "where.city": "City", "where.hint": "Drag the pin or tap the map to mark the spot.", "where.use": "Use my location",
-  "where.far": "You're far from the five demo cities. Place the pin on a stream instead.", "where.gps": "Using your location (±{m} m).",
+  "where.far": "You're outside the cities in the list. Search for your city above so its streams load.", "where.gps": "Using your location (±{m} m).",
   "where.nogps": "Couldn't get your location. Place the pin on the map.", "where.unavailable": "Location isn't available on this device. Place the pin on the map.",
   "where.confirmed": "Spot confirmed on the map.", "where.mission": "Mission spot: {place}. Adjust if you're elsewhere.",
   "where.map": "Report location. Drag the pin or tap the map to move it.", "where.example": "Example stream for the demo, not a OneAquaHealth study site.",
@@ -226,6 +226,15 @@ const en: Dict = {
   "home.none": "No reports yet",
   "home.noneText": "Your first report earns a badge, and every report an expert confirms earns a star.",
   "home.starsLink": "Stars and badges",
+  // city picker
+  "city.search": "Search any city",
+  "city.searchPh": "Search any city, e.g. Lyon",
+  "city.none": "No city found",
+  "city.offline": "Searching needs a connection. The five OneAquaHealth cities work offline.",
+  "city.loading": "Finding the streams of {city} on OpenStreetMap…",
+  "city.ready": "{n} mapped streams in {city}, from OpenStreetMap.",
+  "city.noStreams": "No named streams are mapped in {city} yet. You can still report; drag the pin to the spot.",
+  "city.unavailable": "Couldn't reach OpenStreetMap for {city}. You can still report; stream lines will load later.",
 };
 
 const pt: Dict = {
@@ -250,7 +259,7 @@ const pt: Dict = {
   "photo.take": "Tirar uma foto", "photo.optional": "Opcional, mas melhora a classificação", "photo.another": "Escolher outra", "photo.remove": "Remover",
   "photo.library": "Escolher da galeria", "photo.alt": "A sua foto",
   "where.section": "Onde", "where.city": "Cidade", "where.hint": "Arraste o marcador ou toque no mapa para marcar o local.", "where.use": "Usar a minha localização",
-  "where.far": "Está longe das cinco cidades de demonstração. Coloque o marcador num ribeiro.", "where.gps": "A usar a sua localização (±{m} m).",
+  "where.far": "Está fora das cidades da lista. Procure a sua cidade acima para carregar os cursos de água.", "where.gps": "A usar a sua localização (±{m} m).",
   "where.nogps": "Não foi possível obter a sua localização. Coloque o marcador no mapa.", "where.unavailable": "A localização não está disponível neste dispositivo. Coloque o marcador no mapa.",
   "where.confirmed": "Local confirmado no mapa.", "where.mission": "Local da missão: {place}. Ajuste se estiver noutro sítio.",
   "where.map": "Local do relato. Arraste o marcador ou toque no mapa para o mover.", "where.example": "Ribeiro de exemplo para a demonstração, não é um local de estudo do OneAquaHealth.",
@@ -429,6 +438,15 @@ const pt: Dict = {
   "home.none": "Ainda sem relatos",
   "home.noneText": "O primeiro relato dá um distintivo e cada relato confirmado por um especialista dá uma estrela.",
   "home.starsLink": "Estrelas e distintivos",
+  // city picker
+  "city.search": "Procurar qualquer cidade",
+  "city.searchPh": "Procure uma cidade, p. ex. Lyon",
+  "city.none": "Nenhuma cidade encontrada",
+  "city.offline": "A pesquisa precisa de ligação. As cinco cidades OneAquaHealth funcionam offline.",
+  "city.loading": "A procurar os cursos de água de {city} no OpenStreetMap…",
+  "city.ready": "{n} cursos de água mapeados em {city}, do OpenStreetMap.",
+  "city.noStreams": "Ainda não há cursos de água com nome mapeados em {city}. Pode reportar na mesma; arraste o marcador.",
+  "city.unavailable": "Não foi possível contactar o OpenStreetMap para {city}. Pode reportar na mesma; as linhas carregam depois.",
 };
 
 const it: Dict = {
@@ -453,7 +471,7 @@ const it: Dict = {
   "photo.take": "Scatta una foto", "photo.optional": "Facoltativa, ma migliora il voto", "photo.another": "Scegline un'altra", "photo.remove": "Rimuovi",
   "photo.library": "Scegli dalla galleria", "photo.alt": "La tua foto",
   "where.section": "Dove", "where.city": "Città", "where.hint": "Trascina il segnaposto o tocca la mappa per indicare il punto.", "where.use": "Usa la mia posizione",
-  "where.far": "Sei lontano dalle cinque città demo. Metti il segnaposto su un corso d'acqua.", "where.gps": "Uso la tua posizione (±{m} m).",
+  "where.far": "Sei fuori dalle città dell'elenco. Cerca la tua città qui sopra per caricarne i corsi d'acqua.", "where.gps": "Uso la tua posizione (±{m} m).",
   "where.nogps": "Impossibile ottenere la tua posizione. Metti il segnaposto sulla mappa.", "where.unavailable": "La posizione non è disponibile su questo dispositivo. Metti il segnaposto sulla mappa.",
   "where.confirmed": "Punto confermato sulla mappa.", "where.mission": "Punto della missione: {place}. Correggi se sei altrove.",
   "where.map": "Luogo della segnalazione. Trascina il segnaposto o tocca la mappa per spostarlo.", "where.example": "Corso d'acqua di esempio per la demo, non un sito di studio di OneAquaHealth.",
@@ -632,6 +650,15 @@ const it: Dict = {
   "home.none": "Nessuna segnalazione",
   "home.noneText": "La prima segnalazione fa ottenere un distintivo e ogni segnalazione confermata da un esperto una stella.",
   "home.starsLink": "Stelle e distintivi",
+  // city picker
+  "city.search": "Cerca qualsiasi città",
+  "city.searchPh": "Cerca una città, es. Lione",
+  "city.none": "Nessuna città trovata",
+  "city.offline": "La ricerca richiede una connessione. Le cinque città OneAquaHealth funzionano offline.",
+  "city.loading": "Cerco i corsi d'acqua di {city} su OpenStreetMap…",
+  "city.ready": "{n} corsi d'acqua mappati a {city}, da OpenStreetMap.",
+  "city.noStreams": "Non ci sono ancora corsi d'acqua con nome mappati a {city}. Puoi comunque segnalare; trascina il segnaposto.",
+  "city.unavailable": "Impossibile raggiungere OpenStreetMap per {city}. Puoi comunque segnalare; le linee arriveranno dopo.",
 };
 
 const fr: Dict = {
@@ -656,7 +683,7 @@ const fr: Dict = {
   "photo.take": "Prendre une photo", "photo.optional": "Facultatif, mais améliore la note", "photo.another": "En choisir une autre", "photo.remove": "Retirer",
   "photo.library": "Choisir dans la galerie", "photo.alt": "Votre photo",
   "where.section": "Où", "where.city": "Ville", "where.hint": "Faites glisser le repère ou touchez la carte pour indiquer l'endroit.", "where.use": "Utiliser ma position",
-  "where.far": "Vous êtes loin des cinq villes de démonstration. Placez le repère sur un cours d'eau.", "where.gps": "Votre position est utilisée (±{m} m).",
+  "where.far": "Vous êtes hors des villes de la liste. Cherchez votre ville ci-dessus pour charger ses cours d'eau.", "where.gps": "Votre position est utilisée (±{m} m).",
   "where.nogps": "Impossible d'obtenir votre position. Placez le repère sur la carte.", "where.unavailable": "La localisation n'est pas disponible sur cet appareil. Placez le repère sur la carte.",
   "where.confirmed": "Endroit confirmé sur la carte.", "where.mission": "Lieu de la mission : {place}. Ajustez si vous êtes ailleurs.",
   "where.map": "Lieu du signalement. Faites glisser le repère ou touchez la carte pour le déplacer.", "where.example": "Cours d'eau d'exemple pour la démo, pas un site d'étude de OneAquaHealth.",
@@ -835,6 +862,15 @@ const fr: Dict = {
   "home.none": "Aucun signalement",
   "home.noneText": "Votre premier signalement rapporte un badge, et chaque signalement confirmé par un expert une étoile.",
   "home.starsLink": "Étoiles et badges",
+  // city picker
+  "city.search": "Chercher une ville",
+  "city.searchPh": "Cherchez une ville, ex. Lyon",
+  "city.none": "Aucune ville trouvée",
+  "city.offline": "La recherche nécessite une connexion. Les cinq villes OneAquaHealth fonctionnent hors ligne.",
+  "city.loading": "Recherche des cours d'eau de {city} sur OpenStreetMap…",
+  "city.ready": "{n} cours d'eau cartographiés à {city}, d'OpenStreetMap.",
+  "city.noStreams": "Aucun cours d'eau nommé n'est encore cartographié à {city}. Vous pouvez quand même signaler ; déplacez le repère.",
+  "city.unavailable": "Impossible de joindre OpenStreetMap pour {city}. Vous pouvez quand même signaler ; les tracés viendront plus tard.",
 };
 
 const nl: Dict = {
@@ -859,7 +895,7 @@ const nl: Dict = {
   "photo.take": "Maak een foto", "photo.optional": "Optioneel, maar het verhoogt de beoordeling", "photo.another": "Kies een andere", "photo.remove": "Verwijderen",
   "photo.library": "Kies uit galerij", "photo.alt": "Jouw foto",
   "where.section": "Waar", "where.city": "Stad", "where.hint": "Sleep de speld of tik op de kaart om de plek aan te geven.", "where.use": "Gebruik mijn locatie",
-  "where.far": "Je bent ver van de vijf demosteden. Zet de speld op een beek.", "where.gps": "Je locatie wordt gebruikt (±{m} m).",
+  "where.far": "Je bent buiten de steden in de lijst. Zoek hierboven je stad zodat de beken laden.", "where.gps": "Je locatie wordt gebruikt (±{m} m).",
   "where.nogps": "Kon je locatie niet bepalen. Zet de speld op de kaart.", "where.unavailable": "Locatie is niet beschikbaar op dit toestel. Zet de speld op de kaart.",
   "where.confirmed": "Plek bevestigd op de kaart.", "where.mission": "Plek van de missie: {place}. Pas aan als je ergens anders bent.",
   "where.map": "Plaats van de melding. Sleep de speld of tik op de kaart om hem te verplaatsen.", "where.example": "Voorbeeldbeek voor de demo, geen studielocatie van OneAquaHealth.",
@@ -1038,6 +1074,15 @@ const nl: Dict = {
   "home.none": "Nog geen meldingen",
   "home.noneText": "Je eerste melding levert een badge op en elke door een expert bevestigde melding een ster.",
   "home.starsLink": "Sterren en badges",
+  // city picker
+  "city.search": "Zoek een stad",
+  "city.searchPh": "Zoek een stad, bijv. Lyon",
+  "city.none": "Geen stad gevonden",
+  "city.offline": "Zoeken vraagt een verbinding. De vijf OneAquaHealth-steden werken offline.",
+  "city.loading": "Beken van {city} zoeken op OpenStreetMap…",
+  "city.ready": "{n} gekarteerde beken in {city}, van OpenStreetMap.",
+  "city.noStreams": "Er zijn nog geen beken met een naam gekarteerd in {city}. Je kunt toch melden; sleep de pin.",
+  "city.unavailable": "OpenStreetMap was niet bereikbaar voor {city}. Je kunt toch melden; de lijnen laden later.",
 };
 
 const no: Dict = {
@@ -1062,7 +1107,7 @@ const no: Dict = {
   "photo.take": "Ta et bilde", "photo.optional": "Valgfritt, men det hever vurderingen", "photo.another": "Velg et annet", "photo.remove": "Fjern",
   "photo.library": "Velg fra galleriet", "photo.alt": "Bildet ditt",
   "where.section": "Hvor", "where.city": "By", "where.hint": "Dra nålen eller trykk på kartet for å markere stedet.", "where.use": "Bruk posisjonen min",
-  "where.far": "Du er langt fra de fem demobyene. Plasser nålen på en bekk i stedet.", "where.gps": "Bruker posisjonen din (±{m} m).",
+  "where.far": "Du er utenfor byene i listen. Søk etter byen din over, så lastes bekkene.", "where.gps": "Bruker posisjonen din (±{m} m).",
   "where.nogps": "Fikk ikke tak i posisjonen din. Plasser nålen på kartet.", "where.unavailable": "Posisjon er ikke tilgjengelig på denne enheten. Plasser nålen på kartet.",
   "where.confirmed": "Stedet er bekreftet på kartet.", "where.mission": "Oppdragssted: {place}. Juster hvis du er et annet sted.",
   "where.map": "Sted for meldingen. Dra nålen eller trykk på kartet for å flytte den.", "where.example": "Eksempelbekk for demoen, ikke et studiested for OneAquaHealth.",
@@ -1241,6 +1286,15 @@ const no: Dict = {
   "home.none": "Ingen rapporter ennå",
   "home.noneText": "Første rapport gir et merke, og hver rapport en fagperson bekrefter gir en stjerne.",
   "home.starsLink": "Stjerner og merker",
+  // city picker
+  "city.search": "Søk etter en by",
+  "city.searchPh": "Søk etter en by, f.eks. Lyon",
+  "city.none": "Fant ingen by",
+  "city.offline": "Søk krever nett. De fem OneAquaHealth-byene virker uten nett.",
+  "city.loading": "Finner bekkene i {city} på OpenStreetMap…",
+  "city.ready": "{n} kartlagte bekker i {city}, fra OpenStreetMap.",
+  "city.noStreams": "Ingen navngitte bekker er kartlagt i {city} ennå. Du kan likevel rapportere; dra nålen.",
+  "city.unavailable": "Fikk ikke kontakt med OpenStreetMap for {city}. Du kan likevel rapportere; linjene lastes senere.",
 };
 
 const DICTS: Record<Lang, Dict> = { en, pt, it, fr, nl, no };

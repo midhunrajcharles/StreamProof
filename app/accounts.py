@@ -15,7 +15,7 @@ import secrets
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request
 
-from . import auth, recognition
+from . import auth, cities, recognition
 from .api import _citizen_session, _general_limit, _org_session, _store, admin, role, session_get
 from .models import now
 
@@ -32,8 +32,8 @@ def _clean_profile(display: str, bio: str, city: str, avatar: str) -> tuple[str,
         raise ValueError("Enter a name.")
     if len(bio.strip()) > auth.BIO_MAX:
         raise ValueError(f"Keep the bio under {auth.BIO_MAX} characters.")
-    if city and city not in auth.CITIES:
-        raise ValueError("Choose one of the five cities.")
+    if city and not cities.exists(_store(), city):
+        raise ValueError("Choose a city from the list.")
     if avatar and avatar not in auth.AVATARS:
         raise ValueError("Unknown avatar colour.")
     return display, bio.strip(), city, avatar
@@ -141,8 +141,8 @@ def org_signup(request: Request, org_name: str = Form(...), city: str = Form(...
     org_name = org_name.strip()[:80]
     if not org_name:
         raise HTTPException(400, "Enter the organisation's name.")
-    if city not in auth.CITIES:
-        raise HTTPException(400, "Choose one of the five cities.")
+    if not cities.exists(store, city):
+        raise HTTPException(400, "Choose a city from the list.")
     if store.user(email):
         raise HTTPException(409, "There is already an account with that email. Sign in instead.")
     org = {"id": f"org-{secrets.token_hex(3)}", "name": org_name, "city": city, "about": "", "website": "",

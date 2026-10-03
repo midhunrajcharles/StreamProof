@@ -11,7 +11,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, seed
+from . import cities, config, seed
 from .store import Store
 
 WEB_URL = os.environ.get("STREAMPROOF_WEB_URL", "http://localhost:3200/")
@@ -24,6 +24,7 @@ store = Store()
 if not store.all():
     seed.run(store)
 seed.ensure_accounts(store)
+cities.load(store)
 
 from .accounts import router as accounts_router  # noqa: E402
 from .api import router as api_router  # noqa: E402  (the API reads the store above)

@@ -1,7 +1,8 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { api, ApiError, useApi, type Mission, type Report } from "@/ui/api";
+import { api, ApiError, useApi, type City, type Mission, type Report } from "@/ui/api";
+import { CityPicker } from "@/ui/city";
 import { useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Page, Section, SignIn, Skeleton, useApp } from "@/ui/kit";
@@ -28,6 +29,7 @@ function ReportForm() {
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
   const [city, setCity] = useState("Coimbra");
+  const [cityObj, setCityObj] = useState<City | null>(null);
   const [pos, setPos] = useState<[number, number] | null>(null);
   const [accuracy, setAccuracy] = useState("");
   const [locMsg, setLocMsg] = useState<Msg>({ key: "where.hint" });
@@ -55,7 +57,11 @@ function ReportForm() {
     if (mission.data && codes.length === 0) setCodes(mission.data.signs.map((s) => s.code).filter((c) => c !== "all-clear"));
   }, [mission.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const streams = useMemo(() => meta?.streams.map((s) => s.line) ?? [], [meta]);
+  // every known stream, plus the lines of a city picked in this session (not in the cached meta yet)
+  const streams = useMemo(() => [
+    ...(meta?.streams.filter((s) => !cityObj?.lines || s.city !== cityObj.city).map((s) => s.line) ?? []),
+    ...(cityObj?.lines?.map((l) => l.line) ?? []),
+  ], [meta, cityObj]);
 
   if (session && !session.citizen) {
     return <Page title={t("nav.long.report")} eyebrow={t("report.eyebrow")}><SignIn role="citizen" onDone={refreshSession} /></Page>;
@@ -86,13 +92,11 @@ function ReportForm() {
     });
   };
 
-  const chooseCity = (name: string) => {
-    const c = meta?.cities.find((x) => x.city === name);
-    if (!c) return;
-    setCity(name);
-    setPos(c.start);
-    setAccuracy("");
-    setLocMsg({ key: "where.hint" });
+  const chooseCity = (c: City) => {
+    const moved = c.city !== city || (cityObj?.city === c.city && cityObj.status === "pending" && accuracy === "");
+    setCity(c.city);
+    setCityObj(c.oah ? null : c);
+    if (moved) { setPos(c.start); setAccuracy(""); setLocMsg({ key: "where.hint" }); }
   };
 
   const locate = () => {
@@ -101,10 +105,11 @@ function ReportForm() {
     navigator.geolocation.getCurrentPosition((p) => {
       setLocating(false);
       const here: [number, number] = [p.coords.latitude, p.coords.longitude];
-      const near = meta?.cities.map((c) => ({ c, d: distanceKm(here, c.start) })).sort((a, b) => a.d - b.d)[0];
-      if (!near || near.d > 50) { setLocMsg({ key: "where.far" }); return; }
-      setCity(near.c.city);
+      const all = [...(meta?.cities ?? []), ...(cityObj ? [cityObj] : [])];
+      const near = all.map((c) => ({ c, d: distanceKm(here, c.start) })).sort((a, b) => a.d - b.d)[0];
       setPos(here);
+      if (!near || near.d > 50) { setAccuracy(String(Math.round(p.coords.accuracy))); setLocMsg({ key: "where.far" }); return; }
+      setCity(near.c.city);
       setAccuracy(String(Math.round(p.coords.accuracy)));
       setLocMsg({ key: "where.gps", vars: { m: Math.round(p.coords.accuracy) } });
     }, () => {
@@ -155,7 +160,7 @@ function ReportForm() {
   };
 
   const errText = typeof error === "string" ? error : t(error.key, error.vars);
-  const example = city !== "Coimbra";
+  const example = city !== "Coimbra" && Boolean(meta?.cities.find((c) => c.city === city)?.oah);
 
   return (
     <Page title={t("nav.long.report")} eyebrow={t("report.eyebrow")} subtitle={t("report.subtitle")}>
@@ -215,16 +220,7 @@ function ReportForm() {
 
         <Section title={t("where.section")} n={2} foot={<>{t(locMsg.key, locMsg.vars)}{example ? <> {t("where.example")}</> : null}</>}>
           <div className="stack">
-            {meta && !missionId ? (
-              <div className="chips city-chips" role="radiogroup" aria-label={t("where.city")}>
-                {meta.cities.map((c) => (
-                  <button key={c.city} type="button" role="radio" aria-checked={c.city === city} className="chip"
-                    onClick={() => chooseCity(c.city)}>
-                    <I.Check /> {c.city}
-                  </button>
-                ))}
-              </div>
-            ) : null}
+            {meta && !missionId ? <CityPicker value={city} label={t("where.city")} onChange={chooseCity} /> : null}
             {pos ? (
               <Map center={pos} streams={streams} label={t("where.map")}
                 draggable={{ lat: pos[0], lon: pos[1], onMove: (lat, lon) => { setPos([lat, lon]); setAccuracy("10"); setLocMsg({ key: "where.confirmed" }); } }}>

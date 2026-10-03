@@ -621,3 +621,21 @@ a.stat:hover { box-shadow: var(--shadow-float); }
 .home-hero:hover, .home-me:hover, a.stat:hover { text-decoration: none; }
 .home-hero { margin-bottom: 12px; }
 .stat-wrap { display: grid; } .stat-wrap > .stat { height: 100%; }
+
+/* ---------------------------------------------------------------- city picker */
+.city-picker { display: grid; gap: 10px; }
+.chip-sub { font-size: 0.7rem; opacity: 0.7; margin-left: 4px; letter-spacing: 0.04em; }
+.combo { position: relative; }
+.combo-ic { position: absolute; left: 12px; top: 50%; translate: 0 -50%; width: 18px; height: 18px; color: var(--label-2); pointer-events: none; }
+.combo-input { padding-left: 38px; }
+.combo-spin { position: absolute; right: 12px; top: 50%; translate: 0 -50%; width: 18px; height: 18px; }
+.combo-list { position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none; max-height: 320px; overflow-y: auto;
+  background: var(--bg-elevated); border-radius: var(--radius); box-shadow: var(--shadow-float); border: 0.5px solid var(--separator); }
+.combo-opt { display: grid; gap: 2px; padding: 10px 12px; min-height: 44px; border-radius: var(--radius-s); cursor: pointer; }
+.combo-opt[aria-selected="true"] { background: var(--fill); }
+.combo-name { font-weight: 500; display: flex; align-items: center; flex-wrap: wrap; }
+.combo-sub { font-size: 0.82rem; color: var(--label-2); }
+.combo-empty { padding: 12px; color: var(--label-2); }
+.city-status { display: flex; align-items: center; gap: 6px; }
+.city-status.ready { color: var(--ok-text); }
+.city-status.unavailable, .city-status.no-streams { color: var(--warn-text); }

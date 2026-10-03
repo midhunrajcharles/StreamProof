@@ -43,7 +43,6 @@ def check_password(password: str, stored: str) -> bool:
 
 
 AVATARS = ("water", "moss", "sand", "stone", "dusk", "ink")
-CITIES = ("Coimbra", "Benevento", "Ghent", "Oslo", "Toulouse")
 BIO_MAX = 280
 
 

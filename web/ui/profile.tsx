@@ -1,7 +1,8 @@
 "use client";
 // Profile pieces shared by citizens and reviewers: avatar, profile card, stars and badges, edit sheet.
 import { useState } from "react";
-import { api, ApiError, AVATARS, CITIES, type Avatar as AvatarColour, type Recognition } from "./api";
+import { api, ApiError, AVATARS, type Avatar as AvatarColour, type Recognition } from "./api";
+import { CityPicker } from "./city";
 import { Avatar } from "./avatar";
 import { useI18n } from "./i18n";
 import * as I from "./icons";
@@ -147,12 +148,7 @@ export function EditProfile({ open, onClose, initial, fields, save }: {
             <textarea id="pf-bio" className="textarea" maxLength={280} placeholder={t("acc.bioPh")} value={v.bio} onChange={(e) => setV({ ...v, bio: e.target.value })} aria-describedby="pf-bio-left" />
             <p id="pf-bio-left" className="field-help" aria-live="polite">{t("acc.left", { n: left })}</p></div>
         ) : null}
-        {fields.city ? (
-          <div className="field"><span className="field-label" id="pf-city">{t("su.city")}</span>
-            <div className="chips" role="radiogroup" aria-labelledby="pf-city">
-              {CITIES.map((c) => <button key={c} type="button" className="chip" role="radio" aria-checked={v.city === c} onClick={() => setV({ ...v, city: c })}><I.Check /> {c}</button>)}
-            </div></div>
-        ) : null}
+        {fields.city ? <CityPicker label={t("su.city")} value={v.city ?? ""} onChange={(c) => setV({ ...v, city: c.city })} /> : null}
         <div className="field"><span className="field-label" id="pf-colour">{t("acc.colour")}</span>
           <div className="swatches" role="radiogroup" aria-labelledby="pf-colour">
             {AVATARS.map((c) => (

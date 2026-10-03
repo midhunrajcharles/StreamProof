@@ -2,20 +2,11 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { api, ApiError, CITIES, type Session } from "@/ui/api";
+import { api, ApiError, type Session } from "@/ui/api";
+import { CityPicker } from "@/ui/city";
 import { EnglishOnly, useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Page, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
-
-function CityChips({ label, value, onChange }: { label: string; value: string; onChange: (c: string) => void }) {
-  return (
-    <div className="field"><span className="field-label" id="city-label">{label}</span>
-      <div className="chips" role="radiogroup" aria-labelledby="city-label">
-        {CITIES.map((c) => <button key={c} type="button" className="chip" role="radio" aria-checked={value === c} onClick={() => onChange(c)}><I.Check /> {c}</button>)}
-      </div>
-    </div>
-  );
-}
 
 function ConsentSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useI18n();
@@ -66,7 +57,7 @@ function CitizenSignUp({ onDone }: { onDone: () => void }) {
         <div className="field"><label className="field-label" htmlFor="su-pw">{t("si.password")}</label>
           <input id="su-pw" className="input" type="password" required minLength={10} autoComplete="new-password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} aria-describedby="su-pw-help" />
           <p id="su-pw-help" className="field-help">{t("su.pwHelp")}</p></div>
-        <CityChips label={t("su.city")} value={f.city} onChange={(city) => setF({ ...f, city })} />
+        <CityPicker label={t("su.city")} value={f.city} onChange={(c) => setF({ ...f, city: c.city })} />
         <div className="check-row">
           <input id="su-agree" type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
           <label htmlFor="su-agree">{t("su.agree")}</label>
@@ -100,12 +91,12 @@ function OrgSignUp({ onDone }: { onDone: () => void }) {
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Building /></span>
         <h2 className="t-title2">Create an organisation account</h2>
-        <p className="secondary">For a municipality, utility, university or NGO working with one OneAquaHealth city. You become its admin and can add reviewers. Your team sees only reports from your city.</p>
+        <p className="secondary">For a municipality, utility, university or NGO working on the streams of one city: any city, with the five OneAquaHealth cities ready to go. You become its admin and can add reviewers. Your team sees only reports from your city.</p>
       </div>
       <div className="stack">
         <div className="field"><label className="field-label" htmlFor="os-org">Organisation name</label>
           <input id="os-org" className="input" required maxLength={80} autoComplete="organization" value={f.org_name} onChange={(e) => setF({ ...f, org_name: e.target.value })} /></div>
-        <CityChips label="City" value={f.city} onChange={(city) => setF({ ...f, city })} />
+        <CityPicker label="City" value={f.city} onChange={(c) => setF({ ...f, city: c.city })} />
         <div className="field"><label className="field-label" htmlFor="os-name">Your name</label>
           <input id="os-name" className="input" required maxLength={80} autoComplete="name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></div>
         <div className="field"><label className="field-label" htmlFor="os-email">Work email</label>

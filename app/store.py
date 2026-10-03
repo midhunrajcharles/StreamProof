@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS consents (pseudonym TEXT PRIMARY KEY, version TEXT, a
 CREATE TABLE IF NOT EXISTS organisations (id TEXT PRIMARY KEY, name TEXT, city TEXT, about TEXT, website TEXT, created TEXT);
 CREATE TABLE IF NOT EXISTS citizen_accounts (pseudonym TEXT PRIMARY KEY, email TEXT UNIQUE, pw_hash TEXT, bio TEXT,
                                              city TEXT, avatar TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS cities (name TEXT PRIMARY KEY, body TEXT);
 """
 
 # columns added after the first release, created on old databases at start-up
@@ -196,6 +197,18 @@ class Store:
     def delete_citizen_account(self, pseudonym: str) -> None:
         with _lock, self.db:
             self.db.execute("DELETE FROM citizen_accounts WHERE pseudonym=?", (pseudonym,))
+
+    # cities people picked beyond the five OneAquaHealth cities (see app/cities.py)
+    def save_city(self, c: dict) -> None:
+        with _lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO cities VALUES (?,?)", (c["name"], json.dumps(c)))
+
+    def city(self, name: str) -> dict | None:
+        row = self.db.execute("SELECT body FROM cities WHERE name=? COLLATE NOCASE", (name,)).fetchone()
+        return json.loads(row[0]) if row else None
+
+    def cities(self) -> list[dict]:
+        return [json.loads(r[0]) for r in self.db.execute("SELECT body FROM cities ORDER BY name")]
 
     # consent (citizens)
     def save_consent(self, pseudonym: str, version: str, at: str) -> None:

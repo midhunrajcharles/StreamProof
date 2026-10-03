@@ -228,6 +228,19 @@ with sync_playwright() as p:
         rid["oslo"] = re.search(r"SP-\d+", page.url).group(0)
     step("city switcher: a report in Oslo lands on the Akerselva", city_switch)
 
+    def any_city():  # needs the internet: Photon/Nominatim (OpenStreetMap) and Open-Meteo
+        page.goto(f"{BASE}/report", wait_until="networkidle")
+        box = page.get_by_role("combobox", name="Search any city")
+        box.fill("Lyon")
+        page.get_by_role("option", name=re.compile(r"^Lyon")).first.click()
+        expect(page.get_by_role("radio", name=re.compile(r"^Lyon"))).to_have_attribute("aria-checked", "true")
+        expect(page.locator(".city-status")).to_contain_text("mapped streams in Lyon", timeout=30000)
+        page.get_by_role("button", name="Litter").click()
+        page.get_by_role("button", name="Submit report").click()
+        page.wait_for_url(re.compile(r"/reports/SP-\d+\?new=1"))
+        expect(page.get_by_text(re.compile(r", Lyon$")).first).to_be_visible()
+    step("any city: search Lyon, its streams load, the report lands on a Lyon stream", any_city)
+
     def language():
         page.goto(f"{BASE}/reports/{rid['id']}", wait_until="networkidle")
         page.get_by_role("button", name=re.compile("^Language")).click()

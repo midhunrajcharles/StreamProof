@@ -255,3 +255,42 @@ If judges agree strongly (noise ±0.35), a 9.0 score gives about 79% at 100 entr
 | 8 | Real photos, video recording, Devpost submit | user | **Must** |
 
 Total ≈ 12.5 h of build plus recording. Keep a commit after each step so a submittable version always exists. Internal deadline: **Oct 4, 12:00 PDT**.
+
+---
+
+## 17. Judges: public professional research (2026-10-03)
+
+*Public professional sources only (official bios, institutional pages, IEEE pages). No private data, no social-media scraping. "Not found" means nothing reliable was public; don't guess.*
+
+### 17.1 Panel shape
+
+- **Consortium insiders (5):** Feio (University of Coimbra, the project coordinator), Koutalieris (ENORA), Nikolov (SYNYO), op den Akker and Freitas (SHINE 2Europe). All their organisations are OAH partners on CORDIS (project 101086521; partners include HL7 Europe and EFMI; 2023-01-01 → 2026-12-31).
+- **Standards (1):** Datta: HL7 Fellow, co-wrote HL7's OAH FHIR article.
+- **IEEE / industry (4):** Kodgi (Oracle; IEEE EMBS and Computer Society, Orange County), González (IEEE Blockchain), Sharma (Persistent Systems), Panyam (IEEE).
+- **Implication:** at least half the panel will judge *fit with OAH's own tools and science*. That is the 30% Impact criterion, and it decides the result. The project ends 2026-12-31, so post-project survival matters to these judges personally.
+
+### 17.2 Dossier
+
+| Judge | Public background | Link to OAH | Will reward | Will penalise | Show them | Likely question |
+|---|---|---|---|---|---|---|
+| **Maria João Feio** | Researcher, Univ. Coimbra (FCTUC) and MARE. Ecological assessment of rivers (developed assessment methods), urban aquatic ecosystems, metagenomics, **participatory science**; takes primary-school pupils on stream field trips; canoed the Mondego. | Project coordinator; author of the Catalogue of Measures | Respect for indicators and protocols; real measures; schools and citizens | Ecological naivety; made-up measures; "AI says the river is sick" | Coimbra stream, OAH indicator codes, real Catalogue entries, school observers, all-clear credit | "How does your grade relate to our field protocols and indicators?" |
+| **Gora Datta** | FHL7, SMIEEE, SMACM; UC Berkeley teaching faculty; pioneer of mobile-health standards; chairs IEEE P3228 (now P3271.01); leads a US federally funded public-health informatics workforce programme; founder and CEO of CAL2CAL. | Co-wrote HL7's OAH FHIR article (plan: an OAH guide using the Gravity and Helios accelerators) | Small, correct FHIR that conforms to the OAH guide; Provenance; public-health framing | Invented CodeSystems; FHIR that only looks valid; overclaims | Validator 0 errors **against ObservationIndicatorsOah**; ConceptMap to OAH codes; the `permits` CodeSystem | "Why not just use the OAH guide?" (answer: we do, and add trust) |
+| **George Koutalieris** | Chief Business & Innovation Officer, ENORA Innovation (Greek SME, founded 2019: AI/ML, big data, wireless, "trustworthiness enabling technologies"). Computer & informatics engineer (Patras). | **ENORA built DipteraCAST** | Trustworthy AI and data; exploitation and business model; a hook into DipteraCAST | AI hype with no human oversight; no revenue path | DipteraCAST ground-truth export; human-in-the-loop; open-core model | "Who pays for this, and how does it help our models?" |
+| **Alexander Nikolov** | Research Manager & Project Coordinator, SYNYO (Austria). European Studies and Economics; Business Informatics; product and IT project management, service platforms, dissemination. | SYNYO is an OAH partner and introduced OAH and the hackathon at IEEE events (its exact OAH work package isn't public) | Platform feasibility, maintenance, dissemination, clear adoption path | Vague "integration" claims | Adoption table (need, users, value, maintenance); how it sits beside the Citizen Science App | "Who maintains this after December 2026?" |
+| **Harm op den Akker** | Project Manager, SHINE 2Europe. PhD (Univ. Twente) on tailored mobile coaching for healthy living; human–computer interaction for personalised care; technical coordinator of the H2020 project *Council of Coaches*. | SHINE 2Europe is an OAH partner | Engagement design, feedback loops, personalisation, usability | Points-and-badges gimmicks; dead-end flows | Report card with reasons + "what would strengthen this"; status tracker; missions; recognition | "Why would someone report a second time?" |
+| **Ângela Freitas** | Project Manager / Researcher, SHINE 2Europe; Guest Assistant Professor, Univ. Coimbra. MSc GIS & spatial planning (Porto); PhD candidate on municipal health planning; urban health, health impact assessment, health equity, participatory research. | SHINE 2Europe is an OAH partner | GIS correctness; usefulness to municipalities; equity; participation | Maps that mislead; privacy leaks; ignoring under-served areas | River Health Brief for a municipality; ~100 m public locations; missions to under-observed reaches | "How does a municipality act on this, and fairly across neighbourhoods?" |
+| **Pradyumna Kodgi** | Product Manager, Oracle; Vice Chair, IEEE EMBS Orange County; Secretary, IEEE Orange County Computer Society (both co-organisers). Little else public. | Organiser side (IEEE OC) | Product clarity, a working demo, health-tech relevance | A demo that doesn't run; unclear user | 60-second end-to-end flow; clear two-portal product | "Who is the user, and what does v1 ship?" |
+| **David E. González** | IEEE Blockchain Technical Community Treasurer; SMIEEE; retired data scientist and technical project manager (NSWC Corona, US Navy); president of Imzadi Consulting; past chair of IEEE SusTech 2022; IEEE Planet Positive 2030; co-chair of IEEE-SA **P7800** (sustainability in professional practice). | IEEE Blockchain is a co-organiser | Honest tamper-evidence; data rigour; sustainability framing | "Blockchain" buzzwords without need | Signed record + live tamper check, and why a signature is enough | "Why not put it on a blockchain?" |
+| **Vinay Sharma** | Program Manager, Persistent Systems. *No further reliable public info found.* | n/a | Probably delivery and program feasibility | n/a | Build plan, tests, live URL | n/a |
+| **Sreekanth Reddy Panyam** | Senior Member, IEEE. *No further reliable public info found.* | n/a | Probably technical soundness | n/a | Architecture + tests | n/a |
+
+### 17.3 Additions to the plan from this research
+
+1. **Equity line in the brief (Freitas):** show reaches with few or no reports as "under-observed" and point missions there, so evidence doesn't only follow wealthy, well-walked areas.
+2. **Engagement loop (op den Akker):** keep "what would strengthen this" plus status changes as the reason to come back. No points or leaderboards; say why (incentive design, equal credit for all-clear).
+3. **Post-project maintenance (Nikolov, Feio):** answer the "after 31 Dec 2026" question explicitly. The add-on lives in the HL7 Europe guide; the hosted service is open-core.
+4. **Protocol respect (Feio):** the grade says "evidence quality", never "ecological status". Formal assessment stays with OAH field protocols. Link the CSSI paper as the future path for volunteer biotic scoring.
+5. **Blockchain question (González):** have a one-line answer ready (plan §15 Q12).
+6. **UiO's OAH page** states the aim to test "whether the observations can be used as indicators for early warning". StreamProof is the quality gate that makes that test possible. Quote this in the Impact section.
+
+Sources: Devpost judges list; CORDIS project 101086521; pages.uc.pt and mare-centre.pt (Feio); engagestandards.ieee.org bio (Nikolov); hl7news.hl7.org/?p=683 and sagroups.ieee.org/3228 (Datta); ictagrifood.eu and zsi.at (ENORA); oneaquahealth.eu DipteraCAST article; utwente.nl TechMed biography (op den Akker); cienciavitae.pt (Freitas); site.ieee.org/miami and sagroups.ieee.org/7800 (González); r6.ieee.org/ocs (IEEE OC EMBS); med.uio.no OAH page.

@@ -18,7 +18,7 @@
 "website": "Mrežna stranica StreamProof",
 "notSignedIn": "Niste prijavljeni",
 "language": "Jezik",
-"language.note": "Prijevodi su strojno potpomognuti, a provjeravaju ih izvorni govornici.",
+"language.note": "Prijevodi su strojno potpomognuti i izvorni govornici ih još nisu pregledali.",
 "state.offline": "Niste povezani",
 "state.notFound": "Nije pronađeno",
 "state.cantLoad": "Nije moguće učitati",

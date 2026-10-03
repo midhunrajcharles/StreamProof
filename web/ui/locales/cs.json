@@ -18,7 +18,7 @@
 "website": "Web StreamProof",
 "notSignedIn": "Nepřihlášeno",
 "language": "Jazyk",
-"language.note": "Překlady jsou strojově podporované a kontrolují je rodilí mluvčí.",
+"language.note": "Překlady jsou strojově asistované a zatím je nezkontrolovali rodilí mluvčí.",
 "state.offline": "Jste offline",
 "state.notFound": "Nenalezeno",
 "state.cantLoad": "Nepodařilo se načíst",

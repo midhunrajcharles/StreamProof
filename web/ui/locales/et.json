@@ -18,7 +18,7 @@
 "website": "StreamProofi veebileht",
 "notSignedIn": "Pole sisse logitud",
 "language": "Keel",
-"language.note": "Tõlked on masinaga abistatud ja emakeelsed kõnelejad vaatavad need üle.",
+"language.note": "Tõlked on tehtud masintõlke abil ja emakeelsed kõnelejad pole neid veel üle vaadanud.",
 "state.offline": "Oled võrguühenduseta",
 "state.notFound": "Ei leitud",
 "state.cantLoad": "Laadimine ebaõnnestus",

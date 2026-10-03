@@ -18,7 +18,7 @@
 "website": "StreamProof-website",
 "notSignedIn": "Niet aangemeld",
 "language": "Taal",
-"language.note": "Vertalingen met machinehulp, worden nagelezen door moedertaalsprekers.",
+"language.note": "De vertalingen zijn machinaal ondersteund en nog niet nagekeken door moedertaalsprekers.",
 "state.offline": "Je bent offline",
 "state.notFound": "Niet gevonden",
 "state.cantLoad": "Kon dit niet laden",

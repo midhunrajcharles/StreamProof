@@ -18,7 +18,7 @@
 "website": "Site de StreamProof",
 "notSignedIn": "Non connecté",
 "language": "Langue",
-"language.note": "Traductions assistées par machine, en cours de relecture par des locuteurs natifs.",
+"language.note": "Les traductions sont assistées par machine et pas encore relues par des locuteurs natifs.",
 "state.offline": "Vous êtes hors ligne",
 "state.notFound": "Introuvable",
 "state.cantLoad": "Chargement impossible",

@@ -18,7 +18,7 @@
 "website": "StreamProof-Website",
 "notSignedIn": "Nicht angemeldet",
 "language": "Sprache",
-"language.note": "Die Übersetzungen sind maschinell unterstützt und werden von Muttersprachlern geprüft.",
+"language.note": "Die Übersetzungen sind maschinell unterstützt und noch nicht von Muttersprachlern geprüft.",
 "state.offline": "Du bist offline",
 "state.notFound": "Nicht gefunden",
 "state.cantLoad": "Konnte nicht geladen werden",

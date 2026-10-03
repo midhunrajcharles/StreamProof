@@ -18,7 +18,7 @@
 "website": "StreamProof-nettstedet",
 "notSignedIn": "Ikke logget inn",
 "language": "Språk",
-"language.note": "Maskinassisterte oversettelser, under gjennomgang av morsmålsbrukere.",
+"language.note": "Oversettelsene er maskinassisterte og ennå ikke gjennomgått av morsmålsbrukere.",
 "state.offline": "Du er frakoblet",
 "state.notFound": "Ikke funnet",
 "state.cantLoad": "Kunne ikke laste dette",

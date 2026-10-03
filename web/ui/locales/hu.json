@@ -18,7 +18,7 @@
 "website": "A StreamProof webhelye",
 "notSignedIn": "Nincs bejelentkezve",
 "language": "Nyelv",
-"language.note": "A fordítások gépi segítséggel készültek, anyanyelvi beszélők ellenőrzik őket.",
+"language.note": "A fordítások gépi segítséggel készültek, anyanyelvi beszélők még nem ellenőrizték őket.",
 "state.offline": "Nincs kapcsolat",
 "state.notFound": "Nem található",
 "state.cantLoad": "Nem sikerült betölteni",

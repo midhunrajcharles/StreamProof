@@ -18,7 +18,7 @@
 "website": "StreamProofs webbplats",
 "notSignedIn": "Inte inloggad",
 "language": "Språk",
-"language.note": "Översättningarna är maskinstödda och granskas av modersmålstalare.",
+"language.note": "Översättningarna är maskinstödda och ännu inte granskade av modersmålstalare.",
 "state.offline": "Du är offline",
 "state.notFound": "Hittades inte",
 "state.cantLoad": "Kunde inte laddas",

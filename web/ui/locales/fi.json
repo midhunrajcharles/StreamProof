@@ -18,7 +18,7 @@
 "website": "StreamProofin verkkosivusto",
 "notSignedIn": "Ei kirjautunut",
 "language": "Kieli",
-"language.note": "Käännökset on tehty koneavusteisesti, ja äidinkieliset puhujat tarkistavat niitä.",
+"language.note": "Käännökset on tehty konekäännöksen avulla, eivätkä äidinkieliset puhujat ole vielä tarkistaneet niitä.",
 "state.offline": "Olet offline-tilassa",
 "state.notFound": "Ei löytynyt",
 "state.cantLoad": "Lataus epäonnistui",

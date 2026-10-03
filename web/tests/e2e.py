@@ -251,10 +251,16 @@ with sync_playwright() as p:
         for english in ("Photo is clear and well exposed", "Location confirmed", "earlier reports", "Why this grade", "Strong evidence", "Good evidence"):
             assert english not in body, f"untranslated: {english}"
         assert page.evaluate("document.documentElement.lang") == "pt"
-        page.goto(f"{BASE}/review", wait_until="networkidle")  # reviewer screens stay English
-        expect(page.get_by_role("heading", name="Review")).to_be_visible()
-        page.evaluate("localStorage.setItem('sp-lang', 'en')")
-    step("language switch to Português (reviewer screens stay English)", language)
+        try:
+            page.goto(f"{BASE}/review", wait_until="networkidle")  # organiser screens are translated too
+            expect(page.get_by_role("heading", name="Rever", exact=True)).to_be_visible()
+            body = page.locator("main").inner_text()
+            for english in ("Review queue", "Nothing is waiting for review", "Select a report"):
+                assert english not in body, f"untranslated on /review: {english}"
+        finally:  # later steps run in English
+            page.evaluate("localStorage.setItem('sp-lang', 'en')")
+            ctx.clear_cookies(name="sp-lang")
+    step("language switch to Português, citizen and organiser screens", language)
 
     citizen_email = f"e2e.citizen.{int(time.time())}@example.org"
 

@@ -21,7 +21,7 @@ const en: Dict = {
   "nav.long.report": "Report a stream", "nav.long.reports": "My reports", "nav.long.review": "Review queue", "nav.long.brief": "River Health Brief",
   "group.citizen": "Citizen", "group.org": "Organisation", "group.open": "Open data",
   "nav.sections": "Sections", "account": "Account", "signout": "Sign out", "signin": "Sign in", "website": "StreamProof website", "notSignedIn": "Not signed in",
-  "language": "Language", "language.note": "Translations are machine-assisted and being reviewed by native speakers.",
+  "language": "Language", "language.note": "Translations are machine-assisted and not yet reviewed by native speakers.",
   // states
   "state.offline": "You're offline", "state.notFound": "Not found", "state.cantLoad": "Couldn't load this", "state.tryAgain": "Try again",
   "state.offlineMsg": "You're offline. Check your connection and try again.",
@@ -349,7 +349,7 @@ function makeCtx(lang: Lang, d: Dict, setLang: (l: Lang) => void): Ctx {
   {
     const t = (key: string, vars?: Record<string, string | number>) => fmt(d[key] ?? en[key] ?? key, vars);
     const tx = (text: string, vars?: Record<string, string | number>) => fmt(d[text] ?? text, vars);
-    const sign = (code: string, fallback?: string) => d[`sign.${code}`] ?? fallback ?? code;
+    const sign = (code: string, fallback?: string) => d[`sign.${code}`] ?? fallback ?? en[`sign.${code}`] ?? code;
     const tr = (s: string | null | undefined): string => {
       if (!s) return "";
       if (lang === "en") return s;
@@ -388,7 +388,7 @@ function makeCtx(lang: Lang, d: Dict, setLang: (l: Lang) => void): Ctx {
       }
       return s;
     };
-    const rung = (v: string, fallback?: string) => d[`rung.${v}`] ?? fallback ?? v;
+    const rung = (v: string, fallback?: string) => d[`rung.${v}`] ?? fallback ?? en[`rung.${v}`] ?? v;
     return { lang, setLang, t, tx, tr, sign, rung };
   }
 }

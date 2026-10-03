@@ -26,6 +26,12 @@ Then the web app (landing page + installable PWA), which proxies `/api` to the s
 cd web && npm install && npx next dev -p 3200   # http://localhost:3200 (landing), /report, /review, /brief, /account ...
 ```
 
+**Try** on the landing page asks who you are. Citizens sign in, create an account or report without one, and land on their own dashboard (`/home`: stars, missions, recent reports). Organisations sign in or create one and land on the organiser dashboard (`/dashboard`: queue, signals, missions). One browser can hold both roles; each signs out separately.
+
+**Any city.** The five OneAquaHealth cities work offline. Any other city can be searched (Photon, then Nominatim): its named streams are fetched from OpenStreetMap and its last 45 days of rainfall from Open-Meteo, then cached in `var/`.
+
+**25 languages.** English plus the other 23 official EU languages and Norwegian, across the citizen screens, organiser screens and landing page. The language picker is in the app header and the landing page menu. `cd web && python tools/check_i18n.py` reports any missing strings or placeholder mismatches per language.
+
 The demo story (demo logins are in `app/seed.py`; in demo mode they also open without a password):
 
 1. As Maria (citizen), report *stagnant water + many mosquitoes* near the footbridge with a photo. The card shows grade A/B with seven reasons and links to an earlier school report (Community-supported).
@@ -33,7 +39,7 @@ The demo story (demo logins are in `app/seed.py`; in demo mode they also open wi
 3. **Verify** it. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
 4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected. Her **Account** page shows the stars she earned for checked reports.
 
-Tests: `python -m pytest` (54 tests: engine rules, the JSON API including the full story, accounts and sign-in). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
+Tests: `python -m pytest` (60 tests: engine rules, the JSON API including the full story, accounts and sign-in, city search with the network faked). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
 FHIR check: `python tools/validate_fhir.py` (downloads nothing itself; needs Java 11+ and the HL7 `validator_cli.jar` in `tools/`).
 
 ## How it works
@@ -106,6 +112,8 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
 - **Accounts are demo-grade.** Email + password accounts (scrypt hashes, in-memory rate limits); anyone can create an organisation, there is no email confirmation or password reset by email, and demo mode lets the demo accounts in without a password. A deployment would use the organisation's identity provider and would need proper GDPR advice.
+- **Machine-assisted translations.** The 24 non-English languages were written with machine assistance and have not yet been reviewed by native speakers; the app says so next to the language picker.
+- **Other cities depend on OpenStreetMap.** A city outside the five OAH cities gets only the streams OSM has mapped and named; if none are mapped, reports still work but the "on a stream" check can't score.
 - **Canonical URLs.** CodeSystem URLs use this repository's GitHub Pages base as identifiers. They don't resolve to a page yet; the definitions themselves are the JSON files in `fhir/definitions/`.
 
 ## Project layout
@@ -114,7 +122,7 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 app/              engine (grading, evidence, permitted_use, fhir, signing, brief, recognition), JSON API (api.py, accounts.py)
 data/             real stream geometry (OSM) and rainfall (Open-Meteo)
 fhir/             open CodeSystems/ValueSet, example Bundle, validator output
-tests/            54 tests: engine rules, the JSON API and the demo story, accounts
+tests/            60 tests: engine rules, the JSON API and the demo story, accounts, cities
 tools/            validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
 web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
 docs/             STREAMPROOF-WINNING-PLAN.md, screenshots/ (+ source/: concept files, not committed)
@@ -124,6 +132,6 @@ var/              runtime: demo database, signing key, photos (not committed)
 
 ## Data and licences
 
-- Stream geometry © OpenStreetMap contributors, ODbL.
+- Stream geometry © OpenStreetMap contributors, ODbL. City search by Photon (komoot) and Nominatim, both on OpenStreetMap data.
 - Weather data by Open-Meteo.com, CC BY 4.0.
 - Code: MIT (see `LICENSE`).

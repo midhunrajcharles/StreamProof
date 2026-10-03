@@ -18,7 +18,7 @@
 "website": "Spletno mesto StreamProof",
 "notSignedIn": "Niste prijavljeni",
 "language": "Jezik",
-"language.note": "Prevodi so strojno podprti, preverjajo pa jih naravni govorci.",
+"language.note": "Prevodi so strojno podprti in jih naravni govorci še niso pregledali.",
 "state.offline": "Niste povezani",
 "state.notFound": "Ni najdeno",
 "state.cantLoad": "Ni bilo mogoče naložiti",

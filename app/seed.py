@@ -26,11 +26,31 @@ DEMO_ACCOUNTS = [
 ]
 
 
+DEMO_ORG = {"id": "org-coimbra", "name": "Coimbra pilot (demo)", "city": "Coimbra",
+            "about": "Demo organisation for the Ribeira de Coselhas pilot. Reviewers verify citizen reports and publish the River Health Brief.",
+            "website": ""}
+DEMO_CITIZEN_EMAIL = os.environ.get("STREAMPROOF_DEMO_CITIZEN", "maria@coimbra-pilot.demo")
+
+
 def ensure_accounts(store: Store) -> None:
-    """Create the demo organisation accounts once; never overwrite changed passwords."""
+    """Create the demo organisation, its accounts and the demo citizen's account once.
+    Never overwrites changed passwords or profiles."""
+    if not store.org(DEMO_ORG["id"]):
+        store.save_org({**DEMO_ORG, "created": "2026-10-01T09:00:00"})
     for a in DEMO_ACCOUNTS:
         if not store.user(a["email"]):
-            store.save_user(auth.new_user(a["email"], a["name"], a["role"], a["password"], a["id"]))
+            store.save_user(auth.new_user(a["email"], a["name"], a["role"], a["password"], a["id"], DEMO_ORG["id"]))
+    for u in store.users():  # accounts made before organisations existed belong to the Coimbra pilot
+        if not u.get("org_id"):
+            store.save_user({**u, "org_id": DEMO_ORG["id"]})
+    pseudonym, display = DEMO_CITIZEN
+    if not store.citizen_account(pseudonym):
+        store.save_citizen_account({"pseudonym": pseudonym, "email": DEMO_CITIZEN_EMAIL, "pw_hash": auth.hash_password(DEMO_ACCOUNTS[0]["password"]),
+                                    "bio": "Walks the Coselhas path most evenings.", "city": "Coimbra", "avatar": "water",
+                                    "created": "2026-10-01T09:00:00"})
+        store.upsert_observer(pseudonym, display)
+    if not store.consent(pseudonym):  # the demo citizen already reports, so she has agreed
+        store.save_consent(pseudonym, auth.CONSENT_VERSION, "2026-10-01T09:00:00")
 
 OBSERVERS = [
     DEMO_CITIZEN,
@@ -74,6 +94,12 @@ def run(store: Store | None = None) -> Store:
     for i, km in enumerate((0.4, 0.7, 1.0)):
         r = add("obs-7f3a", ["litter"], km, 13 - i)
         service.verify(store, r.id, DEMO_EXPERT, "remote", "Litter visible in photo.")
+
+    # Maria, the demo citizen: two checked reports, so her account shows stars and badges.
+    m1 = add(DEMO_CITIZEN[0], ["litter"], 1.8, 9, hours=18, desc="Plastic bags caught on the bank below the path.")
+    service.verify(store, m1.id, DEMO_EXPERT, "remote", "Litter visible in photo. Thanks, passed to the clean-up team.")
+    m2 = add(DEMO_CITIZEN[0], ["all-clear"], 3.1, 6, hours=19, desc="Flowing and clear after the weekend rain.")
+    service.verify(store, m2.id, DEMO_EXPERT, "field", "Checked on the field visit: flowing and clear.")
 
     # The upstream hotspot (~2.6 km above the mouth): ponded water and mosquitoes during the dry spell.
     a = add("obs-7f3a", ["stagnant-water", "mosquitoes"], 2.62, 5, desc="Side pool, water not moving, lots of mosquitoes at dusk.")

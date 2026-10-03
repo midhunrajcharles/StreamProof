@@ -33,9 +33,11 @@ if not store.all():
     seed.run(store)
 seed.ensure_accounts(store)
 
+from .accounts import router as accounts_router  # noqa: E402
 from .api import router as api_router  # noqa: E402  (the API reads the store above)
 
 app.include_router(api_router)
+app.include_router(accounts_router)
 
 
 def ctx(request: Request, **kw) -> dict:

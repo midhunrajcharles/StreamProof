@@ -243,6 +243,71 @@ with sync_playwright() as p:
         page.evaluate("localStorage.setItem('sp-lang', 'en')")
     step("language switch to Português (reviewer screens stay English)", language)
 
+    citizen_email = f"e2e.citizen.{int(time.time())}@example.org"
+
+    def citizen_signup():
+        page.goto(f"{BASE}/account", wait_until="networkidle")
+        expect(page.get_by_text("Reporting without an account")).to_be_visible()
+        page.get_by_role("link", name="Create account").first.click()
+        page.wait_for_url(re.compile(r"/sign-up"))
+        expect(page.get_by_text("Your reports on this device will move into the new account.")).to_be_visible()
+        page.get_by_label("Email").fill(citizen_email)
+        page.get_by_label("Password").fill("a-long-citizen-password")
+        submit_btn = page.get_by_role("button", name="Create account")
+        expect(submit_btn).to_be_disabled()  # needs the agreement
+        page.get_by_label("I agree to how my reports are used.").check()
+        submit_btn.click()
+        page.wait_for_url(f"{BASE}/account")
+        expect(page.locator(".toast-region")).to_contain_text("Your reports are kept")
+        expect(page.get_by_text(citizen_email)).to_be_visible()
+        expect(page.get_by_role("heading", name="(Stars)").first).to_be_visible()
+        expect(page.get_by_text("How you earned them").first).to_be_visible()
+    step("citizen signs up and keeps the reports made without an account", citizen_signup)
+
+    def edit_profile():
+        page.get_by_role("button", name="Edit profile").first.click()
+        dlg = page.get_by_role("dialog")
+        dlg.get_by_label("Bio").fill("Walks the Coselhas path at weekends.")
+        dlg.get_by_role("radio", name="moss").click()
+        dlg.get_by_role("radio", name="Benevento").click()
+        dlg.get_by_role("button", name="Save").click()
+        expect(page.locator(".toast-region")).to_contain_text("Profile saved")
+        expect(page.locator(".profile-bio").first).to_have_text("Walks the Coselhas path at weekends.")
+        expect(page.locator(".profile-card").first).to_contain_text("Benevento")
+    step("citizen edits name, bio, city and colour", edit_profile)
+
+    def separate_signout():
+        assert ctx.request.get(f"{BASE}/api/session").json()["org"], "expected the reviewer session from earlier steps"
+        page.get_by_role("button", name="Sign out as citizen").click()
+        page.get_by_role("dialog").get_by_role("button", name="Sign out", exact=True).click()
+        expect(page.get_by_role("heading", name="(Organisation account)")).to_be_visible()
+        s = ctx.request.get(f"{BASE}/api/session").json()
+        assert s["citizen"] is None and s["org"], f"sign-out wasn't per role: {s}"
+        page.goto(f"{BASE}/sign-in?next=/account")
+        page.get_by_label("Email").fill(citizen_email)
+        page.get_by_label("Password").fill("a-long-citizen-password")
+        page.get_by_role("button", name="Sign in", exact=True).click()
+        page.wait_for_url(f"{BASE}/account")
+        expect(page.locator(".profile-bio").first).to_have_text("Walks the Coselhas path at weekends.")
+    step("citizen and organisation sign out separately; citizen signs back in", separate_signout)
+
+    def org_signup():
+        op = b.new_context(viewport={"width": 1280, "height": 860}).new_page()
+        op.goto(f"{BASE}/sign-up?role=org")
+        op.get_by_label("Organisation name").fill("Ghent water lab (e2e)")
+        op.get_by_role("radio", name="Ghent").click()
+        op.get_by_label("Your name").fill("Lien V.")
+        op.get_by_label("Work email").fill(f"e2e.org.{int(time.time())}@example.org")
+        op.get_by_label("Password").fill("a-long-org-password")
+        op.get_by_role("button", name="Create organisation").click()
+        op.wait_for_url(f"{BASE}/account")
+        card = op.locator(".profile-card").first
+        expect(card).to_contain_text("Lien V.")
+        expect(card).to_contain_text("Ghent water lab (e2e) · Ghent")
+        expect(op.get_by_text("Your team sees reports, missions and the brief for Ghent only.")).to_be_visible()
+        expect(op.get_by_role("heading", name="(Team)")).to_be_visible()
+    step("organisation sign-up creates a Ghent organisation with you as admin", org_signup)
+
     print("console errors:", [e for e in errors if "favicon" not in e][:5])
     b.close()
 print("ALL PASS" if ok else "SOME FAILED")

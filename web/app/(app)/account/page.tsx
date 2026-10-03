@@ -1,67 +1,97 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { api, ApiError, useApi, type Member } from "@/ui/api";
+import { api, ApiError, when, useApi, type CitizenProfile, type Member, type OrgProfile } from "@/ui/api";
+import { EnglishOnly, localeOf, useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
-import { Empty, Page, Row, Section, Segmented, Sheet, useApp } from "@/ui/kit";
+import { Callout, Empty, Gate, Page, Row, Section, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
+import { Avatar, ChangePassword, EditProfile, ProfileCard, SignOut, Stars } from "@/ui/profile";
 
-function ChangePassword() {
-  const { toast } = useApp();
-  const [open, setOpen] = useState(false);
-  const [current, setCurrent] = useState("");
-  const [next, setNext] = useState("");
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+const DAY: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
+
+// ---------------------------------------------------------------- citizen
+
+function CitizenAccount() {
+  const { t, lang } = useI18n();
+  const { refreshSession } = useApp();
+  const q = useApi<CitizenProfile>("/citizen/profile");
+  const [edit, setEdit] = useState(false);
   return (
-    <>
-      <Row onClick={() => setOpen(true)} lead={<I.Shield className="status-ic info" />} title="Change password" />
-      <Sheet open={open} onClose={() => setOpen(false)} title="Change password">
-        <form className="stack" onSubmit={async (e) => {
-          e.preventDefault();
-          setBusy(true);
-          setError("");
-          try {
-            await api("/auth/password", { form: { current, new: next } });
-            toast("Password changed");
-            setOpen(false); setCurrent(""); setNext("");
-          } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
-        }}>
-          <input type="text" autoComplete="username" hidden readOnly />
-          <div className="field"><label className="field-label" htmlFor="pw-cur">Current password</label>
-            <input id="pw-cur" className="input" type="password" autoComplete="current-password" required value={current} onChange={(e) => setCurrent(e.target.value)} /></div>
-          <div className="field"><label className="field-label" htmlFor="pw-new">New password</label>
-            <input id="pw-new" className="input" type="password" autoComplete="new-password" minLength={10} required value={next} onChange={(e) => setNext(e.target.value)} aria-describedby="pw-help" />
-            <p id="pw-help" className="field-help">At least 10 characters.</p></div>
-          {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-          <button className="btn btn-prominent btn-large btn-block" disabled={busy || next.length < 10}>{busy ? <I.Spinner /> : null} Change password</button>
-        </form>
-      </Sheet>
-    </>
+    <Gate q={q} skeleton={<Skeleton n={2} h={120} />}>
+      {(p) => (
+        <>
+          <Section title={t("group.citizen")} foot={t("acc.foot")}>
+            <ProfileCard name={p.display} colour={p.avatar} bio={p.bio} stars={p.recognition.stars} onEdit={() => setEdit(true)}
+              lines={[
+                <>{t("acc.pseudonym")} <span className="mono">{p.pseudonym}</span>{p.demo ? ` · ${t("acc.demo")}` : ""}</>,
+                p.city ? <span className="org-pill"><I.Pin width={14} height={14} /> {p.city}</span> : null,
+                p.member_since ? t("acc.since", { d: when(p.member_since, DAY, localeOf(lang)) }) : null,
+              ]} />
+            {!p.has_account && !p.demo ? (
+              <div style={{ marginTop: 12 }}>
+                <Callout kind="info" title={t("acc.anonTitle")}>
+                  <p style={{ margin: "0 0 10px" }}>{t("acc.anonBody")}</p>
+                  <Link className="btn btn-sm btn-prominent" href="/sign-up?next=/account"><I.Person /> {t("signup")}</Link>
+                </Callout>
+              </div>
+            ) : null}
+          </Section>
+
+          <Section title={t("rec.title")}><Stars rec={p.recognition} kind="citizen" /></Section>
+
+          <Section title={t("acc.security")}>
+            <div className="group">
+              {p.email ? <Row lead={<I.Person className="status-ic info" />} title={p.email} sub={t("si.email")} chevron={false} /> : null}
+              {p.has_account ? <ChangePassword path="/citizen/password" /> : null}
+              <Row lead={p.consent ? <I.CheckCircle className="status-ic ok" /> : <I.Info className="status-ic info" />}
+                title={p.consent ? t("acc.consentYes") : t("acc.consentNo")} chevron={false} />
+              <Row href="/reports" lead={<I.Reports className="status-ic info" />} title={t("acc.myReports")} />
+              <SignOut role="citizen" />
+            </div>
+          </Section>
+
+          <EditProfile open={edit} onClose={() => setEdit(false)} fields={{ bio: p.has_account, city: p.has_account }}
+            initial={{ name: p.display, bio: p.bio, city: p.city, avatar: p.avatar }}
+            save={async (v) => {
+              q.setData(await api<CitizenProfile>("/citizen/profile", { form: { display: v.name, bio: v.bio, city: v.city ?? "", avatar: v.avatar } }));
+              await refreshSession();
+            }} />
+        </>
+      )}
+    </Gate>
   );
 }
 
-function CitizenSignOut({ demo }: { demo: boolean }) {
-  const { refreshSession, toast } = useApp();
-  const [open, setOpen] = useState(false);
+// ---------------------------------------------------------------- organisation (English, like the reviewer screens)
+
+function EditOrganisation({ open, onClose, org, onSaved }: { open: boolean; onClose: () => void; org: OrgProfile["organisation"]; onSaved: (p: OrgProfile) => void }) {
+  const { toast } = useApp();
+  const [v, setV] = useState({ name: org.name, about: org.about ?? "", website: org.website ?? "" });
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
   return (
-    <>
-      <button type="button" className="row" onClick={() => setOpen(true)} style={{ color: "var(--bad)" }}>
-        <div className="row-body"><span className="row-title">Sign out as citizen</span></div>
-      </button>
-      <Sheet open={open} onClose={() => setOpen(false)} title="Sign out">
-        <div className="stack">
-          <p>{demo ? "You can come back to the demo citizen at any time."
-            : "Your pseudonym has no password, so after signing out this device can't open your reports again. Your reports stay in the record."}</p>
-          <button className="btn btn-block btn-prominent btn-destructive" onClick={async () => {
-            await api("/citizen/logout", { method: "POST" });
-            await refreshSession();
-            setOpen(false);
-            toast("Signed out", "info");
-          }}>Sign out</button>
-          <button className="btn btn-block" onClick={() => setOpen(false)}>Stay signed in</button>
-        </div>
-      </Sheet>
-    </>
+    <Sheet open={open} onClose={onClose} title="Edit organisation">
+      <form className="stack" onSubmit={async (e) => {
+        e.preventDefault();
+        setBusy(true);
+        setError("");
+        try {
+          onSaved(await api<OrgProfile>("/org/organisation", { form: v }));
+          toast("Organisation saved");
+          onClose();
+        } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+      }}>
+        <div className="field"><label className="field-label" htmlFor="og-name">Name</label>
+          <input id="og-name" className="input" required maxLength={80} value={v.name} onChange={(e) => setV({ ...v, name: e.target.value })} /></div>
+        <div className="field"><label className="field-label" htmlFor="og-about">About</label>
+          <textarea id="og-about" className="textarea" maxLength={500} value={v.about} onChange={(e) => setV({ ...v, about: e.target.value })} placeholder="What your organisation does with the evidence" /></div>
+        <div className="field"><label className="field-label" htmlFor="og-web">Website</label>
+          <input id="og-web" className="input" type="url" inputMode="url" placeholder="https://" value={v.website} onChange={(e) => setV({ ...v, website: e.target.value })} /></div>
+        <p className="field-help">The city ({org.city}) decides which reports your team sees, so it can&apos;t be changed here.</p>
+        {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : null} Save</button>
+      </form>
+    </Sheet>
   );
 }
 
@@ -75,15 +105,15 @@ function Team({ me }: { me: string }) {
   const members = q.data?.members ?? [];
   return (
     <Section title="Team" trail={<button className="btn btn-sm" onClick={() => setOpen(true)}><I.Plus /> Add</button>}
-      foot="Reviewers verify reports and read the brief. Admins also manage the team. A deactivated account loses access straight away.">
+      foot="Reviewers verify reports and read the brief. Admins also manage the team and the organisation profile. A deactivated account loses access straight away.">
       {members.length ? (
         <div className="group">
           {members.map((m) => (
-            <div key={m.email} className="row has-lead">
-              <div className="row-lead"><I.Person className={`status-ic ${m.active ? "info" : "fail"}`} /></div>
+            <div key={m.email} className="row has-lead" style={m.active ? undefined : { opacity: 0.6 }}>
+              <div className="row-lead"><Avatar name={m.name} colour={m.avatar} size={36} /></div>
               <div className="row-body">
                 <span className="row-title">{m.name}{m.email === me ? " (you)" : ""}</span>
-                <span className="row-sub">{m.email} · {m.role === "admin" ? "Admin" : "Reviewer"}{m.active ? "" : " · deactivated"}</span>
+                <span className="row-sub">{m.title ? `${m.title} · ` : ""}{m.role === "admin" ? "Admin" : "Reviewer"} · {m.email}{m.active ? "" : " · deactivated"}</span>
               </div>
               {m.email !== me ? (
                 <button className={`btn btn-sm${m.active ? " btn-destructive" : ""}`} onClick={async () => {
@@ -105,7 +135,7 @@ function Team({ me }: { me: string }) {
           setBusy(true);
           setError("");
           try {
-            const m = await api<Member>("/org/team", { form: form });
+            const m = await api<Member>("/org/team", { form });
             toast(`${m.name} can now sign in`);
             setOpen(false);
             setForm({ name: "", email: "", role: "reviewer", password: "" });
@@ -130,50 +160,108 @@ function Team({ me }: { me: string }) {
   );
 }
 
-export default function AccountPage() {
-  const { session, refreshSession, toast } = useApp();
-  if (!session) return <Page title="Account"><div className="skeleton" style={{ height: 120 }} /></Page>;
-  const { org, citizen } = session;
-  const signOutOrg = async () => { await api("/auth/logout", { method: "POST" }); await refreshSession(); toast("Signed out", "info"); };
+function OrgAccount() {
+  const { refreshSession } = useApp();
+  const q = useApi<OrgProfile>("/org/profile");
+  const [edit, setEdit] = useState(false);
+  const [editOrg, setEditOrg] = useState(false);
   return (
-    <Page title="Account" eyebrow="StreamProof">
+    <Gate q={q} skeleton={<Skeleton n={2} h={120} />}>
+      {(p) => {
+        const o = p.organisation;
+        const admin = p.role === "admin";
+        return (
+          <>
+            <Section title="Organisation account">
+              <ProfileCard name={p.name} colour={p.avatar} bio={p.bio} stars={p.recognition.stars} onEdit={() => setEdit(true)}
+                lines={[
+                  `${p.title ? `${p.title} · ` : ""}${admin ? "Admin" : "Reviewer"}`,
+                  <span key="o" className="org-pill"><I.Building width={14} height={14} /> {o.name} · {o.city}</span>,
+                  p.member_since ? `Member since ${when(p.member_since, DAY, "en")}` : null,
+                ]} />
+            </Section>
+
+            <Section title="Reviewer stars"><Stars rec={p.recognition} kind="reviewer" /></Section>
+
+            <Section title="Your organisation" trail={admin ? <button className="btn btn-sm" onClick={() => setEditOrg(true)}><I.Pencil /> Edit</button> : null}
+              foot={`Your team sees reports, missions and the brief for ${o.city} only.`}>
+              <div className="group">
+                <Row lead={<I.Building className="status-ic info" />} title={o.name} sub={o.city} chevron={false} />
+                {o.about ? <div className="row"><div className="row-body"><span className="row-sub" style={{ whiteSpace: "pre-line" }}>{o.about}</span></div></div> : null}
+                {o.website ? (
+                  <a className="row has-lead" href={o.website} target="_blank" rel="noopener noreferrer">
+                    <div className="row-lead"><I.External className="status-ic info" /></div>
+                    <div className="row-body"><span className="row-title" style={{ overflowWrap: "anywhere" }}>{o.website.replace(/^https?:\/\//, "")}</span></div>
+                  </a>
+                ) : null}
+              </div>
+            </Section>
+
+            <Section title="Organisation sign-in and security">
+              <div className="group">
+                <Row lead={<I.Person className="status-ic info" />} title={p.email} sub="Email" chevron={false} />
+                <ChangePassword path="/auth/password" />
+                <SignOut role="org" />
+              </div>
+            </Section>
+
+            {admin ? <Team me={p.email} /> : null}
+
+            <EditProfile open={edit} onClose={() => setEdit(false)} fields={{ title: true, bio: true }}
+              initial={{ name: p.name, title: p.title, bio: p.bio ?? "", avatar: p.avatar ?? "ink" }}
+              save={async (v) => {
+                q.setData(await api<OrgProfile>("/org/profile", { form: { name: v.name, title: v.title ?? "", bio: v.bio, avatar: v.avatar } }));
+                await refreshSession();
+              }} />
+            {admin ? <EditOrganisation open={editOrg} onClose={() => setEditOrg(false)} org={o}
+              onSaved={async (next) => { q.setData(next); await refreshSession(); }} /> : null}
+          </>
+        );
+      }}
+    </Gate>
+  );
+}
+
+// ---------------------------------------------------------------- page
+
+export default function AccountPage() {
+  const { session } = useApp();
+  const { t } = useI18n();
+  if (!session) return <Page title={t("account")}><Skeleton n={2} h={120} /></Page>;
+  const { org, citizen } = session;
+  return (
+    <Page title={t("account")} eyebrow="StreamProof">
       {!org && !citizen ? (
-        <div className="card"><Empty icon={<I.Person />} title="You're not signed in" action={<Link className="btn btn-prominent" href="/sign-in">Sign in</Link>}>
-          Citizens report without an account. Reviewers sign in with their organisation account.
+        <div className="card"><Empty icon={<I.Person />} title={t("acc.outTitle")}
+          action={<div className="hstack" style={{ justifyContent: "center" }}>
+            <Link className="btn btn-prominent" href="/sign-in">{t("signin")}</Link>
+            <Link className="btn" href="/sign-up">{t("signup")}</Link>
+          </div>}>
+          {t("acc.outBody")}
         </Empty></div>
       ) : null}
 
-      {org ? (
-        <>
-          <Section title="Organisation">
-            <div className="group">
-              <Row lead={<I.Shield className="status-ic info" />} title={org.name} sub={`${org.email} · ${org.role === "admin" ? "Admin" : "Reviewer"}`} chevron={false} />
-              <ChangePassword />
-              <button type="button" className="row" onClick={signOutOrg} style={{ color: "var(--bad)" }}>
-                <div className="row-body"><span className="row-title">Sign out of the organisation account</span></div>
-              </button>
-            </div>
-          </Section>
-          {org.role === "admin" ? <Team me={org.email} /> : null}
-        </>
-      ) : (
-        <Section title="Organisation"><div className="group"><Row href="/sign-in?role=org&next=/account" lead={<I.Shield className="status-ic info" />} title="Sign in as a reviewer or coordinator" /></div></Section>
-      )}
+      {citizen ? <CitizenAccount key={citizen.id} /> : null}
+      {org ? <EnglishOnly><OrgAccount key={org.id} /></EnglishOnly> : null}
 
-      {citizen ? (
-        <Section title="Citizen" foot="You report under a pseudonym. Your name and contact details are never part of the evidence or its signature.">
+      {(org || citizen) && !(org && citizen) ? (
+        <Section title={org ? t("group.citizen") : t("group.org")}>
           <div className="group">
-            <Row lead={<I.Camera className="status-ic info" />} title={citizen.name} sub={<>Pseudonym <span className="mono">{citizen.id}</span>{citizen.demo ? " · demo citizen" : ""}</>} chevron={false} />
-            <Row lead={session.consented ? <I.CheckCircle className="status-ic ok" /> : <I.Info className="status-ic info" />}
-              title={session.consented ? "You agreed to how reports are used" : "You'll be asked to agree before your first report"} chevron={false} />
-            <Row href="/reports" lead={<I.Reports className="status-ic info" />} title="My reports and personal data" />
-            <CitizenSignOut demo={Boolean(citizen.demo)} />
+            {org ? (
+              <>
+                <Row href="/sign-in?next=/account" lead={<I.Camera className="status-ic info" />} title={t("acc.citizenStart")} />
+                <Row href="/sign-up?next=/account" lead={<I.Person className="status-ic info" />} title={t("signup")} />
+              </>
+            ) : (
+              <EnglishOnly>
+                <Row href="/sign-in?role=org&next=/account" lead={<I.Shield className="status-ic info" />} title="Sign in as a reviewer or coordinator" />
+                <Row href="/sign-up?role=org&next=/account" lead={<I.Building className="status-ic info" />} title="Create an organisation account" />
+              </EnglishOnly>
+            )}
           </div>
         </Section>
-      ) : (
-        <Section title="Citizen"><div className="group"><Row href="/sign-in?next=/report" lead={<I.Camera className="status-ic info" />} title="Start reporting (no account needed)" /></div></Section>
-      )}
-      {session.demo ? <p className="secondary t-foot">Demo mode is on: demo accounts can be used without a password.</p> : null}
+      ) : null}
+      {session.demo ? <p className="secondary t-foot">Demo mode is on: the demo accounts can also be opened without a password.</p> : null}
     </Page>
   );
 }

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
 import { api, ApiError, type Reason, type Rung, type Session } from "./api";
+import { Avatar } from "./avatar";
 import { LANGS, useI18n } from "./i18n";
 import * as I from "./icons";
 
@@ -48,7 +49,13 @@ type PageProps = {
 
 function AccountButton() {
   const { t } = useI18n();
-  return <Link href="/account" className="btn btn-sm btn-icon account-btn" aria-label={t("account")}><I.Person /></Link>;
+  const { session } = useApp();
+  const who = session?.citizen ?? session?.org;
+  return (
+    <Link href="/account" className="btn btn-sm btn-icon account-btn" aria-label={who ? `${t("account")}: ${who.name}` : t("account")}>
+      {who ? <Avatar name={who.name} colour={who.avatar} size={28} /> : <I.Person />}
+    </Link>
+  );
 }
 
 /** Language picker: six languages for everything a citizen sees. */
@@ -200,6 +207,7 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
         </div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
         <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "login" ? <I.Spinner /> : null} Sign in</button>
+        <p className="auth-links secondary">New pilot or partner? <Link href="/sign-up?role=org">Create an organisation account</Link></p>
       </div>
       {session?.demo ? (
         <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
@@ -260,8 +268,59 @@ export function CitizenStart({ onDone }: { onDone: () => void }) {
   );
 }
 
+/** Citizen sign-in with an account (email + password). */
+export function CitizenLogin({ onDone }: { onDone: () => void }) {
+  const { refreshSession } = useApp();
+  const { t } = useI18n();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  return (
+    <form className="card stack-l" style={{ padding: 24 }} onSubmit={async (e) => {
+      e.preventDefault();
+      setError("");
+      setBusy(true);
+      try { await api("/citizen/login", { form: { email, password } }); await refreshSession(); onDone(); }
+      catch (err) { setError((err as ApiError).message); }
+      finally { setBusy(false); }
+    }}>
+      <div className="stack" style={{ gap: 6 }}>
+        <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Person /></span>
+        <h2 className="t-title2">{t("si.citizen.title")}</h2>
+        <p className="secondary">{t("si.citizen.body")}</p>
+      </div>
+      <div className="stack">
+        <div className="field">
+          <label className="field-label" htmlFor="cz-email">{t("si.email")}</label>
+          <input id="cz-email" className="input" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="cz-pw">{t("si.password")}</label>
+          <input id="cz-pw" className="input" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : null} {t("signin")}</button>
+        <p className="auth-links secondary">{t("si.noAccount")} <Link href="/sign-up">{t("signup")}</Link></p>
+      </div>
+    </form>
+  );
+}
+
+/** Everything a citizen can do to start: sign in, or report without an account (or the demo citizen). */
+export function CitizenSignIn({ onDone }: { onDone: () => void }) {
+  const { t } = useI18n();
+  return (
+    <div className="stack-l">
+      <CitizenLogin onDone={onDone} />
+      <p className="auth-divider">{t("si.orAnon")}</p>
+      <CitizenStart onDone={onDone} />
+    </div>
+  );
+}
+
 export function SignIn({ role, onDone }: { role: "citizen" | "org"; onDone: () => void }) {
-  return role === "org" ? <OrgSignIn onDone={onDone} /> : <CitizenStart onDone={onDone} />;
+  return role === "org" ? <OrgSignIn onDone={onDone} /> : <CitizenSignIn onDone={onDone} />;
 }
 
 /** Render loading / sign-in / error for a useApi() result, or the children when data is ready. */

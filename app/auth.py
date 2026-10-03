@@ -42,22 +42,38 @@ def check_password(password: str, stored: str) -> bool:
         return False
 
 
-def new_user(email: str, name: str, role: str, password: str, user_id: str | None = None) -> dict:
+AVATARS = ("water", "moss", "sand", "stone", "dusk", "ink")
+CITIES = ("Coimbra", "Benevento", "Ghent", "Oslo", "Toulouse")
+BIO_MAX = 280
+
+
+def check_email(email: str) -> str:
     email = email.strip().lower()
-    if "@" not in email or len(email) > 200:
+    if "@" not in email or "." not in email.split("@")[-1] or len(email) > 200:
         raise ValueError("Enter a valid email address.")
-    if role not in ROLES:
-        raise ValueError("Role must be reviewer or admin.")
+    return email
+
+
+def check_password_rules(password: str) -> None:
     if len(password) < MIN_PASSWORD:
         raise ValueError(f"Passwords need at least {MIN_PASSWORD} characters.")
+
+
+def new_user(email: str, name: str, role: str, password: str, user_id: str | None = None, org_id: str | None = None) -> dict:
+    email = check_email(email)
+    if role not in ROLES:
+        raise ValueError("Role must be reviewer or admin.")
+    check_password_rules(password)
     if not name.strip():
         raise ValueError("Enter a name.")
     return {"email": email, "id": user_id or f"exp-{secrets.token_hex(3)}", "name": name.strip()[:80], "role": role,
-            "pw_hash": hash_password(password), "active": 1, "created": now().isoformat(timespec="seconds")}
+            "pw_hash": hash_password(password), "active": 1, "created": now().isoformat(timespec="seconds"),
+            "org_id": org_id, "title": "", "bio": "", "avatar": AVATARS[len(email) % len(AVATARS)]}
 
 
 def public_user(u: dict) -> dict:
-    return {"id": u["id"], "email": u["email"], "name": u["name"], "role": u["role"], "active": bool(u["active"])}
+    return {"id": u["id"], "email": u["email"], "name": u["name"], "role": u["role"], "active": bool(u["active"]),
+            "title": u.get("title") or "", "bio": u.get("bio") or "", "avatar": u.get("avatar") or "ink"}
 
 
 def new_pseudonym() -> str:

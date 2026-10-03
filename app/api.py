@@ -59,7 +59,36 @@ def admin(request: Request) -> dict:
 
 
 def _org_session(request: Request, acct: dict) -> None:
-    request.session["org"] = {"id": acct["id"], "name": acct["name"], "email": acct["email"], "role": acct["role"]}
+    org = _store().org(acct.get("org_id") or "") or {}
+    request.session["org"] = {"id": acct["id"], "name": acct["name"], "email": acct["email"], "role": acct["role"],
+                              "org_id": org.get("id"), "org_name": org.get("name"), "city": org.get("city"),
+                              "avatar": acct.get("avatar") or "ink"}
+
+
+def _citizen_session(request: Request, pseudonym: str, demo: bool = False) -> None:
+    store = _store()
+    acct = store.citizen_account(pseudonym)
+    request.session["citizen"] = {"id": pseudonym, "name": store.observer_display(pseudonym), "demo": demo,
+                                  "account": bool(acct), "avatar": (acct or {}).get("avatar") or "water"}
+
+
+# ---------------- organisation scope: a pilot sees its own city's reports ----------------
+
+def report_city(lat: float, lon: float) -> str | None:
+    s = geo.snap(lat, lon)
+    return s.stream.city if s and s.distance_m <= 5000 else None
+
+
+def in_scope(request: Request, lat: float, lon: float) -> bool:
+    city = (request.session.get("org") or {}).get("city")
+    return city is None or report_city(lat, lon) == city
+
+
+def scoped(request: Request, rid: str) -> Report:
+    r = _store().get(rid)
+    if r is None or not in_scope(request, r.lat, r.lon):
+        raise HTTPException(404, "No such report.")
+    return r
 
 
 @router.get("/session")
@@ -75,7 +104,7 @@ def session_start(request: Request, role: str = Form(...)):
     if not config.DEMO_MODE:
         raise HTTPException(403, "Demo sign-in is switched off. Sign in with your account.")
     if role == "citizen":
-        request.session["citizen"] = {"id": seed.DEMO_CITIZEN[0], "name": seed.DEMO_CITIZEN[1], "demo": True}
+        _citizen_session(request, seed.DEMO_CITIZEN[0], demo=True)
     elif role == "org":
         _org_session(request, _store().user(seed.DEMO_ACCOUNTS[0]["email"]))
     else:
@@ -98,7 +127,7 @@ def citizen_start(request: Request, display: str = Form("")):
     pseudonym = auth.new_pseudonym()
     name = display.strip()[:40] or "Citizen"
     _store().upsert_observer(pseudonym, name)
-    request.session["citizen"] = {"id": pseudonym, "name": name}
+    _citizen_session(request, pseudonym)
     return session_get(request)
 
 
@@ -154,19 +183,19 @@ def change_password(request: Request, current: str = Form(...), new: str = Form(
 
 @router.get("/org/team")
 def team(request: Request):
-    admin(request)
-    return {"members": [auth.public_user(u) for u in _store().users()]}
+    me = admin(request)
+    return {"members": [auth.public_user(u) for u in _store().users(me.get("org_id"))]}
 
 
 @router.post("/org/team")
 def add_member(request: Request, email: str = Form(...), name: str = Form(...), role_: str = Form("reviewer", alias="role"),
                password: str = Form(...)):
-    admin(request)
+    me = admin(request)
     store = _store()
     if store.user(email):
         raise HTTPException(409, "There is already an account with that email.")
     try:
-        u = auth.new_user(email, name, role_, password)
+        u = auth.new_user(email, name, role_, password, org_id=me.get("org_id"))
     except ValueError as e:
         raise HTTPException(400, str(e))
     store.save_user(u)
@@ -178,7 +207,7 @@ def set_active(request: Request, email: str, active: str = Form(...)):
     me = admin(request)
     store = _store()
     u = store.user(email)
-    if not u:
+    if not u or u.get("org_id") != me.get("org_id"):
         raise HTTPException(404, "No such account.")
     if u["email"] == me.get("email") and active != "1":
         raise HTTPException(400, "You can't deactivate your own account.")
@@ -315,7 +344,7 @@ def _own(request: Request, rid: str) -> tuple[Report, bool]:
     r = store.get(rid)
     if r is None:
         raise HTTPException(404, "No such report.")
-    if request.session.get("org"):
+    if request.session.get("org") and in_scope(request, r.lat, r.lon):
         return r, True
     u = role(request, "citizen")
     if r.observer != u["id"]:
@@ -377,6 +406,7 @@ def mission(request: Request, mid: str):
 def forget(request: Request):
     u = role(request, "citizen")
     n = service.forget(_store(), u["id"])
+    _store().delete_citizen_account(u["id"])
     request.session.pop("citizen", None)
     return {"removed_from": n}
 
@@ -401,13 +431,13 @@ def _priority(r: Report) -> tuple:
 def queue(request: Request):
     role(request, "org")
     store = _store()
-    reports = store.all()
+    reports = [r for r in store.all() if in_scope(request, r.lat, r.lon)]
     todo = sorted([r for r in reports if r.rung in (Rung.REPORT, Rung.ASSESSED, Rung.COMMUNITY)], key=_priority)
     done = sorted([r for r in reports if r not in todo], key=lambda r: r.created_at, reverse=True)
     return {
         "todo": [report_json(r, exact=True) for r in todo],
         "done": [report_json(r, exact=True) for r in done],
-        "missions": [mission_json(m) for m in store.missions()],
+        "missions": [mission_json(m) for m in store.missions() if in_scope(request, m.lat, m.lon)],
         "signals": [{"sign": INDICATORS[s.indicator].chip, "reports": len(s.reports), "expert": s.expert,
                      "community": s.community_or_better, "decision_grade": s.decision_grade,
                      "place": place(*s.center), "gaps": s.gaps} for s in evidence.signals(reports)],
@@ -426,6 +456,7 @@ def _act(fn):
 @router.post("/reports/{rid}/verify")
 def verify(request: Request, rid: str, method: str = Form(...), note: str = Form("")):
     u = role(request, "org")
+    scoped(request, rid)
     _act(lambda: service.verify(_store(), rid, u["id"], method, note))
     return report(request, rid)
 
@@ -433,6 +464,7 @@ def verify(request: Request, rid: str, method: str = Form(...), note: str = Form
 @router.post("/reports/{rid}/reject")
 def reject(request: Request, rid: str, reason: str = Form("")):
     u = role(request, "org")
+    scoped(request, rid)
     _act(lambda: service.reject(_store(), rid, u["id"], reason))
     return report(request, rid)
 
@@ -440,6 +472,7 @@ def reject(request: Request, rid: str, reason: str = Form("")):
 @router.post("/reports/{rid}/mission")
 def open_mission(request: Request, rid: str):
     u = role(request, "org")
+    scoped(request, rid)
     _act(lambda: service.request_mission(_store(), rid, u["id"]))
     return report(request, rid)
 
@@ -448,17 +481,22 @@ def open_mission(request: Request, rid: str):
 def fhir_bundle(request: Request, rid: str):
     """The gate decides: below Expert-verified this returns 403 with the gate's reason."""
     role(request, "org")
+    scoped(request, rid)
     b = _act(lambda: service.export_fhir(_store(), rid))
     return JSONResponse(b, media_type="application/fhir+json")
 
 
 @router.get("/brief")
 def river_brief(request: Request):
-    role(request, "org")
+    u = role(request, "org")
     store = _store()
-    b = brief.build(store.all(), store.missions())
+    b = brief.build([r for r in store.all() if in_scope(request, r.lat, r.lon)],
+                    [m for m in store.missions() if in_scope(request, m.lat, m.lon)])
+    city = u.get("city")
+    stream = next((s.name for s in geo.streams() if s.city == city), None)
+    area = b["area"] if city in (None, "Coimbra") else f"{stream} catchment, {city}" if stream else city
     return {
-        "generated": b["generated"], "area": b["area"], "window_days": b["window_days"], "total": b["total"],
+        "generated": b["generated"], "area": area, "window_days": b["window_days"], "total": b["total"],
         "counts": [{"label": k, "count": v} for k, v in b["counts"].items()],
         "rows": [{"sign": INDICATORS[row.signal.indicator].chip, "code": row.signal.indicator, "place": row.place,
                   "best_grade": row.best_grade, "confidence": row.confidence, "label": row.label,

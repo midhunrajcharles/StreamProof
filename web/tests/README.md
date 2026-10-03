@@ -4,7 +4,7 @@ Run with both servers up (API on :8740, web on :3200). Needs `pip install playwr
 
 | Script | What it does |
 |---|---|
-| `e2e.py` | End-to-end through the UI on a phone viewport: sign-in, report, gate refusal, verify, FHIR export, reject, certificate tamper check, offline outbox, tab bar, sheets. Prints PASS/FAIL. **Resets the demo data.** |
+| `e2e.py` | End-to-end through the UI on a phone viewport: sign-in, report, gate refusal, verify, FHIR export, reject, certificate tamper check, offline outbox, tab bar, sheets, citizen and organisation sign-up, profile editing, per-role sign-out. Prints PASS/FAIL. **Resets the demo data.** |
 | `a11y.py` | axe-core audit of every page, light and dark, phone and desktop. |
 | `shots.py` | Screenshots on phone, phone landscape, tablet, desktop, dual-screen (emulated hinge) and dark phone. `python shots.py phone duo` for some devices only. |
 | `sheet.py` | Contact sheet of one device's screenshots: `python sheet.py phone 330 1`. |

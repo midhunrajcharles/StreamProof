@@ -28,7 +28,13 @@ CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER);
 CREATE TABLE IF NOT EXISTS org_users (email TEXT PRIMARY KEY, id TEXT UNIQUE, name TEXT, role TEXT,
                                       pw_hash TEXT, active INTEGER, created TEXT);
 CREATE TABLE IF NOT EXISTS consents (pseudonym TEXT PRIMARY KEY, version TEXT, at TEXT);
+CREATE TABLE IF NOT EXISTS organisations (id TEXT PRIMARY KEY, name TEXT, city TEXT, about TEXT, website TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS citizen_accounts (pseudonym TEXT PRIMARY KEY, email TEXT UNIQUE, pw_hash TEXT, bio TEXT,
+                                             city TEXT, avatar TEXT, created TEXT);
 """
+
+# columns added after the first release, created on old databases at start-up
+MIGRATIONS = {"org_users": {"org_id": "TEXT", "title": "TEXT", "bio": "TEXT", "avatar": "TEXT"}}
 
 
 class Store:
@@ -38,6 +44,12 @@ class Store:
             Path(self.path).parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, check_same_thread=False)
         self.db.executescript(SCHEMA)
+        for table, cols in MIGRATIONS.items():
+            have = {r[1] for r in self.db.execute(f"PRAGMA table_info({table})")}
+            for col, kind in cols.items():
+                if col not in have:
+                    self.db.execute(f"ALTER TABLE {table} ADD COLUMN {col} {kind}")
+        self.db.commit()
 
     # ids
     def next_id(self, name: str, start: int) -> int:
@@ -135,19 +147,55 @@ class Store:
         return json.loads(row[0]) if row else None
 
     # organisation accounts (reviewers, admins)
-    _USER_COLS = ("email", "id", "name", "role", "pw_hash", "active", "created")
+    _USER_COLS = ("email", "id", "name", "role", "pw_hash", "active", "created", "org_id", "title", "bio", "avatar")
 
     def save_user(self, u: dict) -> None:
+        cols = self._USER_COLS
         with _lock, self.db:
-            self.db.execute("INSERT OR REPLACE INTO org_users VALUES (?,?,?,?,?,?,?)", tuple(u[c] for c in self._USER_COLS))
+            self.db.execute(f"INSERT OR REPLACE INTO org_users ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
+                            tuple(u.get(c) for c in cols))
 
     def user(self, email: str) -> dict | None:
-        row = self.db.execute("SELECT * FROM org_users WHERE email=?", (email.strip().lower(),)).fetchone()
+        row = self.db.execute(f"SELECT {','.join(self._USER_COLS)} FROM org_users WHERE email=?", (email.strip().lower(),)).fetchone()
         return dict(zip(self._USER_COLS, row)) if row else None
 
-    def users(self) -> list[dict]:
-        rows = self.db.execute("SELECT * FROM org_users ORDER BY created").fetchall()
-        return [dict(zip(self._USER_COLS, r)) for r in rows]
+    def user_by_id(self, uid: str) -> dict | None:
+        row = self.db.execute(f"SELECT {','.join(self._USER_COLS)} FROM org_users WHERE id=?", (uid,)).fetchone()
+        return dict(zip(self._USER_COLS, row)) if row else None
+
+    def users(self, org_id: str | None = None) -> list[dict]:
+        q = f"SELECT {','.join(self._USER_COLS)} FROM org_users" + (" WHERE org_id=?" if org_id else "") + " ORDER BY created"
+        return [dict(zip(self._USER_COLS, r)) for r in self.db.execute(q, (org_id,) if org_id else ())]
+
+    # organisations
+    _ORG_COLS = ("id", "name", "city", "about", "website", "created")
+
+    def save_org(self, o: dict) -> None:
+        with _lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO organisations VALUES (?,?,?,?,?,?)", tuple(o.get(c) for c in self._ORG_COLS))
+
+    def org(self, oid: str) -> dict | None:
+        row = self.db.execute("SELECT * FROM organisations WHERE id=?", (oid,)).fetchone()
+        return dict(zip(self._ORG_COLS, row)) if row else None
+
+    # citizen accounts (optional: email + password on top of the pseudonym)
+    _CIT_COLS = ("pseudonym", "email", "pw_hash", "bio", "city", "avatar", "created")
+
+    def save_citizen_account(self, a: dict) -> None:
+        with _lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO citizen_accounts VALUES (?,?,?,?,?,?,?)", tuple(a.get(c) for c in self._CIT_COLS))
+
+    def citizen_account(self, pseudonym: str) -> dict | None:
+        row = self.db.execute("SELECT * FROM citizen_accounts WHERE pseudonym=?", (pseudonym,)).fetchone()
+        return dict(zip(self._CIT_COLS, row)) if row else None
+
+    def citizen_account_by_email(self, email: str) -> dict | None:
+        row = self.db.execute("SELECT * FROM citizen_accounts WHERE email=?", (email.strip().lower(),)).fetchone()
+        return dict(zip(self._CIT_COLS, row)) if row else None
+
+    def delete_citizen_account(self, pseudonym: str) -> None:
+        with _lock, self.db:
+            self.db.execute("DELETE FROM citizen_accounts WHERE pseudonym=?", (pseudonym,))
 
     # consent (citizens)
     def save_consent(self, pseudonym: str, version: str, at: str) -> None:
@@ -159,7 +207,11 @@ class Store:
         return {"version": row[0], "at": row[1]} if row else None
 
     def reset(self) -> None:
-        """Demo reset: evidence, people and missions. Organisation accounts are kept."""
+        """Demo reset: evidence, observers and missions. Organisations and all accounts are kept."""
         with _lock, self.db:
-            for t in ("evidence", "vault", "observers", "missions", "certificates", "counters", "consents"):
+            for t in ("evidence", "vault", "missions", "certificates", "counters"):
                 self.db.execute(f"DELETE FROM {t}")
+            # people with an account keep their name and consent
+            keep = "SELECT pseudonym FROM citizen_accounts"
+            self.db.execute(f"DELETE FROM observers WHERE pseudonym NOT IN ({keep})")
+            self.db.execute(f"DELETE FROM consents WHERE pseudonym NOT IN ({keep})")

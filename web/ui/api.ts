@@ -99,14 +99,35 @@ export type Meta = {
   rules: { radius_m: number; window_days: number; min_expert: number; min_community: number; per_day: number; upstream_m: number };
 };
 
+export type Avatar = "water" | "moss" | "sand" | "stone" | "dusk" | "ink";
+export const AVATARS: Avatar[] = ["water", "moss", "sand", "stone", "dusk", "ink"];
+export const CITIES = ["Coimbra", "Benevento", "Ghent", "Oslo", "Toulouse"] as const;
+
 export type Session = {
-  citizen: { id: string; name: string; demo?: boolean } | null;
-  org: { id: string; name: string; email: string; role: "reviewer" | "admin" } | null;
+  citizen: { id: string; name: string; demo?: boolean; account?: boolean; avatar?: Avatar } | null;
+  org: { id: string; name: string; email: string; role: "reviewer" | "admin"; org_id?: string; org_name?: string; city?: string; avatar?: Avatar } | null;
   demo: boolean;
   consented: boolean;
 };
 
-export type Member = { id: string; email: string; name: string; role: "reviewer" | "admin"; active: boolean };
+export type Member = { id: string; email: string; name: string; role: "reviewer" | "admin"; active: boolean; title?: string; bio?: string; avatar?: Avatar };
+
+export type Recognition = {
+  stars: number; level: string; next_level: string | null; stars_to_next: number;
+  breakdown: { rule: string; count: number; stars: number }[];
+  badges: { code: string; earned: boolean }[];
+  counts: Record<string, number>;
+};
+
+export type CitizenProfile = {
+  pseudonym: string; display: string; demo: boolean; has_account: boolean; email: string | null; bio: string; city: string;
+  avatar: Avatar; member_since: string | null; consent: { version: string; at: string } | null; recognition: Recognition;
+};
+
+export type OrgProfile = Member & {
+  member_since: string; recognition: Recognition;
+  organisation: { id: string; name: string; city: string; about: string; website: string };
+};
 
 // ---------------------------------------------------------------- formatting
 

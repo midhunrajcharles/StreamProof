@@ -1,8 +1,8 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { useI18n } from "@/ui/i18n";
-import { CitizenStart, OrgSignIn, Page, Segmented, Skeleton } from "@/ui/kit";
+import { EnglishOnly, useI18n } from "@/ui/i18n";
+import { CitizenSignIn, OrgSignIn, Page, Segmented, Skeleton } from "@/ui/kit";
 
 function SignInPage() {
   const q = useSearchParams();
@@ -16,7 +16,7 @@ function SignInPage() {
       <div className="stack-l">
         <Segmented label={t("signin")} value={role} onChange={setRole}
           options={[{ value: "citizen", label: t("group.citizen") }, { value: "org", label: t("group.org") }]} />
-        {role === "org" ? <OrgSignIn onDone={go} /> : <CitizenStart onDone={go} />}
+        {role === "org" ? <EnglishOnly><OrgSignIn onDone={go} /></EnglishOnly> : <CitizenSignIn onDone={go} />}
       </div>
     </Page>
   );

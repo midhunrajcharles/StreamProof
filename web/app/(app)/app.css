@@ -549,3 +549,52 @@ dialog.sheet[open]::backdrop { animation: fade-in 0.3s ease; }
   body { background: #fff; color: #000; }
   .card, .group, .stat, .table-wrap { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
 }
+
+/* ---------------------------------------------------------------- accounts: avatar, stars, badges */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.avatar, .swatch { --c: #0a64ad; background: var(--c); }
+[data-c="water"] { --c: #0a64ad; } [data-c="moss"] { --c: #2f6b2a; } [data-c="sand"] { --c: #8a5a12; }
+[data-c="stone"] { --c: #5d6168; } [data-c="dusk"] { --c: #5b3f86; } [data-c="ink"] { --c: #1d1d1f; }
+@media (prefers-color-scheme: dark) { [data-c="ink"] { --c: #48484a; } }
+.avatar { display: inline-grid; place-items: center; flex: none; border-radius: 50%; color: #fff; font-weight: 600; letter-spacing: 0.02em; line-height: 1; user-select: none; }
+.side-link .avatar { margin: -2px 0; }
+.account-btn .avatar { width: 28px; height: 28px; font-size: 0.7rem; }
+
+.profile-card { display: flex; gap: 16px; align-items: flex-start; }
+.profile-bio { margin: 6px 0 4px; white-space: pre-line; overflow-wrap: anywhere; }
+.profile-preview { display: grid; place-items: center; padding: 4px 0 8px; }
+@media (max-width: 420px) { .profile-card { flex-direction: column; align-items: center; text-align: center; } .profile-card .spread { justify-content: center; flex-wrap: wrap; } }
+
+.star-pill { background: color-mix(in srgb, #c98a00 16%, transparent); color: var(--warn-text); }
+.star-pill svg { width: 13px; height: 13px; color: #c98a00; }
+.stars-card { display: flex; gap: 18px; align-items: center; }
+.stars-big { position: relative; display: grid; place-items: center; width: 84px; height: 84px; flex: none; color: #e0a100; }
+.stars-big svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stars-big .num { position: relative; color: #3d2a00; font-weight: 700; font-size: 1.35rem; padding-top: 6px; }
+.star-gain { display: inline-flex; align-items: center; gap: 3px; color: var(--warn-text); font-weight: 600; }
+.star-gain svg { color: #c98a00; }
+
+.badges { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.badge-tile { display: grid; gap: 4px; align-content: start; justify-items: start; padding: 14px; border-radius: var(--radius); background: var(--bg-elevated); box-shadow: var(--shadow); }
+.badge-tile:not(.earned) { background: var(--bg-inset); box-shadow: none; outline: 0.5px dashed var(--separator-strong); outline-offset: -0.5px; }
+.badge-ic { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--fill); color: var(--label-2); }
+.badge-tile.earned .badge-ic { background: color-mix(in srgb, #c98a00 18%, transparent); color: #a06e00; }
+.badge-name { font-weight: 600; }
+.badge-desc { font-size: 0.82rem; color: var(--label-2); margin-bottom: 4px; }
+
+.swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+.swatch { width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center; color: #fff; cursor: pointer; }
+.swatch[aria-checked="true"] { box-shadow: 0 0 0 3px var(--bg-elevated), 0 0 0 5px var(--c); }
+.swatch:focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+
+.auth-links { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; justify-content: center; font-size: 0.94rem; }
+.auth-divider { display: flex; align-items: center; gap: 12px; color: var(--label-2); font-size: 0.85rem; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 0.5px; background: var(--separator); }
+.org-pill { display: inline-flex; align-items: center; gap: 6px; }
+.check-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; min-height: 44px; }
+.check-row input { width: 24px; height: 24px; accent-color: var(--ink); flex: none; margin: 0; }
+.check-row label { flex: 1; min-width: 180px; cursor: pointer; }
+.side-who { display: flex; align-items: center; gap: 4px; min-width: 0; }
+.side-who .side-link { flex: 1; min-width: 0; min-height: 50px; }
+.side-name, .side-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.side-sub { opacity: 0.75; font-weight: 400; }

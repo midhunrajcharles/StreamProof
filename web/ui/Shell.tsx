@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { api } from "./api";
+import { Avatar } from "./avatar";
 import * as I from "./icons";
 import { I18nProvider, useI18n } from "./i18n";
 import { AppProvider, useApp } from "./kit";
 import { flush } from "./outbox";
+import { SignOut } from "./profile";
 
 const NAV = [
   { group: "group.citizen", items: [
@@ -27,7 +28,7 @@ const isActive = (path: string, href: string) => path === href || path.startsWit
 
 function Sidebar() {
   const path = usePathname();
-  const { session, refreshSession, toast } = useApp();
+  const { session } = useApp();
   const { t } = useI18n();
   return (
     <nav className="sidebar" aria-label="Sections">
@@ -45,23 +46,36 @@ function Sidebar() {
         </div>
       ))}
       <div className="side-foot">
-        <Link href="/account" className="side-link" aria-current={isActive(path, "/account") ? "page" : undefined} style={{ minHeight: 52 }}>
-          <I.Person />
-          <span className="stack" style={{ gap: 0 }}>
-            <span>{session?.org ? session.org.name : session?.citizen ? session.citizen.name : t("account")}</span>
-            <span className="t-foot" style={{ opacity: 0.75, fontWeight: 400 }}>
-              {session?.org ? (session.org.role === "admin" ? "Admin" : "Reviewer") : session?.citizen ? t("group.citizen") : t("notSignedIn")}
-            </span>
-          </span>
-        </Link>
-        {session?.citizen || session?.org ? (
-          <button className="btn btn-sm" onClick={async () => {
-            await api("/session", { method: "DELETE" });
-            await refreshSession();
-            toast(t("signout"), "info");
-            setTimeout(() => window.location.reload(), 600);
-          }}>{t("signout")}</button>
-        ) : <Link className="btn btn-sm btn-prominent" href="/sign-in">{t("signin")}</Link>}
+        {session?.citizen ? (
+          <div className="side-who">
+            <Link href="/account" className="side-link" aria-current={isActive(path, "/account") ? "page" : undefined}>
+              <Avatar name={session.citizen.name} colour={session.citizen.avatar} size={30} />
+              <span className="stack" style={{ gap: 0, minWidth: 0 }}>
+                <span className="side-name">{session.citizen.name}</span>
+                <span className="t-foot side-sub">{t("group.citizen")}{session.citizen.demo ? " · demo" : ""}</span>
+              </span>
+            </Link>
+            <SignOut role="citizen" variant="icon" after={() => setTimeout(() => window.location.reload(), 600)} />
+          </div>
+        ) : null}
+        {session?.org ? (
+          <div className="side-who">
+            <Link href="/account" className="side-link" aria-current={isActive(path, "/account") && !session.citizen ? "page" : undefined}>
+              <Avatar name={session.org.name} colour={session.org.avatar} size={30} />
+              <span className="stack" style={{ gap: 0, minWidth: 0 }}>
+                <span className="side-name">{session.org.name}</span>
+                <span className="t-foot side-sub">{session.org.role === "admin" ? "Admin" : "Reviewer"}{session.org.city ? ` · ${session.org.city}` : ""}</span>
+              </span>
+            </Link>
+            <SignOut role="org" variant="icon" after={() => setTimeout(() => window.location.reload(), 600)} />
+          </div>
+        ) : null}
+        {!session?.citizen && !session?.org ? (
+          <div className="hstack" style={{ gap: 8, flexWrap: "nowrap" }}>
+            <Link className="btn btn-sm btn-prominent" href="/sign-in" style={{ flex: 1 }}>{t("signin")}</Link>
+            <Link className="btn btn-sm" href="/sign-up" style={{ flex: 1 }}>{t("signup")}</Link>
+          </div>
+        ) : null}
         <Link href="/" className="side-link t-sub" style={{ minHeight: 40 }}><I.Home /> {t("website")}</Link>
       </div>
     </nav>

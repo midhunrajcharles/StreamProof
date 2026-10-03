@@ -109,6 +109,20 @@ def test_public_reference_data(client):
     assert b["total"] == len(store.all()) and b["rows"]
 
 
+def test_five_cities(client):
+    m = client.get("/api/meta").json()
+    assert [c["city"] for c in m["cities"]] == ["Coimbra", "Benevento", "Ghent", "Oslo", "Toulouse"]
+    oslo = next(c for c in m["cities"] if c["city"] == "Oslo")
+    start(client, "citizen")
+    lat, lon = oslo["start"]
+    r = client.post("/api/reports", data={"lat": str(lat), "lon": str(lon), "accuracy": "8", "codes": ["litter"], "consent": "1"}).json()
+    assert r["place"] == "Akerselva, Oslo"
+    weather = next(x for x in r["reasons"] if x["signal"] == "context")
+    assert "No weather data" not in weather["text"]  # Oslo's own rainfall is used
+    stream = next(x for x in r["reasons"] if x["signal"] == "stream")
+    assert stream["status"] == "ok" and "Akerselva" in stream["text"]
+
+
 def test_forget_me(client):
     start(client, "citizen")
     submit(client)

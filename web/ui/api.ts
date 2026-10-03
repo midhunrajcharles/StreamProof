@@ -95,6 +95,7 @@ export type Meta = {
   uses: { code: string; label: string; min_rung: string }[];
   streams: { name: string; city: string; line: [number, number][] }[];
   start: [number, number];
+  cities: { city: string; stream: string; start: [number, number] }[];
   rules: { radius_m: number; window_days: number; min_expert: number; min_community: number; per_day: number; upstream_m: number };
 };
 
@@ -109,13 +110,13 @@ export type Member = { id: string; email: string; name: string; role: "reviewer"
 
 // ---------------------------------------------------------------- formatting
 
-export function when(iso: string, opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) {
-  return new Intl.DateTimeFormat(undefined, opts).format(new Date(iso));
+export function when(iso: string, opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }, locale?: string) {
+  return new Intl.DateTimeFormat(locale, opts).format(new Date(iso));
 }
 
-export function ago(iso: string) {
+export function ago(iso: string, locale?: string) {
   const s = (new Date(iso).getTime() - Date.now()) / 1000;
-  const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
   const steps: [number, Intl.RelativeTimeFormatUnit][] = [[60, "second"], [3600, "minute"], [86400, "hour"], [604800, "day"], [2629800, "week"], [31557600, "month"]];
   for (let i = 0; i < steps.length; i++) {
     const [limit, unit] = steps[i];

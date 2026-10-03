@@ -80,8 +80,8 @@ export default function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a className="text-[2.375rem] md:text-[2.5rem] leading-[1.1] md:leading-12 font-medium hover:text-[#C0C0C0] transition-colors duration-150 ease-[ease]" href="/review" data-track-cta="footer" data-track-label="Review queue">
-                    {"Review queue"}
+                  <a className="text-[2.375rem] md:text-[2.5rem] leading-[1.1] md:leading-12 font-medium hover:text-[#C0C0C0] transition-colors duration-150 ease-[ease]" href="/sign-in?role=org" data-track-cta="footer" data-track-label="Organisation sign-in">
+                    {"Organisation sign-in"}
                   </a>
                 </li>
                 <li>

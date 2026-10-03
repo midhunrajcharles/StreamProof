@@ -115,7 +115,10 @@ def _nearby(r: Report, others: list[Report]) -> Reason:
 
 
 def _context(r: Report) -> Reason:
-    w = context.rain_summary(r.created_at.date())
+    s = geo.snap(r.lat, r.lon)
+    if s is None or s.distance_m > 5000:  # not in a city we have rainfall for
+        return Reason("context", "info", "No weather data for this place.", 5, 10)
+    w = context.rain_summary(r.created_at.date(), s.stream.city)
     if w is None:
         return Reason("context", "info", "No weather data for this date.", 5, 10)
     codes = set(r.indicators)

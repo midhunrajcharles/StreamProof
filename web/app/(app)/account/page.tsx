@@ -40,6 +40,31 @@ function ChangePassword() {
   );
 }
 
+function CitizenSignOut({ demo }: { demo: boolean }) {
+  const { refreshSession, toast } = useApp();
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" className="row" onClick={() => setOpen(true)} style={{ color: "var(--bad)" }}>
+        <div className="row-body"><span className="row-title">Sign out as citizen</span></div>
+      </button>
+      <Sheet open={open} onClose={() => setOpen(false)} title="Sign out">
+        <div className="stack">
+          <p>{demo ? "You can come back to the demo citizen at any time."
+            : "Your pseudonym has no password, so after signing out this device can't open your reports again. Your reports stay in the record."}</p>
+          <button className="btn btn-block btn-prominent btn-destructive" onClick={async () => {
+            await api("/citizen/logout", { method: "POST" });
+            await refreshSession();
+            setOpen(false);
+            toast("Signed out", "info");
+          }}>Sign out</button>
+          <button className="btn btn-block" onClick={() => setOpen(false)}>Stay signed in</button>
+        </div>
+      </Sheet>
+    </>
+  );
+}
+
 function Team({ me }: { me: string }) {
   const q = useApi<{ members: Member[] }>("/org/team");
   const { toast } = useApp();
@@ -142,6 +167,7 @@ export default function AccountPage() {
             <Row lead={session.consented ? <I.CheckCircle className="status-ic ok" /> : <I.Info className="status-ic info" />}
               title={session.consented ? "You agreed to how reports are used" : "You'll be asked to agree before your first report"} chevron={false} />
             <Row href="/reports" lead={<I.Reports className="status-ic info" />} title="My reports and personal data" />
+            <CitizenSignOut demo={Boolean(citizen.demo)} />
           </div>
         </Section>
       ) : (

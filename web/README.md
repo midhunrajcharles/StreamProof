@@ -26,7 +26,11 @@ npm run build && npm start
 | `/standards` | public | Permitted-use matrix, sign → OAH code mapping, FHIR definitions, validation. |
 | `/verify/[id]` | public | Check a signed record, and try to tamper with it. |
 
-Sign-in is a demo: each page offers "Continue as demo citizen / reviewer"; one browser can hold both roles.
+Also: `/sign-in` (citizens start without a password; organisations sign in with email and password), `/account` (password change; admins manage the team), `/share/[id]` (public card: signs, trust level, area only). Demo accounts are in `app/seed.py`; `STREAMPROOF_DEMO=0` turns the one-tap demo sign-in off.
+
+**Six languages** (EN, PT, IT, FR, NL, NO) for everything a citizen sees, picked from the globe button (`ui/i18n.tsx`; `python tools/check_i18n.py` checks every key exists in every language). Backend sentences (reasons, hints, missions) are rebuilt from their English patterns. Reviewer screens stay in English. Translations are machine-assisted and still need review by native speakers.
+
+**Five cities**: the report map switches between Coimbra (the hero demo, Ribeira de Coselhas), Benevento (Sabato), Ghent (Leie), Oslo (Akerselva) and Toulouse (Hers-Mort). The four new streams are example urban streams from OpenStreetMap, not OneAquaHealth study sites (`tools/fetch_streams.py`; rainfall per city from `tools/refresh_weather.py`).
 
 ## Design (Apple HIG, applied to the web)
 

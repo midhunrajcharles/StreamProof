@@ -4,20 +4,21 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { api } from "./api";
 import * as I from "./icons";
+import { I18nProvider, useI18n } from "./i18n";
 import { AppProvider, useApp } from "./kit";
 import { flush } from "./outbox";
 
 const NAV = [
-  { group: "Citizen", items: [
-    { href: "/report", label: "Report", long: "Report a stream", icon: I.Camera },
-    { href: "/reports", label: "Reports", long: "My reports", icon: I.Reports },
+  { group: "group.citizen", items: [
+    { href: "/report", key: "report", icon: I.Camera },
+    { href: "/reports", key: "reports", icon: I.Reports },
   ] },
-  { group: "Organisation", items: [
-    { href: "/review", label: "Review", long: "Review queue", icon: I.Shield },
-    { href: "/brief", label: "Brief", long: "River Health Brief", icon: I.Brief },
+  { group: "group.org", items: [
+    { href: "/review", key: "review", icon: I.Shield },
+    { href: "/brief", key: "brief", icon: I.Brief },
   ] },
-  { group: "Open data", items: [
-    { href: "/standards", label: "Standards", long: "Standards", icon: I.Braces },
+  { group: "group.open", items: [
+    { href: "/standards", key: "standards", icon: I.Braces },
   ] },
 ];
 
@@ -27,6 +28,7 @@ const isActive = (path: string, href: string) => path === href || path.startsWit
 function Sidebar() {
   const path = usePathname();
   const { session, refreshSession, toast } = useApp();
+  const { t } = useI18n();
   return (
     <nav className="sidebar" aria-label="Sections">
       <Link href="/" className="brand" aria-label="StreamProof website">
@@ -34,10 +36,10 @@ function Sidebar() {
       </Link>
       {NAV.map((g) => (
         <div key={g.group}>
-          <p className="side-group eyebrow">({g.group})</p>
+          <p className="side-group eyebrow">({t(g.group)})</p>
           {g.items.map((it) => (
             <Link key={it.href} href={it.href} className="side-link" aria-current={isActive(path, it.href) ? "page" : undefined}>
-              <it.icon /> {it.long}
+              <it.icon /> {t(`nav.long.${it.key}`) === `nav.long.${it.key}` ? t(`nav.${it.key}`) : t(`nav.long.${it.key}`)}
             </Link>
           ))}
         </div>
@@ -46,9 +48,9 @@ function Sidebar() {
         <Link href="/account" className="side-link" aria-current={isActive(path, "/account") ? "page" : undefined} style={{ minHeight: 52 }}>
           <I.Person />
           <span className="stack" style={{ gap: 0 }}>
-            <span>{session?.org ? session.org.name : session?.citizen ? session.citizen.name : "Account"}</span>
+            <span>{session?.org ? session.org.name : session?.citizen ? session.citizen.name : t("account")}</span>
             <span className="t-foot" style={{ opacity: 0.75, fontWeight: 400 }}>
-              {session?.org ? (session.org.role === "admin" ? "Admin" : "Reviewer") : session?.citizen ? "Citizen" : "Not signed in"}
+              {session?.org ? (session.org.role === "admin" ? "Admin" : "Reviewer") : session?.citizen ? t("group.citizen") : t("notSignedIn")}
             </span>
           </span>
         </Link>
@@ -56,11 +58,11 @@ function Sidebar() {
           <button className="btn btn-sm" onClick={async () => {
             await api("/session", { method: "DELETE" });
             await refreshSession();
-            toast("Signed out", "info");
+            toast(t("signout"), "info");
             setTimeout(() => window.location.reload(), 600);
-          }}>Sign out</button>
-        ) : <Link className="btn btn-sm btn-prominent" href="/sign-in">Sign in</Link>}
-        <Link href="/" className="side-link t-sub" style={{ minHeight: 40 }}><I.Home /> StreamProof website</Link>
+          }}>{t("signout")}</button>
+        ) : <Link className="btn btn-sm btn-prominent" href="/sign-in">{t("signin")}</Link>}
+        <Link href="/" className="side-link t-sub" style={{ minHeight: 40 }}><I.Home /> {t("website")}</Link>
       </div>
     </nav>
   );
@@ -68,11 +70,12 @@ function Sidebar() {
 
 function TabBar() {
   const path = usePathname();
+  const { t } = useI18n();
   return (
     <nav className="tabbar" aria-label="Sections">
       {ALL.map((it) => (
         <Link key={it.href} href={it.href} className="tab" aria-current={isActive(path, it.href) ? "page" : undefined}>
-          <it.icon /> <span>{it.label}</span>
+          <it.icon /> <span>{t(`nav.${it.key}`)}</span>
         </Link>
       ))}
     </nav>
@@ -102,6 +105,7 @@ function Background() {
 export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <AppProvider>
+      <I18nProvider>
       <a href="#content" className="skip-link">Skip to content</a>
       <div className="shell">
         <Sidebar />
@@ -109,6 +113,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <div className="main">{children}</div>
       </div>
       <Background />
+      </I18nProvider>
     </AppProvider>
   );
 }

@@ -97,13 +97,13 @@ export default function MobileMenu() {
                 {"OAH FHIR guide"}
               </span>
             </a>
-            <a href="https://oneaquahealth.eu" target="_blank" rel="noopener noreferrer" className="relative flex items-center justify-between py-4" data-track-cta="mobile_menu" data-track-label="OneAquaHealth" data-astro-cid-xlat7obg="">
+            <a href="/sign-in?role=org" className="relative flex items-center justify-between py-4" data-track-cta="mobile_menu" data-track-label="Organisation sign-in" data-astro-cid-xlat7obg="">
               <div className="pointer-events-none absolute inset-x-0 top-0 mix-blend-difference border-t border-white/10" aria-hidden="true" data-astro-cid-xlat7obg="" />
               <p className="font-mono uppercase leading-none text-white" data-astro-cid-xlat7obg="">
-                {"(The project)"}
+                {"(Organisations)"}
               </p>
               <span className="text-[1.563rem] leading-none font-medium text-white" data-mobile-menu-link="" data-astro-cid-xlat7obg="">
-                {"OneAquaHealth"}
+                {"Sign in"}
               </span>
             </a>
           </div>

@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { signsText, useApi, when, type Report } from "@/ui/api";
-import * as I from "@/ui/icons";
+import { useApi, when, type Report } from "@/ui/api";
 import { History, PhotoView } from "@/ui/evidence";
+import { localeOf, useI18n } from "@/ui/i18n";
+import * as I from "@/ui/icons";
 import { Callout, Gate, Grade, Ladder, Page, Reasons, Row, ScoreMeter, Section, Skeleton, useApp } from "@/ui/kit";
 
 function ReportCard() {
@@ -12,47 +13,49 @@ function ReportCard() {
   const isNew = useSearchParams().get("new") === "1";
   const q = useApi<Report>(`/reports/${id}`);
   const { toast } = useApp();
+  const { t, tr, sign, rung, lang } = useI18n();
+  const loc = localeOf(lang);
 
   return (
-    <Page title={`Report ${id}`} eyebrow="Your report" back={{ href: "/reports", label: "My reports" }}
+    <Page title={t("card.title", { id })} eyebrow={t("card.eyebrow")} back={{ href: "/reports", label: t("nav.long.reports") }}
       actions={q.data?.shareable ? (
         <button className="btn btn-sm" onClick={async () => {
           const url = `${location.origin}/share/${id}`;
           try {
-            if (navigator.share) await navigator.share({ title: "StreamProof", text: "A stream report I made", url });
-            else { await navigator.clipboard.writeText(url); toast("Share link copied"); }
+            if (navigator.share) await navigator.share({ title: "StreamProof", text: t("card.shareText"), url });
+            else { await navigator.clipboard.writeText(url); toast(t("card.copied")); }
           } catch { /* share sheet dismissed */ }
-        }}><I.Share /> Share</button>
+        }}><I.Share /> <span className="btn-label">{t("card.share")}</span></button>
       ) : undefined}>
       <Gate q={q} skeleton={<Skeleton n={4} h={110} />}>
         {(r) => (
           <>
             {isNew ? (
-              <div className="section"><Callout kind="ok" title="Report sent">Here's how your evidence was graded, and what happens next.</Callout></div>
+              <div className="section"><Callout kind="ok" title={t("card.sent")}>{t("card.sentText")}</Callout></div>
             ) : null}
 
             <div className="card section stack-l">
               <div className="hstack" style={{ gap: 18, alignItems: "center" }}>
                 <Grade g={r.grade} size="lg" />
                 <div className="stack" style={{ gap: 4 }}>
-                  <p className="eyebrow">(Evidence grade)</p>
-                  <h2 className="t-title1">{r.grade_words || "Not graded"}</h2>
-                  <p className="secondary">{signsText(r.signs)}</p>
+                  <p className="eyebrow">({t("card.gradeLabel")})</p>
+                  <h2 className="t-title1">{r.grade ? t(`grade.${r.grade}`) : t("card.notGraded")}</h2>
+                  <p className="secondary">{r.signs.map((s) => sign(s.code, s.chip)).join(", ")}</p>
                 </div>
               </div>
               <ScoreMeter score={r.score} />
               <div className="stack" style={{ gap: 10 }}>
-                <div className="spread"><span className="t-headline">{r.status}</span><span className="secondary t-sub">{r.rung.label}</span></div>
+                <div className="spread"><span className="t-headline">{tr(r.status)}</span><span className="secondary t-sub">{rung(r.rung.value, r.rung.label)}</span></div>
                 <Ladder rung={r.rung} />
               </div>
-              <p className="secondary t-foot">The grade is about how strong the evidence is, not about the stream's ecological status. Formal assessment stays with OneAquaHealth's field protocols.</p>
+              <p className="secondary t-foot">{t("card.gradeNote")}</p>
             </div>
 
-            {r.rejection ? <div className="section"><Callout kind="warn" title="Not confirmed by a reviewer">{r.rejection}</Callout></div> : null}
-            {r.safety ? <div className="section"><Callout kind="bad" title="Stay safe">{r.safety}</Callout></div> : null}
-            {r.hint ? <div className="section"><Callout kind="info" title="What would strengthen this">{r.hint}</Callout></div> : null}
+            {r.rejection ? <div className="section"><Callout kind="warn" title={t("card.notConfirmed")}>{r.rejection}</Callout></div> : null}
+            {r.safety ? <div className="section"><Callout kind="bad" title={t("card.safe")}>{tr(r.safety)}</Callout></div> : null}
+            {r.hint ? <div className="section"><Callout kind="info" title={t("card.strengthen")}>{tr(r.hint)}</Callout></div> : null}
 
-            <Section title="Why this grade" n={1} foot="Seven readable checks, 100 points. A report without a photo stays at grade C or below.">
+            <Section title={t("card.why")} n={1} foot={t("card.whyFoot")}>
               <Reasons reasons={r.reasons} />
             </Section>
 
@@ -62,39 +65,39 @@ function ReportCard() {
               </div>
               <div className="card stack" style={{ alignContent: "start" }}>
                 <dl className="kv">
-                  <dt>Reported</dt><dd>{when(r.created_at, { dateStyle: "medium", timeStyle: "short" })}</dd>
-                  <dt>Place</dt><dd>{r.place}</dd>
-                  <dt>Public area</dt><dd className="num">{r.position.lat.toFixed(3)}, {r.position.lon.toFixed(3)} <span className="secondary">(about 100 m)</span></dd>
-                  {r.description ? <><dt>Your note</dt><dd>“{r.description}”</dd></> : null}
-                  {r.mission_id ? <><dt>Mission</dt><dd><Link href={`/missions/${r.mission_id}`}>{r.mission_id}</Link></dd></> : null}
+                  <dt>{t("card.reported")}</dt><dd>{when(r.created_at, { dateStyle: "medium", timeStyle: "short" }, loc)}</dd>
+                  <dt>{t("card.place")}</dt><dd>{tr(r.place)}</dd>
+                  <dt>{t("card.area")}</dt><dd className="num">{r.position.lat.toFixed(3)}, {r.position.lon.toFixed(3)} <span className="secondary">{t("card.about100")}</span></dd>
+                  {r.description ? <><dt>{t("card.yourNote")}</dt><dd>“{r.description}”</dd></> : null}
+                  {r.mission_id ? <><dt>{t("card.mission")}</dt><dd><Link href={`/missions/${r.mission_id}`}>{r.mission_id}</Link></dd></> : null}
                 </dl>
               </div>
             </div>
 
-            <Section title="What it may be used for" n={2} foot="Each trust level unlocks more uses. Every output asks this rule first, and the rule travels with the record.">
+            <Section title={t("card.uses")} n={2} foot={t("card.usesFoot")}>
               {r.uses.length ? (
                 <div className="group">
-                  {r.uses.map((u) => <Row key={u.code} lead={<I.CheckCircle className="status-ic ok" />} title={u.label} chevron={false} />)}
+                  {r.uses.map((u) => <Row key={u.code} lead={<I.CheckCircle className="status-ic ok" />} title={t(`use.${u.code}`)} chevron={false} />)}
                 </div>
-              ) : <div className="card secondary">Kept for the record only.</div>}
+              ) : <div className="card secondary">{t("card.recordOnly")}</div>}
             </Section>
 
-            <Section title="Signed record" n={3}>
+            <Section title={t("card.signed")} n={3}>
               {r.certificate ? (
                 <div className="card stack">
-                  <div className="hstack"><I.Seal width={28} height={28} /><div><p className="t-headline">Your contribution is signed</p>
-                    <p className="secondary t-sub">Issued {when(r.certificate.issued, { dateStyle: "medium" })}. Anyone can check it hasn't been changed.</p></div></div>
+                  <div className="hstack"><I.Seal width={28} height={28} /><div><p className="t-headline">{t("card.signedTitle")}</p>
+                    <p className="secondary t-sub">{t("card.signedText", { date: when(r.certificate.issued, { dateStyle: "medium" }, loc) })}</p></div></div>
                   <div className="btn-row">
-                    <a className="btn btn-prominent" href={`/api/reports/${r.id}/certificate.pdf`} target="_blank" rel="noopener"><I.Download /> Certificate (PDF)</a>
-                    <Link className="btn" href={`/verify/${r.id}`}><I.Shield /> Check signature</Link>
+                    <a className="btn btn-prominent" href={`/api/reports/${r.id}/certificate.pdf`} target="_blank" rel="noopener"><I.Download /> {t("card.pdf")}</a>
+                    <Link className="btn" href={`/verify/${r.id}`}><I.Shield /> {t("card.check")}</Link>
                   </div>
                 </div>
               ) : (
-                <div className="card secondary">You'll receive a signed contribution record once an expert verifies this report.</div>
+                <div className="card secondary">{t("card.noCert")}</div>
               )}
             </Section>
 
-            <Section title="History" n={4}><History r={r} /></Section>
+            <Section title={t("card.history")} n={4}><History r={r} /></Section>
           </>
         )}
       </Gate>

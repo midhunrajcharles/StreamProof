@@ -1,5 +1,6 @@
 "use client";
 import { useApi, type Rung } from "@/ui/api";
+import { EnglishOnly } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Gate, Page, Section, Skeleton } from "@/ui/kit";
 
@@ -10,6 +11,28 @@ type Standards = {
   uses: { code: string; label: string }[];
 };
 
+// The seven grading checks (+ intake) read as ISO 19157 data-quality elements. Team interpretation.
+const ISO_19157: [string, string, string][] = [
+  ["Required fields", "Completeness (omission)", "A report needs a sign and a position before it is accepted."],
+  ["Location", "Positional accuracy", "GPS accuracy, or a spot confirmed on the map."],
+  ["On a stream", "Logical consistency (topological)", "The point lies on, or near, the mapped stream network."],
+  ["Photo time", "Temporal quality", "The photo was taken when the report says."],
+  ["Photo", "Thematic accuracy", "A clear photo supports the sign that was reported."],
+  ["Nearby reports", "Thematic accuracy", "Independent people reported the same sign nearby."],
+  ["Weather", "Logical consistency (conceptual)", "The sign is plausible for recent rainfall."],
+  ["Track record", "Usability (with lineage)", "How often this observer's earlier reports were confirmed."],
+];
+
+const BUILT_ON: [string, string, string][] = [
+  ["HL7 Europe OneAquaHealth FHIR guide", "The data standard StreamProof's records follow", "https://github.com/hl7-eu/oah"],
+  ["HL7 FHIR R4", "Record format and validation", "https://hl7.org/fhir/R4/"],
+  ["OneAquaHealth Catalogue of Measures", "Source for the brief's suggested measures (mapping planned)", "https://oneaquahealth.eu"],
+  ["DipteraCAST (ENORA Innovation)", "Receives verified Diptera ground truth (interface planned)", "https://oneaquahealth.eu"],
+  ["OpenStreetMap", "Stream geometry and map tiles (ODbL)", "https://www.openstreetmap.org/copyright"],
+  ["Open-Meteo", "Rainfall context for grading", "https://open-meteo.com"],
+  ["EU Horizon Europe grant 101086521", "Funding context of the OneAquaHealth project", "https://cordis.europa.eu/project/id/101086521"],
+];
+
 // Plan (docs/STREAMPROOF-WINNING-PLAN.md §5.1): citizen signs -> OneAquaHealth indicator codes.
 const OAH_MAP: [string, string, string][] = [
   ["Scum or green water", "#foam", "wider"], ["Bad smell", "#foam", "wider"], ["Foam", "#foam", "wider"],
@@ -17,7 +40,7 @@ const OAH_MAP: [string, string, string][] = [
   ["Oily sheen", "—", "proposed new concept"], ["Sewage or discharge", "—", "proposed new concept"], ["Litter", "—", "proposed new concept"],
 ];
 
-export default function StandardsPage() {
+function StandardsPage() {
   const q = useApi<Standards>("/standards");
   return (
     <Page title="Standards" eyebrow="Open data" width="wide"
@@ -71,7 +94,21 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title="Definitions" n={3} foot="FHIR R4 CodeSystems and ValueSets. Open JSON; the trust-level CodeSystem is the permitted-use rule as data.">
+              <Section title="Data quality (ISO 19157)" n={3} foot="How the grade's checks read as ISO 19157 geographic data-quality elements. This is the team's mapping, not a certification.">
+                <div className="group only-compact">
+                  {ISO_19157.map(([check, element, why]) => (
+                    <div key={check} className="row"><div className="row-body"><span className="row-title">{check}</span><span className="row-sub">{element} · {why}</span></div></div>
+                  ))}
+                </div>
+                <div className="table-wrap only-regular">
+                  <table className="table">
+                    <thead><tr><th scope="col">Check</th><th scope="col">ISO 19157 element</th><th scope="col">What it measures</th></tr></thead>
+                    <tbody>{ISO_19157.map(([check, element, why]) => <tr key={check}><th scope="row" style={{ fontWeight: 400 }}>{check}</th><td>{element}</td><td className="secondary">{why}</td></tr>)}</tbody>
+                  </table>
+                </div>
+              </Section>
+
+              <Section title="Definitions" n={4} foot="FHIR R4 CodeSystems and ValueSets. Open JSON; the trust-level CodeSystem is the permitted-use rule as data.">
                 <div className="group">
                   {s.definitions.map((d) => (
                     <a key={d.name} className="row has-lead" href={d.url} target="_blank" rel="noopener">
@@ -83,7 +120,7 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title="Validation" n={4} foot={`${s.validation.validator[0] ?? "HL7 FHIR Validator"}. Checked against base FHIR R4; validation against the OneAquaHealth profiles is planned.`}>
+              <Section title="Validation" n={5} foot={`${s.validation.validator[0] ?? "HL7 FHIR Validator"}. Checked against base FHIR R4; validation against the OneAquaHealth profiles is planned.`}>
                 {s.validation.results.length ? (
                   <div className="table-wrap">
                     <table className="table">
@@ -97,10 +134,26 @@ export default function StandardsPage() {
                   </div>
                 ) : <div className="card secondary">No validation results saved yet.</div>}
               </Section>
+
+              <Section title="Built on" n={6} foot="Credited, not endorsed. StreamProof is designed as a trust layer behind OneAquaHealth's Citizen Science App; this web app is a reference client.">
+                <div className="group">
+                  {BUILT_ON.map(([name, role, url]) => (
+                    <a key={name} className="row" href={url} target="_blank" rel="noopener">
+                      <div className="row-body"><span className="row-title">{name}</span><span className="row-sub">{role}</span></div>
+                      <div className="row-trail"><I.External width={16} height={16} /></div>
+                    </a>
+                  ))}
+                </div>
+              </Section>
             </>
           );
         }}
       </Gate>
     </Page>
   );
+}
+
+// reviewer screens stay in English
+export default function StandardsPagePage() {
+  return <EnglishOnly><StandardsPage /></EnglishOnly>;
 }

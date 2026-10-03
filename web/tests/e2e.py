@@ -217,6 +217,32 @@ with sync_playwright() as p:
         assert "obs-" not in body and "40.2" not in body, "share card leaks identity or coordinates"
     step("public share card shows no person or coordinates", share_card)
 
+    def city_switch():
+        page.goto(f"{BASE}/report", wait_until="networkidle")
+        page.get_by_role("radio", name="Oslo").click()
+        expect(page.get_by_text("Example stream for the demo")).to_be_visible()
+        page.get_by_role("button", name="Litter").click()
+        page.get_by_role("button", name="Submit report").click()
+        page.wait_for_url(re.compile(r"/reports/SP-\d+\?new=1"))
+        expect(page.get_by_text("Akerselva, Oslo")).to_be_visible()
+        rid["oslo"] = re.search(r"SP-\d+", page.url).group(0)
+    step("city switcher: a report in Oslo lands on the Akerselva", city_switch)
+
+    def language():
+        page.goto(f"{BASE}/reports/{rid['id']}", wait_until="networkidle")
+        page.get_by_role("button", name=re.compile("^Language")).click()
+        page.get_by_role("radio", name="Português").click()
+        expect(page.get_by_role("heading", name="Relato " + rid["id"])).to_be_visible()
+        expect(page.get_by_text("(Porquê esta classificação)")).to_be_visible()
+        body = page.locator("main").inner_text()
+        for english in ("Photo is clear and well exposed", "Location confirmed", "earlier reports", "Why this grade", "Strong evidence", "Good evidence"):
+            assert english not in body, f"untranslated: {english}"
+        assert page.evaluate("document.documentElement.lang") == "pt"
+        page.goto(f"{BASE}/review", wait_until="networkidle")  # reviewer screens stay English
+        expect(page.get_by_role("heading", name="Review")).to_be_visible()
+        page.evaluate("localStorage.setItem('sp-lang', 'en')")
+    step("language switch to Português (reviewer screens stay English)", language)
+
     print("console errors:", [e for e in errors if "favicon" not in e][:5])
     b.close()
 print("ALL PASS" if ok else "SOME FAILED")

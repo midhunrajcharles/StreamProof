@@ -1,19 +1,21 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { useI18n } from "@/ui/i18n";
 import { CitizenStart, OrgSignIn, Page, Segmented, Skeleton } from "@/ui/kit";
 
 function SignInPage() {
   const q = useSearchParams();
   const router = useRouter();
+  const { t } = useI18n();
   const [role, setRole] = useState<"citizen" | "org">(q.get("role") === "org" ? "org" : "citizen");
   const next = q.get("next");
   const go = () => router.push(next && next.startsWith("/") ? next : role === "org" ? "/review" : "/report");
   return (
-    <Page title="Sign in" eyebrow="StreamProof">
+    <Page title={t("signin")} eyebrow="StreamProof">
       <div className="stack-l">
-        <Segmented label="I am" value={role} onChange={setRole}
-          options={[{ value: "citizen", label: "A citizen" }, { value: "org", label: "An organisation" }]} />
+        <Segmented label={t("signin")} value={role} onChange={setRole}
+          options={[{ value: "citizen", label: t("group.citizen") }, { value: "org", label: t("group.org") }]} />
         {role === "org" ? <OrgSignIn onDone={go} /> : <CitizenStart onDone={go} />}
       </div>
     </Page>

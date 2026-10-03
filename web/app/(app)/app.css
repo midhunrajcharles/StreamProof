@@ -251,6 +251,11 @@ h1, h2, h3, h4, p { margin: 0; }
 .side-link[aria-current="page"] { background: var(--ink); color: var(--on-ink); }
 .side-link[aria-current="page"] svg { color: var(--on-ink); }
 .btn-sm.btn-icon { width: 36px; padding: 0; }
+/* compact nav bars: buttons show their icon only (the label stays for screen readers) */
+@media (max-width: 699px) {
+  .navbar-trail .btn-sm { padding: 0; width: 36px; }
+  .navbar-trail .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 /* the sidebar already has the account entry */
 @media (min-width: 1100px) { .account-btn { display: none !important; } }
 .side-foot { margin-top: auto; padding: 14px 10px 0; border-top: 0.5px solid var(--separator); display: grid; gap: 10px; }
@@ -358,10 +363,14 @@ a.row:active, button.row:active { background: var(--fill-strong); }
   background: var(--fill); color: var(--label); font-weight: 500; font-size: 0.94rem; transition: background-color 0.15s, color 0.15s, transform 0.15s var(--ease);
 }
 .chip svg { width: 16px; height: 16px; display: none; }
-.chip[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
-.chip[aria-pressed="true"] svg { display: block; }
+.chip[aria-pressed="true"], .chip[aria-checked="true"] { background: var(--ink); color: var(--on-ink); }
+.chip[aria-pressed="true"] svg, .chip[aria-checked="true"] svg { display: block; }
 .chip:active { transform: scale(0.96); }
 .chip.fine { width: 100%; justify-content: center; }
+/* city switcher: one row that scrolls sideways on narrow screens */
+.city-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--margin)); padding: 2px var(--margin); scroll-padding: var(--margin); }
+.city-chips::-webkit-scrollbar { display: none; }
+.city-chips .chip { flex: none; }
 
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 2px; border-radius: 10px; background: var(--fill); gap: 2px; }
 .seg button { min-height: 36px; border: 0; border-radius: 8px; background: transparent; font-size: 0.88rem; font-weight: 500; color: var(--label); padding: 0 10px; position: relative; white-space: nowrap; }

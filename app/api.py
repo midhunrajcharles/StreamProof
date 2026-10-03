@@ -102,6 +102,12 @@ def citizen_start(request: Request, display: str = Form("")):
     return session_get(request)
 
 
+@router.post("/citizen/logout")
+def citizen_logout(request: Request):
+    request.session.pop("citizen", None)
+    return session_get(request)
+
+
 @router.post("/consent")
 def give_consent(request: Request):
     u = role(request, "citizen")
@@ -192,11 +198,7 @@ def _signs(codes: list[str]) -> list[dict]:
 
 
 def place(lat: float, lon: float) -> str:
-    s = geo.snap(lat, lon)
-    if not s or s.distance_m > 200:
-        return "Away from a mapped stream"
-    km = (s.stream.chainage[-1] - s.chainage_m) / 1000
-    return f"{s.stream.name}, {km:.1f} km above the Mondego"
+    return brief.place_name(lat, lon)
 
 
 def report_json(r: Report, exact: bool) -> dict:
@@ -252,6 +254,11 @@ def meta():
                  for u, l in permitted_use.USES.items()],
         "streams": [{"name": x.name, "city": x.city, "line": [[la, lo] for lo, la in x.coords]} for x in geo.streams()],
         "start": [round(lat + 0.0001, 6), round(lon, 6)],
+        # city switcher: one stream per OneAquaHealth city, starting pin halfway along it
+        "cities": [{"city": x.city, "stream": x.name,
+                    "start": [round(c, 6) for c in (geo.point_at(x, x.chainage[-1] - 2550) if x.city == "Coimbra"
+                                                    else geo.point_at(x, x.chainage[-1] / 2))]}
+                   for x in geo.streams()],
         "rules": {"radius_m": config.NEARBY_RADIUS_M, "window_days": config.NEARBY_WINDOW_DAYS,
                   "min_expert": config.ADVISORY_MIN_EXPERT, "min_community": config.ADVISORY_MIN_COMMUNITY,
                   "per_day": config.CORROBORATIONS_PER_ACCOUNT_PER_DAY, "upstream_m": config.MISSION_UPSTREAM_M},

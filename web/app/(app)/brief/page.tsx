@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { signsText, useApi, type Mission } from "@/ui/api";
+import { EnglishOnly } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Page, Row, Section, Skeleton } from "@/ui/kit";
 
@@ -23,12 +24,12 @@ const SHADES: Record<string, string> = {
 
 const LABEL_KIND: Record<string, string> = { "Decision-grade": "ok", "Expert-verified": "ok", "Community-supported": "", "Unverified": "warn" };
 
-export default function BriefPage() {
+function BriefPage() {
   const q = useApi<Brief>("/brief");
   return (
     <Page title="River Health Brief" eyebrow="Organisation" width="wide"
       subtitle={q.data ? <>{q.data.area} · generated {q.data.generated} UTC · last {q.data.window_days} days</> : null}
-      actions={<button className="btn btn-sm no-print" onClick={() => window.print()}><I.Printer /> Print</button>}>
+      actions={<button className="btn btn-sm no-print" onClick={() => window.print()}><I.Printer /> <span className="btn-label">Print</span></button>}>
       <Gate q={q} skeleton={<Skeleton n={4} h={100} />}>
         {(b) => {
           const shown = b.counts.filter((c) => c.count > 0);
@@ -120,4 +121,9 @@ export default function BriefPage() {
       </Gate>
     </Page>
   );
+}
+
+// reviewer screens stay in English
+export default function BriefPagePage() {
+  return <EnglishOnly><BriefPage /></EnglishOnly>;
 }

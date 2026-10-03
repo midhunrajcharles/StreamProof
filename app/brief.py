@@ -41,12 +41,22 @@ class Row:
     label: str
 
 
-def _place(lat: float, lon: float) -> str:
+MOUTHS = {"coselhas": "the Mondego"}  # streams whose downstream end we can name
+
+
+def place_name(lat: float, lon: float) -> str:
+    """'Ribeira de Coselhas, 2.6 km above the Mondego' / 'Akerselva, Oslo' / 'Away from a mapped stream'."""
     s = geo.snap(lat, lon)
     if not s or s.distance_m > 200:
-        return f"near {lat:.3f}, {lon:.3f}"
-    km_from_mouth = (s.stream.chainage[-1] - s.chainage_m) / 1000
-    return f"{s.stream.name}, {km_from_mouth:.1f} km above the Mondego"
+        return "Away from a mapped stream"
+    if s.stream.id in MOUTHS:
+        km = (s.stream.chainage[-1] - s.chainage_m) / 1000
+        return f"{s.stream.name}, {km:.1f} km above {MOUTHS[s.stream.id]}"
+    return f"{s.stream.name}, {s.stream.city}"
+
+
+def _place(lat: float, lon: float) -> str:
+    return place_name(lat, lon)
 
 
 def _confidence(s: Signal) -> str:

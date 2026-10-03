@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
 import { api, ApiError, type Reason, type Rung, type Session } from "./api";
+import { LANGS, useI18n } from "./i18n";
 import * as I from "./icons";
 
 // ---------------------------------------------------------------- session + toasts
@@ -45,6 +46,36 @@ type PageProps = {
   actions?: React.ReactNode; width?: "content" | "wide" | "full"; children: React.ReactNode;
 };
 
+function AccountButton() {
+  const { t } = useI18n();
+  return <Link href="/account" className="btn btn-sm btn-icon account-btn" aria-label={t("account")}><I.Person /></Link>;
+}
+
+/** Language picker: six languages for everything a citizen sees. */
+export function LanguageButton() {
+  const { lang, setLang, t } = useI18n();
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" className="btn btn-sm" onClick={() => setOpen(true)} aria-label={`${t("language")}: ${LANGS.find((l) => l.code === lang)?.name}`}>
+        <I.Globe /> <span className="mono btn-label" style={{ textTransform: "uppercase" }}>{lang}</span>
+      </button>
+      <Sheet open={open} onClose={() => setOpen(false)} title={t("language")}>
+        <div className="group" role="radiogroup" aria-label={t("language")}>
+          {LANGS.map((l) => (
+            <button key={l.code} type="button" className="row" role="radio" aria-checked={l.code === lang} lang={l.code}
+              onClick={() => { setLang(l.code); setOpen(false); }}>
+              <div className="row-body"><span className="row-title">{l.name}</span></div>
+              {l.code === lang ? <I.Check width={20} height={20} style={{ color: "var(--link)" }} /> : null}
+            </button>
+          ))}
+        </div>
+        <p className="secondary t-foot">{t("language.note")}</p>
+      </Sheet>
+    </>
+  );
+}
+
 /** Large title that hands over to a compact navigation bar as it scrolls away. */
 export function Page({ title, eyebrow, subtitle, back, actions, width = "content", children }: PageProps) {
   const sentinel = useRef<HTMLDivElement>(null);
@@ -70,7 +101,8 @@ export function Page({ title, eyebrow, subtitle, back, actions, width = "content
         <div className="navbar-title" aria-hidden>{title}</div>
         <div className="navbar-trail">
           {actions}
-          <Link href="/account" className="btn btn-sm btn-icon account-btn" aria-label="Account"><I.Person /></Link>
+          <LanguageButton />
+          <AccountButton />
         </div>
       </div>
       <main id="content" className={`page${width === "wide" ? " wide" : width === "full" ? " full" : ""}`} tabIndex={-1}>
@@ -185,6 +217,7 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
 /** Citizens never get a password: a new pseudonym for this device, or the demo citizen. */
 export function CitizenStart({ onDone }: { onDone: () => void }) {
   const { session, refreshSession } = useApp();
+  const { t } = useI18n();
   const [display, setDisplay] = useState("");
   const [busy, setBusy] = useState<"" | "new" | "demo">("");
   const [error, setError] = useState("");
@@ -203,23 +236,23 @@ export function CitizenStart({ onDone }: { onDone: () => void }) {
     <div className="card stack-l" style={{ padding: 24 }}>
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Camera /></span>
-        <h2 className="t-title2">Report as a citizen</h2>
-        <p className="secondary">No account and no password. You get a pseudonym on this device; your name is never attached to the evidence.</p>
+        <h2 className="t-title2">{t("cs.title")}</h2>
+        <p className="secondary">{t("cs.body")}</p>
       </div>
       <form className="stack" onSubmit={(e) => { e.preventDefault(); go("new"); }}>
         <div className="field">
-          <label className="field-label" htmlFor="display">What should we call you? (optional)</label>
-          <input id="display" className="input" maxLength={40} autoComplete="nickname" value={display} onChange={(e) => setDisplay(e.target.value)} placeholder="For example: Ana" />
-          <p className="field-help">Shown only to you and on your certificate.</p>
+          <label className="field-label" htmlFor="display">{t("cs.name")}</label>
+          <input id="display" className="input" maxLength={40} autoComplete="nickname" value={display} onChange={(e) => setDisplay(e.target.value)} placeholder={t("cs.ph")} />
+          <p className="field-help">{t("cs.nameHelp")}</p>
         </div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "new" ? <I.Spinner /> : null} Start reporting</button>
+        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "new" ? <I.Spinner /> : null} {t("cs.start")}</button>
       </form>
       {session?.demo ? (
         <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
-          <p className="secondary t-sub">Or explore with Maria S., the demo citizen who already has reports.</p>
+          <p className="secondary t-sub">{t("cs.demoText")}</p>
           <button type="button" className="btn btn-block" disabled={Boolean(busy)} onClick={() => go("demo")}>
-            {busy === "demo" ? <I.Spinner /> : <I.Person />} Use the demo citizen
+            {busy === "demo" ? <I.Spinner /> : <I.Person />} {t("cs.demo")}
           </button>
         </div>
       ) : null}
@@ -233,12 +266,13 @@ export function SignIn({ role, onDone }: { role: "citizen" | "org"; onDone: () =
 
 /** Render loading / sign-in / error for a useApi() result, or the children when data is ready. */
 export function Gate<T>({ q, children, skeleton }: { q: { data: T | null; error: ApiError | null; loading: boolean; reload: () => void }; children: (d: T) => React.ReactNode; skeleton?: React.ReactNode }) {
+  const { t } = useI18n();
   if (q.error?.signin) return <SignIn role={q.error.signin} onDone={q.reload} />;
   if (q.error && !q.data) {
     return (
-      <Empty icon={q.error.status === 0 ? <I.Cloud /> : <I.Warn />} title={q.error.status === 0 ? "You're offline" : q.error.status === 404 ? "Not found" : "Couldn't load this"}
-        action={<button className="btn" onClick={q.reload}><I.Refresh /> Try again</button>}>
-        {q.error.message}
+      <Empty icon={q.error.status === 0 ? <I.Cloud /> : <I.Warn />} title={q.error.status === 0 ? t("state.offline") : q.error.status === 404 ? t("state.notFound") : t("state.cantLoad")}
+        action={<button className="btn" onClick={q.reload}><I.Refresh /> {t("state.tryAgain")}</button>}>
+        {q.error.status === 0 ? t("state.offlineMsg") : q.error.message}
       </Empty>
     );
   }
@@ -327,45 +361,43 @@ export function Grade({ g, size }: { g: string | null; size?: "md" | "lg" }) {
   );
 }
 
-const LADDER = [
-  { level: 1, label: "Report" }, { level: 2, label: "Assessed" }, { level: 3, label: "Community" },
-  { level: 4, label: "Expert" }, { level: 5, label: "Decision" },
-];
+const LADDER = ["report", "assessed", "community", "expert", "decision"];
 
 export function Ladder({ rung }: { rung: Rung }) {
-  if (rung.level === 0) return <span className="pill bad"><I.XCircle /> Not confirmed</span>;
+  const { t, rung: rungLabel } = useI18n();
+  if (rung.level === 0) return <span className="pill bad"><I.XCircle /> {rungLabel(rung.value, rung.label)}</span>;
   return (
-    <ol className="ladder" aria-label={`Trust level: ${rung.label}, step ${rung.level} of 5`}>
-      {LADDER.map((s) => (
-        <li key={s.level} className={s.level < rung.level ? "done" : s.level === rung.level ? "now" : ""} aria-current={s.level === rung.level ? "step" : undefined}>
-          <span>{s.label}</span>
-        </li>
-      ))}
+    <ol className="ladder" aria-label={t("ladder.aria", { label: rungLabel(rung.value, rung.label), n: rung.level })}>
+      {LADDER.map((key, i) => {
+        const level = i + 1;
+        return (
+          <li key={key} className={level < rung.level ? "done" : level === rung.level ? "now" : ""} aria-current={level === rung.level ? "step" : undefined}>
+            <span>{t(`ladder.${key}`)}</span>
+          </li>
+        );
+      })}
     </ol>
   );
 }
 
 export function RungPill({ rung }: { rung: Rung }) {
+  const { rung: rungLabel } = useI18n();
   const kind = rung.level === 0 ? "bad" : rung.level >= 4 ? "ok" : "";
-  return <span className={`pill ${kind}`}>{rung.level >= 4 ? <I.Check /> : null}{rung.label}</span>;
+  return <span className={`pill ${kind}`}>{rung.level >= 4 ? <I.Check /> : null}{rungLabel(rung.value, rung.label)}</span>;
 }
 
-const SIGNAL_NAMES: Record<string, string> = {
-  photo: "Photo", photo_time: "Photo time", location: "Location", stream: "On a stream",
-  nearby: "Nearby reports", context: "Weather", track_record: "Track record",
-};
-
 export function Reasons({ reasons }: { reasons: Reason[] }) {
+  const { t, tr } = useI18n();
   return (
     <div className="group">
       {reasons.map((r) => (
         <div key={r.signal} className="row has-lead" style={{ alignItems: "flex-start" }}>
           <div className="row-lead" style={{ paddingTop: 1 }}><I.StatusIcon status={r.status} /></div>
           <div className="row-body">
-            <span className="row-title">{SIGNAL_NAMES[r.signal] ?? r.signal}</span>
-            <span className="row-sub">{r.text}</span>
+            <span className="row-title">{t(`check.${r.signal}`)}</span>
+            <span className="row-sub">{tr(r.text)}</span>
           </div>
-          <span className="row-trail num" aria-label={`${r.points} of ${r.max_points} points`}>{r.points}/{r.max_points}</span>
+          <span className="row-trail num" aria-label={t("card.points", { p: r.points, max: r.max_points })}>{r.points}/{r.max_points}</span>
         </div>
       ))}
     </div>
@@ -373,11 +405,12 @@ export function Reasons({ reasons }: { reasons: Reason[] }) {
 }
 
 export function ScoreMeter({ score }: { score: number | null }) {
+  const { t } = useI18n();
   const v = score ?? 0;
   return (
     <div className="stack" style={{ gap: 6 }}>
-      <div className="spread t-sub"><span className="secondary">Evidence score</span><span className="num">{v}/100</span></div>
-      <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} aria-label="Evidence score"><span style={{ width: `${v}%` }} /></div>
+      <div className="spread t-sub"><span className="secondary">{t("card.score")}</span><span className="num">{v}/100</span></div>
+      <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} aria-label={t("card.score")}><span style={{ width: `${v}%` }} /></div>
     </div>
   );
 }

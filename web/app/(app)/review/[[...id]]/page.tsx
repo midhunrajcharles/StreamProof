@@ -3,6 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { ago, api, ApiError, signsText, useApi, when, type Mission, type Report } from "@/ui/api";
 import { History, PhotoView } from "@/ui/evidence";
+import { EnglishOnly } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Grade, Page, Reasons, Row, RungPill, Section, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
 import { Map, useMeta } from "@/ui/Map";
@@ -201,7 +202,7 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
 
 // ---------------------------------------------------------------- list + page
 
-export default function Review() {
+function Review() {
   const router = useRouter();
   const params = useParams<{ id?: string[] }>();
   const sel = params.id?.[0] ?? null;
@@ -292,4 +293,9 @@ export default function Review() {
       </Sheet>
     </Page>
   );
+}
+
+// reviewer screens stay in English
+export default function ReviewPage() {
+  return <EnglishOnly><Review /></EnglishOnly>;
 }

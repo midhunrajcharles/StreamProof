@@ -1,22 +1,26 @@
-"""Weather context from real daily rainfall for the city (Open-Meteo, cached in data/)."""
+"""Weather context from real daily rainfall for each city (Open-Meteo, cached in data/)."""
 
 import json
 from datetime import date, timedelta
 from functools import lru_cache
 from pathlib import Path
 
-DATA = Path(__file__).resolve().parent.parent / "data" / "weather_coimbra.json"
+DATA = Path(__file__).resolve().parent.parent / "data"
 
 
-@lru_cache(maxsize=1)
-def _days() -> dict[str, float]:
-    raw = json.loads(DATA.read_text(encoding="utf-8"))
+@lru_cache(maxsize=8)
+def _days(city: str) -> dict[str, float]:
+    path = DATA / f"weather_{city.lower()}.json"
+    if not path.exists():
+        return {}
+    raw = json.loads(path.read_text(encoding="utf-8"))
     return {d["date"]: (d["precip_mm"] or 0.0) for d in raw["days"]}
 
 
-def rain_summary(on: date) -> dict | None:
-    """Dry days in a row before `on`, rain in the last 2 and 7 days. None if no data for that date."""
-    days = _days()
+def rain_summary(on: date, city: str = "Coimbra") -> dict | None:
+    """Dry days in a row before `on`, rain in the last 2 and 7 days, for that city's rainfall.
+    None if there is no data for that city and date."""
+    days = _days(city)
     if not any((on - timedelta(days=k)).isoformat() in days for k in range(4)):
         return None  # data more than 3 days stale: say so rather than guess
     dry = 0

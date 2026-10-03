@@ -99,7 +99,7 @@ export default function Intro() {
           <div className="col-start-1 col-span-2 md:col-start-10 lg:col-start-8 md:col-span-3 lg:col-span-2">
             <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image w-full rounded-xs">
               <div className="pixelated-render-image__before is--portrait" />
-              <img src="/_astro/1.BZI2WLDo_Z15s3I2.webp" data-pixelate-render-img="true" alt="Team photo (placeholder)" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
+              <img src="/media/intro.webp" data-pixelate-render-img="true" alt="Water pouring from a mossy log into a stream" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
             </div>
           </div>
         </div>

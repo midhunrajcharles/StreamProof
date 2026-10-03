@@ -74,7 +74,7 @@ export default function Faq() {
           <div className="hidden col-start-10 col-span-3 pt-19 lg:flex justify-end gap-3">
             <div className="h-16 w-16 shrink-0">
               <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image h-full w-full rounded-full">
-                <img src="/_astro/1-square.9CCmXAD1_1jYnAV.webp" data-pixelate-render-img="true" alt="Team photo (placeholder)" loading="lazy" decoding="async" width="64" height="64" className="pixelated-render-image__img rounded-full" />
+                <img src="/media/faq-avatar.webp" data-pixelate-render-img="true" alt="" loading="lazy" decoding="async" width="64" height="64" className="pixelated-render-image__img rounded-full" />
               </div>
             </div>
             <div>
@@ -305,7 +305,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/1.DxVJs3uq_Z25MNzy.webp" alt="Accuracy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-1-sm.webp" alt="Accuracy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/2.e_KC48Y__Wv8e5.webp" alt="Prior art" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-2-sm.webp" alt="Prior art" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -411,7 +411,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/3.BiAI3h-J_2mkjev.webp" alt="Standards" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-3-sm.webp" alt="Standards" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -464,7 +464,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/4.Bendmdk4_ZrjJRz.webp" alt="Calibration" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-4-sm.webp" alt="Calibration" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -517,7 +517,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/5.syx7gqS__Z1WUXr3.webp" alt="Independence" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-5-sm.webp" alt="Independence" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -570,7 +570,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/6.B0vzFnvI_Z229EhT.webp" alt="Privacy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-6-sm.webp" alt="Privacy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -623,7 +623,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/7.cRZ6jJwp_Z1ps0Ov.webp" alt="Honesty" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-7-sm.webp" alt="Honesty" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -676,7 +676,7 @@ export default function Faq() {
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/_astro/8.BJOdODdW_Zu9701.webp" alt="Integrity" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-8-sm.webp" alt="Integrity" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -686,14 +686,14 @@ export default function Faq() {
           <div data-follower-cursor="" className="fixed top-0 left-0 z-100 aspect-3/4 w-80 pointer-events-none overflow-hidden rounded-xs max-lg:hidden" data-astro-cid-o2f2z7a3="">
             <div data-follower-cursor-inner="" className="relative flex size-full items-center justify-center rounded-xs" data-astro-cid-o2f2z7a3="">
               <div data-pixelate-render="" data-pixelate-render-trigger="manual" data-pixelate-render-keep="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" data-faq-pixelate="" className="pixelated-render-image absolute inset-0 h-full w-full rounded-xs" data-astro-cid-o2f2z7a3="">
-                <img src="/_astro/1.DxVJs3uq_Z2exrHe.webp" alt="Accuracy" sizes="320px" loading="eager" data-pixelate-render-img="" data-faq-preview="0" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img" />
-                <img src="/_astro/2.e_KC48Y__NKu6p.webp" alt="Prior art" sizes="320px" loading="lazy" data-faq-preview="1" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/3.BiAI3h-J_2dzF6P.webp" alt="Standards" sizes="320px" loading="lazy" data-faq-preview="2" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/4.Bendmdk4_ZA4o0f.webp" alt="Calibration" sizes="320px" loading="lazy" data-faq-preview="3" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/5.syx7gqS__Z26FByI.webp" alt="Independence" sizes="320px" loading="lazy" data-faq-preview="4" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/6.B0vzFnvI_Z2aTipz.webp" alt="Privacy" sizes="320px" loading="lazy" data-faq-preview="5" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/7.cRZ6jJwp_Z1ycDWb.webp" alt="Honesty" sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/8.BJOdODdW_ZCSK7G.webp" alt="Integrity" sizes="320px" loading="lazy" data-faq-preview="7" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-1.webp" alt="Accuracy" sizes="320px" loading="eager" data-pixelate-render-img="" data-faq-preview="0" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img" />
+                <img src="/media/faq-2.webp" alt="Prior art" sizes="320px" loading="lazy" data-faq-preview="1" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-3.webp" alt="Standards" sizes="320px" loading="lazy" data-faq-preview="2" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-4.webp" alt="Calibration" sizes="320px" loading="lazy" data-faq-preview="3" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-5.webp" alt="Independence" sizes="320px" loading="lazy" data-faq-preview="4" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-6.webp" alt="Privacy" sizes="320px" loading="lazy" data-faq-preview="5" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-7.webp" alt="Honesty" sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-8.webp" alt="Integrity" sizes="320px" loading="lazy" data-faq-preview="7" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
               </div>
               <div data-follower-label="" className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" data-astro-cid-o2f2z7a3="">
                 <div className="relative inline-grid overflow-visible font-sans leading-none text-white" data-astro-cid-o2f2z7a3="">
@@ -729,7 +729,7 @@ export default function Faq() {
         <div className="flex lg:hidden gap-3 pt-8">
           <div className="h-16 w-16 shrink-0">
             <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image h-full w-full rounded-full">
-              <img src="/_astro/1-square.9CCmXAD1_1jYnAV.webp" data-pixelate-render-img="true" alt="Team photo (placeholder)" loading="lazy" decoding="async" width="64" height="64" className="pixelated-render-image__img rounded-full" />
+              <img src="/media/faq-avatar.webp" data-pixelate-render-img="true" alt="" loading="lazy" decoding="async" width="64" height="64" className="pixelated-render-image__img rounded-full" />
             </div>
           </div>
           <div>

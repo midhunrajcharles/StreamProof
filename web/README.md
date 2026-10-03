@@ -49,13 +49,12 @@ Sign-in is a demo: each page offers "Continue as demo citizen / reviewer"; one b
 3. **No tracking.** `public/_astro/analytics.DAZ5jj89.js` is a no-op stub; the original loaded a third party's Google Analytics and Contentsquare tags. The cookie notice now says so.
 4. **Links.** CTAs point to the web app pages; "Built on" links point to the OAH FHIR guide, OneAquaHealth, HL7 FHIR R4, the EU grant record and the Devpost page.
 
-## Still to replace before publishing
+## Landing-page media
 
-These landing-page slots still show the source design's media and must get StreamProof's own:
+All photos and videos are in `public/media/`, built by `python tools/media.py` (add `--shots` to re-capture the two product screenshots from the running app):
 
-- Portrait photos (intro, process, about, FAQ): team photos.
-- Product images and hover videos (product, what it adds): screenshots and clips of the StreamProof app.
-- Hero video (`data-src` on the hero `<video>`): the StreamProof demo video.
-- Background photos (showcase, who it serves): real stream photos taken by the team.
+- Water footage and stills from Pexels (free licence; credited in `public/media/CREDITS.md`). Videos are re-encoded to small, silent H.264 (hero 5.4 MB).
+- The two "Product" images are screenshots of the StreamProof app itself.
+- Raw downloads stay in `tools/media-src/` (not committed). The source design's photos and videos have been removed.
 
-The design's fonts, CSS and scripts come from the source site; check their licences before the repository is made public.
+Still from the source design: its fonts, CSS, animation scripts and a decorative monogram drawing (hero bar and the large outline over the showcase). Check their licences before the repository is made public.

@@ -82,10 +82,10 @@ export default function Work() {
         <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-5 mb-32 md:mb-64">
           <article className="col-span-4 md:col-span-8 lg:col-span-5 mb-12 md:mb-24 lg:mb-0 group" data-work-item="" data-pixelate-hover-scope="">
             <div className="relative">
-              <video data-work-hover-video="" data-src="https://lee-holmes.ams3.cdn.digitaloceanspaces.com/videos/dd_pma.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="StreamProof citizen app walkthrough" />
+              <video data-work-hover-video="" data-src="/media/product-citizen.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="A forest stream, close up" />
               <div data-work-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="fill" className="pixelated-render-image w-full rounded-xs">
                 <div className="pixelated-render-image__before" style={{"paddingTop": "124.87623762376239%"}} />
-                <img src="/_astro/featured.DGlzrPoB_24G06C.webp" data-pixelate-render-img="true" alt="StreamProof citizen app (placeholder screen)" loading="lazy" decoding="async" width="808" height="1009" className="pixelated-render-image__img" />
+                <img src="/media/product-citizen.webp" data-pixelate-render-img="true" alt="StreamProof report card: grade A, strong evidence" loading="lazy" decoding="async" width="808" height="1009" className="pixelated-render-image__img" />
               </div>
             </div>
             <div className="grid grid-cols-4 md:grid-cols-5 gap-x-3 gap-y-1.5 md:gap-5 mt-3">
@@ -99,10 +99,10 @@ export default function Work() {
           </article>
           <article className="col-span-4 md:col-span-6 lg:col-span-4 row-start-2 md:col-start-7 lg:col-start-9 group" data-work-item="" data-pixelate-hover-scope="">
             <div className="relative">
-              <video data-work-hover-video="" data-src="https://lee-holmes.ams3.cdn.digitaloceanspaces.com/videos/erfling_site.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="StreamProof organisation portal walkthrough" />
+              <video data-work-hover-video="" data-src="/media/product-org.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="A river seen from above" />
               <div data-work-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="fill" className="pixelated-render-image w-full rounded-xs">
                 <div className="pixelated-render-image__before" style={{"paddingTop": "62.32481450948063%"}} />
-                <img src="/_astro/featured.Bj3lyfX1_ZMUj9G.webp" data-pixelate-render-img="true" alt="StreamProof organisation portal (placeholder screen)" loading="lazy" decoding="async" width="1213" height="756" className="pixelated-render-image__img" />
+                <img src="/media/product-org.webp" data-pixelate-render-img="true" alt="StreamProof review queue with a report open" loading="lazy" decoding="async" width="1213" height="756" className="pixelated-render-image__img" />
               </div>
             </div>
             <div className="grid grid-cols-4 gap-x-3 gap-y-1.5 md:gap-5 mt-3">

@@ -64,10 +64,10 @@ export default function Process() {
                 </span>
                 <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-keep="" data-pixelate-render-hover="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" className="pixelated-render-image w-full rounded-xs">
                   <div className="pixelated-render-image__before" style={{"paddingTop": "125.14204545454545%"}} />
-                  <img src="/_astro/step-1.BAyJGzMp_1HdDt.webp" alt="Report what you see" data-pixelate-render-img="" data-process-image="1" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img" />
-                  <img src="/_astro/step-2.YXnM7XV0_12hhN9.webp" alt="Grade it with reasons" data-process-image="2" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
-                  <img src="/_astro/step-3.Bff5yaCY_2wzwah.webp" alt="Strengthen it together" data-process-image="3" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
-                  <img src="/_astro/step-4.DI6LKhUa_Z1isyLC.webp" alt="Release what’s permitted" data-process-image="4" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
+                  <img src="/media/step-1.webp" alt="Report what you see" data-pixelate-render-img="" data-process-image="1" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img" />
+                  <img src="/media/step-2.webp" alt="Grade it with reasons" data-process-image="2" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
+                  <img src="/media/step-3.webp" alt="Strengthen it together" data-process-image="3" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
+                  <img src="/media/step-4.webp" alt="Release what’s permitted" data-process-image="4" aria-hidden="true" loading="lazy" decoding="async" width="704" height="881" className="pixelated-render-image__img opacity-0" />
                 </div>
                 <span data-process-image-badge="true" className="inline-grid shrink-0 overflow-visible align-middle h-4 w-4 absolute bottom-13 left-1/2 -translate-x-1/2 mix-blend-difference pointer-events-none" style={{"color": "white"}}>
                   <span className="col-start-1 row-start-1 p-1 -m-1" style={{"filter": "blur(1px)", "WebkitMaskImage": "linear-gradient(to top, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to top, white 0%, white 25%, transparent 55%)"}}>
@@ -231,8 +231,8 @@ export default function Process() {
             <div className="col-span-2 md:col-start-7 md:col-span-6">
               <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-keep="" data-pixelate-render-hover="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" data-process-portrait="" className="pixelated-render-image w-full max-w-56.75 rounded-xs">
                 <div className="pixelated-render-image__before is--portrait" />
-                <img src="/_astro/me.Cam-sgm3_ZF6DE4.webp" data-pixelate-render-img="true" data-process-portrait-img="default" alt="Team photo (placeholder)" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
-                <img src="/_astro/me-2.7KAP3U2V_Z2hTlBQ.webp" data-process-portrait-img="hover" alt="" aria-hidden="true" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/process-a.webp" data-pixelate-render-img="true" data-process-portrait-img="default" alt="A mountain river under a cloudy sky" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img" />
+                <img src="/media/process-b.webp" data-process-portrait-img="hover" alt="" aria-hidden="true" loading="lazy" decoding="async" width="227" height="302" className="pixelated-render-image__img opacity-0" />
               </div>
             </div>
           </div>
@@ -242,10 +242,10 @@ export default function Process() {
             <div className="w-10 shrink-0">
               <div data-pixelate-render="" data-process-mobile-pixelate="" data-pixelate-render-trigger="manual" data-pixelate-render-keep="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" className="pixelated-render-image w-full overflow-hidden rounded-xs">
                 <div className="pixelated-render-image__before" style={{"paddingTop": "125%"}} />
-                <img src="/_astro/step-1.BAyJGzMp_Z2tTpIP.webp" alt="" data-pixelate-render-img="" data-process-mobile-image="1" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img" />
-                <img src="/_astro/step-2.YXnM7XV0_Z2rUfKu.webp" alt="" data-process-mobile-image="2" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/step-3.Bff5yaCY_Z1zVDrS.webp" alt="" data-process-mobile-image="3" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
-                <img src="/_astro/step-4.DI6LKhUa_fzuEJ.webp" alt="" data-process-mobile-image="4" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/step-1-sm.webp" alt="" data-pixelate-render-img="" data-process-mobile-image="1" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img" />
+                <img src="/media/step-2-sm.webp" alt="" data-process-mobile-image="2" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/step-3-sm.webp" alt="" data-process-mobile-image="3" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/step-4-sm.webp" alt="" data-process-mobile-image="4" aria-hidden="true" loading="lazy" decoding="async" width="40" height="50" className="pixelated-render-image__img opacity-0" />
               </div>
             </div>
             <div className="min-w-0 flex-1 flex justify-between items-center">

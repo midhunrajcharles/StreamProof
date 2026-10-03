@@ -4,9 +4,9 @@ export default function Testimonials() {
       <section id="testimonials" className="relative h-screen flex flex-col justify-between overflow-hidden page-x pt-3 pb-6 md:py-5 md:pb-8 z-2" data-testimonials="">
         <div className="absolute inset-0">
           <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-keep="" data-pixelate-render-hover="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" data-testimonial-pixelate="bg" className="pixelated-render-image h-full w-full">
-            <img src="/_astro/drop-dead.CcQxE-8-_1teDrx.webp" alt="" data-pixelate-render-img="" data-testimonial-bg="0" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img" />
-            <img src="/_astro/erfling.B1GuopYe_1UnWh7.webp" alt="" data-testimonial-bg="1" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img opacity-0" />
-            <img src="/_astro/highful-minds.D8tuh9QE_UI1t0.webp" alt="" data-testimonial-bg="2" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img opacity-0" />
+            <img src="/media/serves-1.webp" alt="" data-pixelate-render-img="" data-testimonial-bg="0" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img" />
+            <img src="/media/serves-2.webp" alt="" data-testimonial-bg="1" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img opacity-0" />
+            <img src="/media/serves-3.webp" alt="" data-testimonial-bg="2" aria-hidden="true" loading="lazy" decoding="async" width="1500" height="1000" className="pixelated-render-image__img opacity-0" />
           </div>
         </div>
         <div className="absolute inset-0 bg-black opacity-50 pointer-events-none" />
@@ -99,9 +99,9 @@ export default function Testimonials() {
             <div className="flex items-center gap-2">
               <div className="h-9 w-9 shrink-0">
                 <div data-pixelate-render="" data-testimonial-pixelate="avatar" data-pixelate-render-trigger="inview" data-pixelate-render-keep="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" className="pixelated-render-image h-full rounded-full">
-                  <img src="/_astro/drop-dead.MYcfM-Pe_24PEEO.webp" alt="Citizens and schools" data-pixelate-render-img="" data-testimonial-avatar="0" aria-hidden="false" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full" />
-                  <img src="/_astro/erfling.J24nJQ_Z_Yc80i.webp" alt="OAH partner ecologists" data-testimonial-avatar="1" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full opacity-0" />
-                  <img src="/_astro/highful-minds.CnnivBHc_w3ILd.webp" alt="Municipalities" data-testimonial-avatar="2" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full opacity-0" />
+                  <img src="/media/serves-1-sm.webp" alt="Citizens and schools" data-pixelate-render-img="" data-testimonial-avatar="0" aria-hidden="false" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full" />
+                  <img src="/media/serves-2-sm.webp" alt="OAH partner ecologists" data-testimonial-avatar="1" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full opacity-0" />
+                  <img src="/media/serves-3-sm.webp" alt="Municipalities" data-testimonial-avatar="2" aria-hidden="true" loading="lazy" decoding="async" width="36" height="36" className="pixelated-render-image__img rounded-full opacity-0" />
                 </div>
               </div>
               <div className="text-white text-xs">

@@ -293,4 +293,34 @@ Total ≈ 12.5 h of build plus recording. Keep a commit after each step so a sub
 5. **Blockchain question (González):** have a one-line answer ready (plan §15 Q12).
 6. **UiO's OAH page** states the aim to test "whether the observations can be used as indicators for early warning". StreamProof is the quality gate that makes that test possible. Quote this in the Impact section.
 
+---
+
+## 18. What each sponsor gets (judge's-eye view, 2026-10-03)
+
+Devpost sponsors and partners: OneAquaHealth, EFMI, HL7, IEEE EMBS Orange County, IEEE Orange County Computer Society, IEEE Blockchain Committee, IEEE Orange County Section, IEEE Southern California Council, ISO, European Union.
+
+Nobody makes money from a hackathon entry. Sponsors gain proof that their outputs get used, standards adoption, and visibility.
+
+| Sponsor / judge org | What StreamProof gives them | Visible in the project? |
+|---|---|---|
+| OneAquaHealth / EU (Feio) | Quality gate for Citizen Science App data, before the project ends (31 Dec 2026); evidence of uptake for its final reporting | Plan: yes (guide, Catalogue, cities) |
+| HL7 / HL7 Europe (Datta) | A working One Health use case for the draft OAH guide; a trust add-on; 3 proposed new codes | Plan: yes |
+| ENORA (Koutalieris) | Expert-verified Diptera presence/absence data for DipteraCAST (fixes its stated unbalanced-data problem) | Plan: yes |
+| SHINE 2Europe (op den Akker, Freitas) | A municipal brief + equity line + engagement loop: showcase material for their health-innovation work | Plan: partly |
+| SYNYO (Nikolov) | An add-on that strengthens OAH's platform, **if** framed as a layer behind the Citizen Science App, not a rival app | Must fix framing |
+| EFMI | A One Digital Health case suited to a medical informatics paper | Add a mention |
+| **ISO** | **Nothing yet.** Fix: map the 7 checks to **ISO 19157** geographic data-quality elements (positional accuracy, temporal quality, thematic accuracy, completeness, logical consistency) | Add |
+| IEEE (EMBS, Computer Society, Blockchain, sections) | A showcase winner for IEEE iGET; honest tamper-evidence design; health-tech product | Add a mention |
+
+**Rules:** credit, don't advertise. Add a "Built on" section naming each public asset used, plus "Funded context: EU Horizon Europe grant 101086521 (OneAquaHealth)". No logos, no wording that implies endorsement.
+
+**Recalculated odds** (self-scored; 40k-run model):
+
+| State | Weighted | 1st (60 / 100 / 150 entries) | Cash prize |
+|---|---|---|---|
+| Current code | 7.42 | 6% / 3% / 1% | 15–43% |
+| Must-items only (steps 1–4) | 8.67 | 58% / 47% / 37% | 86–97% |
+| Full plan + sponsor fixes | 9.15 | 80% / 72% / 64% | 97–100% |
+| Expected, with the risk of not finishing (100 entries) | | **≈ 59%** | **≈ 90%** |
+
 Sources: Devpost judges list; CORDIS project 101086521; pages.uc.pt and mare-centre.pt (Feio); engagestandards.ieee.org bio (Nikolov); hl7news.hl7.org/?p=683 and sagroups.ieee.org/3228 (Datta); ictagrifood.eu and zsi.at (ENORA); oneaquahealth.eu DipteraCAST article; utwente.nl TechMed biography (op den Akker); cienciavitae.pt (Freitas); site.ieee.org/miami and sagroups.ieee.org/7800 (González); r6.ieee.org/ocs (IEEE OC EMBS); med.uio.no OAH page.

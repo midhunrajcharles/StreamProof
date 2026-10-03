@@ -18,7 +18,7 @@ with sync_playwright() as p:
             mine = r.get(f"{BASE}/api/me").json()["reports"]
             q = r.get(f"{BASE}/api/queue").json()
             cert = next(x["id"] for x in q["done"] if x["certificate"])
-            paths = ["/report", "/reports", "/review", f"/review/{q['todo'][0]['id']}", "/brief", "/standards", f"/verify/{cert}", "/sign-in", "/sign-up", "/account", f"/share/{cert}"]
+            paths = ["/start", "/home", "/dashboard", "/report", "/reports", "/review", f"/review/{q['todo'][0]['id']}", "/brief", "/standards", f"/verify/{cert}", "/sign-in", "/sign-up", "/account", f"/share/{cert}"]
             if mine:
                 paths.append(f"/reports/{mine[0]['id']}")
             for path in paths:

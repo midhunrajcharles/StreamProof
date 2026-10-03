@@ -54,6 +54,9 @@ export const Pencil = (p: P) => <Svg {...p}><path d="M4.5 19.5h4l10-10-4-4-10 10
 export const Key = (p: P) => <Svg {...p}><circle cx="8" cy="15" r="4" /><path d="m11 12 8.5-8.5M16.5 6.5l2.5 2.5M14 9l2 2" /></Svg>;
 export const Exit = (p: P) => <Svg {...p}><path d="M14 4.5H6.5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2H14M10 12h10M16.5 8.5 20 12l-3.5 3.5" /></Svg>;
 export const Building = (p: P) => <Svg {...p}><path d="M4.5 20.5V5.5l8-2.5v17.5M12.5 8.5h7v12M3 20.5h18M7.5 8v.1M7.5 11.5v.1M7.5 15v.1M15.5 12v.1M15.5 15.5v.1" /></Svg>;
+export const Grid = (p: P) => <Svg {...p}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></Svg>;
+export const Swap = (p: P) => <Svg {...p}><path d="M7 4.5 3.5 8 7 11.5M3.5 8H16M17 12.5l3.5 3.5-3.5 3.5M20.5 16H8" /></Svg>;
+export const ArrowRight = (p: P) => <Svg {...p}><path d="M4.5 12h15M13.5 6l6 6-6 6" /></Svg>;
 export const Spinner = (p: P) => <svg viewBox="0 0 24 24" className="spinner" aria-hidden {...p}><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeOpacity=".2" strokeWidth="2.5" /><path d="M21 12a9 9 0 0 0-9-9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" /></svg>;
 
 /** Status shape + colour: never colour alone. */

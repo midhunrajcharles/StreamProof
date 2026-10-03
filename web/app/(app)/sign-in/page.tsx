@@ -10,7 +10,7 @@ function SignInPage() {
   const { t } = useI18n();
   const [role, setRole] = useState<"citizen" | "org">(q.get("role") === "org" ? "org" : "citizen");
   const next = q.get("next");
-  const go = () => router.push(next && next.startsWith("/") ? next : role === "org" ? "/review" : "/report");
+  const go = () => router.push(next && next.startsWith("/") && !["/home", "/dashboard"].includes(next) ? next : role === "org" ? "/dashboard" : "/home");
   return (
     <Page title={t("signin")} eyebrow="StreamProof">
       <div className="stack-l">

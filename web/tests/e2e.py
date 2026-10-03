@@ -300,13 +300,43 @@ with sync_playwright() as p:
         op.get_by_label("Work email").fill(f"e2e.org.{int(time.time())}@example.org")
         op.get_by_label("Password").fill("a-long-org-password")
         op.get_by_role("button", name="Create organisation").click()
-        op.wait_for_url(f"{BASE}/account")
+        op.wait_for_url(f"{BASE}/dashboard")
+        expect(op.get_by_role("heading", name="Ghent water lab (e2e)")).to_be_visible()
+        op.goto(f"{BASE}/account")
         card = op.locator(".profile-card").first
         expect(card).to_contain_text("Lien V.")
         expect(card).to_contain_text("Ghent water lab (e2e) · Ghent")
         expect(op.get_by_text("Your team sees reports, missions and the brief for Ghent only.")).to_be_visible()
         expect(op.get_by_role("heading", name="(Team)")).to_be_visible()
     step("organisation sign-up creates a Ghent organisation with you as admin", org_signup)
+
+    def try_flow():
+        g = b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True).new_page()
+        g.goto(f"{BASE}/", wait_until="domcontentloaded")
+        g.locator('a[data-track-cta="header"], a[data-track-cta="mobile_menu"]').first.evaluate("a => a.click()")
+        g.wait_for_url(f"{BASE}/start")
+        expect(g.get_by_role("heading", name="Try StreamProof")).to_be_visible()
+        g.locator("section", has_text="Report what you see").get_by_role("link", name="Sign in").click()
+        g.wait_for_url(re.compile(r"/sign-in"))
+        g.get_by_role("button", name="Use the demo citizen").click()
+        g.wait_for_url(f"{BASE}/home")
+        expect(g.get_by_role("heading", name="Hello, Maria S.")).to_be_visible()
+        tabs = g.get_by_role("navigation", name="Sections").last
+        assert [x.strip() for x in tabs.locator(".tab").all_inner_texts()] == ["Home", "Report", "Reports"]
+        g.goto(f"{BASE}/start")
+        g.wait_for_url(f"{BASE}/home")  # signed-in people skip the choice
+    step("Try: choose citizen, sign in, land on the citizen dashboard", try_flow)
+
+    def org_dashboard():
+        o = b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True).new_page()
+        o.goto(f"{BASE}/start")
+        o.locator("section", has_text="For municipalities").get_by_role("link", name="Sign in").click()
+        o.get_by_role("button", name="Continue with the demo reviewer").click()
+        o.wait_for_url(f"{BASE}/dashboard")
+        expect(o.get_by_text("To review")).to_be_visible()
+        tabs = o.get_by_role("navigation", name="Sections").last
+        assert [x.strip() for x in tabs.locator(".tab").all_inner_texts()] == ["Dashboard", "Review", "Brief", "Standards"]
+    step("organiser signs in and lands on the organisation dashboard", org_dashboard)
 
     print("console errors:", [e for e in errors if "favicon" not in e][:5])
     b.close()

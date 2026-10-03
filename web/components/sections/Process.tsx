@@ -222,9 +222,9 @@ export default function Process() {
             <p className="col-span-3 md:col-start-7 md:col-span-6 text-[2.375rem] leading-[1.1] md:text-[3.361rem] md:leading-14 text-white font-medium pb-5 tracking-[-0.01em] text-pretty">
               {"Want to see it?"}
               <br />
-              <a href="/report" data-underline-link="alt" data-process-cta="" data-track-cta="process" data-track-label="Try the demo" className="text-inherit no-underline">
+              <a href="/start" data-underline-link="alt" data-process-cta="" data-track-cta="process" data-track-label="Try" className="text-inherit no-underline">
                 <span data-process-cta-text="">
-                  {"Try the demo→"}
+                  {"Try →"}
                 </span>
               </a>
             </p>

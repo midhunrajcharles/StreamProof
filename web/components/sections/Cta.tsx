@@ -1,7 +1,7 @@
 export default function Cta() {
   return (
     <>
-      <a href="/report" data-cta-section="" data-track-cta="bottom_cta" data-track-label="Let’s make citizen reports worth acting on" className="group relative flex lg:grid lg:grid-cols-12 lg:gap-5 page-x overflow-hidden pt-3 lg:pt-6 pb-2.25 lg:pb-0 border-t border-neutral-200 cursor-pointer">
+      <a href="/start" data-cta-section="" data-track-cta="bottom_cta" data-track-label="Let’s make citizen reports worth acting on" className="group relative flex lg:grid lg:grid-cols-12 lg:gap-5 page-x overflow-hidden pt-3 lg:pt-6 pb-2.25 lg:pb-0 border-t border-neutral-200 cursor-pointer">
         <div data-cta-cursor-y="" className="col-span-1 self-center shrink-0 relative z-10">
           <img src="/_astro/pixel-icon.DMxVTecj_Z1EOhVx.webp" alt="" loading="lazy" decoding="async" width="30" height="30" className="-ml-1.75 h-10 w-10 lg:h-auto lg:w-auto object-contain" />
         </div>

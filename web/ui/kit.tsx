@@ -9,13 +9,23 @@ import * as I from "./icons";
 // ---------------------------------------------------------------- session + toasts
 
 type Toast = { id: number; text: string; kind: "ok" | "bad" | "info" };
-type Ctx = { session: Session | null; refreshSession: () => Promise<void>; toast: (text: string, kind?: Toast["kind"]) => void };
-const AppCtx = createContext<Ctx>({ session: null, refreshSession: async () => {}, toast: () => {} });
+/** Which side of the app you're using: citizens and organisations each get their own dashboard and navigation. */
+export type Mode = "citizen" | "org" | "guest";
+type Ctx = {
+  session: Session | null; refreshSession: () => Promise<void>; toast: (text: string, kind?: Toast["kind"]) => void;
+  mode: Mode; setMode: (m: "citizen" | "org") => void;
+};
+const AppCtx = createContext<Ctx>({ session: null, refreshSession: async () => {}, toast: () => {}, mode: "guest", setMode: () => {} });
 export const useApp = () => useContext(AppCtx);
+export const homeOf = (m: Mode) => (m === "org" ? "/dashboard" : m === "citizen" ? "/home" : "/start");
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [pref, setPref] = useState<"citizen" | "org" | null>(null);
+  useEffect(() => { try { const v = localStorage.getItem("sp-mode"); if (v === "citizen" || v === "org") setPref(v); } catch { /* private mode */ } }, []);
+  const setMode = useCallback((m: "citizen" | "org") => { setPref(m); try { localStorage.setItem("sp-mode", m); } catch { /* ignore */ } }, []);
+  const mode: Mode = session?.org && session?.citizen ? (pref ?? "org") : session?.org ? "org" : session?.citizen ? "citizen" : "guest";
   const refreshSession = useCallback(async () => {
     try { setSession(await api<Session>("/session")); } catch { /* offline: keep the last value */ }
   }, []);
@@ -26,7 +36,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
   useEffect(() => { refreshSession(); }, [refreshSession]);
   return (
-    <AppCtx.Provider value={{ session, refreshSession, toast }}>
+    <AppCtx.Provider value={{ session, refreshSession, toast, mode, setMode }}>
       {children}
       <div className="toast-region" role="status" aria-live="polite">
         {toasts.map((t) => (
@@ -241,7 +251,7 @@ export function CitizenStart({ onDone }: { onDone: () => void }) {
     finally { setBusy(""); }
   };
   return (
-    <div className="card stack-l" style={{ padding: 24 }}>
+    <div className="card stack-l" style={{ padding: 24, scrollMarginTop: 80 }} id="anon">
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Camera /></span>
         <h2 className="t-title2">{t("cs.title")}</h2>

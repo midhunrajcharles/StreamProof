@@ -104,7 +104,7 @@ function Team({ me }: { me: string }) {
   const [busy, setBusy] = useState(false);
   const members = q.data?.members ?? [];
   return (
-    <Section title="Team" trail={<button className="btn btn-sm" onClick={() => setOpen(true)}><I.Plus /> Add</button>}
+    <Section title="Team" id="team" trail={<button className="btn btn-sm" onClick={() => setOpen(true)}><I.Plus /> Add</button>}
       foot="Reviewers verify reports and read the brief. Admins also manage the team and the organisation profile. A deactivated account loses access straight away.">
       {members.length ? (
         <div className="group">

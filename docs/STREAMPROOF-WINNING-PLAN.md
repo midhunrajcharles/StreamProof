@@ -1,14 +1,14 @@
 # StreamProof: the winning plan
 
 *Written 2026-10-03. This is the only plan for StreamProof. Everything here is planned, not yet built; section 3 lists what the code in this repo still needs.*
-*Deadline: **Oct 4, 2026 @ 9:00 pm PDT** (= Oct 5, 09:30 IST). Judging Oct 1–15. Winners announced Oct 24, 2026 at IEEE iGET.*
+*No time limits apply to this plan: build everything in it, in order, to the quality bar in section 12.*
 
 ---
 
 ## 0. Bottom line
 
 - **Goal:** 1st place. For an 80% chance of 1st, the judges' weighted average has to reach about **9.2–9.4 / 10**, which is close to perfect. No idea can guarantee that. StreamProof is designed to reach that bar on every criterion.
-- **Estimated score once built:** about **9.0 / 10**, giving **55–75% for 1st** and **85–95% for a cash prize** (model below). With every "beyond the product" item in section 11 done, and judges who agree with each other, 1st reaches about **79–83%**.
+- **Estimated score once fully built:** about **9.15 / 10**, giving **64–80% for 1st** (72–86% if the judges agree strongly) and **97–100% for a cash prize** (model in section 12).
 - **The single biggest lever:** StreamProof stops inventing its own standard and becomes **the trust and provenance add-on to the official OneAquaHealth FHIR guide** (HL7 Europe). The judges' own standards work gets *extended*, not *ignored*.
 
 ---
@@ -167,7 +167,6 @@ A city switcher (Coimbra, Benevento, Ghent, Oslo, Toulouse) loads each city's ma
 
 | Tactic | Why it scores | Who acts |
 |---|---|---|
-| Submit by Oct 4 ~12:00 PDT, 9 h early | Avoids Devpost failures at the deadline | User |
 | Video: first 20 s shows the gate refusing an export, then 0 errors against the **OAH** profiles | Judges score the video before the repo | User records, script in §13 |
 | Track alignment statement names the OAH guide by its canonical URL | Datta recognises his own work instantly | Text in §14 |
 | Thumbnail and gallery image: the River Health Brief with an advisory box | Gallery browsing | User |
@@ -184,23 +183,23 @@ A city switcher (Coimbra, Benevento, Ghent, Oslo, Toulouse) loads each city's ma
 
 | Criterion (weight) | Target | What drives it |
 |---|---|---|
-| Impact & alignment (30%) | **9.2** | OAH guide + Catalogue + DipteraCAST + 5 cities + One Health advisory |
-| Innovation (20%) | **8.8** | Permitted-use rules as FHIR data, enforced and carried; honest prior-art position |
-| Technical (20%) | **9.4** | Conforms to the official OAH profiles, validator 0 errors, tests, calibration report |
+| Impact & alignment (30%) | **9.4** | OAH guide + Catalogue + DipteraCAST + 5 cities + sponsor benefit made visible |
+| Innovation (20%) | **8.9** | Permitted-use rules as FHIR data, enforced and carried; honest prior-art position |
+| Technical (20%) | **9.4** | Conforms to the official OAH profiles, validator 0 errors, ISO 19157 mapping, tests, calibration report |
 | UX (15%) | **8.6** | Real photos, 6 languages, 60-second flow, live URL |
-| Feasibility & scale (15%) | **9.0** | Open-core, exploitable-result answers, module for the HL7 Europe guide |
-| **Weighted** | **≈ 9.04** | |
+| Feasibility & scale (15%) | **9.2** | Open-core, exploitable-result answers, post-project maintenance, module for the HL7 Europe guide |
+| **Weighted** | **≈ 9.15** | |
 
 Monte Carlo (40k runs; field mean 5.9, sd 1.0; judge noise ±0.55; self-scored, so likely optimistic):
 
 | Weighted score | 1st, 60 entries | 1st, 100 entries | 1st, 150 entries |
 |---|---|---|---|
 | 8.4 | 44% | 32% | 24% |
-| **9.0 (target)** | **74%** | **64%** | **56%** |
-| 9.2 | 82% | 74% | 67% |
+| 9.0 | 74% | 64% | 56% |
+| **9.15 (target)** | **80%** | **72%** | **64%** |
 | 9.4 | 88% | 83% | 76% |
 
-If judges agree strongly (noise ±0.35), a 9.0 score gives about 79% at 100 entries. **80% is reachable only at the top of this range. It is a target, not a promise.**
+If judges agree strongly (noise ±0.35), the 9.15 target gives about 79–86%. **It is a target, not a promise.**
 
 ---
 
@@ -243,18 +242,20 @@ If judges agree strongly (noise ±0.35), a 9.0 score gives about 79% at 100 entr
 
 ## 16. Build order (when building is approved)
 
-| Step | Work | Est. | Cut line |
-|---|---|---|---|
-| 1 | Fetch + SUSHI-compile the OAH guide; StreamProof profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH | 3.5 h | **Must** |
-| 2 | `trust-level` CodeSystem with `permits`; gate loads it; consistency test | 1.5 h | **Must** |
-| 3 | Catalogue of Measures mapping in the brief | 1.5 h | **Must** |
-| 4 | DipteraCAST ground-truth export + context slot | 1.5 h | **Must** |
-| 5 | 5-city switcher + 6-language strings | 2 h | Should |
-| 6 | Prior art, FAIR, exploitable-result sections in README/Devpost; calibration report | 1.5 h | Should |
-| 7 | Live deployment (needs the user's hosting account) | 1 h | Should |
-| 8 | Real photos, video recording, Devpost submit | user | **Must** |
+| Step | Work |
+|---|---|
+| 1 | Fetch + SUSHI-compile the OAH guide; StreamProof profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH |
+| 2 | `trust-level` CodeSystem with `permits`; gate loads it; consistency test |
+| 3 | Catalogue of Measures mapping in the brief |
+| 4 | DipteraCAST ground-truth export + context slot |
+| 5 | Sponsor fit: ISO 19157 mapping of the 7 checks; "Built on" credits; Citizen Science App framed as the host, StreamProof's PWA as a reference client |
+| 6 | Judge-driven additions (section 17.3): under-observed reaches, engagement loop, post-project maintenance answer, evidence-quality wording |
+| 7 | 5-city switcher + 6-language strings |
+| 8 | Prior art, FAIR, exploitable-result sections in README/Devpost; calibration report |
+| 9 | Live deployment (needs the user's hosting account) |
+| 10 | Real photos, video recording, Devpost submission (user) |
 
-Total ≈ 12.5 h of build plus recording. Keep a commit after each step so a submittable version always exists. Internal deadline: **Oct 4, 12:00 PDT**.
+Do every step to completion; none is optional. Keep a commit after each step.
 
 ---
 
@@ -319,8 +320,8 @@ Nobody makes money from a hackathon entry. Sponsors gain proof that their output
 | State | Weighted | 1st (60 / 100 / 150 entries) | Cash prize |
 |---|---|---|---|
 | Current code | 7.42 | 6% / 3% / 1% | 15–43% |
-| Must-items only (steps 1–4) | 8.67 | 58% / 47% / 37% | 86–97% |
-| Full plan + sponsor fixes | 9.15 | 80% / 72% / 64% | 97–100% |
-| Expected, with the risk of not finishing (100 entries) | | **≈ 59%** | **≈ 90%** |
+| **Full plan + sponsor fixes** | **9.15** | **80% / 72% / 64%** (86% / 79% / 72% if judges agree strongly) | **97–100%** |
+
+With no time limit the whole plan gets built, so the full-plan row is the planning case. The odds still depend on how many entries there are and how strong they are, which no one controls.
 
 Sources: Devpost judges list; CORDIS project 101086521; pages.uc.pt and mare-centre.pt (Feio); engagestandards.ieee.org bio (Nikolov); hl7news.hl7.org/?p=683 and sagroups.ieee.org/3228 (Datta); ictagrifood.eu and zsi.at (ENORA); oneaquahealth.eu DipteraCAST article; utwente.nl TechMed biography (op den Akker); cienciavitae.pt (Freitas); site.ieee.org/miami and sagroups.ieee.org/7800 (González); r6.ieee.org/ocs (IEEE OC EMBS); med.uio.no OAH page.

@@ -20,14 +20,20 @@ python -m app.seed                       # demo data on the real Ribeira de Cose
 python -m uvicorn app.main:app --port 8740
 ```
 
-Open http://localhost:8740 and pick **Maria (citizen)** or **Reviewer (organization)**. The demo story:
+Then the web app (landing page + installable PWA), which proxies `/api` to the server above:
+
+```bash
+cd web && npm install && npm run dev     # http://localhost:3000 (landing), /report, /review, /brief ...
+```
+
+The original server-rendered pages are still at http://localhost:8740: pick **Maria (citizen)** or **Reviewer (organization)**. The demo story is the same in both:
 
 1. As Maria, report *stagnant water + many mosquitoes* near the footbridge with a photo. The card shows grade A/B with seven reasons and links to an earlier school report (Community-supported).
 2. As the reviewer, open the report. Try **Export FHIR** and the permitted-use gate blocks it: a Community-supported record can't leave the system.
 3. Click **Verify**. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
 4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected.
 
-Tests: `python -m pytest` (31 tests, including the full story through the HTTP routes).
+Tests: `python -m pytest` (39 tests, including the full story through the HTML routes and the JSON API). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
 FHIR check: `python tools/validate_fhir.py` (downloads nothing itself; needs Java 11+ and the HL7 `validator_cli.jar` in `tools/`).
 
 ## How it works
@@ -105,12 +111,15 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 ## Project layout
 
 ```
-app/          engine (grading, evidence, permitted_use, fhir, signing, brief) + FastAPI web app
-data/         real stream geometry (OSM) and rainfall (Open-Meteo)
-fhir/         open CodeSystems/ValueSet, example Bundle, validator output
-tests/        31 tests: engine rules + the full demo story over HTTP
-tools/        validate_fhir.py (runs the official HL7 validator)
-docs/         STREAMPROOF-WINNING-PLAN.md (the plan: Devpost text, video script, build order)
+app/              engine (grading, evidence, permitted_use, fhir, signing, brief), FastAPI pages, JSON API (api.py)
+data/             real stream geometry (OSM) and rainfall (Open-Meteo)
+fhir/             open CodeSystems/ValueSet, example Bundle, validator output
+tests/            39 tests: engine rules, the demo story over HTTP, the JSON API
+tools/            validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
+web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
+docs/             STREAMPROOF-WINNING-PLAN.md, screenshots/ (+ source/: concept files, not committed)
+research/         planning research runs (not committed)
+var/              runtime: demo database, signing key, photos (not committed)
 ```
 
 ## Data and licences

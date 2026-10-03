@@ -1,1 +1,17 @@
-{"version":"0.0.1","configurations":[{"name":"streamproof","runtimeExecutable":"python","runtimeArgs":["-m","uvicorn","app.main:app","--port","8740"],"port":8765}]}
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "streamproof",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "uvicorn", "app.main:app", "--port", "8740", "--reload", "--reload-dir", "app"],
+      "port": 8740
+    },
+    {
+      "name": "streamproof-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["web/tools/dev.cjs", "3200"],
+      "port": 3200
+    }
+  ]
+}

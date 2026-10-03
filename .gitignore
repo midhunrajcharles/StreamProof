@@ -1,9 +1,14 @@
-tools/validator_cli.jar
+# runtime data (demo database, signing key, uploaded photos)
 var/
+
+# python
 __pycache__/
 *.pyc
 .pytest_cache/
 .env
+
+# FHIR tooling (fetched/installed locally, not redistributed)
+tools/validator_cli.jar
 tools/oah-ig/
 tools/node_modules/
 tools/package*.json
@@ -11,3 +16,10 @@ ig/fsh-generated/
 ig/output/
 ig/temp/
 ig/input-cache/
+
+# private working material: concept files and planning research (not for the public repo)
+docs/source/
+research/
+
+# web test output
+web/tests/output/

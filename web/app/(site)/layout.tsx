@@ -27,7 +27,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+// Root layout for the landing page only; the web app has its own in app/(app).
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-GB">
       <head>

@@ -31,6 +31,7 @@ templates.env.globals.update(INDICATORS=INDICATORS, Rung=Rung, USES=permitted_us
 store = Store()
 if not store.all():
     seed.run(store)
+seed.ensure_accounts(store)
 
 from .api import router as api_router  # noqa: E402  (the API reads the store above)
 

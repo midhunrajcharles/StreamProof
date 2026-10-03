@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export class ApiError extends Error {
-  constructor(public status: number, message: string, public signin?: "citizen" | "org") {
+  constructor(public status: number, message: string, public signin?: "citizen" | "org", public consent?: string) {
     super(message);
   }
 }
@@ -30,6 +30,7 @@ export async function api<T>(path: string, init?: RequestInit & { form?: Record<
   if (!res.ok) {
     const d = data?.detail;
     if (res.status === 401 && d?.signin) throw new ApiError(401, "Sign-in needed", d.signin);
+    if (res.status === 428 && d?.consent) throw new ApiError(428, "Please agree to how your report is used.", undefined, d.consent);
     throw new ApiError(res.status, typeof d === "string" ? d : `Something went wrong (${res.status}).`);
   }
   return data as T;
@@ -97,7 +98,14 @@ export type Meta = {
   rules: { radius_m: number; window_days: number; min_expert: number; min_community: number; per_day: number; upstream_m: number };
 };
 
-export type Session = { citizen: { id: string; name: string } | null; org: { id: string; name: string } | null };
+export type Session = {
+  citizen: { id: string; name: string; demo?: boolean } | null;
+  org: { id: string; name: string; email: string; role: "reviewer" | "admin" } | null;
+  demo: boolean;
+  consented: boolean;
+};
+
+export type Member = { id: string; email: string; name: string; role: "reviewer" | "admin"; active: boolean };
 
 // ---------------------------------------------------------------- formatting
 

@@ -6,14 +6,31 @@ labelled as such in the UI. Weather context and stream geometry are real.
     python -m app.seed          # reset the demo database
 """
 
+import os
 from datetime import timedelta
 
-from . import evidence, geo, service
+from . import auth, evidence, geo, service
 from .models import now
 from .store import Store
 
 DEMO_CITIZEN = ("obs-3c9a", "Maria S.")
 DEMO_EXPERT = "exp-coimbra-01"
+
+# Demo organisation accounts (test values for this demo; override with environment
+# variables, and change them for any real deployment).
+DEMO_ACCOUNTS = [
+    {"email": os.environ.get("STREAMPROOF_DEMO_REVIEWER", "reviewer@coimbra-pilot.demo"), "name": "Reviewer (demo)",
+     "role": "reviewer", "id": DEMO_EXPERT, "password": os.environ.get("STREAMPROOF_DEMO_PASSWORD", "stream-demo-2026")},
+    {"email": os.environ.get("STREAMPROOF_DEMO_ADMIN", "coordinator@coimbra-pilot.demo"), "name": "Pilot coordinator (demo)",
+     "role": "admin", "id": "adm-coimbra-01", "password": os.environ.get("STREAMPROOF_DEMO_PASSWORD", "stream-demo-2026")},
+]
+
+
+def ensure_accounts(store: Store) -> None:
+    """Create the demo organisation accounts once; never overwrite changed passwords."""
+    for a in DEMO_ACCOUNTS:
+        if not store.user(a["email"]):
+            store.save_user(auth.new_user(a["email"], a["name"], a["role"], a["password"], a["id"]))
 
 OBSERVERS = [
     DEMO_CITIZEN,
@@ -41,6 +58,7 @@ def _at_km(km_from_mouth: float, side_m: float = 0.0) -> tuple[float, float]:
 def run(store: Store | None = None) -> Store:
     store = store or Store()
     store.reset()
+    ensure_accounts(store)
     for p, d in OBSERVERS:
         store.upsert_observer(p, d, contact="")
     t = now()

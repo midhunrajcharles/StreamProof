@@ -13,7 +13,9 @@ from tests.test_app import hotspot, jpeg_with_exif
 
 @pytest.fixture()
 def client():
+    from app import auth
     seed.run(store)
+    auth.reset_limits()
     return TestClient(app)
 
 
@@ -27,7 +29,7 @@ def submit(c, codes=("stagnant-water", "mosquitoes"), photo=True):
     lat, lon = hotspot()
     files = {"photo": ("p.jpg", jpeg_with_exif(datetime.now()), "image/jpeg")} if photo else {}
     data = {"lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "accuracy": "7", "codes": list(codes),
-            "description": "Still water by the bridge", "contact": "maria@example.com"}
+            "description": "Still water by the bridge", "contact": "maria@example.com", "consent": "1"}
     r = c.post("/api/reports", data=data, files=files)
     assert r.status_code == 200, r.text
     return r.json()

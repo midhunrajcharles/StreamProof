@@ -1,10 +1,16 @@
-"""End-to-end through the UI on a phone viewport. Prints PASS/FAIL per step."""
+"""End-to-end through the UI on a phone viewport. Prints PASS/FAIL per step.
+
+    python e2e.py                      # against http://localhost:3200
+    STREAMPROOF_WEB=http://localhost:3301 python e2e.py
+"""
+import os
 import re
-import urllib.request
+import time
+from pathlib import Path
 
 from playwright.sync_api import expect, sync_playwright
 
-BASE = "http://localhost:3200"
+BASE = os.environ.get("STREAMPROOF_WEB", "http://localhost:3200")
 ok = True
 
 
@@ -33,10 +39,12 @@ with sync_playwright() as p:
 
     def citizen_signin():
         page.goto(f"{BASE}/report")
-        page.get_by_role("button", name="Continue as demo citizen").click()
+        page.get_by_label("What should we call you? (optional)").fill("Test citizen")
+        page.get_by_role("button", name="Start reporting").click()
         expect(page.get_by_role("heading", name="Report a stream")).to_be_visible()
         expect(page.get_by_role("button", name="Stagnant water")).to_be_visible()
-    step("citizen sign-in from the report page", citizen_signin)
+        expect(page.get_by_text("Before your first report")).to_be_visible()
+    step("new anonymous citizen starts from the report page", citizen_signin)
 
     def validation():
         page.get_by_role("button", name="Submit report").click()
@@ -58,6 +66,9 @@ with sync_playwright() as p:
         page.get_by_role("button", name="Many mosquitoes").click()
         page.get_by_label("Notes (optional)").fill("Side pool, mosquitoes at dusk")
         page.get_by_role("button", name="Submit report").click()
+        expect(page.locator(".field-error")).to_contain_text("agree")  # consent is required first
+        page.get_by_label("I agree to how my report is used, as described above.").check()
+        page.get_by_role("button", name="Submit report").click()
         page.wait_for_url(re.compile(r"/reports/SP-\d+\?new=1"))
         rid["id"] = re.search(r"SP-\d+", page.url).group(0)
         expect(page.get_by_text("Report sent")).to_be_visible()
@@ -66,7 +77,7 @@ with sync_playwright() as p:
 
     def reviewer():
         page.goto(f"{BASE}/review/{rid['id']}")
-        page.get_by_role("button", name="Continue as demo reviewer").click()
+        page.get_by_role("button", name="Continue with the demo reviewer").click()
         expect(page.get_by_role("button", name="Verify…")).to_be_visible()
     step("reviewer sign-in and detail on phone", reviewer)
 
@@ -143,11 +154,12 @@ with sync_playwright() as p:
     step("tab bar navigation and current tab", tab_bar)
 
     def swipe_dismiss():
-        page.goto(f"{BASE}/review")
+        page.goto(f"{BASE}/review", wait_until="networkidle")
         page.get_by_role("button", name="Demo options").click()
-        dlg = page.get_by_role("dialog")
-        expect(dlg).to_be_visible()
-        box = page.locator(".sheet-grab").bounding_box()
+        dlg = page.locator("dialog[open]")
+        expect(dlg).to_have_count(1)
+        page.wait_for_timeout(500)  # let the opening animation finish
+        box = dlg.locator(".sheet-grab").bounding_box()
         x, y = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
         page.mouse.move(x, y); page.mouse.down(); page.mouse.move(x, y + 80, steps=5); page.mouse.move(x, y + 220, steps=5); page.mouse.up()
         expect(dlg).to_have_count(0)
@@ -155,6 +167,55 @@ with sync_playwright() as p:
         page.get_by_role("dialog").get_by_role("button", name="Cancel").click()
         expect(page.get_by_role("dialog")).to_have_count(0)
     step("sheet: swipe down and Cancel both dismiss", swipe_dismiss)
+
+    # demo account details come from the project's seed file (test values for this app)
+    seed_src = (Path(__file__).resolve().parents[2] / "app" / "seed.py").read_text(encoding="utf-8")
+    admin_email = re.search(r'STREAMPROOF_DEMO_ADMIN", "([^"]+)"', seed_src).group(1)
+    demo_pw = re.search(r'STREAMPROOF_DEMO_PASSWORD", "([^"]+)"', seed_src).group(1)
+    sp = b.new_context(viewport={"width": 1280, "height": 860}).new_page()
+
+    def org_login():
+        sp.goto(f"{BASE}/sign-in?role=org&next=/account")
+        sp.get_by_label("Email").fill(admin_email)
+        sp.get_by_label("Password").fill("definitely-wrong")
+        sp.get_by_role("button", name="Sign in", exact=True).click()
+        expect(sp.locator(".field-error")).to_contain_text("don't match")
+        sp.get_by_label("Password").fill(demo_pw)
+        sp.get_by_role("button", name="Sign in", exact=True).click()
+        sp.wait_for_url(f"{BASE}/account")
+        expect(sp.get_by_text("Pilot coordinator (demo)").first).to_be_visible()
+    step("organisation sign-in with email and password", org_login)
+
+    new_email = f"e2e.{int(time.time())}@example.org"  # accounts survive demo resets
+
+    def team_admin():
+        sp.get_by_role("button", name="Add", exact=True).click()
+        dlg = sp.get_by_role("dialog")
+        dlg.get_by_label("Name").fill("E2E Reviewer")
+        dlg.get_by_label("Email").fill(new_email)
+        dlg.get_by_label("Temporary password").fill("a-long-temporary-password")
+        dlg.get_by_role("button", name="Add member").click()
+        expect(sp.locator(".toast-region")).to_contain_text("can now sign in")
+        other = b.new_context(viewport={"width": 1280, "height": 860}).new_page()
+        other.goto(f"{BASE}/sign-in?role=org&next=/review")
+        other.get_by_label("Email").fill(new_email)
+        other.get_by_label("Password").fill("a-long-temporary-password")
+        other.get_by_role("button", name="Sign in", exact=True).click()
+        other.wait_for_url(f"{BASE}/review")
+        row = sp.locator(".row", has_text=new_email)
+        row.get_by_role("button", name="Deactivate").click()
+        expect(row).to_contain_text("deactivated")
+        other.reload()
+        expect(other.get_by_role("heading", name="Organisation sign-in")).to_be_visible()
+    step("admin adds a reviewer, then deactivation signs them out", team_admin)
+
+    def share_card():
+        anon = b.new_context().new_page()
+        anon.goto(f"{BASE}/share/{rid['id']}")
+        expect(anon.get_by_role("heading", name=re.compile("near Ribeira de Coselhas"))).to_be_visible()
+        body = anon.locator("main").inner_text()
+        assert "obs-" not in body and "40.2" not in body, "share card leaks identity or coordinates"
+    step("public share card shows no person or coordinates", share_card)
 
     print("console errors:", [e for e in errors if "favicon" not in e][:5])
     b.close()

@@ -25,6 +25,9 @@ CREATE TABLE IF NOT EXISTS observers (pseudonym TEXT PRIMARY KEY, display TEXT, 
 CREATE TABLE IF NOT EXISTS missions (id TEXT PRIMARY KEY, body TEXT);
 CREATE TABLE IF NOT EXISTS certificates (report_id TEXT PRIMARY KEY, body TEXT);
 CREATE TABLE IF NOT EXISTS counters (name TEXT PRIMARY KEY, value INTEGER);
+CREATE TABLE IF NOT EXISTS org_users (email TEXT PRIMARY KEY, id TEXT UNIQUE, name TEXT, role TEXT,
+                                      pw_hash TEXT, active INTEGER, created TEXT);
+CREATE TABLE IF NOT EXISTS consents (pseudonym TEXT PRIMARY KEY, version TEXT, at TEXT);
 """
 
 
@@ -131,7 +134,32 @@ class Store:
         row = self.db.execute("SELECT body FROM certificates WHERE report_id=?", (report_id,)).fetchone()
         return json.loads(row[0]) if row else None
 
-    def reset(self) -> None:
+    # organisation accounts (reviewers, admins)
+    _USER_COLS = ("email", "id", "name", "role", "pw_hash", "active", "created")
+
+    def save_user(self, u: dict) -> None:
         with _lock, self.db:
-            for t in ("evidence", "vault", "observers", "missions", "certificates", "counters"):
+            self.db.execute("INSERT OR REPLACE INTO org_users VALUES (?,?,?,?,?,?,?)", tuple(u[c] for c in self._USER_COLS))
+
+    def user(self, email: str) -> dict | None:
+        row = self.db.execute("SELECT * FROM org_users WHERE email=?", (email.strip().lower(),)).fetchone()
+        return dict(zip(self._USER_COLS, row)) if row else None
+
+    def users(self) -> list[dict]:
+        rows = self.db.execute("SELECT * FROM org_users ORDER BY created").fetchall()
+        return [dict(zip(self._USER_COLS, r)) for r in rows]
+
+    # consent (citizens)
+    def save_consent(self, pseudonym: str, version: str, at: str) -> None:
+        with _lock, self.db:
+            self.db.execute("INSERT OR REPLACE INTO consents VALUES (?,?,?)", (pseudonym, version, at))
+
+    def consent(self, pseudonym: str) -> dict | None:
+        row = self.db.execute("SELECT version, at FROM consents WHERE pseudonym=?", (pseudonym,)).fetchone()
+        return {"version": row[0], "at": row[1]} if row else None
+
+    def reset(self) -> None:
+        """Demo reset: evidence, people and missions. Organisation accounts are kept."""
+        with _lock, self.db:
+            for t in ("evidence", "vault", "observers", "missions", "certificates", "counters", "consents"):
                 self.db.execute(f"DELETE FROM {t}")

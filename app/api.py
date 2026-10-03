@@ -13,14 +13,19 @@ and exact GPS is returned to the organization only; everyone else gets the ~100 
 import json
 from pathlib import Path
 
-from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 
-from . import brief, certificate, config, evidence, geo, grading, permitted_use, seed, service, signing
+from . import auth, brief, certificate, config, evidence, geo, grading, permitted_use, seed, service, signing
 from .indicators import INDICATORS
-from .models import Mission, Report, Rung
+from .models import Mission, Report, Rung, now
 
-router = APIRouter(prefix="/api")
+
+def _general_limit(request: Request) -> None:
+    auth.limit("api", auth.client_ip(request), 600, 60)
+
+
+router = APIRouter(prefix="/api", dependencies=[Depends(_general_limit)])
 MAX_UPLOAD = 15 * 1024 * 1024
 ORDER = [Rung.REPORT, Rung.ASSESSED, Rung.COMMUNITY, Rung.EXPERT, Rung.DECISION]
 GRADE_WORDS = {"A": "Strong evidence", "B": "Good evidence", "C": "Needs verification", "D": "Low confidence"}
@@ -38,20 +43,41 @@ def role(request: Request, name: str) -> dict:
     u = request.session.get(name)
     if not u:
         raise HTTPException(401, detail={"signin": name})
+    if name == "org":  # a deactivated account loses access at its next request
+        acct = _store().user(u.get("email", ""))
+        if not acct or not acct["active"]:
+            request.session.pop("org", None)
+            raise HTTPException(401, detail={"signin": "org"})
     return u
+
+
+def admin(request: Request) -> dict:
+    u = role(request, "org")
+    if u.get("role") != "admin":
+        raise HTTPException(403, "Only an organisation admin can do this.")
+    return u
+
+
+def _org_session(request: Request, acct: dict) -> None:
+    request.session["org"] = {"id": acct["id"], "name": acct["name"], "email": acct["email"], "role": acct["role"]}
 
 
 @router.get("/session")
 def session_get(request: Request):
-    return {"citizen": request.session.get("citizen"), "org": request.session.get("org")}
+    c = request.session.get("citizen")
+    return {"citizen": c, "org": request.session.get("org"), "demo": config.DEMO_MODE,
+            "consented": bool(c and _store().consent(c["id"]))}
 
 
 @router.post("/session")
 def session_start(request: Request, role: str = Form(...)):
+    """One-tap demo accounts (demo mode only)."""
+    if not config.DEMO_MODE:
+        raise HTTPException(403, "Demo sign-in is switched off. Sign in with your account.")
     if role == "citizen":
-        request.session["citizen"] = {"id": seed.DEMO_CITIZEN[0], "name": seed.DEMO_CITIZEN[1]}
+        request.session["citizen"] = {"id": seed.DEMO_CITIZEN[0], "name": seed.DEMO_CITIZEN[1], "demo": True}
     elif role == "org":
-        request.session["org"] = {"id": seed.DEMO_EXPERT, "name": "Reviewer (demo)"}
+        _org_session(request, _store().user(seed.DEMO_ACCOUNTS[0]["email"]))
     else:
         raise HTTPException(400, "unknown role")
     return session_get(request)
@@ -61,6 +87,98 @@ def session_start(request: Request, role: str = Form(...)):
 def session_end(request: Request):
     request.session.clear()
     return {"citizen": None, "org": None}
+
+
+# ---------------- citizens: pseudonymous, no password ----------------
+
+@router.post("/citizen/start")
+def citizen_start(request: Request, display: str = Form("")):
+    """Start reporting as a new pseudonymous citizen (one per device session)."""
+    auth.limit("citizen-start", auth.client_ip(request), 10, 3600)
+    pseudonym = auth.new_pseudonym()
+    name = display.strip()[:40] or "Citizen"
+    _store().upsert_observer(pseudonym, name)
+    request.session["citizen"] = {"id": pseudonym, "name": name}
+    return session_get(request)
+
+
+@router.post("/consent")
+def give_consent(request: Request):
+    u = role(request, "citizen")
+    _store().save_consent(u["id"], auth.CONSENT_VERSION, now().isoformat(timespec="seconds"))
+    return {"consented": True, "version": auth.CONSENT_VERSION}
+
+
+# ---------------- organisation accounts ----------------
+
+@router.post("/auth/login")
+def login(request: Request, email: str = Form(...), password: str = Form(...)):
+    ip, key = auth.client_ip(request), email.strip().lower()
+    auth.limit("login-ip", ip, 30, 900)  # every attempt from one address
+    auth.limit("login-fail", key, 5, 900, record=False)  # failed attempts per account
+    acct = _store().user(email)
+    if not acct or not acct["active"] or not auth.check_password(password, acct["pw_hash"]):
+        auth.hit("login-fail", key)
+        raise HTTPException(401, "That email and password don't match an active account.")
+    _org_session(request, acct)
+    return session_get(request)
+
+
+@router.post("/auth/logout")
+def logout(request: Request):
+    request.session.pop("org", None)
+    return session_get(request)
+
+
+@router.post("/auth/password")
+def change_password(request: Request, current: str = Form(...), new: str = Form(...)):
+    u = role(request, "org")
+    auth.limit("password-fail", u["email"], 5, 900, record=False)
+    store = _store()
+    acct = store.user(u["email"])
+    if not auth.check_password(current, acct["pw_hash"]):
+        auth.hit("password-fail", u["email"])
+        raise HTTPException(400, "Your current password isn't right.")
+    if len(new) < auth.MIN_PASSWORD:
+        raise HTTPException(400, f"Passwords need at least {auth.MIN_PASSWORD} characters.")
+    acct["pw_hash"] = auth.hash_password(new)
+    store.save_user(acct)
+    return {"ok": True}
+
+
+@router.get("/org/team")
+def team(request: Request):
+    admin(request)
+    return {"members": [auth.public_user(u) for u in _store().users()]}
+
+
+@router.post("/org/team")
+def add_member(request: Request, email: str = Form(...), name: str = Form(...), role_: str = Form("reviewer", alias="role"),
+               password: str = Form(...)):
+    admin(request)
+    store = _store()
+    if store.user(email):
+        raise HTTPException(409, "There is already an account with that email.")
+    try:
+        u = auth.new_user(email, name, role_, password)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    store.save_user(u)
+    return auth.public_user(u)
+
+
+@router.post("/org/team/{email}/active")
+def set_active(request: Request, email: str, active: str = Form(...)):
+    me = admin(request)
+    store = _store()
+    u = store.user(email)
+    if not u:
+        raise HTTPException(404, "No such account.")
+    if u["email"] == me.get("email") and active != "1":
+        raise HTTPException(400, "You can't deactivate your own account.")
+    u["active"] = 1 if active == "1" else 0
+    store.save_user(u)
+    return auth.public_user(u)
 
 
 # ---------------- shapes ----------------
@@ -149,6 +267,9 @@ def me(request: Request):
     mine = list(reversed(store.by_observer(u["id"])))
     return {
         "name": u["name"],
+        "pseudonym": u["id"],
+        "demo": bool(u.get("demo")),
+        "consent": store.consent(u["id"]),
         "reports": [report_json(r, exact=False) for r in mine],
         "missions": [mission_json(m) for m in store.missions() if m.status == "open"],
         "counts": {"reports": len(mine),
@@ -160,8 +281,14 @@ def me(request: Request):
 @router.post("/reports")
 async def submit(request: Request, lat: float = Form(...), lon: float = Form(...), accuracy: str = Form(""),
                  codes: list[str] = Form(...), description: str = Form(""), contact: str = Form(""),
-                 mission_id: str = Form(""), photo: UploadFile | None = File(None)):
+                 mission_id: str = Form(""), consent: str = Form(""), photo: UploadFile | None = File(None)):
     u = role(request, "citizen")
+    auth.limit("reports", u["id"], 20, 3600)
+    store = _store()
+    if not store.consent(u["id"]):
+        if consent != "1":
+            raise HTTPException(428, detail={"consent": auth.CONSENT_VERSION})
+        store.save_consent(u["id"], auth.CONSENT_VERSION, now().isoformat(timespec="seconds"))
     data = None
     if photo is not None and photo.filename:
         data = await photo.read(MAX_UPLOAD + 1)
@@ -369,6 +496,19 @@ def standards():
                                                for u in permitted_use.MATRIX[r]]} for r in ORDER],
         "uses": [{"code": u, "label": l} for u, l in permitted_use.USES.items()],
     }
+
+
+@router.get("/share/{rid}")
+def share(rid: str):
+    """Public share card: signs, trust level and an area name only. No person, no coordinates."""
+    r = _store().get(rid)
+    if not r or r.rung in (Rung.NOT_CONFIRMED, Rung.REPORT):
+        raise HTTPException(404, "This report can't be shared.")
+    s = geo.snap(r.lat, r.lon)
+    return {"id": r.id, "signs": _signs(r.indicators), "rung": _rung(r.rung), "grade": r.grade,
+            "reported_on": r.created_at.date().isoformat(), "verified": r.rung.level >= Rung.EXPERT.level,
+            "area": s.stream.name if s and s.distance_m <= 200 else "a city stream",
+            "all_clear": r.indicators == ["all-clear"]}
 
 
 def _verify_payload(rid: str, rec: dict, edited: bool) -> dict:

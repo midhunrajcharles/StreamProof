@@ -10,4 +10,13 @@ Run with both servers up (API on :8740, web on :3200). Needs `pip install playwr
 | `sheet.py` | Contact sheet of one device's screenshots: `python sheet.py phone 330 1`. |
 | `pwa.py` | Service worker + offline check against a production build on :3300 (`npx next build && npx next start -p 3300`). |
 
+**Isolated run** (leaves your own servers and demo data alone): a throwaway API on :8741 with its own data folder, and a separate production build on :3301 that points at it.
+
+```bash
+STREAMPROOF_DATA=web/tests/output/e2e-data python -m uvicorn app.main:app --port 8741     # from the repo root
+cd web && STREAMPROOF_API=http://127.0.0.1:8741 NEXT_DIST_DIR=.next-e2e npx next build
+STREAMPROOF_API=http://127.0.0.1:8741 NEXT_DIST_DIR=.next-e2e npx next start -p 3301
+STREAMPROOF_WEB=http://localhost:3301 python tests/e2e.py                                   # same for a11y.py
+```
+
 Screenshots go to `output/` (not committed). Curated ones live in `docs/screenshots/`.

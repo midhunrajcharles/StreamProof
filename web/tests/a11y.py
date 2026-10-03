@@ -1,9 +1,10 @@
 """axe-core audit of every app page, light and dark, phone and desktop."""
+import os
 import urllib.request
 
 from playwright.sync_api import sync_playwright
 
-BASE = "http://localhost:3200"
+BASE = os.environ.get("STREAMPROOF_WEB", "http://localhost:3200")
 AXE = urllib.request.urlopen("https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.10.2/axe.min.js").read().decode()
 
 with sync_playwright() as p:
@@ -17,7 +18,7 @@ with sync_playwright() as p:
             mine = r.get(f"{BASE}/api/me").json()["reports"]
             q = r.get(f"{BASE}/api/queue").json()
             cert = next(x["id"] for x in q["done"] if x["certificate"])
-            paths = ["/report", "/reports", "/review", f"/review/{q['todo'][0]['id']}", "/brief", "/standards", f"/verify/{cert}"]
+            paths = ["/report", "/reports", "/review", f"/review/{q['todo'][0]['id']}", "/brief", "/standards", f"/verify/{cert}", "/sign-in", "/account", f"/share/{cert}"]
             if mine:
                 paths.append(f"/reports/{mine[0]['id']}")
             for path in paths:

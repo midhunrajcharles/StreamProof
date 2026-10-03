@@ -14,7 +14,16 @@ function ReportCard() {
   const { toast } = useApp();
 
   return (
-    <Page title={`Report ${id}`} eyebrow="Your report" back={{ href: "/reports", label: "My reports" }}>
+    <Page title={`Report ${id}`} eyebrow="Your report" back={{ href: "/reports", label: "My reports" }}
+      actions={q.data?.shareable ? (
+        <button className="btn btn-sm" onClick={async () => {
+          const url = `${location.origin}/share/${id}`;
+          try {
+            if (navigator.share) await navigator.share({ title: "StreamProof", text: "A stream report I made", url });
+            else { await navigator.clipboard.writeText(url); toast("Share link copied"); }
+          } catch { /* share sheet dismissed */ }
+        }}><I.Share /> Share</button>
+      ) : undefined}>
       <Gate q={q} skeleton={<Skeleton n={4} h={110} />}>
         {(r) => (
           <>
@@ -78,13 +87,6 @@ function ReportCard() {
                   <div className="btn-row">
                     <a className="btn btn-prominent" href={`/api/reports/${r.id}/certificate.pdf`} target="_blank" rel="noopener"><I.Download /> Certificate (PDF)</a>
                     <Link className="btn" href={`/verify/${r.id}`}><I.Shield /> Check signature</Link>
-                    <button className="btn" onClick={async () => {
-                      const url = `${location.origin}/verify/${r.id}`;
-                      try {
-                        if (navigator.share) await navigator.share({ title: "StreamProof contribution", text: `My verified stream report ${r.id}`, url });
-                        else { await navigator.clipboard.writeText(url); toast("Link copied"); }
-                      } catch { /* share sheet dismissed */ }
-                    }}><I.Share /> Share</button>
                   </div>
                 </div>
               ) : (

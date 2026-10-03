@@ -15,6 +15,9 @@ FHIR_BASE = os.environ.get("STREAMPROOF_FHIR_BASE", "https://midhunrajcharles.gi
 PSEUDONYM_SYSTEM = f"{FHIR_BASE}/NamingSystem/observer-pseudonym"
 
 SESSION_SECRET = os.environ.get("STREAMPROOF_SESSION_SECRET", "dev-only-change-me")
+# Demo mode: one-tap demo sign-in and the demo accounts' details on the sign-in page.
+# Set STREAMPROOF_DEMO=0 for a real deployment: reviewers must use their password.
+DEMO_MODE = os.environ.get("STREAMPROOF_DEMO", "1") == "1"
 ORG_NAME = os.environ.get("STREAMPROOF_ORG", "StreamProof demo organization")
 
 # Evidence rules. Illustrative defaults to be calibrated with OAH ecologists, not validated values.

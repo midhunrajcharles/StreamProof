@@ -7,8 +7,6 @@ import { Callout, Page, Section, SignIn, Skeleton, useApp } from "@/ui/kit";
 import { Map, useMeta } from "@/ui/Map";
 import { formOf, saveDraft, type Draft } from "@/ui/outbox";
 
-const CONSENT_KEY = "sp-privacy-seen";
-
 function distanceKm(a: [number, number], b: [number, number]) {
   const k = Math.PI / 180, x = (b[1] - a[1]) * k * Math.cos(((a[0] + b[0]) / 2) * k), y = (b[0] - a[0]) * k;
   return Math.hypot(x, y) * 6371;
@@ -34,11 +32,11 @@ function ReportForm() {
   const [contact, setContact] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [seenPrivacy, setSeenPrivacy] = useState(true);
+  const [agree, setAgree] = useState(false);
   const [savedOffline, setSavedOffline] = useState(false);
   const errRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => { try { setSeenPrivacy(localStorage.getItem(CONSENT_KEY) === "1"); } catch { /* private mode */ } }, []);
+  const consentRef = useRef<HTMLInputElement>(null);
+  const needsConsent = session ? !session.consented : false;
 
   // start position: the mission's spot, else the demo stream
   useEffect(() => {
@@ -111,11 +109,17 @@ function ReportForm() {
       requestAnimationFrame(() => errRef.current?.focus());
       return;
     }
+    if (needsConsent && !agree) {
+      setError("Please read and agree to how your report is used (top of the form).");
+      requestAnimationFrame(() => { consentRef.current?.focus(); consentRef.current?.scrollIntoView({ block: "center" }); });
+      return;
+    }
     if (!pos) return;
     setBusy(true);
     const draft: Draft = {
       key: crypto.randomUUID(), saved_at: new Date().toISOString(), lat: pos[0], lon: pos[1], accuracy, codes,
       description, contact, mission_id: missionId, photo: photo ?? undefined, photo_name: photo?.name,
+      consent: agree ? "1" : "",
     };
     // Offline: keep it on the device and confirm here (navigating would need the network).
     const keepOffline = async () => {
@@ -128,12 +132,12 @@ function ReportForm() {
     try {
       if (!navigator.onLine) return await keepOffline();
       const r = await api<Report>("/reports", { form: formOf(draft) });
-      try { localStorage.setItem(CONSENT_KEY, "1"); } catch { /* ignore */ }
+      refreshSession();
       router.push(`/reports/${r.id}?new=1`);
     } catch (err) {
       const e2 = err as ApiError;
       if (e2.status === 0) return await keepOffline();
-      if (e2.signin) { await refreshSession(); }
+      if (e2.signin || e2.consent) { await refreshSession(); }
       setError(e2.message);
       setBusy(false);
     }
@@ -146,15 +150,21 @@ function ReportForm() {
           <Callout kind="info" title={`Evidence mission ${mission.data.id}`} icon={<I.Flag />}>{mission.data.request}</Callout>
         ) : null}
 
-        {!seenPrivacy ? (
+        {needsConsent ? (
           <div className="card stack">
             <h2 className="t-headline">Before your first report</h2>
             <dl className="kv t-callout">
               <dt>Private</dt><dd>Your exact location and contact details. Only the reviewers see them.</dd>
               <dt>Can be public</dt><dd>The sign you saw and an area of about 100 m, and only after it has been checked.</dd>
+              <dt>Used for</dt><dd>Checking stream health with OneAquaHealth partners, under the published permitted-use rules.</dd>
+              <dt>Your rights</dt><dd>You can remove your personal data at any time from My reports.</dd>
               <dt>Stay safe</dt><dd>Stay on public paths, don't enter or touch the water, and don't photograph people.</dd>
             </dl>
-            <div><button type="button" className="btn btn-sm" onClick={() => { setSeenPrivacy(true); try { localStorage.setItem(CONSENT_KEY, "1"); } catch { /* ignore */ } }}>Got it</button></div>
+            <label className="hstack" style={{ minHeight: 44, cursor: "pointer", gap: 12, flexWrap: "nowrap" }}>
+              <input ref={consentRef} type="checkbox" checked={agree} onChange={(e) => { setAgree(e.target.checked); setError(""); }}
+                style={{ width: 24, height: 24, accentColor: "var(--ink)", flex: "none" }} />
+              <span>I agree to how my report is used, as described above.</span>
+            </label>
           </div>
         ) : null}
 

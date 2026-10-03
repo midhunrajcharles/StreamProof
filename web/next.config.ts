@@ -7,6 +7,8 @@ const BACKEND = process.env.STREAMPROOF_API ?? "http://127.0.0.1:8740";
 const nextConfig: NextConfig = {
   // a stray package-lock.json in the home folder confuses root detection
   turbopack: { root: process.cwd() },
+  // separate build folder for isolated test runs (web/tests/README.md)
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   async rewrites() {
     return [
       { source: "/api/:path*", destination: `${BACKEND}/api/:path*` },

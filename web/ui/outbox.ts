@@ -5,7 +5,7 @@ import { api, type Report } from "./api";
 
 export type Draft = {
   key: string; saved_at: string; lat: number; lon: number; accuracy: string; codes: string[];
-  description: string; contact: string; mission_id: string; photo?: Blob; photo_name?: string;
+  description: string; contact: string; mission_id: string; photo?: Blob; photo_name?: string; consent?: string;
   error?: string; // set when the server refused it; shown to the person, not retried
 };
 
@@ -37,7 +37,7 @@ export const removeDraft = (key: string) => tx("readwrite", (s) => s.delete(key)
 export function formOf(d: Draft) {
   return {
     lat: String(d.lat), lon: String(d.lon), accuracy: d.accuracy, codes: d.codes, description: d.description,
-    contact: d.contact, mission_id: d.mission_id,
+    contact: d.contact, mission_id: d.mission_id, consent: d.consent ?? "",
     photo: d.photo ? new File([d.photo], d.photo_name || "photo.jpg", { type: d.photo.type || "image/jpeg" }) : undefined,
   };
 }

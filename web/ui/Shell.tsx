@@ -43,19 +43,23 @@ function Sidebar() {
         </div>
       ))}
       <div className="side-foot">
-        <p className="eyebrow">(Demo session)</p>
-        <div className="stack" style={{ gap: 6 }}>
-          <span className="t-sub">{session?.citizen ? <>Citizen: {session.citizen.name}</> : <span className="secondary">Citizen: not started</span>}</span>
-          <span className="t-sub">{session?.org ? <>{session.org.name}</> : <span className="secondary">Reviewer: not started</span>}</span>
-        </div>
+        <Link href="/account" className="side-link" aria-current={isActive(path, "/account") ? "page" : undefined} style={{ minHeight: 52 }}>
+          <I.Person />
+          <span className="stack" style={{ gap: 0 }}>
+            <span>{session?.org ? session.org.name : session?.citizen ? session.citizen.name : "Account"}</span>
+            <span className="t-foot" style={{ opacity: 0.75, fontWeight: 400 }}>
+              {session?.org ? (session.org.role === "admin" ? "Admin" : "Reviewer") : session?.citizen ? "Citizen" : "Not signed in"}
+            </span>
+          </span>
+        </Link>
         {session?.citizen || session?.org ? (
           <button className="btn btn-sm" onClick={async () => {
             await api("/session", { method: "DELETE" });
             await refreshSession();
-            toast("Signed out of the demo", "info");
+            toast("Signed out", "info");
             setTimeout(() => window.location.reload(), 600);
           }}>Sign out</button>
-        ) : null}
+        ) : <Link className="btn btn-sm btn-prominent" href="/sign-in">Sign in</Link>}
         <Link href="/" className="side-link t-sub" style={{ minHeight: 40 }}><I.Home /> StreamProof website</Link>
       </div>
     </nav>

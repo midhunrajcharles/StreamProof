@@ -68,7 +68,10 @@ export function Page({ title, eyebrow, subtitle, back, actions, width = "content
           ) : null}
         </div>
         <div className="navbar-title" aria-hidden>{title}</div>
-        <div className="navbar-trail">{actions}</div>
+        <div className="navbar-trail">
+          {actions}
+          <Link href="/account" className="btn btn-sm btn-icon account-btn" aria-label="Account"><I.Person /></Link>
+        </div>
       </div>
       <main id="content" className={`page${width === "wide" ? " wide" : width === "full" ? " full" : ""}`} tabIndex={-1}>
         <header className="page-head">
@@ -132,38 +135,100 @@ export function Skeleton({ h = 64, n = 1 }: { h?: number; n?: number }) {
 
 // ---------------------------------------------------------------- sign-in + errors
 
-const ROLE_COPY = {
-  citizen: {
-    title: "Report as a citizen",
-    body: "You'll use the demo account of Maria S., a citizen in Coimbra. Everyone else in this demo is synthetic, and the demo data can be reset at any time.",
-    cta: "Continue as demo citizen",
-    icon: <I.Camera />,
-  },
-  org: {
-    title: "Review as an ecologist",
-    body: "You'll use the demo reviewer account of the Coimbra pilot: verify reports, open evidence missions and read the River Health Brief. The reports are synthetic.",
-    cta: "Continue as demo reviewer",
-    icon: <I.Shield />,
-  },
-} as const;
-
-export function SignIn({ role, onDone }: { role: "citizen" | "org"; onDone: () => void }) {
-  const { refreshSession } = useApp();
-  const [busy, setBusy] = useState(false);
-  const c = ROLE_COPY[role];
+/** Organisation sign-in: email + password; one-tap demo account in demo mode. */
+export function OrgSignIn({ onDone }: { onDone: () => void }) {
+  const { session, refreshSession } = useApp();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState<"" | "login" | "demo">("");
+  const done = async () => { await refreshSession(); onDone(); };
   return (
-    <div className="card" style={{ display: "grid", gap: 14, justifyItems: "start", padding: 24 }}>
-      <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}>{c.icon}</span>
-      <h2 className="t-title2">{c.title}</h2>
-      <p className="secondary">{c.body}</p>
-      <button className="btn btn-prominent btn-large" disabled={busy} onClick={async () => {
-        setBusy(true);
-        try { await api("/session", { form: { role } }); await refreshSession(); onDone(); } finally { setBusy(false); }
-      }}>
-        {busy ? <I.Spinner /> : null}{c.cta} <I.ChevronRight />
-      </button>
+    <form className="card stack-l" style={{ padding: 24 }} onSubmit={async (e) => {
+      e.preventDefault();
+      setError("");
+      setBusy("login");
+      try { await api("/auth/login", { form: { email, password } }); await done(); }
+      catch (err) { setError((err as ApiError).message); }
+      finally { setBusy(""); }
+    }}>
+      <div className="stack" style={{ gap: 6 }}>
+        <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Shield /></span>
+        <h2 className="t-title2">Organisation sign-in</h2>
+        <p className="secondary">For reviewers and coordinators of a OneAquaHealth pilot.</p>
+      </div>
+      <div className="stack">
+        <div className="field">
+          <label className="field-label" htmlFor="org-email">Email</label>
+          <input id="org-email" className="input" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="org-pw">Password</label>
+          <input id="org-pw" className="input" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
+        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "login" ? <I.Spinner /> : null} Sign in</button>
+      </div>
+      {session?.demo ? (
+        <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
+          <p className="secondary t-sub">Judging the demo? Use the demo reviewer account. The reports are synthetic.</p>
+          <button type="button" className="btn btn-block" disabled={Boolean(busy)} onClick={async () => {
+            setBusy("demo");
+            try { await api("/session", { form: { role: "org" } }); await done(); } finally { setBusy(""); }
+          }}>{busy === "demo" ? <I.Spinner /> : <I.Person />} Continue with the demo reviewer</button>
+        </div>
+      ) : null}
+    </form>
+  );
+}
+
+/** Citizens never get a password: a new pseudonym for this device, or the demo citizen. */
+export function CitizenStart({ onDone }: { onDone: () => void }) {
+  const { session, refreshSession } = useApp();
+  const [display, setDisplay] = useState("");
+  const [busy, setBusy] = useState<"" | "new" | "demo">("");
+  const [error, setError] = useState("");
+  const go = async (kind: "new" | "demo") => {
+    setBusy(kind);
+    setError("");
+    try {
+      if (kind === "new") await api("/citizen/start", { form: { display } });
+      else await api("/session", { form: { role: "citizen" } });
+      await refreshSession();
+      onDone();
+    } catch (e) { setError((e as ApiError).message); }
+    finally { setBusy(""); }
+  };
+  return (
+    <div className="card stack-l" style={{ padding: 24 }}>
+      <div className="stack" style={{ gap: 6 }}>
+        <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Camera /></span>
+        <h2 className="t-title2">Report as a citizen</h2>
+        <p className="secondary">No account and no password. You get a pseudonym on this device; your name is never attached to the evidence.</p>
+      </div>
+      <form className="stack" onSubmit={(e) => { e.preventDefault(); go("new"); }}>
+        <div className="field">
+          <label className="field-label" htmlFor="display">What should we call you? (optional)</label>
+          <input id="display" className="input" maxLength={40} autoComplete="nickname" value={display} onChange={(e) => setDisplay(e.target.value)} placeholder="For example: Ana" />
+          <p className="field-help">Shown only to you and on your certificate.</p>
+        </div>
+        {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
+        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "new" ? <I.Spinner /> : null} Start reporting</button>
+      </form>
+      {session?.demo ? (
+        <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
+          <p className="secondary t-sub">Or explore with Maria S., the demo citizen who already has reports.</p>
+          <button type="button" className="btn btn-block" disabled={Boolean(busy)} onClick={() => go("demo")}>
+            {busy === "demo" ? <I.Spinner /> : <I.Person />} Use the demo citizen
+          </button>
+        </div>
+      ) : null}
     </div>
   );
+}
+
+export function SignIn({ role, onDone }: { role: "citizen" | "org"; onDone: () => void }) {
+  return role === "org" ? <OrgSignIn onDone={onDone} /> : <CitizenStart onDone={onDone} />;
 }
 
 /** Render loading / sign-in / error for a useApi() result, or the children when data is ready. */

@@ -32,6 +32,10 @@ store = Store()
 if not store.all():
     seed.run(store)
 
+from .api import router as api_router  # noqa: E402  (the API reads the store above)
+
+app.include_router(api_router)
+
 
 def ctx(request: Request, **kw) -> dict:
     return {"request": request, "user": request.session.get("user"), "Rung": Rung, "INDICATORS": INDICATORS,

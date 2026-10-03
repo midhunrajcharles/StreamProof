@@ -1,0 +1,114 @@
+"""The JSON API used by the web app: same story as test_app, plus its privacy rules."""
+
+import json
+from datetime import datetime
+
+import pytest
+from fastapi.testclient import TestClient
+
+from app import seed
+from app.main import app, store
+from tests.test_app import hotspot, jpeg_with_exif
+
+
+@pytest.fixture()
+def client():
+    seed.run(store)
+    return TestClient(app)
+
+
+def start(c, role):
+    r = c.post("/api/session", data={"role": role})
+    assert r.status_code == 200
+    return r.json()
+
+
+def submit(c, codes=("stagnant-water", "mosquitoes"), photo=True):
+    lat, lon = hotspot()
+    files = {"photo": ("p.jpg", jpeg_with_exif(datetime.now()), "image/jpeg")} if photo else {}
+    data = {"lat": f"{lat:.6f}", "lon": f"{lon:.6f}", "accuracy": "7", "codes": list(codes),
+            "description": "Still water by the bridge", "contact": "maria@example.com"}
+    r = c.post("/api/reports", data=data, files=files)
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def test_signin_required(client):
+    r = client.get("/api/me")
+    assert r.status_code == 401
+    assert r.json()["detail"] == {"signin": "citizen"}
+    assert client.get("/api/queue").json()["detail"] == {"signin": "org"}
+
+
+def test_both_roles_in_one_session(client):
+    start(client, "citizen")
+    s = start(client, "org")
+    assert s["citizen"]["id"] == seed.DEMO_CITIZEN[0]
+    assert s["org"]["id"] == seed.DEMO_EXPERT
+
+
+def test_full_story(client):
+    c = client
+    start(c, "citizen")
+    r = submit(c)
+    assert r["grade"] in "AB" and r["rung"]["value"] in ("assessed", "community-supported")
+    assert len(r["reasons"]) == 7 and r["position"]["exact"] is False
+    assert r["photo"]["url"] == f"/api/media/{r['id']}.jpg"
+    assert any(x["id"] == r["id"] for x in c.get("/api/me").json()["reports"])
+
+    start(c, "org")
+    detail = c.get(f"/api/reports/{r['id']}").json()
+    assert detail["position"]["exact"] is True and detail["org"]["can_decide"]
+    assert not next(g for g in detail["org"]["gate"] if g["code"] == "fhir_exchange")["allowed"]
+
+    # The gate refuses the export below Expert-verified, with its reason.
+    blocked = c.get(f"/api/reports/{r['id']}/fhir")
+    assert blocked.status_code == 403 and "Blocked by the permitted-use gate" in blocked.json()["detail"]
+
+    after = c.post(f"/api/reports/{r['id']}/verify", data={"method": "field", "note": "seen"}).json()
+    assert after["rung"]["level"] >= 4 and after["certificate"]
+    bundle = c.get(f"/api/reports/{r['id']}/fhir")
+    assert bundle.status_code == 200 and bundle.json()["resourceType"] == "Bundle"
+
+    pdf = c.get(f"/api/reports/{r['id']}/certificate.pdf")
+    assert pdf.status_code == 200 and pdf.content.startswith(b"%PDF")
+
+
+def test_citizen_sees_only_own_reports(client):
+    start(client, "citizen")
+    other = next(r for r in store.all() if r.observer != seed.DEMO_CITIZEN[0])
+    assert client.get(f"/api/reports/{other.id}").status_code == 404
+
+
+def test_verify_detects_tampering(client):
+    rid = next(r.id for r in store.all() if store.certificate(r.id))
+    ok = client.get(f"/api/verify/{rid}").json()
+    assert ok["ok"] is True
+    rec = dict(ok["record"], grade="A" if ok["record"]["grade"] != "A" else "B")
+    bad = client.post(f"/api/verify/{rid}", data={"record_json": json.dumps(rec)}).json()
+    assert bad["ok"] is False and "changed" in bad["message"]
+
+
+def test_reject_needs_reason(client):
+    start(client, "org")
+    rid = client.get("/api/queue").json()["todo"][0]["id"]
+    assert client.post(f"/api/reports/{rid}/reject", data={"reason": " "}).status_code == 400
+    done = client.post(f"/api/reports/{rid}/reject", data={"reason": "Pollen, not scum."}).json()
+    assert done["rung"]["value"] == "not-confirmed" and done["rejection"] == "Pollen, not scum."
+
+
+def test_public_reference_data(client):
+    m = client.get("/api/meta").json()
+    assert len(m["signs"]) == 10 and m["rungs"][0]["value"] == "report"
+    s = client.get("/api/standards").json()
+    assert [row["rung"]["value"] for row in s["matrix"]][-1] == "decision-grade"
+    start(client, "org")
+    b = client.get("/api/brief").json()
+    assert b["total"] == len(store.all()) and b["rows"]
+
+
+def test_forget_me(client):
+    start(client, "citizen")
+    submit(client)
+    assert client.post("/api/me/forget").json()["removed_from"] >= 1
+    assert client.get("/api/me").status_code == 401

@@ -1,14 +1,34 @@
-"""The JSON API used by the web app: same story as test_app, plus its privacy rules."""
+"""The JSON API used by the web app: the demo story end to end, plus its privacy rules."""
 
+import io
 import json
 from datetime import datetime
 
+import numpy as np
 import pytest
 from fastapi.testclient import TestClient
+from PIL import Image
 
-from app import seed
+from app import geo, seed
 from app.main import app, store
-from tests.test_app import hotspot, jpeg_with_exif
+
+HOTSPOT_KM = 2.55
+
+
+def jpeg_with_exif(when: datetime) -> bytes:
+    rng = np.random.default_rng(7)
+    arr = (rng.random((900, 1200, 3)) * 255).astype("uint8")  # high-frequency = sharp
+    img = Image.fromarray(arr)
+    exif = Image.Exif()
+    exif[0x0132] = when.strftime("%Y:%m:%d %H:%M:%S")  # DateTime
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", exif=exif.tobytes(), quality=90)
+    return buf.getvalue()
+
+
+def hotspot():
+    s = geo.streams()[0]
+    return geo.point_at(s, s.chainage[-1] - HOTSPOT_KM * 1000)
 
 
 @pytest.fixture()
@@ -128,3 +148,50 @@ def test_forget_me(client):
     submit(client)
     assert client.post("/api/me/forget").json()["removed_from"] >= 1
     assert client.get("/api/me").status_code == 401
+
+
+def test_photo_is_stripped_of_exif(client):
+    start(client, "citizen")
+    r = submit(client)
+    img = client.get(r["photo"]["url"])
+    assert img.status_code == 200 and not Image.open(io.BytesIO(img.content)).getexif()
+    assert "maria@example.com" not in json.dumps(store.get(r["id"]).to_dict())
+
+
+def test_report_without_photo_is_capped(client):
+    start(client, "citizen")
+    assert submit(client, codes=("litter",), photo=False)["grade"] in ("C", "D")
+
+
+def test_bad_input_rejected(client):
+    start(client, "citizen")
+    lat, lon = hotspot()
+    base = {"lat": str(lat), "lon": str(lon), "consent": "1"}
+    assert client.post("/api/reports", data={**base, "codes": ["all-clear", "litter"]}).status_code == 400
+    assert client.post("/api/reports", data={**base, "codes": ["not-a-code"]}).status_code == 400
+    files = {"photo": ("x.jpg", b"not an image", "image/jpeg")}
+    assert client.post("/api/reports", data={**base, "codes": ["litter"]}, files=files).status_code == 400
+
+
+def test_mission_flow(client):
+    start(client, "org")
+    target = next(r for r in store.all() if r.rung.value == "community-supported")
+    mid = client.post(f"/api/reports/{target.id}/mission").json()["org"]["mission"]["id"]
+    start(client, "citizen")
+    assert "Stay on public paths" in client.get(f"/api/missions/{mid}").json()["safety"]
+
+
+def test_forget_keeps_signed_evidence(client):
+    a = next(r for r in store.all() if r.rung.value in ("expert-verified", "decision-grade"))
+    cert = store.certificate(a.id)
+    store.forget_observer(a.observer)
+    assert client.get(f"/api/verify/{a.id}").json()["ok"] is True
+    assert "removed" in store.observer_display(a.observer)
+    assert cert["sha256"] == store.certificate(a.id)["sha256"]
+
+
+def test_old_server_pages_are_gone(client):
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code in (302, 307) and r.headers["location"].endswith(":3200/")
+    for path in ("/o", "/c", "/login", "/o/brief"):
+        assert client.get(path, follow_redirects=False).status_code == 404

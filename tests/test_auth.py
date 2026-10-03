@@ -89,7 +89,7 @@ def test_new_citizen_is_pseudonymous_and_needs_consent(client):
     s = client.post("/api/citizen/start", data={"display": "Ana"}).json()
     pid = s["citizen"]["id"]
     assert pid.startswith("obs-") and pid != seed.DEMO_CITIZEN[0] and not s["consented"]
-    from tests.test_app import hotspot
+    from tests.test_api import hotspot
     lat, lon = hotspot()
     r = client.post("/api/reports", data={"lat": str(lat), "lon": str(lon), "accuracy": "8", "codes": ["litter"]})
     assert r.status_code == 428 and r.json()["detail"] == {"consent": auth.CONSENT_VERSION}
@@ -103,7 +103,7 @@ def test_reports_are_rate_limited(client):
     client.post("/api/session", data={"role": "citizen"})
     for _ in range(20):
         submit(client, photo=False)
-    from tests.test_app import hotspot
+    from tests.test_api import hotspot
     lat, lon = hotspot()
     r = client.post("/api/reports", data={"lat": str(lat), "lon": str(lon), "codes": ["litter"], "consent": "1"})
     assert r.status_code == 429

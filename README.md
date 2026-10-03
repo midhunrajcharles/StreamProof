@@ -17,23 +17,23 @@ Citizens already photograph polluted or stagnant streams. The hard part is what 
 ```bash
 pip install -r requirements.txt
 python -m app.seed                       # demo data on the real Ribeira de Coselhas, Coimbra
-python -m uvicorn app.main:app --port 8740
+python -m uvicorn app.main:app --port 8740   # the API only; opening it in a browser sends you to the web app
 ```
 
 Then the web app (landing page + installable PWA), which proxies `/api` to the server above:
 
 ```bash
-cd web && npm install && npm run dev     # http://localhost:3000 (landing), /report, /review, /brief ...
+cd web && npm install && npx next dev -p 3200   # http://localhost:3200 (landing), /report, /review, /brief, /account ...
 ```
 
-The original server-rendered pages are still at http://localhost:8740: pick **Maria (citizen)** or **Reviewer (organization)**. The demo story is the same in both:
+The demo story (demo logins are in `app/seed.py`; in demo mode they also open without a password):
 
-1. As Maria, report *stagnant water + many mosquitoes* near the footbridge with a photo. The card shows grade A/B with seven reasons and links to an earlier school report (Community-supported).
-2. As the reviewer, open the report. Try **Export FHIR** and the permitted-use gate blocks it: a Community-supported record can't leave the system.
-3. Click **Verify**. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
-4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected.
+1. As Maria (citizen), report *stagnant water + many mosquitoes* near the footbridge with a photo. The card shows grade A/B with seven reasons and links to an earlier school report (Community-supported).
+2. As the reviewer, open the report in **Review**. Try **Export FHIR** and the permitted-use gate blocks it: a Community-supported record can't leave the system.
+3. **Verify** it. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
+4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected. Her **Account** page shows the stars she earned for checked reports.
 
-Tests: `python -m pytest` (39 tests, including the full story through the HTML routes and the JSON API). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
+Tests: `python -m pytest` (54 tests: engine rules, the JSON API including the full story, accounts and sign-in). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
 FHIR check: `python tools/validate_fhir.py` (downloads nothing itself; needs Java 11+ and the HL7 `validator_cli.jar` in `tools/`).
 
 ## How it works
@@ -93,11 +93,11 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 | FHIR output is valid R4 | `fhir/validation/validator-output.txt`, `validation-outcome.json` | `python tools/validate_fhir.py` → HL7 FHIR Validator 6.10.4, 7 files, 0 errors, 0 warnings |
 | Exports are blocked below Expert-verified | `app/permitted_use.py`, `app/fhir.py` (`require`) | `tests/test_engine.py::test_fhir_export_blocked_below_expert`; the Export button on a Community-supported report |
 | Corroboration can't be gamed by one person | `app/evidence.py` (`_independent`, daily cap, distinct-observer threshold) | `test_same_observer_cannot_corroborate_self`, `test_threshold_counts_people_not_reports` |
-| Certificates are tamper-evident | `app/signing.py` (Ed25519 over a SHA-256 of the de-identified record) | `/verify/<id>`: edit any value → "hash mismatch"; `test_signature_detects_tampering` |
+| Certificates are tamper-evident | `app/signing.py` (Ed25519 over a SHA-256 of the de-identified record) | `/verify/<id>` in the web app: edit any value → "hash mismatch"; `test_signature_detects_tampering` |
 | Erasure doesn't break evidence | `app/store.py` (`vault` table, `forget_observer`) | `test_forget_keeps_signed_evidence` |
 | Real stream geometry | `data/streams.json` (OpenStreetMap ways, ODbL) | upstream missions walk along this line: `test_mission_points_upstream` |
 | Real weather context | `data/weather_coimbra.json` (Open-Meteo, CC BY 4.0) | reasons quote the rainfall total |
-| Uploaded photos lose their EXIF GPS | `app/imaging.py` (`strip_metadata`) | `test_full_story` |
+| Uploaded photos lose their EXIF GPS | `app/imaging.py` (`strip_metadata`) | `test_photo_is_stripped_of_exif` |
 
 ## Honest caveats
 
@@ -105,16 +105,16 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 - **Not connected to OneAquaHealth systems.** We found no public API for the OAH Citizen Science App. Integration is the proposed adoption path: StreamProof would sit between the app and the OAH dashboards/DSS. The suggested measures in the brief are illustrative stand-ins for the OAH DSS Catalogue of Measures.
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
-- **Demo auth.** Two fixed demo accounts with no passwords. A deployment would use the organization's identity provider, and would need proper GDPR advice.
+- **Accounts are demo-grade.** Email + password accounts (scrypt hashes, in-memory rate limits); anyone can create an organisation, there is no email confirmation or password reset by email, and demo mode lets the demo accounts in without a password. A deployment would use the organisation's identity provider and would need proper GDPR advice.
 - **Canonical URLs.** CodeSystem URLs use this repository's GitHub Pages base as identifiers. They don't resolve to a page yet; the definitions themselves are the JSON files in `fhir/definitions/`.
 
 ## Project layout
 
 ```
-app/              engine (grading, evidence, permitted_use, fhir, signing, brief), FastAPI pages, JSON API (api.py)
+app/              engine (grading, evidence, permitted_use, fhir, signing, brief, recognition), JSON API (api.py, accounts.py)
 data/             real stream geometry (OSM) and rainfall (Open-Meteo)
 fhir/             open CodeSystems/ValueSet, example Bundle, validator output
-tests/            39 tests: engine rules, the demo story over HTTP, the JSON API
+tests/            54 tests: engine rules, the JSON API and the demo story, accounts
 tools/            validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
 web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
 docs/             STREAMPROOF-WINNING-PLAN.md, screenshots/ (+ source/: concept files, not committed)

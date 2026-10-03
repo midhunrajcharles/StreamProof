@@ -52,13 +52,13 @@ function label(t: (k: string) => string, key: string) {
 function Sidebar() {
   const path = usePathname();
   const { session, mode, setMode } = useApp();
-  const { t } = useI18n();
+  const { t, tx } = useI18n();
   const items = NAV[mode];
   const other = mode === "org" ? "citizen" : "org";
   const both = Boolean(session?.org && session?.citizen);
   return (
-    <nav className="sidebar" aria-label="Sections">
-      <Link href="/" className="brand" aria-label="StreamProof website">
+    <nav className="sidebar" aria-label={t("nav.sections")}>
+      <Link href="/" className="brand" aria-label={t("website")}>
         <span className="brand-word">STREAMPROOF</span>
       </Link>
       <div>
@@ -99,7 +99,7 @@ function Sidebar() {
               <Avatar name={session.org.name} colour={session.org.avatar} size={30} />
               <span className="stack" style={{ gap: 0, minWidth: 0 }}>
                 <span className="side-name">{session.org.name}</span>
-                <span className="t-foot side-sub">{session.org.role === "admin" ? "Admin" : "Reviewer"}{session.org.city ? ` · ${session.org.city}` : ""}</span>
+                <span className="t-foot side-sub">{session.org.role === "admin" ? tx("Admin") : tx("Reviewer")}{session.org.city ? ` · ${session.org.city}` : ""}</span>
               </span>
             </Link>
             <SignOut role="org" variant="icon" after={() => setTimeout(() => window.location.reload(), 600)} />
@@ -123,7 +123,7 @@ function TabBar() {
   const { t } = useI18n();
   const items = [...NAV[mode], ...(mode === "citizen" ? [] : [OPEN])];
   return (
-    <nav className="tabbar" aria-label="Sections">
+    <nav className="tabbar" aria-label={t("nav.sections")}>
       {items.map((it) => (
         <Link key={it.href} href={it.href} className="tab" aria-current={isActive(path, it.href) ? "page" : undefined}>
           <it.icon /> <span>{t(`nav.${it.key}`)}</span>
@@ -133,25 +133,31 @@ function TabBar() {
   );
 }
 
+function SkipLink() {
+  const { tx } = useI18n();
+  return <a href="#content" className="skip-link">{tx("Skip to content")}</a>;
+}
+
 function ModeFromPath() { useModeFromPath(); return null; }
 
 /** Sends saved offline reports when the connection comes back, and registers the service worker. */
 function Background() {
   const { toast } = useApp();
+  const { tx } = useI18n();
   useEffect(() => {
     const send = async () => {
       const sent = await flush();
-      if (sent.length) toast(sent.length === 1 ? `Saved report sent: ${sent[0].id}` : `${sent.length} saved reports sent`);
+      if (sent.length) toast(sent.length === 1 ? tx("Saved report sent: {id}", { id: sent[0].id }) : tx("{n} saved reports sent", { n: sent.length }));
     };
     send();
     window.addEventListener("online", send);
-    const offline = () => toast("You're offline. New reports are saved on this device.", "info");
+    const offline = () => toast(tx("You're offline. New reports are saved on this device."), "info");
     window.addEventListener("offline", offline);
     if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
     return () => { window.removeEventListener("online", send); window.removeEventListener("offline", offline); };
-  }, [toast]);
+  }, [toast, tx]);
   return null;
 }
 
@@ -159,7 +165,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <AppProvider>
       <I18nProvider>
-      <a href="#content" className="skip-link">Skip to content</a>
+      <SkipLink />
       <ModeFromPath />
       <div className="shell">
         <Sidebar />

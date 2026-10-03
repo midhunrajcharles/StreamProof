@@ -6,7 +6,7 @@ import { api, type Meta } from "./api";
 // Leaflet touches `window`, so the map only renders in the browser.
 export const Map = dynamic(() => import("./MapView"), {
   ssr: false,
-  loading: () => <div className="map skeleton" aria-busy="true" aria-label="Loading map" />,
+  loading: () => <div className="map skeleton" aria-busy="true" aria-label="Map" />,
 });
 
 let metaCache: Promise<Meta> | null = null;

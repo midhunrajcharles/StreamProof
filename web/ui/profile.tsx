@@ -4,7 +4,7 @@ import { useState } from "react";
 import { api, ApiError, AVATARS, type Avatar as AvatarColour, type Recognition } from "./api";
 import { CityPicker } from "./city";
 import { Avatar } from "./avatar";
-import { useI18n } from "./i18n";
+import { N, useI18n } from "./i18n";
 import * as I from "./icons";
 import { Sheet, useApp } from "./kit";
 
@@ -13,21 +13,21 @@ export { Avatar } from "./avatar";
 /** Level floors, mirrored from app/recognition.py LEVELS. */
 const FLOORS: Record<string, number> = { newcomer: 0, observer: 1, contributor: 3, "stream-keeper": 10, "river-guardian": 25 };
 
-// Reviewer screens are English-only, so their rule and badge names live here rather than in i18n.
+// Reviewers' star rules and badges (citizens' are id-based keys in i18n).
 const REVIEWER_TEXT: Record<string, string> = {
-  "rule.explained-verification": "Verifications with a note for the citizen",
-  "rule.explained-rejection": "Explained why a report wasn't confirmed",
-  "rule.mission-opened": "Field missions opened",
-  "badge.first-decision": "First decision", "badge.first-decision.d": "Verified or declined a report",
-  "badge.ten-decisions": "Ten decisions", "badge.ten-decisions.d": "Ten reports verified or declined",
-  "badge.mission-opener": "Mission opener", "badge.mission-opener.d": "Asked citizens for more evidence",
-  "badge.kind-reviewer": "Kind reviewer", "badge.kind-reviewer.d": "Told a citizen why a report wasn't confirmed",
-  fair: "Stars come from decisions that explain themselves to the citizen, not from speed or volume. There is no ranking between reviewers.",
+  "rule.explained-verification": N("Verifications with a note for the citizen"),
+  "rule.explained-rejection": N("Explained why a report wasn't confirmed"),
+  "rule.mission-opened": N("Field missions opened"),
+  "badge.first-decision": N("First decision"), "badge.first-decision.d": N("Verified or declined a report"),
+  "badge.ten-decisions": N("Ten decisions"), "badge.ten-decisions.d": N("Ten reports verified or declined"),
+  "badge.mission-opener": N("Mission opener"), "badge.mission-opener.d": N("Asked citizens for more evidence"),
+  "badge.kind-reviewer": N("Kind reviewer"), "badge.kind-reviewer.d": N("Told a citizen why a report wasn't confirmed"),
+  fair: N("Stars come from decisions that explain themselves to the citizen, not from speed or volume. There is no ranking between reviewers."),
 };
 
 export function useStarText(kind: "citizen" | "reviewer") {
-  const { t } = useI18n();
-  const text = (key: string) => (kind === "reviewer" && REVIEWER_TEXT[key] ? REVIEWER_TEXT[key] : t(`rec.${key}`));
+  const { t, tx } = useI18n();
+  const text = (key: string) => (kind === "reviewer" && REVIEWER_TEXT[key] ? tx(REVIEWER_TEXT[key]) : t(`rec.${key}`));
   const stars = (n: number) => (n === 1 ? t("rec.one") : t("rec.n", { n }));
   return { text, stars, level: (l: string) => t(`rec.level.${l}`) };
 }
@@ -39,7 +39,7 @@ export function StarPill({ n }: { n: number }) {
 
 /** Stars, level, progress, how they were earned and the badges. No ranking, no penalties. */
 export function Stars({ rec, kind }: { rec: Recognition; kind: "citizen" | "reviewer" }) {
-  const { t } = useI18n();
+  const { t, tx } = useI18n();
   const { text, stars, level } = useStarText(kind);
   const floor = FLOORS[rec.level] ?? 0;
   const nextFloor = rec.next_level ? FLOORS[rec.next_level] : floor;
@@ -72,7 +72,7 @@ export function Stars({ rec, kind }: { rec: Recognition; kind: "citizen" | "revi
             </div>
           ))}
         </div>
-        <p className="section-foot" style={{ margin: "0 4px" }}>{kind === "reviewer" ? REVIEWER_TEXT.fair : t("rec.fair")}</p>
+        <p className="section-foot" style={{ margin: "0 4px" }}>{kind === "reviewer" ? tx(REVIEWER_TEXT.fair) : t("rec.fair")}</p>
       </div>
 
       <div className="stack" style={{ gap: 8 }}>
@@ -118,7 +118,7 @@ export function EditProfile({ open, onClose, initial, fields, save }: {
   open: boolean; onClose: () => void; initial: EditValues; fields: { title?: boolean; bio?: boolean; city?: boolean };
   save: (v: EditValues) => Promise<void>;
 }) {
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   const { toast } = useApp();
   const [v, setV] = useState(initial);
   const [error, setError] = useState("");
@@ -133,7 +133,7 @@ export function EditProfile({ open, onClose, initial, fields, save }: {
         setBusy(true);
         setError("");
         try { await save(v); toast(t("acc.saved")); onClose(); }
-        catch (err) { setError((err as ApiError).message); }
+        catch (err) { setError(tr((err as ApiError).message)); }
         finally { setBusy(false); }
       }}>
         <div className="profile-preview"><Avatar name={v.name || "?"} colour={v.avatar} size={64} /></div>
@@ -166,7 +166,7 @@ export function EditProfile({ open, onClose, initial, fields, save }: {
 
 /** Change-password sheet for either role (`path` is the API endpoint). */
 export function ChangePassword({ path }: { path: string }) {
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   const { toast } = useApp();
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState("");
@@ -189,7 +189,7 @@ export function ChangePassword({ path }: { path: string }) {
             await api(path, { form: { current, new: next } });
             toast(t("acc.pwDone"));
             setOpen(false); setCurrent(""); setNext("");
-          } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+          } catch (err) { setError(tr((err as ApiError).message)); } finally { setBusy(false); }
         }}>
           <input type="text" autoComplete="username" hidden readOnly />
           <div className="field"><label className="field-label" htmlFor="pw-cur">{t("acc.pwCur")}</label>
@@ -209,10 +209,10 @@ export function ChangePassword({ path }: { path: string }) {
  *  an account is warned first, because their pseudonym can't be recovered after signing out. */
 export function SignOut({ role, variant = "row", after }: { role: "citizen" | "org"; variant?: "row" | "icon"; after?: () => void }) {
   const { session, refreshSession, toast } = useApp();
-  const { t } = useI18n();
+  const { t, tx } = useI18n();
   const [open, setOpen] = useState(false);
   const citizen = session?.citizen;
-  const label = role === "org" ? "Sign out of the organisation account" : t("acc.signOutCitizen");
+  const label = role === "org" ? tx("Sign out of the organisation account") : t("acc.signOutCitizen");
   const go = async () => {
     await api(role === "org" ? "/auth/logout" : "/citizen/logout", { method: "POST" });
     await refreshSession();

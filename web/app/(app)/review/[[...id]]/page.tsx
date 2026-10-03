@@ -1,9 +1,9 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { ago, api, ApiError, signsText, useApi, when, type Mission, type Report } from "@/ui/api";
+import { ago, api, ApiError, useApi, when, type Mission, type Report } from "@/ui/api";
 import { History, PhotoView } from "@/ui/evidence";
-import { EnglishOnly } from "@/ui/i18n";
+import { localeOf, useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Grade, Page, Reasons, Row, RungPill, Section, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
 import { Map, useMeta } from "@/ui/Map";
@@ -31,6 +31,8 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
   const q = useApi<Report>(`/reports/${id}`);
   const meta = useMeta();
   const { toast } = useApp();
+  const { tx, tr, sign, rung, lang } = useI18n();
+  const loc = localeOf(lang);
   const [sheet, setSheet] = useState<null | "verify" | "reject" | "fhir">(null);
   const [method, setMethod] = useState<"remote" | "field">("remote");
   const [note, setNote] = useState("");
@@ -39,6 +41,7 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
   const [blocked, setBlocked] = useState("");
   const [bundle, setBundle] = useState<unknown>(null);
   const streams = useMemo(() => meta?.streams.map((s) => s.line) ?? [], [meta]);
+  const signs = (s: { code: string; chip: string }[]) => s.map((x) => sign(x.code, x.chip)).join(", ");
 
   useEffect(() => { setBlocked(""); setNote(""); setReason(""); setBundle(null); }, [id]);
 
@@ -51,7 +54,7 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
       setSheet(null);
       if (done) toast(done(r));
     } catch (e) {
-      toast((e as ApiError).message, "bad");
+      toast(tr((e as ApiError).message), "bad");
     } finally { setBusy(""); }
   };
 
@@ -64,7 +67,7 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
     } catch (e) {
       const err = e as ApiError;
       if (err.status === 403) setBlocked(err.message);
-      else toast(err.message, "bad");
+      else toast(tr(err.message), "bad");
     } finally { setBusy(""); }
   };
 
@@ -72,9 +75,10 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
     <Gate q={q} skeleton={<Skeleton n={4} h={120} />}>
       {(r) => {
         const o = r.org!;
+        const level = rung(r.rung.value, r.rung.label);
         const markers = [
-          { id: r.id, lat: r.position.lat, lon: r.position.lon, title: `Report ${r.id}`, label: r.grade ?? "" },
-          ...o.agree.map((a) => ({ id: a.id, lat: a.position.lat, lon: a.position.lon, title: `Agreeing report ${a.id}`, kind: "dot" as const })),
+          { id: r.id, lat: r.position.lat, lon: r.position.lon, title: tx("Report {id}", { id: r.id }), label: r.grade ?? "" },
+          ...o.agree.map((a) => ({ id: a.id, lat: a.position.lat, lon: a.position.lon, title: tx("Agreeing report {id}", { id: a.id }), kind: "dot" as const })),
         ];
         return (
           <div>
@@ -83,115 +87,115 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
                 <Grade g={r.grade} size="md" />
                 <div className="stack" style={{ gap: 4, flex: 1, minWidth: 0 }}>
                   <div className="spread"><p className="eyebrow">({r.id})</p><RungPill rung={r.rung} /></div>
-                  <h2 className="t-title2">{signsText(r.signs)}</h2>
-                  <p className="secondary t-sub">{o.observer.display} <span className="mono">({o.observer.pseudonym})</span> · {when(r.created_at)} · {r.place}</p>
+                  <h2 className="t-title2">{signs(r.signs)}</h2>
+                  <p className="secondary t-sub">{tr(o.observer.display)} <span className="mono">({o.observer.pseudonym})</span> · {when(r.created_at, undefined, loc)} · {tr(r.place)}</p>
                 </div>
               </div>
               {r.description ? <p className="t-callout">“{r.description}”</p> : null}
               {o.can_decide ? (
                 <div className="btn-row">
-                  <button className="btn btn-prominent" onClick={() => setSheet("verify")}><I.Check /> Verify…</button>
-                  <button className="btn" disabled={Boolean(o.mission) || busy === "mission"} onClick={() => act("mission", `/reports/${id}/mission`, undefined, () => `Evidence mission opened ${meta?.rules.upstream_m ?? 400} m upstream`)}>
-                    {busy === "mission" ? <I.Spinner /> : <I.Flag />} {o.mission ? `Mission ${o.mission.id} open` : "Ask for more evidence"}
+                  <button className="btn btn-prominent" onClick={() => setSheet("verify")}><I.Check /> {tx("Verify…")}</button>
+                  <button className="btn" disabled={Boolean(o.mission) || busy === "mission"} onClick={() => act("mission", `/reports/${id}/mission`, undefined, () => tx("Evidence mission opened {m} m upstream", { m: meta?.rules.upstream_m ?? 400 }))}>
+                    {busy === "mission" ? <I.Spinner /> : <I.Flag />} {o.mission ? tx("Mission {id} open", { id: o.mission.id }) : tx("Ask for more evidence")}
                   </button>
-                  <button className="btn btn-destructive" onClick={() => setSheet("reject")}>Not confirmed…</button>
+                  <button className="btn btn-destructive" onClick={() => setSheet("reject")}>{tx("Not confirmed…")}</button>
                 </div>
               ) : null}
             </div>
 
             {r.verification ? (
-              <div className="section"><Callout kind="ok" title={`Verified (${r.verification.method} check)`}>
-                By {r.verification.by} on {when(r.verification.at, { dateStyle: "medium" })}{r.verification.note ? `: “${r.verification.note}”` : "."}
+              <div className="section"><Callout kind="ok" title={r.verification.method === "field" ? tx("Verified (field check)") : tx("Verified (remote check)")}>
+                {tx("By {who} on {date}", { who: r.verification.by, date: when(r.verification.at, { dateStyle: "medium" }, loc) })}{r.verification.note ? `: “${r.verification.note}”` : "."}
               </Callout></div>
             ) : null}
-            {r.rejection ? <div className="section"><Callout kind="warn" title="Not confirmed">{r.rejection}</Callout></div> : null}
-            {r.safety ? <div className="section"><Callout kind="bad" title="Safety advice shown to the citizen">{r.safety}</Callout></div> : null}
+            {r.rejection ? <div className="section"><Callout kind="warn" title={tx("Not confirmed")}>{r.rejection}</Callout></div> : null}
+            {r.safety ? <div className="section"><Callout kind="bad" title={tx("Safety advice shown to the citizen")}>{tr(r.safety)}</Callout></div> : null}
 
             <div className="grid-2 section">
               <PhotoView r={r} />
               <div className="stack">
                 <Map center={[r.position.lat, r.position.lon]} streams={streams} markers={markers}
                   circles={meta ? [{ lat: r.position.lat, lon: r.position.lon, radius: meta.rules.radius_m }] : []}
-                  label={`Exact position of report ${r.id}, with agreeing reports nearby`} />
-                <p className="secondary t-foot">Exact position, organisation only (±{r.position.accuracy_m ?? "?"} m). Public surfaces show about 100 m.</p>
+                  label={tx("Exact position of report {id}, with agreeing reports nearby", { id: r.id })} />
+                <p className="secondary t-foot">{tx("Exact position, organisation only (±{m} m). Public surfaces show about 100 m.", { m: r.position.accuracy_m ?? "?" })}</p>
               </div>
             </div>
 
-            <Section title="Evidence grade" n={1} trail={<span className="secondary t-sub num">{r.score}/100</span>}>
+            <Section title={tx("Evidence grade")} n={1} trail={<span className="secondary t-sub num">{r.score}/100</span>}>
               <Reasons reasons={r.reasons} />
             </Section>
 
-            <Section title="Nearby evidence" n={2} foot={meta ? `Other people within ${meta.rules.radius_m} m and ${meta.rules.window_days} days. Counted as people, not reports.` : undefined}>
+            <Section title={tx("Nearby evidence")} n={2} foot={meta ? tx("Other people within {m} m and {d} days. Counted as people, not reports.", { m: meta.rules.radius_m, d: meta.rules.window_days }) : undefined}>
               <div className="group">
-                {o.agree.map((a) => <Row key={a.id} href={`/review/${a.id}`} lead={<I.CheckCircle className="status-ic ok" />} title={`${a.id} · ${signsText(a.signs)}`} sub={a.rung.label} />)}
-                {o.contradict.map((c) => <Row key={c.id} href={`/review/${c.id}`} lead={<I.Warn className="status-ic warn" />} title={`${c.id} saw nothing of concern nearby`} />)}
-                {!o.agree.length && !o.contradict.length ? <Row lead={<I.Info className="status-ic info" />} title="No reports from other people nearby yet" chevron={false} /> : null}
-                <Row lead={<I.Person className="status-ic info" />} title="Observer track record" chevron={false}
-                  trail={<span className="num">{o.observer.confirmed} confirmed · {o.observer.not_confirmed} not</span>} />
+                {o.agree.map((a) => <Row key={a.id} href={`/review/${a.id}`} lead={<I.CheckCircle className="status-ic ok" />} title={`${a.id} · ${signs(a.signs)}`} sub={rung(a.rung.value, a.rung.label)} />)}
+                {o.contradict.map((c) => <Row key={c.id} href={`/review/${c.id}`} lead={<I.Warn className="status-ic warn" />} title={tx("{id} saw nothing of concern nearby", { id: c.id })} />)}
+                {!o.agree.length && !o.contradict.length ? <Row lead={<I.Info className="status-ic info" />} title={tx("No reports from other people nearby yet")} chevron={false} /> : null}
+                <Row lead={<I.Person className="status-ic info" />} title={tx("Observer track record")} chevron={false}
+                  trail={<span className="num">{tx("{a} confirmed · {b} not", { a: o.observer.confirmed, b: o.observer.not_confirmed })}</span>} />
               </div>
             </Section>
 
-            <Section title="Permitted-use gate" n={3} foot={`What a ${r.rung.label} record may be used for. Every output asks the gate first.`}>
+            <Section title={tx("Permitted-use gate")} n={3} foot={tx("What a {level} record may be used for. Every output asks the gate first.", { level })}>
               <div className="group">
                 {o.gate.map((g) => (
                   <div key={g.code} className="row has-lead">
                     <div className="row-lead">{g.allowed ? <I.CheckCircle className="status-ic ok" /> : <I.XCircle className="status-ic fail" />}</div>
-                    <div className="row-body"><span className="row-title" style={{ fontWeight: 400 }}>{g.label}</span></div>
-                    <span className="row-trail">{g.allowed ? "Allowed" : `Needs ${g.needs}`}</span>
+                    <div className="row-body"><span className="row-title" style={{ fontWeight: 400 }}>{tx(g.label)}</span></div>
+                    <span className="row-trail">{g.allowed ? tx("Allowed") : tx("Needs {level}", { level: tx(g.needs) })}</span>
                   </div>
                 ))}
               </div>
               <div className="stack" style={{ marginTop: 12 }}>
-                <div><button className="btn" onClick={exportFhir} disabled={busy === "fhir"}>{busy === "fhir" ? <I.Spinner /> : <I.Braces />} Export FHIR R4 bundle</button></div>
-                {blocked ? <Callout kind="bad" title="Export refused by the gate">{blocked}</Callout> : null}
+                <div><button className="btn" onClick={exportFhir} disabled={busy === "fhir"}>{busy === "fhir" ? <I.Spinner /> : <I.Braces />} {tx("Export FHIR R4 bundle")}</button></div>
+                {blocked ? <Callout kind="bad" title={tx("Export refused by the gate")}>{tr(blocked)}</Callout> : null}
               </div>
             </Section>
 
             {o.ai_suggestion ? (
-              <div className="section"><Callout title="AI photo suggestion (not counted in the grade)">{o.ai_suggestion.label} ({o.ai_suggestion.confidence})</Callout></div>
+              <div className="section"><Callout title={tx("AI photo suggestion (not counted in the grade)")}>{o.ai_suggestion.label} ({o.ai_suggestion.confidence})</Callout></div>
             ) : null}
 
-            <Section title="History" n={4}><History r={r} /></Section>
+            <Section title={tx("History")} n={4}><History r={r} /></Section>
 
-            <Sheet open={sheet === "verify"} onClose={() => setSheet(null)} title="Verify report">
+            <Sheet open={sheet === "verify"} onClose={() => setSheet(null)} title={tx("Verify report")}>
               <div className="stack">
-                <Segmented label="How it was checked" value={method} onChange={setMethod}
-                  options={[{ value: "remote", label: "Remote check" }, { value: "field", label: "Field check" }]} />
+                <Segmented label={tx("How it was checked")} value={method} onChange={setMethod}
+                  options={[{ value: "remote", label: tx("Remote check") }, { value: "field", label: tx("Field check") }]} />
                 <div className="field">
-                  <label className="field-label" htmlFor="note">Note for the record (optional)</label>
-                  <input id="note" className="input" value={note} onChange={(e) => setNote(e.target.value)} placeholder="For example: larvae in dip sample" />
+                  <label className="field-label" htmlFor="note">{tx("Note for the record (optional)")}</label>
+                  <input id="note" className="input" value={note} onChange={(e) => setNote(e.target.value)} placeholder={tx("For example: larvae in dip sample")} />
                 </div>
                 {r.rung.value !== "community-supported" ? (
-                  <p className="secondary t-sub">No community step yet: verifying uses the evidence-graph shortcut, so a rural site with one observer isn't stuck.</p>
+                  <p className="secondary t-sub">{tx("No community step yet: verifying uses the evidence-graph shortcut, so a rural site with one observer isn't stuck.")}</p>
                 ) : null}
                 <button className="btn btn-prominent btn-large btn-block" disabled={busy === "verify"}
-                  onClick={() => act("verify", `/reports/${id}/verify`, { method, note }, (x) => `${x.id} is ${x.rung.label}. Signed record issued.`)}>
-                  {busy === "verify" ? <I.Spinner /> : <I.Check />} Verify
+                  onClick={() => act("verify", `/reports/${id}/verify`, { method, note }, (x) => tx("{id} is {level}. Signed record issued.", { id: x.id, level: rung(x.rung.value, x.rung.label) }))}>
+                  {busy === "verify" ? <I.Spinner /> : <I.Check />} {tx("Verify")}
                 </button>
               </div>
             </Sheet>
 
-            <Sheet open={sheet === "reject"} onClose={() => setSheet(null)} title="Not confirmed">
+            <Sheet open={sheet === "reject"} onClose={() => setSheet(null)} title={tx("Not confirmed")}>
               <div className="stack">
                 <div className="field">
-                  <label className="field-label" htmlFor="reason">Reason</label>
+                  <label className="field-label" htmlFor="reason">{tx("Reason")}</label>
                   <textarea id="reason" className="textarea" value={reason} onChange={(e) => setReason(e.target.value)} aria-describedby="reason-help"
-                    placeholder="For example: the photo shows pollen on the surface, not an algal scum. Thanks for checking!" />
-                  <p id="reason-help" className="field-help">The citizen will read this. Be kind and specific.</p>
+                    placeholder={tx("For example: the photo shows pollen on the surface, not an algal scum. Thanks for checking!")} />
+                  <p id="reason-help" className="field-help">{tx("The citizen will read this. Be kind and specific.")}</p>
                 </div>
                 <button className="btn btn-prominent btn-destructive btn-large btn-block" disabled={!reason.trim() || busy === "reject"}
-                  onClick={() => act("reject", `/reports/${id}/reject`, { reason }, (x) => `${x.id} marked not confirmed`)}>
-                  {busy === "reject" ? <I.Spinner /> : null} Mark not confirmed
+                  onClick={() => act("reject", `/reports/${id}/reject`, { reason }, (x) => tx("{id} marked not confirmed", { id: x.id }))}>
+                  {busy === "reject" ? <I.Spinner /> : null} {tx("Mark not confirmed")}
                 </button>
               </div>
             </Sheet>
 
-            <Sheet open={sheet === "fhir"} onClose={() => setSheet(null)} title="FHIR R4 bundle"
-              lead={<button className="btn btn-plain" onClick={() => setSheet(null)}>Done</button>}
-              trail={<button className="btn btn-plain" onClick={async () => { await navigator.clipboard.writeText(JSON.stringify(bundle, null, 2)); toast("Copied"); }}><I.Copy /> Copy</button>}>
-              <p className="secondary t-sub">Released because this record is {r.rung.label}. The trust level and permitted uses travel inside the bundle.</p>
+            <Sheet open={sheet === "fhir"} onClose={() => setSheet(null)} title={tx("FHIR R4 bundle")}
+              lead={<button className="btn btn-plain" onClick={() => setSheet(null)}>{tx("Done")}</button>}
+              trail={<button className="btn btn-plain" onClick={async () => { await navigator.clipboard.writeText(JSON.stringify(bundle, null, 2)); toast(tx("Copied")); }}><I.Copy /> {tx("Copy")}</button>}>
+              <p className="secondary t-sub">{tx("Released because this record is {level}. The trust level and permitted uses travel inside the bundle.", { level })}</p>
               <pre className="code">{JSON.stringify(bundle, null, 2)}</pre>
-              <a className="btn btn-block" download={`Bundle-${r.id}.json`} href={`data:application/fhir+json;charset=utf-8,${encodeURIComponent(JSON.stringify(bundle, null, 2))}`}><I.Download /> Download .json</a>
+              <a className="btn btn-block" download={`Bundle-${r.id}.json`} href={`data:application/fhir+json;charset=utf-8,${encodeURIComponent(JSON.stringify(bundle, null, 2))}`}><I.Download /> {tx("Download .json")}</a>
             </Sheet>
           </div>
         );
@@ -202,7 +206,7 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
 
 // ---------------------------------------------------------------- list + page
 
-function Review() {
+export default function Review() {
   const router = useRouter();
   const params = useParams<{ id?: string[] }>();
   const sel = params.id?.[0] ?? null;
@@ -210,15 +214,18 @@ function Review() {
   const q = useApi<Queue>("/queue");
   const meta = useMeta();
   const { toast } = useApp();
+  const { tx, tr, sign, rung, lang } = useI18n();
+  const loc = localeOf(lang);
   const [tab, setTab] = useState<"todo" | "done" | "map">("todo");
   const [resetOpen, setResetOpen] = useState(false);
   const streams = useMemo(() => meta?.streams.map((s) => s.line) ?? [], [meta]);
+  const signs = (s: { code: string; chip: string }[]) => s.map((x) => sign(x.code, x.chip)).join(", ");
 
   const all = useMemo(() => (q.data ? [...q.data.todo, ...q.data.done] : []), [q.data]);
   const markers = useMemo(() => all.filter((r) => r.rung.level > 0).map((r) => ({
-    id: r.id, lat: r.position.lat, lon: r.position.lon, label: r.grade ?? "", title: `${r.id}: ${signsText(r.signs)}, ${r.rung.label}`,
+    id: r.id, lat: r.position.lat, lon: r.position.lon, label: r.grade ?? "", title: `${r.id}: ${signs(r.signs)}, ${rung(r.rung.value, r.rung.label)}`,
     selected: r.id === sel, kind: r.id === sel ? ("pin" as const) : ("dot" as const),
-  })), [all, sel]);
+  })), [all, sel]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // keep the segment on the selected report's list
   useEffect(() => {
@@ -229,46 +236,46 @@ function Review() {
   const list = tab === "done" ? q.data?.done ?? [] : q.data?.todo ?? [];
 
   return (
-    <Page title={compactDetail ? `Report ${sel}` : "Review"} eyebrow="Organisation" width="wide"
-      back={compactDetail ? { href: "/review", label: "Review" } : undefined}
-      actions={!compactDetail ? <button className="btn btn-sm" onClick={() => setResetOpen(true)} aria-label="Demo options"><I.More /></button> : undefined}>
+    <Page title={compactDetail ? tx("Report {id}", { id: sel }) : tx("Review")} eyebrow={tx("Organisation")} width="wide"
+      back={compactDetail ? { href: "/review", label: tx("Review") } : undefined}
+      actions={!compactDetail ? <button className="btn btn-sm" onClick={() => setResetOpen(true)} aria-label={tx("Demo options")}><I.More /></button> : undefined}>
       <Gate q={q} skeleton={<Skeleton n={5} h={64} />}>
         {(data) => (
           <div className="split" data-has-detail={sel ? "true" : "false"}>
             <div className="split-list">
               <div style={{ marginBottom: 14 }}>
-                <Segmented label="Show" value={tab} onChange={setTab} options={[
-                  { value: "todo", label: <>To review · {data.todo.length}</> },
-                  { value: "done", label: <>Done · {data.done.length}</> },
-                  { value: "map", label: "Map" },
+                <Segmented label={tx("Show")} value={tab} onChange={setTab} options={[
+                  { value: "todo", label: <>{tx("To review")} · {data.todo.length}</> },
+                  { value: "done", label: <>{tx("Done")} · {data.done.length}</> },
+                  { value: "map", label: tx("Map") },
                 ]} />
               </div>
               {tab === "map" ? (
                 <div className="stack">
                   <Map center={sel ? [all.find((r) => r.id === sel)?.position.lat ?? meta?.start[0] ?? 40.2, all.find((r) => r.id === sel)?.position.lon ?? meta?.start[1] ?? -8.4] : meta?.start ?? [40.2, -8.42]}
-                    zoom={14} tall streams={streams} markers={markers} onSelect={(id) => router.push(`/review/${id}`)} label="All reports on the map. Select a marker to open the report." />
-                  <p className="secondary t-foot">Larger pin: the selected report. Not-confirmed reports are hidden.</p>
+                    zoom={14} tall streams={streams} markers={markers} onSelect={(id) => router.push(`/review/${id}`)} label={tx("All reports on the map. Select a marker to open the report.")} />
+                  <p className="secondary t-foot">{tx("Larger pin: the selected report. Not-confirmed reports are hidden.")}</p>
                 </div>
               ) : list.length ? (
                 <div className="group" role="list">
                   {list.map((r) => (
                     <div role="listitem" key={r.id}>
                       <Row href={`/review/${r.id}`} selected={r.id === sel} lead={<Grade g={r.grade} />}
-                        title={signsText(r.signs)} sub={<>{r.id} · {ago(r.created_at)} · {r.rung.label}</>} chevron={!wide} />
+                        title={signs(r.signs)} sub={<>{r.id} · {ago(r.created_at, loc)} · {rung(r.rung.value, r.rung.label)}</>} chevron={!wide} />
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="card"><Empty icon={<I.CheckCircle />} title="All caught up">Nothing is waiting for review.</Empty></div>
+                <div className="card"><Empty icon={<I.CheckCircle />} title={tx("All caught up")}>{tx("Nothing is waiting for review.")}</Empty></div>
               )}
               {tab === "todo" && data.signals.length ? (
                 <div style={{ marginTop: 22 }}>
-                  <Section title="Signals" foot="Same sign, near in space and time. Decision-grade needs independent people and an expert.">
+                  <Section title={tx("Signals")} foot={tx("Same sign, near in space and time. Decision-grade needs independent people and an expert.")}>
                     <div className="group">
                       {data.signals.map((s, i) => (
                         <Row key={i} lead={s.decision_grade ? <I.CheckCircle className="status-ic ok" /> : <I.Info className="status-ic info" />}
-                          title={`${s.sign} · ${s.place}`} chevron={false}
-                          sub={s.decision_grade ? `Decision-grade: ${s.expert} expert, ${s.community} community+` : s.gaps[0]} />
+                          title={`${tr(s.sign)} · ${tr(s.place)}`} chevron={false}
+                          sub={s.decision_grade ? tx("Decision-grade: {e} expert, {c} community+", { e: s.expert, c: s.community }) : tr(s.gaps[0])} />
                       ))}
                     </div>
                   </Section>
@@ -277,25 +284,20 @@ function Review() {
             </div>
             <div className="split-detail">
               {sel ? <Detail id={sel} onChanged={q.reload} /> : (
-                <div className="card"><Empty icon={<I.Shield />} title="Select a report">Choose a report from the list to see its evidence and decide.</Empty></div>
+                <div className="card"><Empty icon={<I.Shield />} title={tx("Select a report")}>{tx("Choose a report from the list to see its evidence and decide.")}</Empty></div>
               )}
             </div>
           </div>
         )}
       </Gate>
 
-      <Sheet open={resetOpen} onClose={() => setResetOpen(false)} title="Demo options">
-        <p className="secondary">Reset puts the synthetic demo data back to its starting state. Reports made in this session are removed.</p>
+      <Sheet open={resetOpen} onClose={() => setResetOpen(false)} title={tx("Demo options")}>
+        <p className="secondary">{tx("Reset puts the synthetic demo data back to its starting state. Reports made in this session are removed.")}</p>
         <button className="btn btn-block btn-prominent btn-destructive" onClick={async () => {
-          try { await api("/demo/reset", { method: "POST" }); toast("Demo data reset"); setResetOpen(false); router.push("/review"); q.reload(); }
-          catch (e) { toast((e as ApiError).message, "bad"); }
-        }}><I.Refresh /> Reset demo data</button>
+          try { await api("/demo/reset", { method: "POST" }); toast(tx("Demo data reset")); setResetOpen(false); router.push("/review"); q.reload(); }
+          catch (e) { toast(tr((e as ApiError).message), "bad"); }
+        }}><I.Refresh /> {tx("Reset demo data")}</button>
       </Sheet>
     </Page>
   );
-}
-
-// reviewer screens stay in English
-export default function ReviewPage() {
-  return <EnglishOnly><Review /></EnglishOnly>;
 }

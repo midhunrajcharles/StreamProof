@@ -175,8 +175,9 @@ export function Empty({ icon, title, children, action }: { icon?: React.ReactNod
 }
 
 export function Skeleton({ h = 64, n = 1 }: { h?: number; n?: number }) {
+  const { tx } = useI18n();
   return (
-    <div className="stack" aria-busy="true" aria-label="Loading">
+    <div className="stack" aria-busy="true" aria-label={tx("Loading")}>
       {Array.from({ length: n }, (_, i) => <div key={i} className="skeleton" style={{ height: h }} />)}
     </div>
   );
@@ -187,6 +188,7 @@ export function Skeleton({ h = 64, n = 1 }: { h?: number; n?: number }) {
 /** Organisation sign-in: email + password; one-tap demo account in demo mode. */
 export function OrgSignIn({ onDone }: { onDone: () => void }) {
   const { session, refreshSession } = useApp();
+  const { tx, tr } = useI18n();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -198,34 +200,34 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
       setError("");
       setBusy("login");
       try { await api("/auth/login", { form: { email, password } }); await done(); }
-      catch (err) { setError((err as ApiError).message); }
+      catch (err) { setError(tr((err as ApiError).message)); }
       finally { setBusy(""); }
     }}>
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Shield /></span>
-        <h2 className="t-title2">Organisation sign-in</h2>
-        <p className="secondary">For reviewers and coordinators of a OneAquaHealth pilot.</p>
+        <h2 className="t-title2">{tx("Organisation sign-in")}</h2>
+        <p className="secondary">{tx("For reviewers and coordinators of a OneAquaHealth pilot.")}</p>
       </div>
       <div className="stack">
         <div className="field">
-          <label className="field-label" htmlFor="org-email">Email</label>
+          <label className="field-label" htmlFor="org-email">{tx("Email")}</label>
           <input id="org-email" className="input" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="field">
-          <label className="field-label" htmlFor="org-pw">Password</label>
+          <label className="field-label" htmlFor="org-pw">{tx("Password")}</label>
           <input id="org-pw" className="input" type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "login" ? <I.Spinner /> : null} Sign in</button>
-        <p className="auth-links secondary">New pilot or partner? <Link href="/sign-up?role=org">Create an organisation account</Link></p>
+        <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "login" ? <I.Spinner /> : null} {tx("Sign in")}</button>
+        <p className="auth-links secondary">{tx("New pilot or partner?")} <Link href="/sign-up?role=org">{tx("Create an organisation account")}</Link></p>
       </div>
       {session?.demo ? (
         <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
-          <p className="secondary t-sub">Judging the demo? Use the demo reviewer account. The reports are synthetic.</p>
+          <p className="secondary t-sub">{tx("Judging the demo? Use the demo reviewer account. The reports are synthetic.")}</p>
           <button type="button" className="btn btn-block" disabled={Boolean(busy)} onClick={async () => {
             setBusy("demo");
             try { await api("/session", { form: { role: "org" } }); await done(); } finally { setBusy(""); }
-          }}>{busy === "demo" ? <I.Spinner /> : <I.Person />} Continue with the demo reviewer</button>
+          }}>{busy === "demo" ? <I.Spinner /> : <I.Person />} {tx("Continue with the demo reviewer")}</button>
         </div>
       ) : null}
     </form>
@@ -235,7 +237,7 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
 /** Citizens never get a password: a new pseudonym for this device, or the demo citizen. */
 export function CitizenStart({ onDone }: { onDone: () => void }) {
   const { session, refreshSession } = useApp();
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   const [display, setDisplay] = useState("");
   const [busy, setBusy] = useState<"" | "new" | "demo">("");
   const [error, setError] = useState("");
@@ -247,7 +249,7 @@ export function CitizenStart({ onDone }: { onDone: () => void }) {
       else await api("/session", { form: { role: "citizen" } });
       await refreshSession();
       onDone();
-    } catch (e) { setError((e as ApiError).message); }
+    } catch (e) { setError(tr((e as ApiError).message)); }
     finally { setBusy(""); }
   };
   return (
@@ -281,7 +283,7 @@ export function CitizenStart({ onDone }: { onDone: () => void }) {
 /** Citizen sign-in with an account (email + password). */
 export function CitizenLogin({ onDone }: { onDone: () => void }) {
   const { refreshSession } = useApp();
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -292,7 +294,7 @@ export function CitizenLogin({ onDone }: { onDone: () => void }) {
       setError("");
       setBusy(true);
       try { await api("/citizen/login", { form: { email, password } }); await refreshSession(); onDone(); }
-      catch (err) { setError((err as ApiError).message); }
+      catch (err) { setError(tr((err as ApiError).message)); }
       finally { setBusy(false); }
     }}>
       <div className="stack" style={{ gap: 6 }}>
@@ -335,13 +337,13 @@ export function SignIn({ role, onDone }: { role: "citizen" | "org"; onDone: () =
 
 /** Render loading / sign-in / error for a useApi() result, or the children when data is ready. */
 export function Gate<T>({ q, children, skeleton }: { q: { data: T | null; error: ApiError | null; loading: boolean; reload: () => void }; children: (d: T) => React.ReactNode; skeleton?: React.ReactNode }) {
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   if (q.error?.signin) return <SignIn role={q.error.signin} onDone={q.reload} />;
   if (q.error && !q.data) {
     return (
       <Empty icon={q.error.status === 0 ? <I.Cloud /> : <I.Warn />} title={q.error.status === 0 ? t("state.offline") : q.error.status === 404 ? t("state.notFound") : t("state.cantLoad")}
         action={<button className="btn" onClick={q.reload}><I.Refresh /> {t("state.tryAgain")}</button>}>
-        {q.error.status === 0 ? t("state.offlineMsg") : q.error.message}
+        {q.error.status === 0 ? t("state.offlineMsg") : tr(q.error.message)}
       </Empty>
     );
   }
@@ -378,6 +380,7 @@ export function Sheet({ open, onClose, title, children, lead, trail }: { open: b
   const ref = useRef<HTMLDialogElement>(null);
   const drag = useRef<{ y: number; dy: number } | null>(null);
   const hid = useId();
+  const { tx } = useI18n();
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
@@ -411,7 +414,7 @@ export function Sheet({ open, onClose, title, children, lead, trail }: { open: b
       onClick={(e) => { if (e.target === ref.current) onClose(); }}>
       <div className="sheet-grab" onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} aria-hidden />
       <div className="sheet-head" onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
-        <div style={{ justifySelf: "start" }}>{lead ?? <button type="button" className="btn btn-plain" onClick={onClose}>Cancel</button>}</div>
+        <div style={{ justifySelf: "start" }}>{lead ?? <button type="button" className="btn btn-plain" onClick={onClose}>{tx("Cancel")}</button>}</div>
         <h2 id={hid}>{title}</h2>
         <div style={{ justifySelf: "end" }}>{trail}</div>
       </div>
@@ -423,8 +426,9 @@ export function Sheet({ open, onClose, title, children, lead, trail }: { open: b
 // ---------------------------------------------------------------- evidence pieces
 
 export function Grade({ g, size }: { g: string | null; size?: "md" | "lg" }) {
+  const { tx } = useI18n();
   return (
-    <span className={`grade${size ? ` grade-${size}` : ""}`} data-g={g ?? ""} role="img" aria-label={g ? `Grade ${g}` : "Not graded"}>
+    <span className={`grade${size ? ` grade-${size}` : ""}`} data-g={g ?? ""} role="img" aria-label={g ? tx("Grade {g}", { g }) : tx("Not graded")}>
       <span aria-hidden>{g ?? "–"}</span>
     </span>
   );

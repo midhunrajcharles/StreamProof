@@ -1,4 +1,6 @@
-export default function Cta() {
+import { getLt } from "@/components/lt";
+export default async function Cta() {
+  const lt = await getLt();
   return (
     <>
       <a href="/start" data-cta-section="" data-track-cta="bottom_cta" data-track-label="Let’s make citizen reports worth acting on" className="group relative flex lg:grid lg:grid-cols-12 lg:gap-5 page-x overflow-hidden pt-3 lg:pt-6 pb-2.25 lg:pb-0 border-t border-neutral-200 cursor-pointer">
@@ -7,34 +9,34 @@ export default function Cta() {
         </div>
         <div data-cta-cursor-y="" className="col-span-1 hidden lg:flex flex-col justify-center items-start gap-0.5 relative z-10">
           <span data-cta-scramble="" className="font-mono uppercase leading-none">
-            {"(Try it)"}
+            {lt("(Try it)")}
           </span>
         </div>
         <div className="col-span-8 min-w-0 font-serif text-[3.26rem] leading-[3.663rem] md:text-[5rem] md:leading-[5.8rem] lg:text-[7.625rem] lg:leading-[8.563rem] 2xl:text-[8.5rem] 2xl:leading-[9.5rem] text-center max-w-216 mx-auto h-full flex items-center justify-center relative z-10">
-          <h2 className="relative inline-grid overflow-visible" aria-label="Let’s make citizen reports worth acting on">
+          <h2 className="relative inline-grid overflow-visible" aria-label={lt("Let’s make citizen reports worth acting on")}>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 50%, transparent 70%)", "maskImage": "linear-gradient(to bottom, black 0%, black 50%, transparent 70%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(2.5px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 50%, black 58%, black 68%, transparent 80%)", "maskImage": "linear-gradient(to bottom, transparent 50%, black 58%, black 68%, transparent 80%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(5px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 58%, black 68%, black 78%, transparent 90%)", "maskImage": "linear-gradient(to bottom, transparent 58%, black 68%, black 78%, transparent 90%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 50%, black 58%, black 68%, transparent 82%)", "maskImage": "linear-gradient(to bottom, transparent 50%, black 58%, black 68%, transparent 82%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(2.5px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 60%, black 72%, black 84%, transparent 96%)", "maskImage": "linear-gradient(to bottom, transparent 60%, black 72%, black 84%, transparent 96%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
             <span className="col-start-1 row-start-1 pointer-events-none p-2 -mb-2.5 lg:mb-0" style={{"filter": "blur(5px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 72%, black 88%, black 100%)", "maskImage": "linear-gradient(to bottom, transparent 72%, black 88%, black 100%)"}} aria-hidden="true">
-              {"Let’s make citizen reports worth acting on"}
+              {lt("Let’s make citizen reports worth acting on")}
             </span>
           </h2>
         </div>
         <div data-cta-cursor-y="" className="col-span-1 hidden lg:flex flex-col justify-center items-start gap-0.5 -scale-x-100 relative z-10">
           <span data-cta-scramble="" className="font-mono uppercase leading-none">
-            {"(Try it)"}
+            {lt("(Try it)")}
           </span>
         </div>
         <div data-cta-cursor-y="" className="col-span-1 self-center shrink-0 -scale-x-100 relative z-10">

@@ -1,4 +1,6 @@
-export default function Services() {
+import { getLt } from "@/components/lt";
+export default async function Services() {
+  const lt = await getLt();
   return (
     <>
       <section id="services" data-problems-circles="" className="relative text-black">
@@ -24,22 +26,22 @@ export default function Services() {
                   </span>
                 </span>
                 <h2 data-section-heading-label="" className="font-mono uppercase leading-none">
-                  {"(What it adds)"}
+                  {lt("(What it adds)")}
                 </h2>
                 <div className="relative inline-grid overflow-visible" style={{"WebkitMaskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)", "maskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)"}} aria-hidden="true">
                   <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100" style={{"filter": "blur(1px)", "WebkitMaskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)", "maskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)"}}>
-                    {"(What it adds)"}
+                    {lt("(What it adds)")}
                   </span>
                   <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0.5px)", "WebkitMaskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)", "maskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)"}}>
-                    {"(What it adds)"}
+                    {lt("(What it adds)")}
                   </span>
                   <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)", "maskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)"}}>
-                    {"(What it adds)"}
+                    {lt("(What it adds)")}
                   </span>
                 </div>
               </div>
               <div data-intro-text="" data-intro-indent="" className="intro-indent-lg lg:col-start-3 col-span-12 lg:col-span-10 text-[1.563rem] leading-[1.2] md:text-[2.5rem] md:leading-12 lg:text-[5.438rem] lg:leading-22.5 2xl:text-[6.5rem] 2xl:leading-[1.05] font-medium xl:pr-16 tracking-[-0.01em] mt-8 md:mt-6.75 lg:-mt-2.5 md:pb-16 text-pretty opacity-0 data-intro-ready:opacity-100">
-                {"OneAquaHealth’s FHIR guide records what was observed, but not how far it can be trusted or what it may be used for. Here’s what StreamProof adds."}
+                {lt("OneAquaHealth’s FHIR guide records what was observed, but not how far it can be trusted or what it may be used for. Here’s what StreamProof adds.")}
               </div>
             </div>
           </div>
@@ -74,154 +76,154 @@ export default function Services() {
                   <div data-phrase-scale="" className="flex w-full flex-col font-mono uppercase text-white text-center origin-center" style={{"fontSize": "16px", "lineHeight": "24px", "letterSpacing": "-0.64px"}}>
                     <div data-phrase-row="" data-row-i="0" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="1" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="2" data-pl="0" data-pr="138" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "138px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="3" data-pl="0" data-pr="101" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "101px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="4" data-pl="125" data-pr="0" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "0px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="5" data-pl="0" data-pr="175" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "175px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                     </div>
@@ -233,154 +235,154 @@ export default function Services() {
                   <div data-phrase-scale="" className="flex w-full flex-col font-mono uppercase text-white text-center origin-center" style={{"fontSize": "16px", "lineHeight": "24px", "letterSpacing": "-0.64px"}}>
                     <div data-phrase-row="" data-row-i="0" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="1" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="2" data-pl="0" data-pr="138" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "138px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="3" data-pl="0" data-pr="101" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "101px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="4" data-pl="125" data-pr="0" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "0px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="5" data-pl="0" data-pr="175" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "175px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                     </div>
@@ -392,154 +394,154 @@ export default function Services() {
                   <div data-phrase-scale="" className="flex w-full flex-col font-mono uppercase text-white text-center origin-center" style={{"fontSize": "16px", "lineHeight": "24px", "letterSpacing": "-0.64px"}}>
                     <div data-phrase-row="" data-row-i="0" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="1" data-pl="125" data-pr="37" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "37px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="2" data-pl="0" data-pr="138" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "138px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="3" data-pl="0" data-pr="101" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "101px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="4" data-pl="125" data-pr="0" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "125px", "paddingRight": "0px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
                       </span>
                     </div>
                     <div data-phrase-row="" data-row-i="5" data-pl="0" data-pr="175" className="flex w-full items-center justify-between box-border" style={{"paddingLeft": "0px", "paddingRight": "175px"}}>
                       <span className="inline-flex items-center justify-center gap-[6px]">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
-                        <span data-scramble-text="" data-final-text="reports">
-                          {"reports"}
+                        <span data-scramble-text="" data-final-text={lt("reports")}>
+                          {lt("reports")}
                         </span>
-                        <span data-scramble-text="" data-final-text="we">
-                          {"we"}
+                        <span data-scramble-text="" data-final-text={lt("we")}>
+                          {lt("we")}
                         </span>
-                        <span data-scramble-text="" data-final-text="help">
-                          {"help"}
+                        <span data-scramble-text="" data-final-text={lt("help")}>
+                          {lt("help")}
                         </span>
-                        <span data-scramble-text="" data-final-text="prove">
-                          {"prove"}
+                        <span data-scramble-text="" data-final-text={lt("prove")}>
+                          {lt("prove")}
                         </span>
                       </span>
                       <span className="inline-flex items-center justify-center gap-[6px] rotate-180">
-                        <span data-scramble-text="" data-final-text="the">
-                          {"the"}
+                        <span data-scramble-text="" data-final-text={lt("the")}>
+                          {lt("the")}
                         </span>
                       </span>
                     </div>
@@ -589,28 +591,28 @@ export default function Services() {
                 </div>
                 <div className="md:col-start-6 lg:col-start-6 xl:col-start-6 col-span-4 md:col-span-6 lg:col-span-5 xl:col-span-3">
                   <h3 data-scramble-mono="" className="font-mono uppercase pb-0.75">
-                    {"A grade with reasons"}
+                    {lt("A grade with reasons")}
                   </h3>
                   <p className="text-pretty pl-4">
-                    {"A to D from seven checks a citizen can read, mapped to the ISO 19157 data-quality elements: positional accuracy, temporal quality, thematic accuracy, completeness and logical consistency."}
+                    {lt("A to D from seven checks a citizen can read, mapped to the ISO 19157 data-quality elements: positional accuracy, temporal quality, thematic accuracy, completeness and logical consistency.")}
                   </p>
                   <h3 data-scramble-mono="" className="font-mono uppercase py-0.75">
-                    {"A rule for every use"}
+                    {lt("A rule for every use")}
                   </h3>
                   <p className="text-pretty pl-4">
-                    {"What each trust level may be used for (org dashboard, public map, OAH export, certificate, advisory, DipteraCAST) is published as a FHIR CodeSystem that the gate loads at startup."}
+                    {lt("What each trust level may be used for (org dashboard, public map, OAH export, certificate, advisory, DipteraCAST) is published as a FHIR CodeSystem that the gate loads at startup.")}
                   </p>
                   <h3 data-scramble-mono="" className="font-mono uppercase py-0.75">
-                    {"Records in OAH’s own format"}
+                    {lt("Records in OAH’s own format")}
                   </h3>
                   <p className="text-pretty pl-4">
-                    {"Profiles derive from ObservationIndicatorsOah and LocationOah: the OAH indicator goes in the code, the citizen’s sign in the value. Six of nine signs map to OAH concepts; the other three are proposed as new ones."}
+                    {lt("Profiles derive from ObservationIndicatorsOah and LocationOah: the OAH indicator goes in the code, the citizen’s sign in the value. Six of nine signs map to OAH concepts; the other three are proposed as new ones.")}
                   </p>
                   <h3 data-scramble-mono="" className="font-mono uppercase py-0.75">
-                    {"Evidence that goes somewhere"}
+                    {lt("Evidence that goes somewhere")}
                   </h3>
                   <p className="text-pretty pl-4">
-                    {"A River Health Brief with measures matched from the OAH Catalogue of Measures, expert-verified Diptera presence and absence for DipteraCAST, and a signed certificate for every contributor."}
+                    {lt("A River Health Brief with measures matched from the OAH Catalogue of Measures, expert-verified Diptera presence and absence for DipteraCAST, and a signed certificate for every contributor.")}
                   </p>
                 </div>
               </div>
@@ -619,9 +621,9 @@ export default function Services() {
                   <div className="relative">
                     <div data-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="" className="pixelated-render-image w-full">
                       <div className="pixelated-render-image__before" style={{"paddingTop": "68.75495638382236%"}} />
-                      <img src="/media/adds.webp" data-pixelate-render-img="true" alt="A city river and bridge, seen from above" loading="lazy" decoding="async" width="1261" height="867" className="pixelated-render-image__img" />
+                      <img src="/media/adds.webp" data-pixelate-render-img="true" alt={lt("A city river and bridge, seen from above")} loading="lazy" decoding="async" width="1261" height="867" className="pixelated-render-image__img" />
                     </div>
-                    <video data-lazy-video="" data-src="/media/adds.mp4" preload="none" loop muted playsInline aria-label="A city river and bridge, seen from above" className="absolute inset-0 z-10 h-full w-full pointer-events-none px-5" />
+                    <video data-lazy-video="" data-src="/media/adds.mp4" preload="none" loop muted playsInline aria-label={lt("A city river and bridge, seen from above")} className="absolute inset-0 z-10 h-full w-full pointer-events-none px-5" />
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { api, ApiError, when, useApi, type CitizenProfile, type Member, type OrgProfile } from "@/ui/api";
-import { EnglishOnly, localeOf, useI18n } from "@/ui/i18n";
+import { localeOf, useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Page, Row, Section, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
 import { Avatar, ChangePassword, EditProfile, ProfileCard, SignOut, Stars } from "@/ui/profile";
@@ -62,34 +62,35 @@ function CitizenAccount() {
   );
 }
 
-// ---------------------------------------------------------------- organisation (English, like the reviewer screens)
+// ---------------------------------------------------------------- organisation
 
 function EditOrganisation({ open, onClose, org, onSaved }: { open: boolean; onClose: () => void; org: OrgProfile["organisation"]; onSaved: (p: OrgProfile) => void }) {
   const { toast } = useApp();
+  const { tx, tr } = useI18n();
   const [v, setV] = useState({ name: org.name, about: org.about ?? "", website: org.website ?? "" });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   return (
-    <Sheet open={open} onClose={onClose} title="Edit organisation">
+    <Sheet open={open} onClose={onClose} title={tx("Edit organisation")}>
       <form className="stack" onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);
         setError("");
         try {
           onSaved(await api<OrgProfile>("/org/organisation", { form: v }));
-          toast("Organisation saved");
+          toast(tx("Organisation saved"));
           onClose();
-        } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+        } catch (err) { setError(tr((err as ApiError).message)); } finally { setBusy(false); }
       }}>
-        <div className="field"><label className="field-label" htmlFor="og-name">Name</label>
+        <div className="field"><label className="field-label" htmlFor="og-name">{tx("Name")}</label>
           <input id="og-name" className="input" required maxLength={80} value={v.name} onChange={(e) => setV({ ...v, name: e.target.value })} /></div>
-        <div className="field"><label className="field-label" htmlFor="og-about">About</label>
-          <textarea id="og-about" className="textarea" maxLength={500} value={v.about} onChange={(e) => setV({ ...v, about: e.target.value })} placeholder="What your organisation does with the evidence" /></div>
-        <div className="field"><label className="field-label" htmlFor="og-web">Website</label>
+        <div className="field"><label className="field-label" htmlFor="og-about">{tx("About")}</label>
+          <textarea id="og-about" className="textarea" maxLength={500} value={v.about} onChange={(e) => setV({ ...v, about: e.target.value })} placeholder={tx("What your organisation does with the evidence")} /></div>
+        <div className="field"><label className="field-label" htmlFor="og-web">{tx("Website")}</label>
           <input id="og-web" className="input" type="url" inputMode="url" placeholder="https://" value={v.website} onChange={(e) => setV({ ...v, website: e.target.value })} /></div>
-        <p className="field-help">The city ({org.city}) decides which reports your team sees, so it can&apos;t be changed here.</p>
+        <p className="field-help">{tx("The city ({city}) decides which reports your team sees, so it can't be changed here.", { city: org.city })}</p>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : null} Save</button>
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : null} {tx("Save")}</button>
       </form>
     </Sheet>
   );
@@ -98,62 +99,63 @@ function EditOrganisation({ open, onClose, org, onSaved }: { open: boolean; onCl
 function Team({ me }: { me: string }) {
   const q = useApi<{ members: Member[] }>("/org/team");
   const { toast } = useApp();
+  const { tx, tr } = useI18n();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", role: "reviewer" as Member["role"], password: "" });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const members = q.data?.members ?? [];
   return (
-    <Section title="Team" id="team" trail={<button className="btn btn-sm" onClick={() => setOpen(true)}><I.Plus /> Add</button>}
-      foot="Reviewers verify reports and read the brief. Admins also manage the team and the organisation profile. A deactivated account loses access straight away.">
+    <Section title={tx("Team")} id="team" trail={<button className="btn btn-sm" onClick={() => setOpen(true)}><I.Plus /> {tx("Add")}</button>}
+      foot={tx("Reviewers verify reports and read the brief. Admins also manage the team and the organisation profile. A deactivated account loses access straight away.")}>
       {members.length ? (
         <div className="group">
           {members.map((m) => (
             <div key={m.email} className="row has-lead" style={m.active ? undefined : { opacity: 0.6 }}>
               <div className="row-lead"><Avatar name={m.name} colour={m.avatar} size={36} /></div>
               <div className="row-body">
-                <span className="row-title">{m.name}{m.email === me ? " (you)" : ""}</span>
-                <span className="row-sub">{m.title ? `${m.title} · ` : ""}{m.role === "admin" ? "Admin" : "Reviewer"} · {m.email}{m.active ? "" : " · deactivated"}</span>
+                <span className="row-title">{m.name}{m.email === me ? ` (${tx("you")})` : ""}</span>
+                <span className="row-sub">{m.title ? `${m.title} · ` : ""}{m.role === "admin" ? tx("Admin") : tx("Reviewer")} · {m.email}{m.active ? "" : ` · ${tx("deactivated")}`}</span>
               </div>
               {m.email !== me ? (
                 <button className={`btn btn-sm${m.active ? " btn-destructive" : ""}`} onClick={async () => {
                   try {
                     await api(`/org/team/${encodeURIComponent(m.email)}/active`, { form: { active: m.active ? "0" : "1" } });
-                    toast(m.active ? `${m.name} deactivated` : `${m.name} reactivated`, "info");
+                    toast(m.active ? tx("{name} deactivated", { name: m.name }) : tx("{name} reactivated", { name: m.name }), "info");
                     q.reload();
-                  } catch (e) { toast((e as ApiError).message, "bad"); }
-                }}>{m.active ? "Deactivate" : "Reactivate"}</button>
+                  } catch (e) { toast(tr((e as ApiError).message), "bad"); }
+                }}>{m.active ? tx("Deactivate") : tx("Reactivate")}</button>
               ) : null}
             </div>
           ))}
         </div>
-      ) : <div className="card secondary">{q.loading ? "Loading…" : "No team members yet."}</div>}
+      ) : <div className="card secondary">{q.loading ? tx("Loading…") : tx("No team members yet.")}</div>}
 
-      <Sheet open={open} onClose={() => setOpen(false)} title="Add a team member">
+      <Sheet open={open} onClose={() => setOpen(false)} title={tx("Add a team member")}>
         <form className="stack" onSubmit={async (e) => {
           e.preventDefault();
           setBusy(true);
           setError("");
           try {
             const m = await api<Member>("/org/team", { form });
-            toast(`${m.name} can now sign in`);
+            toast(tx("{name} can now sign in", { name: m.name }));
             setOpen(false);
             setForm({ name: "", email: "", role: "reviewer", password: "" });
             q.reload();
-          } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+          } catch (err) { setError(tr((err as ApiError).message)); } finally { setBusy(false); }
         }}>
-          <div className="field"><label className="field-label" htmlFor="m-name">Name</label>
+          <div className="field"><label className="field-label" htmlFor="m-name">{tx("Name")}</label>
             <input id="m-name" className="input" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
-          <div className="field"><label className="field-label" htmlFor="m-email">Email</label>
+          <div className="field"><label className="field-label" htmlFor="m-email">{tx("Email")}</label>
             <input id="m-email" className="input" type="email" autoComplete="off" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></div>
-          <div className="field"><span className="field-label">Role</span>
-            <Segmented label="Role" value={form.role} onChange={(v) => setForm({ ...form, role: v })}
-              options={[{ value: "reviewer", label: "Reviewer" }, { value: "admin", label: "Admin" }]} /></div>
-          <div className="field"><label className="field-label" htmlFor="m-pw">Temporary password</label>
+          <div className="field"><span className="field-label">{tx("Role")}</span>
+            <Segmented label={tx("Role")} value={form.role} onChange={(v) => setForm({ ...form, role: v })}
+              options={[{ value: "reviewer", label: tx("Reviewer") }, { value: "admin", label: tx("Admin") }]} /></div>
+          <div className="field"><label className="field-label" htmlFor="m-pw">{tx("Temporary password")}</label>
             <input id="m-pw" className="input" type="password" autoComplete="new-password" minLength={10} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} aria-describedby="m-pw-help" />
-            <p id="m-pw-help" className="field-help">At least 10 characters. Share it privately; they can change it under Account.</p></div>
+            <p id="m-pw-help" className="field-help">{tx("At least 10 characters. Share it privately; they can change it under Account.")}</p></div>
           {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-          <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : <I.Plus />} Add member</button>
+          <button className="btn btn-prominent btn-large btn-block" disabled={busy}>{busy ? <I.Spinner /> : <I.Plus />} {tx("Add member")}</button>
         </form>
       </Sheet>
     </Section>
@@ -162,6 +164,7 @@ function Team({ me }: { me: string }) {
 
 function OrgAccount() {
   const { refreshSession } = useApp();
+  const { tx, lang } = useI18n();
   const q = useApi<OrgProfile>("/org/profile");
   const [edit, setEdit] = useState(false);
   const [editOrg, setEditOrg] = useState(false);
@@ -172,19 +175,19 @@ function OrgAccount() {
         const admin = p.role === "admin";
         return (
           <>
-            <Section title="Organisation account">
+            <Section title={tx("Organisation account")}>
               <ProfileCard name={p.name} colour={p.avatar} bio={p.bio} stars={p.recognition.stars} onEdit={() => setEdit(true)}
                 lines={[
-                  `${p.title ? `${p.title} · ` : ""}${admin ? "Admin" : "Reviewer"}`,
+                  `${p.title ? `${p.title} · ` : ""}${admin ? tx("Admin") : tx("Reviewer")}`,
                   <span key="o" className="org-pill"><I.Building width={14} height={14} /> {o.name} · {o.city}</span>,
-                  p.member_since ? `Member since ${when(p.member_since, DAY, "en")}` : null,
+                  p.member_since ? tx("Member since {date}", { date: when(p.member_since, DAY, localeOf(lang)) }) : null,
                 ]} />
             </Section>
 
-            <Section title="Reviewer stars"><Stars rec={p.recognition} kind="reviewer" /></Section>
+            <Section title={tx("Reviewer stars")}><Stars rec={p.recognition} kind="reviewer" /></Section>
 
-            <Section title="Your organisation" trail={admin ? <button className="btn btn-sm" onClick={() => setEditOrg(true)}><I.Pencil /> Edit</button> : null}
-              foot={`Your team sees reports, missions and the brief for ${o.city} only.`}>
+            <Section title={tx("Your organisation")} trail={admin ? <button className="btn btn-sm" onClick={() => setEditOrg(true)}><I.Pencil /> {tx("Edit")}</button> : null}
+              foot={tx("Your team sees reports, missions and the brief for {city} only.", { city: o.city })}>
               <div className="group">
                 <Row lead={<I.Building className="status-ic info" />} title={o.name} sub={o.city} chevron={false} />
                 {o.about ? <div className="row"><div className="row-body"><span className="row-sub" style={{ whiteSpace: "pre-line" }}>{o.about}</span></div></div> : null}
@@ -197,9 +200,9 @@ function OrgAccount() {
               </div>
             </Section>
 
-            <Section title="Organisation sign-in and security">
+            <Section title={tx("Organisation sign-in and security")}>
               <div className="group">
-                <Row lead={<I.Person className="status-ic info" />} title={p.email} sub="Email" chevron={false} />
+                <Row lead={<I.Person className="status-ic info" />} title={p.email} sub={tx("Email")} chevron={false} />
                 <ChangePassword path="/auth/password" />
                 <SignOut role="org" />
               </div>
@@ -226,7 +229,7 @@ function OrgAccount() {
 
 export default function AccountPage() {
   const { session } = useApp();
-  const { t } = useI18n();
+  const { t, tx } = useI18n();
   if (!session) return <Page title={t("account")}><Skeleton n={2} h={120} /></Page>;
   const { org, citizen } = session;
   return (
@@ -242,7 +245,7 @@ export default function AccountPage() {
       ) : null}
 
       {citizen ? <CitizenAccount key={citizen.id} /> : null}
-      {org ? <EnglishOnly><OrgAccount key={org.id} /></EnglishOnly> : null}
+      {org ? <OrgAccount key={org.id} /> : null}
 
       {(org || citizen) && !(org && citizen) ? (
         <Section title={org ? t("group.citizen") : t("group.org")}>
@@ -253,15 +256,15 @@ export default function AccountPage() {
                 <Row href="/sign-up?next=/account" lead={<I.Person className="status-ic info" />} title={t("signup")} />
               </>
             ) : (
-              <EnglishOnly>
-                <Row href="/sign-in?role=org&next=/account" lead={<I.Shield className="status-ic info" />} title="Sign in as a reviewer or coordinator" />
-                <Row href="/sign-up?role=org&next=/account" lead={<I.Building className="status-ic info" />} title="Create an organisation account" />
-              </EnglishOnly>
+              <>
+                <Row href="/sign-in?role=org&next=/account" lead={<I.Shield className="status-ic info" />} title={tx("Sign in as a reviewer or coordinator")} />
+                <Row href="/sign-up?role=org&next=/account" lead={<I.Building className="status-ic info" />} title={tx("Create an organisation account")} />
+              </>
             )}
           </div>
         </Section>
       ) : null}
-      {session.demo ? <p className="secondary t-foot">Demo mode is on: the demo accounts can also be opened without a password.</p> : null}
+      {session.demo ? <p className="secondary t-foot">{tx("Demo mode is on: the demo accounts can also be opened without a password.")}</p> : null}
     </Page>
   );
 }

@@ -4,14 +4,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { api, ApiError, type Session } from "@/ui/api";
 import { CityPicker } from "@/ui/city";
-import { EnglishOnly, useI18n } from "@/ui/i18n";
+import { useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Page, Segmented, Sheet, Skeleton, useApp } from "@/ui/kit";
 
 function ConsentSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { t } = useI18n();
+  const { t, tx } = useI18n();
   return (
-    <Sheet open={open} onClose={onClose} title={t("su.what")} lead={<span />} trail={<button type="button" className="btn btn-plain" onClick={onClose}>OK</button>}>
+    <Sheet open={open} onClose={onClose} title={t("su.what")} lead={<span />} trail={<button type="button" className="btn btn-plain" onClick={onClose}>{tx("OK")}</button>}>
       <div className="group">
         {(["private", "public", "used", "rights", "safe"] as const).map((k) => (
           <div key={k} className="row"><div className="row-body"><span className="row-title">{t(`consent.${k}`)}</span><span className="row-sub">{t(`consent.${k}Text`)}</span></div></div>
@@ -23,7 +23,7 @@ function ConsentSheet({ open, onClose }: { open: boolean; onClose: () => void })
 
 function CitizenSignUp({ onDone }: { onDone: () => void }) {
   const { session, refreshSession, toast } = useApp();
-  const { t } = useI18n();
+  const { t, tr } = useI18n();
   const [f, setF] = useState({ display: session?.citizen && !session.citizen.demo ? session.citizen.name : "", email: "", password: "", city: "Coimbra" });
   const [agree, setAgree] = useState(false);
   const [why, setWhy] = useState(false);
@@ -40,7 +40,7 @@ function CitizenSignUp({ onDone }: { onDone: () => void }) {
         await refreshSession();
         toast(r.kept_reports ? t("su.kept") : t("su.done"));
         onDone();
-      } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+      } catch (err) { setError(tr((err as ApiError).message)); } finally { setBusy(false); }
     }}>
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Camera /></span>
@@ -73,6 +73,7 @@ function CitizenSignUp({ onDone }: { onDone: () => void }) {
 
 function OrgSignUp({ onDone }: { onDone: () => void }) {
   const { refreshSession, toast } = useApp();
+  const { tx, tr } = useI18n();
   const [f, setF] = useState({ org_name: "", city: "Coimbra", name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -84,29 +85,29 @@ function OrgSignUp({ onDone }: { onDone: () => void }) {
       try {
         await api("/org/signup", { form: f });
         await refreshSession();
-        toast(`${f.org_name} created. You're its admin.`);
+        toast(tx("{name} created. You're its admin.", { name: f.org_name }));
         onDone();
-      } catch (err) { setError((err as ApiError).message); } finally { setBusy(false); }
+      } catch (err) { setError(tr((err as ApiError).message)); } finally { setBusy(false); }
     }}>
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Building /></span>
-        <h2 className="t-title2">Create an organisation account</h2>
-        <p className="secondary">For a municipality, utility, university or NGO working on the streams of one city: any city, with the five OneAquaHealth cities ready to go. You become its admin and can add reviewers. Your team sees only reports from your city.</p>
+        <h2 className="t-title2">{tx("Create an organisation account")}</h2>
+        <p className="secondary">{tx("For a municipality, utility, university or NGO working on the streams of one city: any city, with the five OneAquaHealth cities ready to go. You become its admin and can add reviewers. Your team sees only reports from your city.")}</p>
       </div>
       <div className="stack">
-        <div className="field"><label className="field-label" htmlFor="os-org">Organisation name</label>
+        <div className="field"><label className="field-label" htmlFor="os-org">{tx("Organisation name")}</label>
           <input id="os-org" className="input" required maxLength={80} autoComplete="organization" value={f.org_name} onChange={(e) => setF({ ...f, org_name: e.target.value })} /></div>
-        <CityPicker label="City" value={f.city} onChange={(c) => setF({ ...f, city: c.city })} />
-        <div className="field"><label className="field-label" htmlFor="os-name">Your name</label>
+        <CityPicker label={tx("City")} value={f.city} onChange={(c) => setF({ ...f, city: c.city })} />
+        <div className="field"><label className="field-label" htmlFor="os-name">{tx("Your name")}</label>
           <input id="os-name" className="input" required maxLength={80} autoComplete="name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></div>
-        <div className="field"><label className="field-label" htmlFor="os-email">Work email</label>
+        <div className="field"><label className="field-label" htmlFor="os-email">{tx("Work email")}</label>
           <input id="os-email" className="input" type="email" required autoComplete="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></div>
-        <div className="field"><label className="field-label" htmlFor="os-pw">Password</label>
+        <div className="field"><label className="field-label" htmlFor="os-pw">{tx("Password")}</label>
           <input id="os-pw" className="input" type="password" required minLength={10} autoComplete="new-password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} aria-describedby="os-pw-help" />
-          <p id="os-pw-help" className="field-help">At least 10 characters.</p></div>
+          <p id="os-pw-help" className="field-help">{tx("At least 10 characters.")}</p></div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={busy || f.password.length < 10}>{busy ? <I.Spinner /> : null} Create organisation</button>
-        <p className="field-help">In this demo anyone can create an organisation. A real deployment would confirm the organisation with OneAquaHealth first.</p>
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy || f.password.length < 10}>{busy ? <I.Spinner /> : null} {tx("Create organisation")}</button>
+        <p className="field-help">{tx("In this demo anyone can create an organisation. A real deployment would confirm the organisation with OneAquaHealth first.")}</p>
       </div>
     </form>
   );
@@ -124,7 +125,7 @@ function SignUpPage() {
       <div className="stack-l">
         <Segmented label={t("signup")} value={role} onChange={setRole}
           options={[{ value: "citizen", label: t("group.citizen") }, { value: "org", label: t("group.org") }]} />
-        {role === "org" ? <EnglishOnly><OrgSignUp onDone={go} /></EnglishOnly> : <CitizenSignUp onDone={go} />}
+        {role === "org" ? <OrgSignUp onDone={go} /> : <CitizenSignUp onDone={go} />}
         <p className="auth-links secondary">{t("su.have")} <Link href={`/sign-in${role === "org" ? "?role=org" : ""}`}>{t("signin")}</Link></p>
       </div>
     </Page>

@@ -1,4 +1,6 @@
-export default function Faq() {
+import { getLt } from "@/components/lt";
+export default async function Faq() {
+  const lt = await getLt();
   return (
     <>
       <section id="faq" className="page-x pt-3 md:pt-5 pb-32 md:pb-64 border-t border-neutral-200">
@@ -22,22 +24,22 @@ export default function Faq() {
               </span>
             </span>
             <h2 data-section-heading-label="" className="font-mono uppercase leading-none">
-              {"(FAQ)"}
+              {lt("(FAQ)")}
             </h2>
             <div className="relative inline-grid overflow-visible" style={{"WebkitMaskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)", "maskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)"}} aria-hidden="true">
               <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100" style={{"filter": "blur(1px)", "WebkitMaskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)", "maskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)"}}>
-                {"(FAQ)"}
+                {lt("(FAQ)")}
               </span>
               <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0.5px)", "WebkitMaskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)", "maskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)"}}>
-                {"(FAQ)"}
+                {lt("(FAQ)")}
               </span>
               <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)", "maskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)"}}>
-                {"(FAQ)"}
+                {lt("(FAQ)")}
               </span>
             </div>
           </div>
           <p data-intro-text="" className="col-span-4 lg:col-span-6 text-[1.563rem] md:text-[2.5rem] md:leading-12 lg:text-[3.361rem] 2xl:text-[3.75rem] leading-[1.2] lg:leading-14 2xl:leading-[1.1] font-medium tracking-[-0.01em] pt-8 text-pretty opacity-0 data-intro-ready:opacity-100">
-            {"Everything a reviewer asks before trusting a report."}
+            {lt("Everything a reviewer asks before trusting a report.")}
           </p>
           <div className="inline-grid overflow-visible counter-vertical-right">
             <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true">
@@ -79,7 +81,7 @@ export default function Faq() {
             </div>
             <div>
               <h3 className="font-medium pb-1">
-                {"Got more questions?"}
+                {lt("Got more questions?")}
               </h3>
               <a href="/standards" className="group relative overflow-visible font-sans leading-none inline-grid" style={{"color": "white"}} data-track-cta="faq" data-track-label="See the FHIR add-on" data-astro-cid-ekguhzzh="">
                 <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "maskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
@@ -100,21 +102,21 @@ export default function Faq() {
                 <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "maskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} data-astro-cid-ekguhzzh="">
                   <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                     <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                      {"See the FHIR add-on →"}
+                      {lt("See the FHIR add-on →")}
                     </span>
                   </span>
                 </span>
                 <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(0.65px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "maskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                   <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                     <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                      {"See the FHIR add-on →"}
+                      {lt("See the FHIR add-on →")}
                     </span>
                   </span>
                 </span>
                 <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(2px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "maskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                   <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                     <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                      {"See the FHIR add-on →"}
+                      {lt("See the FHIR add-on →")}
                     </span>
                   </span>
                 </span>
@@ -261,7 +263,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-open="true" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="true" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Why not just use iNaturalist’s research grade?"}
+                  {lt("Why not just use iNaturalist’s research grade?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -301,11 +303,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"Community agreement isn’t the same as accuracy for hard-to-identify taxa, and a research-grade label doesn’t say what a record may be used for. StreamProof adds both: reasons for the grade and a rule for each use."}
+                        {lt("Community agreement isn’t the same as accuracy for hard-to-identify taxa, and a research-grade label doesn’t say what a record may be used for. StreamProof adds both: reasons for the grade and a rule for each use.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-1-sm.webp" alt="Accuracy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-1-sm.webp" alt={lt("Accuracy")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -314,7 +316,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Isn’t this Alabri & Hunter (2010) again?"}
+                  {lt("Isn’t this Alabri & Hunter (2010) again?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -354,11 +356,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"They scored trust. StreamProof turns trust into enforceable use rules and carries them inside a health-data standard, following the layered verification Baker et al. (2021) recommend."}
+                        {lt("They scored trust. StreamProof turns trust into enforceable use rules and carries them inside a health-data standard, following the layered verification Baker et al. (2021) recommend.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-2-sm.webp" alt="Prior art" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-2-sm.webp" alt={lt("Prior art")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -367,7 +369,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Why FHIR for environmental data?"}
+                  {lt("Why FHIR for environmental data?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -407,11 +409,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"OneAquaHealth’s own data guide, maintained by HL7 Europe, is FHIR, and its health partners already speak it. In One Digital Health, stream data and health data travel in the same format."}
+                        {lt("OneAquaHealth’s own data guide, maintained by HL7 Europe, is FHIR, and its health partners already speak it. In One Digital Health, stream data and health data travel in the same format.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-3-sm.webp" alt="Standards" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-3-sm.webp" alt={lt("Standards")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -420,7 +422,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Who sets the thresholds?"}
+                  {lt("Who sets the thresholds?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -460,11 +462,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"They are configurable defaults, meant to be calibrated with OAH ecologists. A calibration report publishes the current limits and the honest numbers behind them."}
+                        {lt("They are configurable defaults, meant to be calibrated with OAH ecologists. A calibration report publishes the current limits and the honest numbers behind them.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-4-sm.webp" alt="Calibration" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-4-sm.webp" alt={lt("Calibration")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -473,7 +475,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Can a group fake a signal?"}
+                  {lt("Can a group fake a signal?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -513,11 +515,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"It takes different people, spread in time or place, under a daily cap and weighted by track record, plus an expert for decision grade. The threshold counts people, not reports."}
+                        {lt("It takes different people, spread in time or place, under a daily cap and weighted by track record, plus an expert for decision grade. The threshold counts people, not reports.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-5-sm.webp" alt="Independence" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-5-sm.webp" alt={lt("Independence")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -526,7 +528,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"What about privacy and GDPR?"}
+                  {lt("What about privacy and GDPR?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -566,11 +568,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"Reporters are pseudonymous, FHIR records carry a location coarsened to about 100 m, identities sit in a separate vault, and erasure keeps the signed evidence valid. A real deployment still needs review by a data protection officer."}
+                        {lt("Reporters are pseudonymous, FHIR records carry a location coarsened to about 100 m, identities sit in a separate vault, and erasure keeps the signed evidence valid. A real deployment still needs review by a data protection officer.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-6-sm.webp" alt="Privacy" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-6-sm.webp" alt={lt("Privacy")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -579,7 +581,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Is it connected to the OAH app and DipteraCAST?"}
+                  {lt("Is it connected to the OAH app and DipteraCAST?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -619,11 +621,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"Not yet, and we say so. StreamProof is designed to sit behind OneAquaHealth’s Citizen Science App as a trust layer, with this app as a reference client. For DipteraCAST it exports verified ground truth; the model itself isn’t public."}
+                        {lt("Not yet, and we say so. StreamProof is designed to sit behind OneAquaHealth’s Citizen Science App as a trust layer, with this app as a reference client. For DipteraCAST it exports verified ground truth; the model itself isn’t public.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-7-sm.webp" alt="Honesty" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-7-sm.webp" alt={lt("Honesty")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -632,7 +634,7 @@ export default function Faq() {
             <div className="border-t border-[#E5E5E5] group cursor-pointer transition-opacity duration-150 ease border-b" data-faq-item="" data-follower-item="" data-astro-cid-o2f2z7a3="">
               <button type="button" className="flex w-full items-center justify-between py-4 text-left cursor-pointer" data-faq-trigger="" aria-expanded="false" data-astro-cid-o2f2z7a3="">
                 <h3 data-astro-cid-o2f2z7a3="">
-                  {"Why not put it on a blockchain?"}
+                  {lt("Why not put it on a blockchain?")}
                 </h3>
                 <div className="relative inline-grid overflow-visible" data-astro-cid-o2f2z7a3="">
                   <div className="col-start-1 row-start-1 p-1 -m-1 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)", "maskImage": "linear-gradient(to right, white 0%, white 25%, transparent 55%)"}} aria-hidden="true" data-astro-cid-o2f2z7a3="">
@@ -672,11 +674,11 @@ export default function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {"An Ed25519 signature over a de-identified hash is tamper-evident and simple, and it still lets a person’s identity be erased. A blockchain would add cost without adding trust here."}
+                        {lt("An Ed25519 signature over a de-identified hash is tamper-evident and simple, and it still lets a person’s identity be erased. A blockchain would add cost without adding trust here.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-8-sm.webp" alt="Integrity" sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-8-sm.webp" alt={lt("Integrity")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -686,14 +688,14 @@ export default function Faq() {
           <div data-follower-cursor="" className="fixed top-0 left-0 z-100 aspect-3/4 w-80 pointer-events-none overflow-hidden rounded-xs max-lg:hidden" data-astro-cid-o2f2z7a3="">
             <div data-follower-cursor-inner="" className="relative flex size-full items-center justify-center rounded-xs" data-astro-cid-o2f2z7a3="">
               <div data-pixelate-render="" data-pixelate-render-trigger="manual" data-pixelate-render-keep="" data-pixelate-render-duration="80" data-pixelate-render-steps="8" data-faq-pixelate="" className="pixelated-render-image absolute inset-0 h-full w-full rounded-xs" data-astro-cid-o2f2z7a3="">
-                <img src="/media/faq-1.webp" alt="Accuracy" sizes="320px" loading="eager" data-pixelate-render-img="" data-faq-preview="0" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img" />
-                <img src="/media/faq-2.webp" alt="Prior art" sizes="320px" loading="lazy" data-faq-preview="1" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-3.webp" alt="Standards" sizes="320px" loading="lazy" data-faq-preview="2" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-4.webp" alt="Calibration" sizes="320px" loading="lazy" data-faq-preview="3" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-5.webp" alt="Independence" sizes="320px" loading="lazy" data-faq-preview="4" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-6.webp" alt="Privacy" sizes="320px" loading="lazy" data-faq-preview="5" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-7.webp" alt="Honesty" sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-8.webp" alt="Integrity" sizes="320px" loading="lazy" data-faq-preview="7" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-1.webp" alt={lt("Accuracy")} sizes="320px" loading="eager" data-pixelate-render-img="" data-faq-preview="0" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img" />
+                <img src="/media/faq-2.webp" alt={lt("Prior art")} sizes="320px" loading="lazy" data-faq-preview="1" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-3.webp" alt={lt("Standards")} sizes="320px" loading="lazy" data-faq-preview="2" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-4.webp" alt={lt("Calibration")} sizes="320px" loading="lazy" data-faq-preview="3" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-5.webp" alt={lt("Independence")} sizes="320px" loading="lazy" data-faq-preview="4" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-6.webp" alt={lt("Privacy")} sizes="320px" loading="lazy" data-faq-preview="5" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-7.webp" alt={lt("Honesty")} sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-8.webp" alt={lt("Integrity")} sizes="320px" loading="lazy" data-faq-preview="7" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
               </div>
               <div data-follower-label="" className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" data-astro-cid-o2f2z7a3="">
                 <div className="relative inline-grid overflow-visible font-sans leading-none text-white" data-astro-cid-o2f2z7a3="">
@@ -701,7 +703,7 @@ export default function Faq() {
                     <span className="relative flex h-8 items-center rounded px-3" data-astro-cid-o2f2z7a3="">
                       <div className="absolute inset-0 rounded bg-black" data-astro-cid-o2f2z7a3="" />
                       <span data-follower-label-text="" className="relative z-1 inline-block whitespace-nowrap leading-[1.3]" data-astro-cid-o2f2z7a3="">
-                        {"Open"}
+                        {lt("Open")}
                       </span>
                     </span>
                   </span>
@@ -709,7 +711,7 @@ export default function Faq() {
                     <span className="relative flex h-8 items-center rounded px-3" data-astro-cid-o2f2z7a3="">
                       <div className="absolute inset-0 rounded bg-black" data-astro-cid-o2f2z7a3="" />
                       <span data-follower-label-text="" className="relative z-1 inline-block whitespace-nowrap leading-[1.3]" data-astro-cid-o2f2z7a3="">
-                        {"Open"}
+                        {lt("Open")}
                       </span>
                     </span>
                   </span>
@@ -717,7 +719,7 @@ export default function Faq() {
                     <span className="relative flex h-8 items-center rounded px-3" data-astro-cid-o2f2z7a3="">
                       <div className="absolute inset-0 rounded bg-black" data-astro-cid-o2f2z7a3="" />
                       <span data-follower-label-text="" className="relative z-1 inline-block whitespace-nowrap leading-[1.3]" data-astro-cid-o2f2z7a3="">
-                        {"Open"}
+                        {lt("Open")}
                       </span>
                     </span>
                   </span>
@@ -734,7 +736,7 @@ export default function Faq() {
           </div>
           <div>
             <h3 className="font-medium pb-1">
-              {"Got more questions?"}
+              {lt("Got more questions?")}
             </h3>
             <a href="/standards" className="group relative overflow-visible font-sans leading-none inline-grid" style={{"color": "white"}} data-track-cta="faq" data-track-label="See the FHIR add-on" data-astro-cid-ekguhzzh="">
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "maskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
@@ -755,21 +757,21 @@ export default function Faq() {
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "maskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"See the FHIR add-on →"}
+                    {lt("See the FHIR add-on →")}
                   </span>
                 </span>
               </span>
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(0.65px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "maskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"See the FHIR add-on →"}
+                    {lt("See the FHIR add-on →")}
                   </span>
                 </span>
               </span>
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(2px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "maskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"See the FHIR add-on →"}
+                    {lt("See the FHIR add-on →")}
                   </span>
                 </span>
               </span>

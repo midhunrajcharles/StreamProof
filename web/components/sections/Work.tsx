@@ -1,4 +1,6 @@
-export default function Work() {
+import { getLt } from "@/components/lt";
+export default async function Work() {
+  const lt = await getLt();
   return (
     <>
       <section id="work" className="page-x pt-3 md:pt-5">
@@ -23,17 +25,17 @@ export default function Work() {
                 </span>
               </span>
               <h2 data-section-heading-label="" className="font-mono uppercase leading-none">
-                {"(Product)"}
+                {lt("(Product)")}
               </h2>
               <div className="relative inline-grid overflow-visible" style={{"WebkitMaskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)", "maskImage": "linear-gradient(to right, black 0%, black 35%, transparent 85%)"}} aria-hidden="true">
                 <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100" style={{"filter": "blur(1px)", "WebkitMaskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)", "maskImage": "linear-gradient(to right, black 0%, black 25%, transparent 55%)"}}>
-                  {"(Product)"}
+                  {lt("(Product)")}
                 </span>
                 <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0.5px)", "WebkitMaskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)", "maskImage": "linear-gradient(to right, transparent 20%, black 40%, black 60%, transparent 80%)"}}>
-                  {"(Product)"}
+                  {lt("(Product)")}
                 </span>
                 <span data-section-heading-label="" className="col-start-1 row-start-1 font-mono uppercase leading-none p-1 -m-1 -scale-x-100 pointer-events-none" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)", "maskImage": "linear-gradient(to right, transparent 50%, black 75%, black 100%)"}}>
-                  {"(Product)"}
+                  {lt("(Product)")}
                 </span>
               </div>
             </div>
@@ -58,21 +60,21 @@ export default function Work() {
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4" style={{"filter": "blur(0px)", "WebkitMaskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "maskImage": "linear-gradient(to bottom, black 0%, black 22%, transparent 58%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"Try →"}
+                    {lt("Try →")}
                   </span>
                 </span>
               </span>
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(0.65px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "maskImage": "linear-gradient(to bottom, transparent 15%, black 32%, black 58%, transparent 78%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"Try →"}
+                    {lt("Try →")}
                   </span>
                 </span>
               </span>
               <span className="button-blur-layer col-start-1 row-start-1 p-4 -m-4 pointer-events-none" style={{"filter": "blur(2px)", "WebkitMaskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "maskImage": "linear-gradient(to bottom, transparent 42%, black 65%, black 100%)", "WebkitMaskSize": "100% 100%", "maskSize": "100% 100%", "WebkitMaskRepeat": "no-repeat", "maskRepeat": "no-repeat"}} aria-hidden="true" data-astro-cid-ekguhzzh="">
                 <span className="relative flex items-center rounded h-8 px-3" data-astro-cid-ekguhzzh="">
                   <span data-button-animate-chars="" className="relative z-1 inline-block overflow-hidden whitespace-nowrap text-base leading-[1.3] font-medium" style={{"color": "white"}} data-astro-cid-ekguhzzh="">
-                    {"Try →"}
+                    {lt("Try →")}
                   </span>
                 </span>
               </span>
@@ -82,35 +84,35 @@ export default function Work() {
         <div className="grid grid-cols-4 md:grid-cols-12 gap-x-3 md:gap-5 mb-32 md:mb-64">
           <article className="col-span-4 md:col-span-8 lg:col-span-5 mb-12 md:mb-24 lg:mb-0 group" data-work-item="" data-pixelate-hover-scope="">
             <div className="relative">
-              <video data-work-hover-video="" data-src="/media/product-citizen.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="Plastic litter floating on a canal" />
+              <video data-work-hover-video="" data-src="/media/product-citizen.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label={lt("Plastic litter floating on a canal")} />
               <div data-work-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="fill" className="pixelated-render-image w-full rounded-xs">
                 <div className="pixelated-render-image__before" style={{"paddingTop": "124.87623762376239%"}} />
-                <img src="/media/product-citizen.webp" data-pixelate-render-img="true" alt="StreamProof report card: grade A, strong evidence" loading="lazy" decoding="async" width="808" height="1009" className="pixelated-render-image__img" />
+                <img src="/media/product-citizen.webp" data-pixelate-render-img="true" alt={lt("StreamProof report card: grade A, strong evidence")} loading="lazy" decoding="async" width="808" height="1009" className="pixelated-render-image__img" />
               </div>
             </div>
             <div className="grid grid-cols-4 md:grid-cols-5 gap-x-3 gap-y-1.5 md:gap-5 mt-3">
               <h3 data-scramble-mono="" className="col-span-4 md:col-span-2 font-mono uppercase">
-                {"Citizen app"}
+                {lt("Citizen app")}
               </h3>
               <p className="col-span-4 md:col-span-3 text-pretty">
-                {"A report takes about a minute: a photo, the signs you can see, done. It comes back with a grade from A to D, the seven reasons behind it, and what would make it stronger. An “all clear” earns the same credit as a problem, so the map shows healthy streams too."}
+                {lt("A report takes about a minute: a photo, the signs you can see, done. It comes back with a grade from A to D, the seven reasons behind it, and what would make it stronger. An “all clear” earns the same credit as a problem, so the map shows healthy streams too.")}
               </p>
             </div>
           </article>
           <article className="col-span-4 md:col-span-6 lg:col-span-4 row-start-2 md:col-start-7 lg:col-start-9 group" data-work-item="" data-pixelate-hover-scope="">
             <div className="relative">
-              <video data-work-hover-video="" data-src="/media/product-org.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label="People taking water samples at the water's edge" />
+              <video data-work-hover-video="" data-src="/media/product-org.mp4" className="absolute top-1/2 -translate-y-1/2 z-10 px-12 w-full opacity-0 transition-opacity duration-150 pointer-events-none object-cover group-hover:opacity-100 max-md:group-hover:opacity-0 max-md:group-data-active:opacity-100" muted playsInline loop preload="none" aria-label={lt("People taking water samples at the water's edge")} />
               <div data-work-pixelate-render="" data-pixelate-render-trigger="inview" data-pixelate-render-hover="fill" className="pixelated-render-image w-full rounded-xs">
                 <div className="pixelated-render-image__before" style={{"paddingTop": "62.32481450948063%"}} />
-                <img src="/media/product-org.webp" data-pixelate-render-img="true" alt="StreamProof review queue with a report open" loading="lazy" decoding="async" width="1213" height="756" className="pixelated-render-image__img" />
+                <img src="/media/product-org.webp" data-pixelate-render-img="true" alt={lt("StreamProof review queue with a report open")} loading="lazy" decoding="async" width="1213" height="756" className="pixelated-render-image__img" />
               </div>
             </div>
             <div className="grid grid-cols-4 gap-x-3 gap-y-1.5 md:gap-5 mt-3">
               <h3 data-scramble-mono="" className="col-span-4 md:col-span-1 font-mono uppercase">
-                {"Org portal"}
+                {lt("Org portal")}
               </h3>
               <p className="col-span-4 md:col-span-3 text-pretty">
-                {"Reviewers see only the reports that need them, with nearby evidence and a mission 400 m upstream when proof is thin. A gate refuses any export the trust level doesn’t permit."}
+                {lt("Reviewers see only the reports that need them, with nearby evidence and a mission 400 m upstream when proof is thin. A gate refuses any export the trust level doesn’t permit.")}
               </p>
             </div>
           </article>

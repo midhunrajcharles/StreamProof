@@ -611,7 +611,7 @@ def standards():
         "definitions": [{"name": p.name, "url": f"/fhir/definitions/{p.name}"}
                         for p in sorted((root / "definitions").glob("*.json"))],
         "validation": {"results": results,
-                       "validator": log.read_text(encoding="utf-8").splitlines()[:1] if log.exists() else []},
+                       "validator": [ln.lstrip("# ") for ln in log.read_text(encoding="utf-8").splitlines()[:1]] if log.exists() else []},
         "matrix": [{"rung": _rung(r), "adds": [{"code": u, "label": permitted_use.USES[u]}
                                                for u in permitted_use.MATRIX[r]]} for r in ORDER],
         "uses": [{"code": u, "label": l} for u, l in permitted_use.USES.items()],

@@ -242,12 +242,14 @@ If judges agree strongly (noise ±0.35), the 9.15 target gives about 79–86%. *
 
 ## 16. Build order (when building is approved)
 
+*Corrections found while building (2026-10-04): the OAH `#diptera` display is "Diptera" ("Diptera (specially Culicidae and Psycodidae)" is its definition); the Catalogue of Measures is Zenodo record 10.5281/zenodo.20040211 by Dias, Serra and Feio, dated 22 Dec 2025, CC BY 4.0 (the 12 May 2026 date is the OAH news post); `hl7-eu/oah` cannot be a SUSHI dependency by package, so `tools/build_ig.py` installs a locally compiled copy in the FHIR package cache; the trust-level `permits` values are Codings into `permitted-use` (a `code` property would be read as a code in the same system).*
+
 | Step | Work |
 |---|---|
-| 1 | Fetch + SUSHI-compile the OAH guide; StreamProof profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH |
-| 2 | `trust-level` CodeSystem with `permits`; gate loads it; consistency test |
-| 3 | Catalogue of Measures mapping in the brief |
-| 4 | DipteraCAST ground-truth export + context slot |
+| 1 | **DONE 2026-10-04** (`54e6c93`). Fetch + SUSHI-compile the OAH guide; StreamProof profiles in FSH; FHIR builder emits OAH codes/values; validate vs OAH: 0 errors, 0 warnings |
+| 2 | **DONE 2026-10-04** (`54e6c93`). `trust-level` CodeSystem with `permits`; gate loads it; consistency tests |
+| 3 | Catalogue of Measures mapping in the brief. **In progress**: the Catalogue is on Zenodo (CC BY 4.0), but the PDF is over the 10 MB fetch limit, so it needs a local download to read the real measure list and page numbers |
+| 4 | **DONE 2026-10-04** (`54e6c93`). DipteraCAST ground-truth export (json, csv, fhir) + context slot (empty interface) |
 | 5 | Sponsor fit: ISO 19157 mapping of the 7 checks; "Built on" credits; Citizen Science App framed as the host, StreamProof's PWA as a reference client |
 | 6 | Judge-driven additions (section 17.3): under-observed reaches, engagement loop, post-project maintenance answer, evidence-quality wording |
 | 7 | 5-city switcher + 6-language strings |

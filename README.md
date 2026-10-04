@@ -9,7 +9,7 @@ Citizens already photograph polluted or stagnant streams. The hard part is what 
 1. **Grades** every report A–D from seven checks, each with a sentence a person can read and argue with.
 2. **Strengthens** reports through an evidence graph: independent corroboration by neighbours, community missions that point people 400 m upstream, and one-tap expert verification.
 3. **Decides what each trust level may be used for** (the permitted-use matrix). Every output asks this gate first.
-4. **Exports** verified evidence as **FHIR R4** (Observation + Location + Provenance) with the trust level and permitted uses inside the record. It passes the official HL7 validator with 0 errors and 0 warnings.
+4. **Exports** verified evidence as **FHIR R4** (Observation + Location + Provenance) with the trust level and permitted uses inside the record. Every record is checked with the HL7 validator against the **official HL7 Europe OneAquaHealth profiles** (`ObservationIndicatorsOah`, `LocationOah`): 0 errors, 0 warnings.
 5. **Recognises** the people who produced the evidence with a signed, tamper-evident contribution record.
 
 ## Run it
@@ -39,8 +39,8 @@ The demo story (demo logins are in `app/seed.py`; in demo mode they also open wi
 3. **Verify** it. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
 4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected. Her **Account** page shows the stars she earned for checked reports.
 
-Tests: `python -m pytest` (60 tests: engine rules, the JSON API including the full story, accounts and sign-in, city search with the network faked). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
-FHIR check: `python tools/validate_fhir.py` (downloads nothing itself; needs Java 11+ and the HL7 `validator_cli.jar` in `tools/`).
+Tests: `python -m pytest` (78 tests: engine rules, the JSON API including the full story, accounts and sign-in, city search with the network faked, the OAH add-on and the DipteraCAST export). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
+FHIR: `python tools/build_ig.py` compiles the add-on (`ig/`) against the OAH guide, then `python tools/validate_fhir.py` runs the HL7 validator (needs Node, Java 11+, the HL7 `validator_cli.jar` in `tools/`, and network for SNOMED CT; the OAH guide is fetched, never copied into this repository).
 
 ## How it works
 
@@ -84,19 +84,30 @@ Citizen PWA ──► Report service ──► Evidence engine (grade A–D + re
 
 Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The grade is rule-based so every point can be explained. An AI photo suggestion can be shown to the expert, but it never changes the grade.
 
-### FHIR R4 profile (`app/fhir.py`, `fhir/`)
+### A trust add-on to the OneAquaHealth FHIR guide (`app/fhir.py`, `ig/`, `fhir/`)
 
-- One **Observation** per sign. `code` comes from the open `stream-indicator` CodeSystem, and `subject` is a **Location** coarsened to about 100 m.
-- **Components** carry the evidence grade, score, trust level, independent corroborations and every permitted use, so the trust metadata travels with the data.
-- Three **Provenance** resources record the chain: the citizen authored it (pseudonym only), the engine assessed it (Device), and an expert verified it (Practitioner pseudonym, on behalf of the Organization), with the organization's signature.
+The HL7 Europe OAH guide (`http://hl7.eu/fhir/ig/oah`) says *what* was observed, not *how far to trust it* or *what it may be used for*. StreamProof adds exactly that, as profiles that derive from the guide's own:
+
+- **Observation** (`StreamProofObservation` ← `ObservationIndicatorsOah`): `code` is the OAH indicator observed (`#diptera`, `#foam`, `#fish`, `#hydrology` from `TemporaryOahSystem`), `value` is what the citizen saw (`citizen-sign`), and components carry the evidence grade, score, trust level, independent corroborations and every permitted use. Signs the guide has no concept for yet use StreamProof's `proposed-oah-indicator` codes (oil sheen, sewage, litter, general visual check), offered to the guide as new concepts. The ConceptMap `citizen-sign-to-oah` publishes the mapping: six of nine problem signs match an OAH indicator.
+- **Location** (`StreamProofLocation` ← `LocationOah`): a site id (stream plus 100 m cell) and a position coarsened to about 100 m.
+- **Provenance** (`StreamProofProvenance`): the citizen authored it (pseudonym only), the engine assessed it (Device), an expert verified it (Practitioner pseudonym, on behalf of the Organization), with the organization's signature. Its `policy` is the published `trust-level` CodeSystem.
+- **The permitted-use rule is data.** The CodeSystem `trust-level` has a `permits` property (one Coding per allowed use). The gate in `app/permitted_use.py` loads that file when it starts, so the published rule *is* the gate, and any system that receives a record can enforce the same rule. Set `STREAMPROOF_RULES` to run under another organisation's rule file.
+- **The profile itself refuses unverified records** (invariant `sp-obs-1`): nothing below Expert-verified can validate, even if an app skipped its own gate. `tools/validate_fhir.py` proves it with a negative control.
 - No Patient resource, no names, no contact details, no exact GPS.
-- Open definitions in `fhir/definitions/`: 5 CodeSystems + 1 ValueSet.
+- Sources are FSH in `ig/input/fsh/`; `tools/build_ig.py` compiles them (SUSHI) into `fhir/definitions/`: 6 CodeSystems, 4 ValueSets, 1 ConceptMap, 3 profiles.
+
+### DipteraCAST interface (`app/dipteracast.py`)
+
+Expert-verified records that say something about Diptera leave as labelled ground truth for the DipteraCAST model (OneAquaHealth, built by ENORA Innovation): a verified mosquito report is `present`; a verified all-clear is `not_seen` (a visual check, not a trap or dip-sample survey, so never called "absent"). Download CSV or a FHIR Bundle (the same OAH-profiled Observations, code `#diptera`) from the organiser dashboard or `GET /api/export/diptera-ground-truth?format=json|csv|fhir`. Every record passes the gate (use `ground_truth`, from Expert-verified up); no observer is named. In the other direction there is an optional prediction slot, shown to the expert as one context line and never counted in the grade. **It is an interface only: DipteraCAST is not public, so nothing is loaded unless you supply `dipteracast-predictions.json`.**
 
 ## Proof of integration
 
 | Claim | Where it lives | How to check |
 |---|---|---|
-| FHIR output is valid R4 | `fhir/validation/validator-output.txt`, `validation-outcome.json` | `python tools/validate_fhir.py` → HL7 FHIR Validator 6.10.4, 7 files, 0 errors, 0 warnings |
+| FHIR output conforms to the **official OAH profiles** | `fhir/validation/validator-output.txt`, `validation-outcome.json`, `fhir/examples/` | `python tools/validate_fhir.py` → HL7 FHIR Validator 6.10.4 against `hl7.eu.fhir.oah` and the add-on: 4 example Bundles + 14 definitions, 0 errors, 0 warnings |
+| An unverified record can't validate | `ig/input/fsh/profiles.fsh` (`sp-obs-1`), `fhir/validation/negative-control-outcome.json` | the same run: the control Bundle is rejected by `sp-obs-1` and by nothing else |
+| The gate *is* the published rule | `fhir/definitions/CodeSystem-trust-level.json` (`permits`), `app/permitted_use.py` | `tests/test_oah.py` (gate = file, a changed file changes the gate, unknown uses fail loudly) |
+| Verified Diptera ground truth leaves, nothing else does | `app/dipteracast.py`, `/api/export/diptera-ground-truth` | `tests/test_oah.py::test_ground_truth_*`; the Ground truth card on the organiser dashboard |
 | Exports are blocked below Expert-verified | `app/permitted_use.py`, `app/fhir.py` (`require`) | `tests/test_engine.py::test_fhir_export_blocked_below_expert`; the Export button on a Community-supported report |
 | Corroboration can't be gamed by one person | `app/evidence.py` (`_independent`, daily cap, distinct-observer threshold) | `test_same_observer_cannot_corroborate_self`, `test_threshold_counts_people_not_reports` |
 | Certificates are tamper-evident | `app/signing.py` (Ed25519 over a SHA-256 of the de-identified record) | `/verify/<id>` in the web app: edit any value → "hash mismatch"; `test_signature_detects_tampering` |
@@ -108,22 +119,25 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 ## Honest caveats
 
 - **Synthetic demo data.** Observers, reports and verifications in the seed are invented and labelled "(synthetic)". The stream line (OpenStreetMap) and rainfall (Open-Meteo) are real.
-- **Not connected to OneAquaHealth systems.** We found no public API for the OAH Citizen Science App. Integration is the proposed adoption path: StreamProof would sit between the app and the OAH dashboards/DSS. The suggested measures in the brief are illustrative stand-ins for the OAH DSS Catalogue of Measures.
+- **Not connected to OneAquaHealth systems.** We found no public API for the OAH Citizen Science App. Integration is the proposed adoption path: StreamProof would sit between the app and the OAH dashboards/DSS. The suggested measures in the brief are illustrative stand-ins for the OneAquaHealth Catalogue of Measures (mapping in progress). DipteraCAST is not public: the export is real, the prediction slot is an empty interface.
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
 - **Accounts are demo-grade.** Email + password accounts (scrypt hashes, in-memory rate limits); anyone can create an organisation, there is no email confirmation or password reset by email, and demo mode lets the demo accounts in without a password. A deployment would use the organisation's identity provider and would need proper GDPR advice.
 - **Machine-assisted translations.** The non-English languages were written with machine assistance and have not yet been reviewed by native speakers; the app says so next to the language picker.
 - **Other cities depend on OpenStreetMap.** A city outside the five OAH cities gets only the streams OSM has mapped and named; if none are mapped, reports still work but the "on a stream" check can't score.
+- **The OAH guide is compiled, not copied.** `hl7-eu/oah` has no licence file, so `tools/build_ig.py` clones and compiles it on your machine and installs it in the local FHIR package cache. Its CI build page is not published, so there is no official package to depend on yet.
+- **"Not seen" is not "absent".** An all-clear is a citizen's visual check. It is exported to DipteraCAST as `not_seen` with that basis stated.
 - **Canonical URLs.** CodeSystem URLs use this repository's GitHub Pages base as identifiers. They don't resolve to a page yet; the definitions themselves are the JSON files in `fhir/definitions/`.
 
 ## Project layout
 
 ```
-app/              engine (grading, evidence, permitted_use, fhir, signing, brief, recognition), JSON API (api.py, accounts.py)
+app/              engine (grading, evidence, permitted_use, fhir, dipteracast, signing, brief, recognition), JSON API (api.py, accounts.py)
 data/             real stream geometry (OSM) and rainfall (Open-Meteo)
-fhir/             open CodeSystems/ValueSet, example Bundle, validator output
-tests/            60 tests: engine rules, the JSON API and the demo story, accounts, cities
-tools/            validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
+ig/               the add-on as FSH (profiles, CodeSystems incl. the permitted-use rule, ConceptMap)
+fhir/             compiled definitions, example Bundles, validator output
+tests/            78 tests: engine rules, the JSON API and the demo story, accounts, cities, the OAH add-on and DipteraCAST
+tools/            build_ig.py, validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
 web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
 docs/             STREAMPROOF-WINNING-PLAN.md, screenshots/ (+ source/: concept files, not committed)
 research/         planning research runs (not committed)

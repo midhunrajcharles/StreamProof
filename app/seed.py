@@ -118,6 +118,24 @@ def run(store: Store | None = None) -> Store:
 
     # A mission already open further up, so the citizen view has one nearby.
     service.request_mission(store, a.id, DEMO_EXPERT)
+
+    # Ground truth for DipteraCAST: verified sightings and verified all-clears spread along the stream and in
+    # time. Kept far (> 500 m) from the hotspot and from each other, so no new signal reaches decision grade
+    # and the demo story's threshold is untouched. Appended last so earlier report ids don't move.
+    for obs, codes, km, days, hrs, method, note, desc in [
+        ("obs-91d2", ["mosquitoes"], 4.6, 8, 19, "field", "Adults and larvae in the dip sample.",
+         "Adults at dusk over a rain-filled drain."),
+        ("obs-5e10", ["mosquitoes"], 1.5, 11, 18, "remote", "Many adults visible in the photo.",
+         "Cloud of mosquitoes by the weir."),
+        ("obs-5e10", ["all-clear"], 5.4, 7, 9, "remote", "Clear photo, flowing water.",
+         "Quiet reach, flowing, nothing unusual."),
+        ("obs-c21e", ["all-clear"], 2.1, 10, 11, "field", "Checked on the field visit: flowing and clear.",
+         "School walk: clear water and no mosquitoes."),
+        ("obs-7f3a", ["all-clear"], 4.0, 12, 8, "remote", "Clear photo, flowing water.",
+         "Early walk: water moving, no insects over it."),
+    ]:
+        g = add(obs, codes, km, days, hours=hrs, desc=desc)
+        service.verify(store, g.id, DEMO_EXPERT, method, note)
     evidence.promote_decision_grade(store.all())
     return store
 

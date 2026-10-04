@@ -1,0 +1,13 @@
+# StreamProof trust and provenance add-on for the HL7 Europe OneAquaHealth guide: evidence grade, trust
+# level, provenance and a machine-readable permitted-use rule. Profiles derive from ObservationIndicatorsOah
+# and LocationOah. (FSHOnly: SUSHI writes the resources; tools/build_ig.py publishes them to fhir/definitions.)
+canonical: https://midhunrajcharles.github.io/streamproof/fhir
+status: draft
+version: 0.1.0
+fhirVersion: 4.0.1
+FSHOnly: true
+
+# The OAH guide is not published as a package and has no licence file, so it is never copied into this
+# repository: tools/build_ig.py fetches and compiles it, then installs it in the local FHIR package cache.
+dependencies:
+  hl7.eu.fhir.oah: 0.1.0-ci-build

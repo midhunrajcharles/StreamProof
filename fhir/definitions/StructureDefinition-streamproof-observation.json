@@ -1,0 +1,251 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "streamproof-observation",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-observation",
+  "version": "0.1.0",
+  "name": "StreamProofObservation",
+  "title": "StreamProof trusted observation",
+  "status": "draft",
+  "experimental": true,
+  "description": "A OneAquaHealth indicator observation made by a citizen and strengthened by checks. It adds what the OAH guide does not yet carry: evidence grade, evidence score, trust level, independent corroborations and the permitted uses. Only records that reached Expert-verified or higher may be exchanged, and the profile enforces it (sp-obs-1).",
+  "fhirVersion": "4.0.1",
+  "kind": "resource",
+  "abstract": false,
+  "type": "Observation",
+  "baseDefinition": "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Observation",
+        "path": "Observation",
+        "constraint": [
+          {
+            "key": "sp-obs-1",
+            "severity": "error",
+            "human": "Only Expert-verified or Decision-grade records may be exchanged: nothing unverified can enter an OAH system.",
+            "expression": "component.where(code.coding.where(code = 'trust-level').exists()).value.coding.where(code = 'expert-verified' or code = 'decision-grade').exists()",
+            "source": "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-observation"
+          }
+        ]
+      },
+      {
+        "id": "Observation.subject",
+        "path": "Observation.subject",
+        "type": [
+          {
+            "code": "Reference",
+            "targetProfile": [
+              "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-location"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "Observation.value[x]",
+        "path": "Observation.value[x]",
+        "min": 1,
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "valueSet": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/citizen-sign"
+        }
+      },
+      {
+        "id": "Observation.component",
+        "path": "Observation.component",
+        "slicing": {
+          "discriminator": [
+            {
+              "type": "pattern",
+              "path": "code"
+            }
+          ],
+          "rules": "open",
+          "description": "One component per piece of trust data"
+        },
+        "min": 4
+      },
+      {
+        "id": "Observation.component:evidenceGrade",
+        "path": "Observation.component",
+        "sliceName": "evidenceGrade",
+        "min": 1,
+        "max": "1"
+      },
+      {
+        "id": "Observation.component:evidenceGrade.code",
+        "path": "Observation.component.code",
+        "patternCodeableConcept": {
+          "coding": [
+            {
+              "code": "evidence-grade",
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute"
+            }
+          ]
+        }
+      },
+      {
+        "id": "Observation.component:evidenceGrade.value[x]",
+        "path": "Observation.component.value[x]",
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "valueSet": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/evidence-grade"
+        }
+      },
+      {
+        "id": "Observation.component:evidenceScore",
+        "path": "Observation.component",
+        "sliceName": "evidenceScore",
+        "min": 1,
+        "max": "1"
+      },
+      {
+        "id": "Observation.component:evidenceScore.code",
+        "path": "Observation.component.code",
+        "patternCodeableConcept": {
+          "coding": [
+            {
+              "code": "evidence-score",
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute"
+            }
+          ]
+        }
+      },
+      {
+        "id": "Observation.component:evidenceScore.value[x]",
+        "path": "Observation.component.value[x]",
+        "type": [
+          {
+            "code": "Quantity"
+          }
+        ]
+      },
+      {
+        "id": "Observation.component:evidenceScore.value[x].system",
+        "path": "Observation.component.value[x].system",
+        "patternUri": "http://unitsofmeasure.org"
+      },
+      {
+        "id": "Observation.component:evidenceScore.value[x].code",
+        "path": "Observation.component.value[x].code",
+        "patternCode": "1"
+      },
+      {
+        "id": "Observation.component:trustLevel",
+        "path": "Observation.component",
+        "sliceName": "trustLevel",
+        "min": 1,
+        "max": "1"
+      },
+      {
+        "id": "Observation.component:trustLevel.code",
+        "path": "Observation.component.code",
+        "patternCodeableConcept": {
+          "coding": [
+            {
+              "code": "trust-level",
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute"
+            }
+          ]
+        }
+      },
+      {
+        "id": "Observation.component:trustLevel.value[x]",
+        "path": "Observation.component.value[x]",
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "valueSet": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/trust-level"
+        }
+      },
+      {
+        "id": "Observation.component:independentCorroborations",
+        "path": "Observation.component",
+        "sliceName": "independentCorroborations",
+        "min": 1,
+        "max": "1"
+      },
+      {
+        "id": "Observation.component:independentCorroborations.code",
+        "path": "Observation.component.code",
+        "patternCodeableConcept": {
+          "coding": [
+            {
+              "code": "independent-corroborations",
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute"
+            }
+          ]
+        }
+      },
+      {
+        "id": "Observation.component:independentCorroborations.value[x]",
+        "path": "Observation.component.value[x]",
+        "type": [
+          {
+            "code": "Quantity"
+          }
+        ]
+      },
+      {
+        "id": "Observation.component:independentCorroborations.value[x].system",
+        "path": "Observation.component.value[x].system",
+        "patternUri": "http://unitsofmeasure.org"
+      },
+      {
+        "id": "Observation.component:independentCorroborations.value[x].code",
+        "path": "Observation.component.value[x].code",
+        "patternCode": "1"
+      },
+      {
+        "id": "Observation.component:permittedUse",
+        "path": "Observation.component",
+        "sliceName": "permittedUse",
+        "min": 0,
+        "max": "*"
+      },
+      {
+        "id": "Observation.component:permittedUse.code",
+        "path": "Observation.component.code",
+        "patternCodeableConcept": {
+          "coding": [
+            {
+              "code": "permitted-use",
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute"
+            }
+          ]
+        }
+      },
+      {
+        "id": "Observation.component:permittedUse.value[x]",
+        "path": "Observation.component.value[x]",
+        "type": [
+          {
+            "code": "CodeableConcept"
+          }
+        ],
+        "binding": {
+          "strength": "required",
+          "valueSet": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/permitted-use"
+        }
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>StructureDefinition: StreamProof trusted observation</p></div>"
+  }
+}

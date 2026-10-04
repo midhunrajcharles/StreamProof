@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
   "type": "collection",
-  "timestamp": "2026-10-03T09:40:00Z",
+  "timestamp": "2026-10-05T13:40:00Z",
   "identifier": {
     "system": "https://midhunrajcharles.github.io/streamproof/fhir/bundle-id",
-    "value": "SP-1001-20261003094000"
+    "value": "SP-1004-20261005134000"
   },
   "entry": [
     {
-      "fullUrl": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
+      "fullUrl": "urn:uuid:d78817c5-8dbe-47bf-b5ad-4e7fb551d4bf",
       "resource": {
         "resourceType": "Location",
         "meta": {
@@ -20,7 +20,7 @@
         "identifier": [
           {
             "system": "https://midhunrajcharles.github.io/streamproof/fhir/site-id",
-            "value": "coselhas@40.223,-8.427"
+            "value": "coselhas@40.224,-8.426"
           }
         ],
         "status": "active",
@@ -38,8 +38,8 @@
           "text": "Area"
         },
         "position": {
-          "longitude": -8.427,
-          "latitude": 40.223
+          "longitude": -8.426,
+          "latitude": 40.224
         },
         "text": {
           "status": "generated",
@@ -48,7 +48,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:27ab7d19-e554-4ac3-951b-a10556779a34",
+      "fullUrl": "urn:uuid:6a6a081a-bc00-40bb-969b-b711dd3f3799",
       "resource": {
         "resourceType": "Device",
         "status": "active",
@@ -70,7 +70,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
+      "fullUrl": "urn:uuid:04ce4532-70fa-4d6f-a354-a38d63e01047",
       "resource": {
         "resourceType": "Organization",
         "active": true,
@@ -82,7 +82,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:331aecff-4aad-41d1-893a-1662e38ddb64",
+      "fullUrl": "urn:uuid:a7d3e3e5-89b8-44ab-b328-835a16b9bcc9",
       "resource": {
         "resourceType": "Practitioner",
         "active": true,
@@ -99,7 +99,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7",
+      "fullUrl": "urn:uuid:273fc243-7f6c-41e4-9cb2-4133ca081129",
       "resource": {
         "resourceType": "Observation",
         "meta": {
@@ -111,7 +111,7 @@
         "identifier": [
           {
             "system": "https://midhunrajcharles.github.io/streamproof/fhir/report-id",
-            "value": "SP-1001-stagnant-water"
+            "value": "SP-1004-algal-scum"
           }
         ],
         "status": "final",
@@ -131,21 +131,21 @@
           "coding": [
             {
               "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
-              "code": "hydrology",
-              "display": "Hydrology of the stream"
+              "code": "foam",
+              "display": "Foam/colour/smell"
             }
           ],
-          "text": "Hydrology of the stream"
+          "text": "Foam/colour/smell"
         },
         "subject": {
-          "reference": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
+          "reference": "urn:uuid:d78817c5-8dbe-47bf-b5ad-4e7fb551d4bf",
           "display": "Ribeira de Coselhas"
         },
-        "effectiveDateTime": "2026-10-02T09:40:00Z",
+        "effectiveDateTime": "2026-10-04T13:40:00Z",
         "issued": "2026-10-04T12:06:09Z",
         "performer": [
           {
-            "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
+            "reference": "urn:uuid:04ce4532-70fa-4d6f-a354-a38d63e01047",
             "display": "StreamProof demo organization"
           }
         ],
@@ -153,15 +153,15 @@
           "coding": [
             {
               "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign",
-              "code": "stagnant-water",
-              "display": "Stagnant or ponded water"
+              "code": "algal-scum",
+              "display": "Algal scum or green discoloured water"
             }
           ],
-          "text": "Stagnant or ponded water"
+          "text": "Algal scum or green discoloured water"
         },
         "note": [
           {
-            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo was taken at the time of the report. [10/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (6 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Consistent with weather: 4.5 mm of rain in 7 days. [10/10]; New observer: no history yet. [5/10]"
+            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo appears to be taken 2 days before the report. [0/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (30 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Weather neither supports nor contradicts this sign. [7/10]; New observer: no history yet. [5/10]"
           }
         ],
         "component": [
@@ -180,11 +180,11 @@
               "coding": [
                 {
                   "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-                  "code": "B",
-                  "display": "Good evidence"
+                  "code": "C",
+                  "display": "Needs verification"
                 }
               ],
-              "text": "Good evidence"
+              "text": "Needs verification"
             }
           },
           {
@@ -199,7 +199,7 @@
               "text": "Evidence score (0-100)"
             },
             "valueQuantity": {
-              "value": 81,
+              "value": 68,
               "unit": "score",
               "system": "http://unitsofmeasure.org",
               "code": "1"
@@ -446,12 +446,12 @@
         ],
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Hydrology of the stream = Stagnant or ponded water (final), Evidence grade = Good evidence, Evidence score (0-100) = 81, Trust level = Expert-verified</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Foam/colour/smell = Algal scum or green discoloured water (final), Evidence grade = Needs verification, Evidence score (0-100) = 68, Trust level = Expert-verified</p></div>"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c",
+      "fullUrl": "urn:uuid:30da833f-9ca7-4fa2-9583-8afb0d8571ff",
       "resource": {
         "resourceType": "Observation",
         "meta": {
@@ -463,7 +463,7 @@
         "identifier": [
           {
             "system": "https://midhunrajcharles.github.io/streamproof/fhir/report-id",
-            "value": "SP-1001-mosquitoes"
+            "value": "SP-1004-oil-sheen"
           }
         ],
         "status": "final",
@@ -482,22 +482,22 @@
         "code": {
           "coding": [
             {
-              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
-              "code": "diptera",
-              "display": "Diptera"
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/proposed-oah-indicator",
+              "code": "oil-sheen",
+              "display": "Oil or rainbow sheen"
             }
           ],
-          "text": "Diptera"
+          "text": "Oil or rainbow sheen"
         },
         "subject": {
-          "reference": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
+          "reference": "urn:uuid:d78817c5-8dbe-47bf-b5ad-4e7fb551d4bf",
           "display": "Ribeira de Coselhas"
         },
-        "effectiveDateTime": "2026-10-02T09:40:00Z",
+        "effectiveDateTime": "2026-10-04T13:40:00Z",
         "issued": "2026-10-04T12:06:09Z",
         "performer": [
           {
-            "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
+            "reference": "urn:uuid:04ce4532-70fa-4d6f-a354-a38d63e01047",
             "display": "StreamProof demo organization"
           }
         ],
@@ -505,15 +505,15 @@
           "coding": [
             {
               "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign",
-              "code": "mosquitoes",
-              "display": "High mosquito activity"
+              "code": "oil-sheen",
+              "display": "Oily or rainbow sheen on the surface"
             }
           ],
-          "text": "High mosquito activity"
+          "text": "Oily or rainbow sheen on the surface"
         },
         "note": [
           {
-            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo was taken at the time of the report. [10/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (6 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Consistent with weather: 4.5 mm of rain in 7 days. [10/10]; New observer: no history yet. [5/10]"
+            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo appears to be taken 2 days before the report. [0/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (30 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Weather neither supports nor contradicts this sign. [7/10]; New observer: no history yet. [5/10]"
           }
         ],
         "component": [
@@ -532,11 +532,11 @@
               "coding": [
                 {
                   "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-                  "code": "B",
-                  "display": "Good evidence"
+                  "code": "C",
+                  "display": "Needs verification"
                 }
               ],
-              "text": "Good evidence"
+              "text": "Needs verification"
             }
           },
           {
@@ -551,7 +551,7 @@
               "text": "Evidence score (0-100)"
             },
             "valueQuantity": {
-              "value": 81,
+              "value": 68,
               "unit": "score",
               "system": "http://unitsofmeasure.org",
               "code": "1"
@@ -798,12 +798,12 @@
         ],
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Diptera = High mosquito activity (final), Evidence grade = Good evidence, Evidence score (0-100) = 81, Trust level = Expert-verified</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Oil or rainbow sheen = Oily or rainbow sheen on the surface (final), Evidence grade = Needs verification, Evidence score (0-100) = 68, Trust level = Expert-verified</p></div>"
         }
       }
     },
     {
-      "fullUrl": "urn:uuid:101fdb5c-7193-4047-bc26-ef90ec6ae12f",
+      "fullUrl": "urn:uuid:7d06d7a5-097e-4b23-9720-a2ab6278cfa0",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -813,13 +813,13 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
+            "reference": "urn:uuid:273fc243-7f6c-41e4-9cb2-4133ca081129"
           },
           {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:30da833f-9ca7-4fa2-9583-8afb0d8571ff"
           }
         ],
-        "recorded": "2026-10-02T09:40:00Z",
+        "recorded": "2026-10-04T13:40:00Z",
         "policy": [
           "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
         ],
@@ -848,9 +848,9 @@
             "who": {
               "identifier": {
                 "system": "https://midhunrajcharles.github.io/streamproof/fhir/NamingSystem/observer-pseudonym",
-                "value": "obs-7f3a"
+                "value": "obs-91bd"
               },
-              "display": "Citizen observer obs-7f3a (pseudonym)"
+              "display": "Citizen observer obs-91bd (pseudonym)"
             }
           }
         ],
@@ -873,7 +873,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:5043914b-2d1e-4ed2-877c-7633295f9049",
+      "fullUrl": "urn:uuid:79244f9e-90f8-4312-9068-8ed66b04cfd6",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -883,10 +883,10 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
+            "reference": "urn:uuid:273fc243-7f6c-41e4-9cb2-4133ca081129"
           },
           {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:30da833f-9ca7-4fa2-9583-8afb0d8571ff"
           }
         ],
         "recorded": "2026-10-04T12:06:09Z",
@@ -916,7 +916,7 @@
               "text": "Assembler"
             },
             "who": {
-              "reference": "urn:uuid:27ab7d19-e554-4ac3-951b-a10556779a34"
+              "reference": "urn:uuid:6a6a081a-bc00-40bb-969b-b711dd3f3799"
             }
           }
         ],
@@ -939,7 +939,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:cfa224d5-ed51-4864-a4af-87483d938951",
+      "fullUrl": "urn:uuid:dfd5d8d2-41bb-4078-a75b-069a8a153e8c",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -949,10 +949,10 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
+            "reference": "urn:uuid:273fc243-7f6c-41e4-9cb2-4133ca081129"
           },
           {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:30da833f-9ca7-4fa2-9583-8afb0d8571ff"
           }
         ],
         "recorded": "2026-10-04T12:06:09Z",
@@ -982,10 +982,10 @@
               "text": "Verifier"
             },
             "who": {
-              "reference": "urn:uuid:331aecff-4aad-41d1-893a-1662e38ddb64"
+              "reference": "urn:uuid:a7d3e3e5-89b8-44ab-b328-835a16b9bcc9"
             },
             "onBehalfOf": {
-              "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956"
+              "reference": "urn:uuid:04ce4532-70fa-4d6f-a354-a38d63e01047"
             }
           }
         ],
@@ -995,7 +995,7 @@
             "what": {
               "identifier": {
                 "system": "urn:ietf:rfc:3986",
-                "value": "urn:hash:sha256:1b8816ef3499bdd3c0ad2889e913f4e680a2a605cfe1e848e8c90af4899d25dd"
+                "value": "urn:hash:sha256:e4251811dd381e819c90740009965f4884ae1d9331e0e92ff0f5b8f4cdc0849d"
               },
               "display": "De-identified verified record (field check)"
             }
@@ -1012,11 +1012,11 @@
             ],
             "when": "2026-10-04T12:06:09Z",
             "who": {
-              "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956"
+              "reference": "urn:uuid:04ce4532-70fa-4d6f-a354-a38d63e01047"
             },
             "targetFormat": "application/json",
             "sigFormat": "application/octet-stream",
-            "data": "b3jwjEVTv4s+Uz3xWpa0uUNzQ9pG1EcIOEoSnjfI8a2+ObA8w2vYAMFfj6F1EtGA2fRPggtNaTPEQKP7ipHhCQ=="
+            "data": "8XBreSKsrnw/FTHeDCGT2GcBeHqYU/P34T6kGcmJ4PNcn01rL47Xf6hMxYFHyFEjopfSNF32mSigm9TV8+xbAQ=="
           }
         ],
         "text": {

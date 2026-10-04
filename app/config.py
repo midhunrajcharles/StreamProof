@@ -12,6 +12,9 @@ KEY_PATH = DATA_DIR / "org_signing_key.pem"
 # Canonical base for the open CodeSystems/ValueSet: the project's GitHub Pages site,
 # where fhir/definitions/ is published.
 FHIR_BASE = os.environ.get("STREAMPROOF_FHIR_BASE", "https://midhunrajcharles.github.io/streamproof/fhir")
+# The published rules the gate loads at start-up (see app/permitted_use.py). Point this at another
+# folder to run StreamProof under a different permitted-use rule file.
+RULES_DIR = Path(os.environ.get("STREAMPROOF_RULES", ROOT / "fhir" / "definitions"))
 PSEUDONYM_SYSTEM = f"{FHIR_BASE}/NamingSystem/observer-pseudonym"
 
 SESSION_SECRET = os.environ.get("STREAMPROOF_SESSION_SECRET", "dev-only-change-me")

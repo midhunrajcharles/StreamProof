@@ -1,0 +1,117 @@
+{
+  "resourceType": "ConceptMap",
+  "id": "citizen-sign-to-oah",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/ConceptMap/citizen-sign-to-oah",
+  "title": "Citizen sign to OAH indicator",
+  "description": "Which OneAquaHealth indicator (TemporaryOahSystem) each citizen sign is an observation of.",
+  "status": "draft",
+  "experimental": true,
+  "group": [
+    {
+      "source": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign|0.1.0",
+      "target": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+      "element": [
+        {
+          "code": "algal-scum",
+          "target": [
+            {
+              "code": "foam",
+              "display": "Foam/colour/smell",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "odour",
+          "target": [
+            {
+              "code": "foam",
+              "display": "Foam/colour/smell",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "foam",
+          "target": [
+            {
+              "code": "foam",
+              "display": "Foam/colour/smell",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "dead-fish",
+          "target": [
+            {
+              "code": "fish",
+              "display": "Fish",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "mosquitoes",
+          "target": [
+            {
+              "code": "diptera",
+              "display": "Diptera",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "stagnant-water",
+          "target": [
+            {
+              "code": "hydrology",
+              "display": "Hydrology of the stream",
+              "equivalence": "wider"
+            }
+          ]
+        },
+        {
+          "code": "oil-sheen",
+          "target": [
+            {
+              "equivalence": "unmatched",
+              "comment": "Proposed new OAH concept (proposed-oah-indicator#oil-sheen)."
+            }
+          ]
+        },
+        {
+          "code": "sewage",
+          "target": [
+            {
+              "equivalence": "unmatched",
+              "comment": "Proposed new OAH concept (proposed-oah-indicator#sewage); laboratory follow-up is #coliforms."
+            }
+          ]
+        },
+        {
+          "code": "litter",
+          "target": [
+            {
+              "equivalence": "unmatched",
+              "comment": "Proposed new OAH concept (proposed-oah-indicator#litter)."
+            }
+          ]
+        },
+        {
+          "code": "all-clear",
+          "target": [
+            {
+              "equivalence": "unmatched",
+              "comment": "Not an indicator: recorded as proposed-oah-indicator#visual-check with the value Absent (SNOMED CT 2667000)."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ConceptMap: Citizen sign to OAH indicator</p></div>"
+  }
+}

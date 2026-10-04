@@ -1,16 +1,24 @@
 """What a citizen can report, in plain words, and how each choice maps to a code.
 
 The chips are the citizen-facing vocabulary (no ecology jargon). Each one maps to a
-code in the open StreamProof CodeSystem (fhir/CodeSystem-stream-indicator.json),
-which is the piece another platform can adopt without adopting this app.
+code in the open StreamProof CodeSystem `citizen-sign` (fhir/definitions/), which is the piece another
+platform can adopt without adopting this app.
+
+In a FHIR record the citizen's sign is the Observation VALUE; the OneAquaHealth indicator being
+observed is the Observation CODE (OAH TemporaryOahSystem). `OAH` below is that mapping (published as
+the ConceptMap citizen-sign-to-oah). Signs with no OAH concept yet use StreamProof's proposed codes.
 """
 
 from dataclasses import dataclass
 
 from .config import FHIR_BASE
 
-CODESYSTEM_URL = f"{FHIR_BASE}/CodeSystem/stream-indicator"
-VALUESET_URL = f"{FHIR_BASE}/ValueSet/stream-indicator"
+CODESYSTEM_URL = f"{FHIR_BASE}/CodeSystem/citizen-sign"
+VALUESET_URL = f"{FHIR_BASE}/ValueSet/citizen-sign"
+PROPOSED_URL = f"{FHIR_BASE}/CodeSystem/proposed-oah-indicator"
+OAH_URL = "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu"
+SNOMED = "http://snomed.info/sct"
+ABSENT = ("2667000", "Absent")  # SNOMED CT: the value of an all-clear observation
 
 
 @dataclass(frozen=True)
@@ -57,6 +65,23 @@ INDICATORS: dict[str, Indicator] = {
                   "none", False,
                   "The observer checked the site and saw nothing of concern. Credited equally."),
     ]
+}
+
+
+# citizen sign -> (system, code, display) of the indicator observed. OAH displays are the guide's own.
+# `wider`: the OAH indicator is broader than the sign, so the sign itself travels as the value.
+OAH: dict[str, tuple[str, str, str]] = {
+    "algal-scum": (OAH_URL, "foam", "Foam/colour/smell"),
+    "odour": (OAH_URL, "foam", "Foam/colour/smell"),
+    "foam": (OAH_URL, "foam", "Foam/colour/smell"),
+    "dead-fish": (OAH_URL, "fish", "Fish"),
+    "mosquitoes": (OAH_URL, "diptera", "Diptera"),
+    "stagnant-water": (OAH_URL, "hydrology", "Hydrology of the stream"),
+    # no OAH concept yet: proposed (see ConceptMap citizen-sign-to-oah, equivalence unmatched)
+    "oil-sheen": (PROPOSED_URL, "oil-sheen", "Oil or rainbow sheen"),
+    "sewage": (PROPOSED_URL, "sewage", "Sewage or discharge"),
+    "litter": (PROPOSED_URL, "litter", "Litter"),
+    "all-clear": (PROPOSED_URL, "visual-check", "General visual check"),
 }
 
 

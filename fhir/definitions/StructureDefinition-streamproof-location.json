@@ -1,0 +1,45 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "streamproof-location",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-location",
+  "version": "0.1.0",
+  "name": "StreamProofLocation",
+  "title": "StreamProof location (about 100 m)",
+  "status": "draft",
+  "experimental": true,
+  "description": "A OneAquaHealth location for a citizen report. The identifier is a site id (stream plus 100 m cell); the position is coarsened to three decimals, never the exact GPS.",
+  "fhirVersion": "4.0.1",
+  "kind": "resource",
+  "abstract": false,
+  "type": "Location",
+  "baseDefinition": "http://hl7.eu/fhir/ig/oah/StructureDefinition/location-oah",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Location.identifier.system",
+        "path": "Location.identifier.system",
+        "min": 1
+      },
+      {
+        "id": "Location.identifier.value",
+        "path": "Location.identifier.value",
+        "min": 1
+      },
+      {
+        "id": "Location.physicalType",
+        "path": "Location.physicalType",
+        "min": 1
+      },
+      {
+        "id": "Location.position",
+        "path": "Location.position",
+        "min": 1
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>StructureDefinition: StreamProof location (about 100 m)</p></div>"
+  }
+}

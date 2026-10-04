@@ -1,0 +1,23 @@
+{
+  "resourceType": "ValueSet",
+  "status": "draft",
+  "name": "CitizenSignVS",
+  "id": "citizen-sign",
+  "title": "Citizen stream observation signs",
+  "description": "All signs in the citizen-sign CodeSystem.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/citizen-sign",
+  "experimental": true,
+  "compose": {
+    "include": [
+      {
+        "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ValueSet: Citizen stream observation signs</p></div>"
+  }
+}

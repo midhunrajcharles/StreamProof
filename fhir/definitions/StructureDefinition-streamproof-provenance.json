@@ -1,0 +1,43 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "streamproof-provenance",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-provenance",
+  "version": "0.1.0",
+  "name": "StreamProofProvenance",
+  "title": "StreamProof provenance",
+  "status": "draft",
+  "experimental": true,
+  "description": "Provenance of a citizen observation: author (a pseudonym only), assembler (the evidence engine) and verifier (an expert, with an organisation signature). The policy points at the trust-level CodeSystem, the published permitted-use rule.",
+  "fhirVersion": "4.0.1",
+  "kind": "resource",
+  "abstract": false,
+  "type": "Provenance",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Provenance",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Provenance",
+        "path": "Provenance",
+        "constraint": [
+          {
+            "key": "sp-prov-1",
+            "severity": "error",
+            "human": "The policy must cite the StreamProof trust-level CodeSystem (the permitted-use rule).",
+            "expression": "policy.where($this = 'https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level').exists()",
+            "source": "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-provenance"
+          }
+        ]
+      },
+      {
+        "id": "Provenance.policy",
+        "path": "Provenance.policy",
+        "min": 1
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>StructureDefinition: StreamProof provenance</p></div>"
+  }
+}

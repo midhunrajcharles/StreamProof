@@ -1,0 +1,40 @@
+{
+  "resourceType": "CodeSystem",
+  "status": "draft",
+  "content": "complete",
+  "name": "ProposedOahIndicator",
+  "id": "proposed-oah-indicator",
+  "title": "Proposed OAH indicators",
+  "description": "Indicators that citizens report but that have no concept in the OAH TemporaryOahSystem yet. Offered to the HL7 Europe OAH guide as new concepts; used as Observation.code until then.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/proposed-oah-indicator",
+  "concept": [
+    {
+      "code": "oil-sheen",
+      "display": "Oil or rainbow sheen",
+      "definition": "Oily or rainbow film on the water surface (pollution)."
+    },
+    {
+      "code": "sewage",
+      "display": "Sewage or discharge",
+      "definition": "Grey water, toilet paper or a pipe discharging into the stream. Follow-up by laboratory test is the coliforms indicator."
+    },
+    {
+      "code": "litter",
+      "display": "Litter",
+      "definition": "Plastic, bags or dumped items in the channel or on the banks."
+    },
+    {
+      "code": "visual-check",
+      "display": "General visual check",
+      "definition": "The observer checked the site for signs of pollution or disease-vector habitat. Value says what, if anything, was seen."
+    }
+  ],
+  "experimental": true,
+  "caseSensitive": true,
+  "count": 4,
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>CodeSystem: Proposed OAH indicators</p></div>"
+  }
+}

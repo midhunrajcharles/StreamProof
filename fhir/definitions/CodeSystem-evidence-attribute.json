@@ -1,17 +1,13 @@
 {
   "resourceType": "CodeSystem",
-  "id": "evidence-attribute",
-  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-  "version": "0.1.0",
-  "name": "EvidenceAttribute",
-  "title": "Evidence attributes",
   "status": "draft",
-  "experimental": true,
-  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
-  "description": "Observation.component codes that carry the trust metadata with the data.",
-  "caseSensitive": true,
   "content": "complete",
-  "count": 5,
+  "name": "EvidenceAttribute",
+  "id": "evidence-attribute",
+  "title": "Evidence attributes",
+  "description": "Observation.component codes that carry the trust metadata with the data.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
   "concept": [
     {
       "code": "evidence-grade",
@@ -39,8 +35,11 @@
       "definition": "A use this record is allowed for at its trust level."
     }
   ],
+  "experimental": true,
+  "caseSensitive": true,
+  "count": 5,
   "text": {
     "status": "generated",
-    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Evidence attributes: evidence-grade (Evidence grade), evidence-score (Evidence score (0-100)), trust-level (Trust level), independent-corroborations (Independent corroborations), permitted-use (Permitted use)</p></div>"
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>CodeSystem: Evidence attributes</p></div>"
   }
 }

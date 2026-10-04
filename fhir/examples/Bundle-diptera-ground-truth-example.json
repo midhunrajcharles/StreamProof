@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
   "type": "collection",
-  "timestamp": "2026-10-03T09:40:00Z",
+  "timestamp": "2026-10-04T09:40:00Z",
   "identifier": {
     "system": "https://midhunrajcharles.github.io/streamproof/fhir/bundle-id",
-    "value": "SP-1001-20261003094000"
+    "value": "diptera-ground-truth-20261004094000"
   },
   "entry": [
     {
-      "fullUrl": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
+      "fullUrl": "urn:uuid:df62ddae-c159-4d22-8a61-c10cc4f729c2",
       "resource": {
         "resourceType": "Location",
         "meta": {
@@ -48,7 +48,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:27ab7d19-e554-4ac3-951b-a10556779a34",
+      "fullUrl": "urn:uuid:c5f3b406-913d-402f-b410-52b7990498cb",
       "resource": {
         "resourceType": "Device",
         "status": "active",
@@ -70,7 +70,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
+      "fullUrl": "urn:uuid:a91be78b-7e5e-422d-8299-74c0e883043f",
       "resource": {
         "resourceType": "Organization",
         "active": true,
@@ -82,7 +82,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:331aecff-4aad-41d1-893a-1662e38ddb64",
+      "fullUrl": "urn:uuid:badc4298-2ea7-4506-b36c-c83280d11232",
       "resource": {
         "resourceType": "Practitioner",
         "active": true,
@@ -99,359 +99,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7",
-      "resource": {
-        "resourceType": "Observation",
-        "meta": {
-          "profile": [
-            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah",
-            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-observation"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://midhunrajcharles.github.io/streamproof/fhir/report-id",
-            "value": "SP-1001-stagnant-water"
-          }
-        ],
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "survey",
-                "display": "Survey"
-              }
-            ],
-            "text": "Survey"
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
-              "code": "hydrology",
-              "display": "Hydrology of the stream"
-            }
-          ],
-          "text": "Hydrology of the stream"
-        },
-        "subject": {
-          "reference": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
-          "display": "Ribeira de Coselhas"
-        },
-        "effectiveDateTime": "2026-10-02T09:40:00Z",
-        "issued": "2026-10-04T12:06:09Z",
-        "performer": [
-          {
-            "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
-            "display": "StreamProof demo organization"
-          }
-        ],
-        "valueCodeableConcept": {
-          "coding": [
-            {
-              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign",
-              "code": "stagnant-water",
-              "display": "Stagnant or ponded water"
-            }
-          ],
-          "text": "Stagnant or ponded water"
-        },
-        "note": [
-          {
-            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo was taken at the time of the report. [10/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (6 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Consistent with weather: 4.5 mm of rain in 7 days. [10/10]; New observer: no history yet. [5/10]"
-          }
-        ],
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "evidence-grade",
-                  "display": "Evidence grade"
-                }
-              ],
-              "text": "Evidence grade"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-                  "code": "B",
-                  "display": "Good evidence"
-                }
-              ],
-              "text": "Good evidence"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "evidence-score",
-                  "display": "Evidence score (0-100)"
-                }
-              ],
-              "text": "Evidence score (0-100)"
-            },
-            "valueQuantity": {
-              "value": 81,
-              "unit": "score",
-              "system": "http://unitsofmeasure.org",
-              "code": "1"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "trust-level",
-                  "display": "Trust level"
-                }
-              ],
-              "text": "Trust level"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
-                  "code": "expert-verified",
-                  "display": "Expert-verified"
-                }
-              ],
-              "text": "Expert-verified"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "independent-corroborations",
-                  "display": "Independent corroborations"
-                }
-              ],
-              "text": "Independent corroborations"
-            },
-            "valueQuantity": {
-              "value": 0,
-              "unit": "corroborations",
-              "system": "http://unitsofmeasure.org",
-              "code": "1"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "triage",
-                  "display": "Org triage queue"
-                }
-              ],
-              "text": "Org triage queue"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "field_check",
-                  "display": "Trigger a field-check request"
-                }
-              ],
-              "text": "Trigger a field-check request"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "mission",
-                  "display": "Open a community evidence mission"
-                }
-              ],
-              "text": "Open a community evidence mission"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "org_dashboard",
-                  "display": "Org dashboard, labelled unverified"
-                }
-              ],
-              "text": "Org dashboard, labelled unverified"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "public_map",
-                  "display": "Public map as 'reported, being checked'"
-                }
-              ],
-              "text": "Public map as 'reported, being checked'"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "oah_dashboard",
-                  "display": "OAH dashboard and DSS input"
-                }
-              ],
-              "text": "OAH dashboard and DSS input"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "fhir_exchange",
-                  "display": "FHIR exchange with partner systems"
-                }
-              ],
-              "text": "FHIR exchange with partner systems"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "recognition",
-                  "display": "Contributor recognition (signed certificate)"
-                }
-              ],
-              "text": "Contributor recognition (signed certificate)"
-            }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
-                  "code": "permitted-use",
-                  "display": "Permitted use"
-                }
-              ],
-              "text": "Permitted use"
-            },
-            "valueCodeableConcept": {
-              "coding": [
-                {
-                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
-                  "code": "ground_truth",
-                  "display": "Ground-truth export to DipteraCAST"
-                }
-              ],
-              "text": "Ground-truth export to DipteraCAST"
-            }
-          }
-        ],
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Hydrology of the stream = Stagnant or ponded water (final), Evidence grade = Good evidence, Evidence score (0-100) = 81, Trust level = Expert-verified</p></div>"
-        }
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c",
+      "fullUrl": "urn:uuid:b7f7fe28-ac94-4aae-b4d3-8901a18939b9",
       "resource": {
         "resourceType": "Observation",
         "meta": {
@@ -490,14 +138,14 @@
           "text": "Diptera"
         },
         "subject": {
-          "reference": "urn:uuid:8b3d1676-2c5c-481f-8df5-90b5088ef043",
+          "reference": "urn:uuid:df62ddae-c159-4d22-8a61-c10cc4f729c2",
           "display": "Ribeira de Coselhas"
         },
         "effectiveDateTime": "2026-10-02T09:40:00Z",
         "issued": "2026-10-04T12:06:09Z",
         "performer": [
           {
-            "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956",
+            "reference": "urn:uuid:a91be78b-7e5e-422d-8299-74c0e883043f",
             "display": "StreamProof demo organization"
           }
         ],
@@ -803,7 +451,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:101fdb5c-7193-4047-bc26-ef90ec6ae12f",
+      "fullUrl": "urn:uuid:2298706b-3147-4c8a-b259-96fadd2a5f8f",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -813,10 +461,7 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
-          },
-          {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:b7f7fe28-ac94-4aae-b4d3-8901a18939b9"
           }
         ],
         "recorded": "2026-10-02T09:40:00Z",
@@ -873,7 +518,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:5043914b-2d1e-4ed2-877c-7633295f9049",
+      "fullUrl": "urn:uuid:4abbf38d-5986-474c-a183-e89cd3d51a4b",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -883,10 +528,7 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
-          },
-          {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:b7f7fe28-ac94-4aae-b4d3-8901a18939b9"
           }
         ],
         "recorded": "2026-10-04T12:06:09Z",
@@ -916,7 +558,7 @@
               "text": "Assembler"
             },
             "who": {
-              "reference": "urn:uuid:27ab7d19-e554-4ac3-951b-a10556779a34"
+              "reference": "urn:uuid:c5f3b406-913d-402f-b410-52b7990498cb"
             }
           }
         ],
@@ -939,7 +581,7 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:cfa224d5-ed51-4864-a4af-87483d938951",
+      "fullUrl": "urn:uuid:9c6e0bde-e918-44c1-baea-fbcd4e87a2ba",
       "resource": {
         "resourceType": "Provenance",
         "meta": {
@@ -949,10 +591,7 @@
         },
         "target": [
           {
-            "reference": "urn:uuid:e7751f66-bd85-4e8c-93e6-84a693f21fb7"
-          },
-          {
-            "reference": "urn:uuid:81991d0c-6d3c-47c0-b038-91947eec236c"
+            "reference": "urn:uuid:b7f7fe28-ac94-4aae-b4d3-8901a18939b9"
           }
         ],
         "recorded": "2026-10-04T12:06:09Z",
@@ -982,10 +621,10 @@
               "text": "Verifier"
             },
             "who": {
-              "reference": "urn:uuid:331aecff-4aad-41d1-893a-1662e38ddb64"
+              "reference": "urn:uuid:badc4298-2ea7-4506-b36c-c83280d11232"
             },
             "onBehalfOf": {
-              "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956"
+              "reference": "urn:uuid:a91be78b-7e5e-422d-8299-74c0e883043f"
             }
           }
         ],
@@ -1001,22 +640,651 @@
             }
           }
         ],
-        "signature": [
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Provenance: revise by verifier</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1ffdfa6f-f4b5-4c32-b0c8-4c56a3753f7a",
+      "resource": {
+        "resourceType": "Location",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/location-oah",
+            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-location"
+          ]
+        },
+        "identifier": [
           {
-            "type": [
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/site-id",
+            "value": "coselhas@40.223,-8.427"
+          }
+        ],
+        "status": "active",
+        "mode": "instance",
+        "name": "Ribeira de Coselhas (approx. 100 m area)",
+        "description": "Coarsened to 3 decimal places; exact position stays in the organization's identity vault.",
+        "physicalType": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+              "code": "area",
+              "display": "Area"
+            }
+          ],
+          "text": "Area"
+        },
+        "position": {
+          "longitude": -8.427,
+          "latitude": 40.223
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Location: Ribeira de Coselhas (approx. 100 m area)</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d9569620-8838-4e3a-a3f2-9f391373240b",
+      "resource": {
+        "resourceType": "Device",
+        "status": "active",
+        "deviceName": [
+          {
+            "name": "StreamProof evidence engine",
+            "type": "manufacturer-name"
+          }
+        ],
+        "version": [
+          {
+            "value": "0.1.0"
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Device: StreamProof evidence engine</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:827a52de-b343-43b0-a460-6f8799228cd5",
+      "resource": {
+        "resourceType": "Organization",
+        "active": true,
+        "name": "StreamProof demo organization",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Organization: StreamProof demo organization</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6ddecfed-1d9c-44d6-bb21-427bb4f806f3",
+      "resource": {
+        "resourceType": "Practitioner",
+        "active": true,
+        "identifier": [
+          {
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/NamingSystem/observer-pseudonym/expert",
+            "value": "exp-feio-lab"
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Expert reviewer (pseudonym exp-feio-lab)</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:52fb08b8-b023-4282-a15a-d5da5043bcfd",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/ig/oah/StructureDefinition/observation-indicators-oah",
+            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-observation"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/report-id",
+            "value": "SP-1003-all-clear"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
               {
-                "system": "urn:iso-astm:E1762-95:2013",
-                "code": "1.2.840.10065.1.12.1.5",
-                "display": "Verification Signature"
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
               }
             ],
-            "when": "2026-10-04T12:06:09Z",
-            "who": {
-              "reference": "urn:uuid:6619989b-1950-48af-9365-37612617b956"
+            "text": "Survey"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.eu/fhir/ig/oah/CodeSystem/temporarySystem-oah-eu",
+              "code": "diptera",
+              "display": "Diptera"
+            }
+          ],
+          "text": "Diptera"
+        },
+        "subject": {
+          "reference": "urn:uuid:1ffdfa6f-f4b5-4c32-b0c8-4c56a3753f7a",
+          "display": "Ribeira de Coselhas"
+        },
+        "effectiveDateTime": "2026-10-03T15:40:00Z",
+        "issued": "2026-10-04T12:06:09Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:827a52de-b343-43b0-a460-6f8799228cd5",
+            "display": "StreamProof demo organization"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/citizen-sign",
+              "code": "all-clear",
+              "display": "No problem observed"
             },
-            "targetFormat": "application/json",
-            "sigFormat": "application/octet-stream",
-            "data": "b3jwjEVTv4s+Uz3xWpa0uUNzQ9pG1EcIOEoSnjfI8a2+ObA8w2vYAMFfj6F1EtGA2fRPggtNaTPEQKP7ipHhCQ=="
+            {
+              "system": "http://snomed.info/sct",
+              "code": "2667000",
+              "display": "Absent"
+            }
+          ],
+          "text": "No problem observed"
+        },
+        "note": [
+          {
+            "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo was taken at the time of the report. [10/10]; Location confirmed (GPS accuracy 8 m). [12/12]; On Ribeira de Coselhas (16 m from the mapped channel). [8/8]; No nearby reports yet (not a penalty for a first report). [6/20]; Weather neither supports nor contradicts this sign. [7/10]; New observer: no history yet. [5/10]"
+          },
+          {
+            "text": "Visual check only: no high mosquito activity was seen. This is not a trap or dip-sample survey, so it supports 'not seen', not 'absent'."
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "evidence-grade",
+                  "display": "Evidence grade"
+                }
+              ],
+              "text": "Evidence grade"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
+                  "code": "B",
+                  "display": "Good evidence"
+                }
+              ],
+              "text": "Good evidence"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "evidence-score",
+                  "display": "Evidence score (0-100)"
+                }
+              ],
+              "text": "Evidence score (0-100)"
+            },
+            "valueQuantity": {
+              "value": 78,
+              "unit": "score",
+              "system": "http://unitsofmeasure.org",
+              "code": "1"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "trust-level",
+                  "display": "Trust level"
+                }
+              ],
+              "text": "Trust level"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
+                  "code": "expert-verified",
+                  "display": "Expert-verified"
+                }
+              ],
+              "text": "Expert-verified"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "independent-corroborations",
+                  "display": "Independent corroborations"
+                }
+              ],
+              "text": "Independent corroborations"
+            },
+            "valueQuantity": {
+              "value": 0,
+              "unit": "corroborations",
+              "system": "http://unitsofmeasure.org",
+              "code": "1"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "triage",
+                  "display": "Org triage queue"
+                }
+              ],
+              "text": "Org triage queue"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "field_check",
+                  "display": "Trigger a field-check request"
+                }
+              ],
+              "text": "Trigger a field-check request"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "mission",
+                  "display": "Open a community evidence mission"
+                }
+              ],
+              "text": "Open a community evidence mission"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "org_dashboard",
+                  "display": "Org dashboard, labelled unverified"
+                }
+              ],
+              "text": "Org dashboard, labelled unverified"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "public_map",
+                  "display": "Public map as 'reported, being checked'"
+                }
+              ],
+              "text": "Public map as 'reported, being checked'"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "oah_dashboard",
+                  "display": "OAH dashboard and DSS input"
+                }
+              ],
+              "text": "OAH dashboard and DSS input"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "fhir_exchange",
+                  "display": "FHIR exchange with partner systems"
+                }
+              ],
+              "text": "FHIR exchange with partner systems"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "recognition",
+                  "display": "Contributor recognition (signed certificate)"
+                }
+              ],
+              "text": "Contributor recognition (signed certificate)"
+            }
+          },
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-attribute",
+                  "code": "permitted-use",
+                  "display": "Permitted use"
+                }
+              ],
+              "text": "Permitted use"
+            },
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use",
+                  "code": "ground_truth",
+                  "display": "Ground-truth export to DipteraCAST"
+                }
+              ],
+              "text": "Ground-truth export to DipteraCAST"
+            }
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Diptera = No problem observed (final), Evidence grade = Good evidence, Evidence score (0-100) = 78, Trust level = Expert-verified</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9d1d029b-c148-43a9-816e-51626a22fad2",
+      "resource": {
+        "resourceType": "Provenance",
+        "meta": {
+          "profile": [
+            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-provenance"
+          ]
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:52fb08b8-b023-4282-a15a-d5da5043bcfd"
+          }
+        ],
+        "recorded": "2026-10-03T15:40:00Z",
+        "policy": [
+          "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
+        ],
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "CREATE",
+              "display": "create"
+            }
+          ],
+          "text": "create"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "author",
+                  "display": "Author"
+                }
+              ],
+              "text": "Author"
+            },
+            "who": {
+              "identifier": {
+                "system": "https://midhunrajcharles.github.io/streamproof/fhir/NamingSystem/observer-pseudonym",
+                "value": "obs-3c9a"
+              },
+              "display": "Citizen observer obs-3c9a (pseudonym)"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "source",
+            "what": {
+              "identifier": {
+                "system": "urn:ietf:rfc:3986",
+                "value": "urn:hash:sha256:9f2c000000000000000000000000000000000000000000000000000000000000"
+              },
+              "display": "Citizen photo (SHA-256 of the original file)"
+            }
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Provenance: create by author</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4aab81c6-4c42-40c8-a18d-e434ae18e742",
+      "resource": {
+        "resourceType": "Provenance",
+        "meta": {
+          "profile": [
+            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-provenance"
+          ]
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:52fb08b8-b023-4282-a15a-d5da5043bcfd"
+          }
+        ],
+        "recorded": "2026-10-04T12:06:09Z",
+        "policy": [
+          "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
+        ],
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "revise"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "assembler",
+                  "display": "Assembler"
+                }
+              ],
+              "text": "Assembler"
+            },
+            "who": {
+              "reference": "urn:uuid:d9569620-8838-4e3a-a3f2-9f391373240b"
+            }
+          }
+        ],
+        "reason": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "code": "HQUALIMP",
+                "display": "health quality improvement"
+              }
+            ],
+            "text": "health quality improvement"
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Provenance: revise by assembler</p></div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2cea7b78-b941-4646-b28b-bca2f9942bbb",
+      "resource": {
+        "resourceType": "Provenance",
+        "meta": {
+          "profile": [
+            "https://midhunrajcharles.github.io/streamproof/fhir/StructureDefinition/streamproof-provenance"
+          ]
+        },
+        "target": [
+          {
+            "reference": "urn:uuid:52fb08b8-b023-4282-a15a-d5da5043bcfd"
+          }
+        ],
+        "recorded": "2026-10-04T12:06:09Z",
+        "policy": [
+          "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
+        ],
+        "activity": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+              "code": "UPDATE",
+              "display": "revise"
+            }
+          ],
+          "text": "revise"
+        },
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                  "code": "verifier",
+                  "display": "Verifier"
+                }
+              ],
+              "text": "Verifier"
+            },
+            "who": {
+              "reference": "urn:uuid:6ddecfed-1d9c-44d6-bb21-427bb4f806f3"
+            },
+            "onBehalfOf": {
+              "reference": "urn:uuid:827a52de-b343-43b0-a460-6f8799228cd5"
+            }
+          }
+        ],
+        "entity": [
+          {
+            "role": "source",
+            "what": {
+              "identifier": {
+                "system": "urn:ietf:rfc:3986",
+                "value": "urn:hash:sha256:da70ffbf03b2561d3a084128031b46473f8c2c7e462d8f738f95783d393a84fe"
+              },
+              "display": "De-identified verified record (field check)"
+            }
           }
         ],
         "text": {

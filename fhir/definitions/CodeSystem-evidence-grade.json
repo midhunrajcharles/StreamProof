@@ -1,17 +1,13 @@
 {
   "resourceType": "CodeSystem",
-  "id": "evidence-grade",
-  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-  "version": "0.1.0",
-  "name": "EvidenceGrade",
-  "title": "Evidence grade",
   "status": "draft",
-  "experimental": true,
-  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
-  "description": "Explainable grade of a citizen observation. Score bands: A >= 85, B >= 70, C >= 50, D >= 0.",
-  "caseSensitive": true,
   "content": "complete",
-  "count": 4,
+  "name": "EvidenceGrade",
+  "id": "evidence-grade",
+  "title": "Evidence grade",
+  "description": "Explainable grade of a citizen observation. Score bands: A >= 85, B >= 70, C >= 50, D >= 0.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
   "concept": [
     {
       "code": "A",
@@ -34,8 +30,11 @@
       "definition": "Evidence score of 0 or more."
     }
   ],
+  "experimental": true,
+  "caseSensitive": true,
+  "count": 4,
   "text": {
     "status": "generated",
-    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Evidence grade: A (Strong evidence), B (Good evidence), C (Needs verification), D (Low confidence)</p></div>"
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>CodeSystem: Evidence grade</p></div>"
   }
 }

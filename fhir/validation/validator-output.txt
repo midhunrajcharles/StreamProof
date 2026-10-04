@@ -1,44 +1,69 @@
-# HL7 FHIR Validator run 2026-10-02T19:23:11+00:00
-# java -jar D:\project\Project 2026\Oct\streamproof\tools\validator_cli.jar D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json -version 4.0.1 -ig D:\project\Project 2026\Oct\streamproof\fhir\definitions -output D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-outcome.json
+# HL7 FHIR Validator run 2026-10-04T12:06:45+00:00
+# java -jar D:\project\Project 2026\Oct\streamproof\tools\validator_cli.jar D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-all-clear-example.json D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-proposed-signs-example.json D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-diptera-ground-truth-example.json D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-NEGATIVE-unverified-record.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-citizen-sign.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-proposed-oah-indicator.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ConceptMap-citizen-sign-to-oah.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-location.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-observation.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-provenance.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-citizen-sign.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-evidence-grade.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-permitted-use.json D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-trust-level.json -version 4.0.1 -ig hl7.eu.fhir.oah#0.1.0-ci-build -ig D:\project\Project 2026\Oct\streamproof\fhir\definitions -output D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-raw.json
 
-FHIR Validation tool Version 6.10.4 (Git# 1b90fb13f77b). Built 2026-09-04T05:45:41.468Z (28 days old)
+FHIR Validation tool Version 6.10.4 (Git# 1b90fb13f77b). Built 2026-09-04T05:45:41.468Z (30 days old)
   Java:   21.0.10 from C:\Program Files\Eclipse Adoptium\jdk-21.0.10.7-hotspot on amd64 (64bit). 4014MB available
   Paths:  Current = D:\project\Project 2026\Oct\streamproof, Package Cache = C:\Users\hp\.fhir\packages
-  Params: "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json" -version 4.0.1 -ig "D:\project\Project 2026\Oct\streamproof\fhir\definitions" -output "D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-outcome.json"
+  Params: "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-all-clear-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-proposed-signs-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-diptera-ground-truth-example.json" "D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-NEGATIVE-unverified-record.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-citizen-sign.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-proposed-oah-indicator.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ConceptMap-citizen-sign-to-oah.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-location.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-observation.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-provenance.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-citizen-sign.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-evidence-grade.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-permitted-use.json" "D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-trust-level.json" -version 4.0.1 -ig hl7.eu.fhir.oah#0.1.0-ci-build -ig "D:\project\Project 2026\Oct\streamproof\fhir\definitions" -output "D:\project\Project 2026\Oct\streamproof\fhir\validation\validation-raw.json"
   Locale: India/IN
   Jurisdiction: India
 Loading
   Loading FHIR v4.0.1 from hl7.fhir.r4.core#4.0.1
-  Load hl7.terminology.r4#6.2.0 - 4288 resources (00:27.819)
-  Load hl7.fhir.uv.extensions.r4#5.2.0 - 759 resources (00:05.500)
-  Loaded FHIR - 8265 resources (00:00.001)
-  Terminology server https://tx.fhir.org - Version Connected to Terminology Server at https://tx.fhir.org (00:04.039)
-  Load hl7.terminology#7.4.0 - 4181 resources (00:06.001)
-  Load hl7.fhir.uv.extensions.r5#5.2.0 - 759 resources (00:01.487)
-  Load hl7.terminology.r5#7.1.0 - 4072 resources (00:04.730)
-  Load hl7.fhir.uv.extensions#5.3.0 - 856 resources (00:00.038)
-  Load D:\project\Project 2026\Oct\streamproof\fhir\definitions - 6 resources (00:00.068)
-  Package Summary: [hl7.fhir.r4.core#4.0.1, hl7.fhir.xver-extensions#0.1.0, hl7.terminology.r4#6.2.0, hl7.fhir.uv.extensions.r4#5.2.0, hl7.terminology#7.4.0, hl7.fhir.uv.extensions.r5#5.2.0, hl7.terminology.r5#7.1.0, hl7.fhir.uv.extensions#5.3.0]
+  Load hl7.terminology.r4#6.2.0 - 4288 resources (00:10.569)
+  Load hl7.fhir.uv.extensions.r4#5.2.0 - 759 resources (00:02.596)
+  Loaded FHIR - 8265 resources (00:00.000)
+  Terminology server https://tx.fhir.org - Version Connected to Terminology Server at https://tx.fhir.org (00:02.499)
+  Load hl7.terminology#7.4.0 - 4181 resources (00:03.686)
+  Load hl7.fhir.uv.extensions.r5#5.2.0 - 759 resources (00:00.963)
+  Load hl7.terminology.r5#7.1.0 - 4072 resources (00:02.473)
+  Load hl7.fhir.uv.extensions#5.3.0 - 856 resources (00:00.025)
+  Load hl7.eu.fhir.oah#0.1.0-ci-build - 35 resources (00:00.037)
+  Load D:\project\Project 2026\Oct\streamproof\fhir\definitions - 14 resources (00:00.023)
+  Package Summary: [hl7.fhir.r4.core#4.0.1, hl7.fhir.xver-extensions#0.1.0, hl7.terminology.r4#6.2.0, hl7.fhir.uv.extensions.r4#5.2.0, hl7.terminology#7.4.0, hl7.fhir.uv.extensions.r5#5.2.0, hl7.terminology.r5#7.1.0, hl7.fhir.uv.extensions#5.3.0, hl7.eu.fhir.oah#0.1.0-ci-build]
   Terminology Cache at C:\Users\hp\AppData\Local\Temp\default-tx-cache
   Get set... 
-  ...go! (00:08.796)
+  ...go! (00:04.532)
 Cached new session. Cache size = 1
-Sources to validate: D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json
+Sources to validate: D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-all-clear-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-proposed-signs-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-diptera-ground-truth-example.jsonD:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-NEGATIVE-unverified-record.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-citizen-sign.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-proposed-oah-indicator.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ConceptMap-citizen-sign-to-oah.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-location.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-observation.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-provenance.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-citizen-sign.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-evidence-grade.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-permitted-use.jsonD:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-trust-level.json
 Validating
   Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-verified-report-example.json
- 00:06.913
+ 00:04.181
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-all-clear-example.json
+ 00:01.567
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-proposed-signs-example.json
+ 00:00.366
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-diptera-ground-truth-example.json
+ 00:00.308
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\examples\Bundle-NEGATIVE-unverified-record.json
+ 00:00.193
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-citizen-sign.json
+ 00:00.030
   Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-attribute.json
- 00:00.115
+ 00:00.025
   Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-evidence-grade.json
- 00:00.078
+ 00:00.028
   Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-permitted-use.json
- 00:00.070
-  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-stream-indicator.json
- 00:00.076
+ 00:00.039
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-proposed-oah-indicator.json
+ 00:00.027
   Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\CodeSystem-trust-level.json
- 00:00.067
-  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-stream-indicator.json
+ 00:00.060
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ConceptMap-citizen-sign-to-oah.json
+ 00:00.038
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-location.json
+ 00:00.061
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-observation.json
+ 00:00.101
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\StructureDefinition-streamproof-provenance.json
+ 00:00.042
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-citizen-sign.json
+ 00:00.034
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-evidence-grade.json
  00:00.092
-Done. Times: Loading: 00:58.639, validation: 00:07.418 (#7). Memory = 510Mb
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-permitted-use.json
+ 00:00.034
+  Validate D:\project\Project 2026\Oct\streamproof\fhir\definitions\ValueSet-trust-level.json
+ 00:00.022
+Done. Times: Loading: 00:27.493, validation: 00:07.263 (#19). Memory = 543Mb
 
-Done. Times: Loading: 00:58.639, validation: 00:07.418 (#7). Max Memory = 3Gb
+Done. Times: Loading: 00:27.493, validation: 00:07.263 (#19). Max Memory = 3Gb

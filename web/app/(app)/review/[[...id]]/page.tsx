@@ -155,6 +155,16 @@ function Detail({ id, onChanged }: { id: string; onChanged: () => void }) {
               <div className="section"><Callout title={tx("AI photo suggestion (not counted in the grade)")}>{o.ai_suggestion.label} ({o.ai_suggestion.confidence})</Callout></div>
             ) : null}
 
+            {o.dipteracast ? (
+              <div className="section">
+                <Callout title={tx("DipteraCAST context (not counted in the grade)")}>
+                  {o.dipteracast.prediction
+                    ? tx("{model} predicts a {p}% chance of Diptera here (nearest site, {m} m away).", { model: o.dipteracast.prediction.model, p: Math.round(o.dipteracast.prediction.p_present * 100), m: o.dipteracast.prediction.distance_m })
+                    : tx("Interface only: DipteraCAST is not public, so no prediction is loaded.")}
+                </Callout>
+              </div>
+            ) : null}
+
             <Section title={tx("History")} n={4}><History r={r} /></Section>
 
             <Sheet open={sheet === "verify"} onClose={() => setSheet(null)} title={tx("Verify report")}>

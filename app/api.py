@@ -16,8 +16,9 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 
-from . import auth, brief, certificate, cities, config, evidence, geo, grading, permitted_use, seed, service, signing
-from .indicators import INDICATORS
+from . import (auth, brief, certificate, cities, config, dipteracast, evidence, geo, grading, permitted_use, seed,
+               service, signing)
+from .indicators import INDICATORS, OAH, OAH_URL
 from .models import Mission, Report, Rung, now
 
 
@@ -407,6 +408,10 @@ def report(request: Request, rid: str):
             "mission": mission_json(mission) if mission else None,
             "can_decide": r.rung in (Rung.REPORT, Rung.ASSESSED, Rung.COMMUNITY),
             "ai_suggestion": r.ai_suggestion,
+            # one context line for the expert; never counted in the grade (see app/dipteracast.py)
+            "dipteracast": ({"prediction": dipteracast.prediction(r.lat, r.lon), "note": dipteracast.INTERFACE_NOTE,
+                             "counted_in_grade": False}
+                            if {"mosquitoes", "stagnant-water"} & set(r.indicators) else None),
         }
     return out
 
@@ -519,6 +524,28 @@ def fhir_bundle(request: Request, rid: str):
     return JSONResponse(b, media_type="application/fhir+json")
 
 
+@router.get("/export/diptera-ground-truth")
+def diptera_ground_truth(request: Request, format: str = "json"):
+    """Expert-verified Diptera records as labelled ground truth for DipteraCAST: json (summary + rows),
+    csv, or fhir (a Bundle of OAH-profiled Observations, code #diptera). Each record passes the gate."""
+    role(request, "org")
+    store = _store()
+    scope = [r for r in store.all() if in_scope(request, r.lat, r.lon)]
+    data = dipteracast.export(scope)
+    stamp = now().strftime("%Y%m%d")
+    if format == "csv":
+        return Response(dipteracast.csv_text(data["rows"]), media_type="text/csv; charset=utf-8",
+                        headers={"Content-Disposition": f'attachment; filename="streamproof-diptera-ground-truth-{stamp}.csv"'})
+    if format == "fhir":
+        keep, _ = dipteracast.eligible(scope)
+        b = dipteracast.bundle(keep, {r.id: store.certificate(r.id) for r in keep})
+        return JSONResponse(b, media_type="application/fhir+json",
+                            headers={"Content-Disposition": f'attachment; filename="streamproof-diptera-ground-truth-{stamp}.json"'})
+    if format != "json":
+        raise HTTPException(400, "format must be json, csv or fhir")
+    return data
+
+
 @router.get("/brief")
 def river_brief(request: Request):
     u = role(request, "org")
@@ -565,7 +592,22 @@ def standards():
             results.append({"file": Path(f).name, **{s: sum(i["severity"] == s for i in iss)
                                                      for s in ("fatal", "error", "warning")}})
     log = root / "validation" / "validator-output.txt"
+    neg = root / "validation" / "negative-control-outcome.json"
+    negative = None
+    if neg.exists():
+        d = json.loads(neg.read_text(encoding="utf-8"))
+        res = [e.get("resource", e) for e in d.get("entry", [])]
+        iss = [i for oo in res for i in oo.get("issue", []) if i["severity"] in ("fatal", "error")]
+        negative = {"file": Path(next((x.get("valueString") for oo in res for x in oo.get("extension", [])
+                                       if "file" in x.get("url", "")), "")).name,
+                    "rejected": any("sp-obs-1" in json.dumps(i) for i in iss), "errors": len(iss)}
     return {
+        "oah_map": [{"sign": code, "system": sysurl, "code": c, "display": disp,
+                     "kind": "wider" if sysurl == OAH_URL else "proposed"} for code, (sysurl, c, disp) in OAH.items()],
+        "negative_control": negative,
+        "profiles": [{"name": "StreamProofObservation", "parent": "ObservationIndicatorsOah"},
+                     {"name": "StreamProofLocation", "parent": "LocationOah"},
+                     {"name": "StreamProofProvenance", "parent": "Provenance"}],
         "definitions": [{"name": p.name, "url": f"/fhir/definitions/{p.name}"}
                         for p in sorted((root / "definitions").glob("*.json"))],
         "validation": {"results": results,

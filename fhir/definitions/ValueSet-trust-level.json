@@ -1,0 +1,23 @@
+{
+  "resourceType": "ValueSet",
+  "status": "draft",
+  "name": "TrustLevelVS",
+  "id": "trust-level",
+  "title": "Trust level",
+  "description": "All levels in the trust-level CodeSystem.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/ValueSet/trust-level",
+  "experimental": true,
+  "compose": {
+    "include": [
+      {
+        "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ValueSet: Trust level</p></div>"
+  }
+}

@@ -2,13 +2,16 @@
 import { useApi, type Rung } from "@/ui/api";
 import { N, useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
-import { Gate, Page, Section, Skeleton } from "@/ui/kit";
+import { Callout, Gate, Page, Section, Skeleton } from "@/ui/kit";
 
 type Standards = {
   definitions: { name: string; url: string }[];
   validation: { results: { file: string; fatal: number; error: number; warning: number }[]; validator: string[] };
   matrix: { rung: Rung; adds: { code: string; label: string }[] }[];
   uses: { code: string; label: string }[];
+  oah_map: { sign: string; system: string; code: string; display: string; kind: "wider" | "proposed" }[];
+  negative_control: { file: string; rejected: boolean; errors: number } | null;
+  profiles: { name: string; parent: string }[];
 };
 
 // The seven grading checks (+ intake) read as ISO 19157 data-quality elements. Team interpretation.
@@ -27,17 +30,10 @@ const BUILT_ON: [string, string, string][] = [
   ["HL7 Europe OneAquaHealth FHIR guide", N("The data standard StreamProof's records follow"), "https://github.com/hl7-eu/oah"],
   ["HL7 FHIR R4", N("Record format and validation"), "https://hl7.org/fhir/R4/"],
   ["OneAquaHealth Catalogue of Measures", N("Source for the brief's suggested measures (mapping planned)"), "https://oneaquahealth.eu"],
-  ["DipteraCAST (ENORA Innovation)", N("Receives verified Diptera ground truth (interface planned)"), "https://oneaquahealth.eu"],
+  ["DipteraCAST (ENORA Innovation)", N("Receives verified Diptera ground truth (export built; the model is not public)"), "https://oneaquahealth.eu"],
   ["OpenStreetMap", N("Stream geometry, city search and map tiles (ODbL)"), "https://www.openstreetmap.org/copyright"],
   ["Open-Meteo", N("Rainfall context for grading"), "https://open-meteo.com"],
   ["EU Horizon Europe grant 101086521", N("Funding context of the OneAquaHealth project"), "https://cordis.europa.eu/project/id/101086521"],
-];
-
-// Plan (docs/STREAMPROOF-WINNING-PLAN.md §5.1): citizen signs -> OneAquaHealth indicator codes.
-const OAH_MAP: [string, string, string][] = [
-  ["algal-scum", "#foam", N("wider")], ["odour", "#foam", N("wider")], ["foam", "#foam", N("wider")],
-  ["dead-fish", "#fish", N("wider")], ["mosquitoes", "#diptera", N("wider")], ["stagnant-water", "#hydrology", N("wider")],
-  ["oil-sheen", "—", N("proposed new concept")], ["sewage", "—", N("proposed new concept")], ["litter", "—", N("proposed new concept")],
 ];
 
 export default function StandardsPage() {
@@ -86,11 +82,17 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title={tx("Signs to OneAquaHealth codes")} n={2} foot={tx("Planned mapping (ConceptMap citizen-sign → OAH TemporaryOahSystem). Six of nine signs match existing OAH indicators; three are proposed as new concepts.")}>
+              <Section title={tx("Signs to OneAquaHealth codes")} n={2} foot={tx("ConceptMap citizen-sign → OAH TemporaryOahSystem. In a record the OAH indicator is the observation code and the citizen's sign is its value. Six of nine problem signs match existing OAH indicators; the others use StreamProof's proposed codes, offered to the OAH guide as new concepts.")}>
                 <div className="table-wrap">
                   <table className="table">
-                    <thead><tr><th scope="col">{tx("Citizen sign")}</th><th scope="col">{tx("OAH code")}</th><th scope="col">{tx("Match")}</th></tr></thead>
-                    <tbody>{OAH_MAP.map(([a, b, c]) => <tr key={a}><th scope="row" style={{ fontWeight: 400 }}>{sign(a)}</th><td className="mono">{b}</td><td className="secondary">{tx(c)}</td></tr>)}</tbody>
+                    <thead><tr><th scope="col">{tx("Citizen sign")}</th><th scope="col">{tx("Observation code")}</th><th scope="col">{tx("Match")}</th></tr></thead>
+                    <tbody>{s.oah_map.map((m) => (
+                      <tr key={m.sign}>
+                        <th scope="row" style={{ fontWeight: 400 }}>{sign(m.sign)}</th>
+                        <td className="mono">{m.kind === "wider" ? `#${m.code}` : `proposed#${m.code}`}</td>
+                        <td className="secondary">{m.kind === "wider" ? tx("wider") : tx("proposed new concept")}</td>
+                      </tr>
+                    ))}</tbody>
                   </table>
                 </div>
               </Section>
@@ -121,7 +123,16 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title={tx("Validation")} n={5} foot={tx("{validator}. Checked against base FHIR R4; validation against the OneAquaHealth profiles is planned.", { validator: s.validation.validator[0] ?? "HL7 FHIR Validator" })}>
+              <Section title={tx("Validation")} n={5} foot={tx("{validator}. Every example Bundle is checked against the official OneAquaHealth profiles (ObservationIndicatorsOah, LocationOah) and StreamProof's, which derive from them: {profiles}.", { validator: s.validation.validator[0] ?? "HL7 FHIR Validator", profiles: s.profiles.map((p) => `${p.name} ← ${p.parent}`).join(", ") })}>
+                {s.negative_control ? (
+                  <div className="section">
+                    <Callout kind={s.negative_control.rejected ? "ok" : "bad"} title={tx("Negative control")}>
+                      {s.negative_control.rejected
+                        ? tx("The same record with an unverified trust level is rejected by the profile itself (rule sp-obs-1), even if an app skipped its own gate.")
+                        : tx("The unverified control record was NOT rejected. Re-run tools/validate_fhir.py.")}
+                    </Callout>
+                  </div>
+                ) : null}
                 {s.validation.results.length ? (
                   <div className="table-wrap">
                     <table className="table">

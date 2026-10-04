@@ -1,44 +1,57 @@
 """The permitted-use matrix: what each trust level may be used for.
 
-This is the central artifact. Every output (dashboard, public map, FHIR exchange,
-advisory flag, certificate) asks `check()` first; nothing reaches a partner system
-unless the record's rung allows it. Uses are cumulative up the levels.
+The rule is DATA, not code: it is the published FHIR CodeSystem `trust-level` (property `permits`,
+one value per allowed use, written in ig/input/fsh/trust-level.fsh and compiled into
+fhir/definitions/). This module loads that file when it is imported, so the gate and the published
+rule cannot disagree; a test also proves the file says what the engine needs. Every output
+(dashboard, public map, FHIR exchange, advisory flag, certificate) asks `check()` first; nothing
+reaches a partner system unless the record's rung allows it. Uses are cumulative up the levels.
 """
 
+import json
 from dataclasses import dataclass
 
+from . import config
 from .models import Rung
 
-USES: dict[str, str] = {
-    "triage": "Org triage queue",
-    "field_check": "Trigger a field-check request",
-    "mission": "Open a community evidence mission",
-    "org_dashboard": "Org dashboard, labelled unverified",
-    "public_map": "Public map as 'reported, being checked'",
-    "oah_dashboard": "OAH dashboard and DSS input",
-    "fhir_exchange": "FHIR exchange with partner systems",
-    "recognition": "Contributor recognition (signed certificate)",
-    "advisory_flag": "Advisory flag to agencies and public-health partners",
-}
+TRUST_LEVEL_FILE = config.RULES_DIR / "CodeSystem-trust-level.json"
+PERMITTED_USE_FILE = config.RULES_DIR / "CodeSystem-permitted-use.json"
 
-MATRIX: dict[Rung, list[str]] = {
-    Rung.NOT_CONFIRMED: [],
-    Rung.REPORT: ["triage", "field_check", "mission"],
-    Rung.ASSESSED: ["org_dashboard"],
-    Rung.COMMUNITY: ["public_map"],
-    Rung.EXPERT: ["oah_dashboard", "fhir_exchange", "recognition"],
-    Rung.DECISION: ["advisory_flag"],
-}
-_ORDER = [Rung.REPORT, Rung.ASSESSED, Rung.COMMUNITY, Rung.EXPERT, Rung.DECISION]
+
+def _prop(concept: dict, code: str) -> list:
+    return [p["valueCoding"]["code"] if "valueCoding" in p else p.get("valueInteger")
+            for p in concept.get("property", []) if p["code"] == code]
+
+
+def _load() -> tuple[dict[str, str], dict[Rung, list[str]], list[Rung]]:
+    uses = {c["code"]: c["display"] for c in json.loads(PERMITTED_USE_FILE.read_text(encoding="utf-8"))["concept"]}
+    levels: dict[Rung, tuple[int, list[str]]] = {}
+    for c in json.loads(TRUST_LEVEL_FILE.read_text(encoding="utf-8"))["concept"]:
+        rung = Rung(c["code"])  # an unknown trust level in the file fails loudly
+        permits = _prop(c, "permits")
+        unknown = [u for u in permits if u not in uses]
+        if unknown:
+            raise ValueError(f"{TRUST_LEVEL_FILE.name}: {rung.value} permits unknown use(s) {unknown}")
+        levels[rung] = (_prop(c, "level")[0], permits)
+    missing = set(Rung) - set(levels)
+    if missing:
+        raise ValueError(f"{TRUST_LEVEL_FILE.name} does not define: {sorted(r.value for r in missing)}")
+    order = sorted((r for r in Rung if r != Rung.NOT_CONFIRMED), key=lambda r: levels[r][0])
+    matrix: dict[Rung, list[str]] = {Rung.NOT_CONFIRMED: []}
+    previous: list[str] = []
+    for r in order:  # what each level ADDS: the published list is cumulative
+        matrix[r] = [u for u in levels[r][1] if u not in previous]
+        previous = levels[r][1]
+    return uses, matrix, order
+
+
+USES, MATRIX, _ORDER = _load()
+_PERMITS: dict[Rung, list[str]] = {r: [u for step in _ORDER[: _ORDER.index(r) + 1] for u in MATRIX[step]]
+                                   for r in _ORDER}
 
 
 def allowed_uses(rung: Rung) -> list[str]:
-    if rung == Rung.NOT_CONFIRMED:
-        return []
-    out: list[str] = []
-    for r in _ORDER[: _ORDER.index(rung) + 1]:
-        out += MATRIX[r]
-    return out
+    return list(_PERMITS.get(rung, []))
 
 
 def minimum_rung(use: str) -> Rung:

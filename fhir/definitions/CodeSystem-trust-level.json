@@ -1,51 +1,317 @@
 {
   "resourceType": "CodeSystem",
-  "id": "trust-level",
-  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
-  "version": "0.1.0",
-  "name": "TrustLevel",
-  "title": "Trust level",
   "status": "draft",
-  "experimental": true,
-  "publisher": "StreamProof (OneAquaHealth IEEE Hackathon entry)",
-  "description": "Evidence graph levels. Expert-verified is reachable directly from assessed.",
-  "caseSensitive": true,
   "content": "complete",
-  "count": 6,
+  "name": "TrustLevel",
+  "id": "trust-level",
+  "title": "Trust level",
+  "description": "Evidence graph levels and what a record at each level may be used for. Expert-verified is reachable directly from assessed. This CodeSystem is the machine-readable permitted-use rule: every system that receives a StreamProof record can enforce it.",
+  "version": "0.1.0",
+  "url": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level",
   "concept": [
+    {
+      "code": "not-confirmed",
+      "display": "Not confirmed",
+      "definition": "Reviewed and not confirmed; kept for the record with a reason.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 0
+        }
+      ]
+    },
     {
       "code": "report",
       "display": "Report",
-      "definition": "Submitted by a citizen, not yet assessed."
+      "definition": "Submitted by a citizen, not yet assessed.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 1
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "triage",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "field_check",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "mission",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        }
+      ]
     },
     {
       "code": "assessed",
       "display": "Assessed",
-      "definition": "Graded A-D with reasons by the evidence engine."
+      "definition": "Graded A-D with reasons by the evidence engine.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 2
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "triage",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "field_check",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "mission",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "org_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        }
+      ]
     },
     {
       "code": "community-supported",
       "display": "Community-supported",
-      "definition": "Independently corroborated by at least one other observer."
+      "definition": "Independently corroborated by at least one other observer.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 3
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "triage",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "field_check",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "mission",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "org_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "public_map",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        }
+      ]
     },
     {
       "code": "expert-verified",
       "display": "Expert-verified",
-      "definition": "Confirmed by an expert, remotely or in the field."
+      "definition": "Confirmed by an expert, remotely or in the field.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 4
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "triage",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "field_check",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "mission",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "org_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "public_map",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "oah_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "fhir_exchange",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "recognition",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "ground_truth",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        }
+      ]
     },
     {
       "code": "decision-grade",
       "display": "Decision-grade",
-      "definition": "Expert-verified and part of a signal that meets the advisory threshold."
-    },
-    {
-      "code": "not-confirmed",
-      "display": "Not confirmed",
-      "definition": "Reviewed and not confirmed; kept for the record with a reason."
+      "definition": "Expert-verified and part of a signal that meets the advisory threshold.",
+      "property": [
+        {
+          "code": "level",
+          "valueInteger": 5
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "triage",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "field_check",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "mission",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "org_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "public_map",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "oah_dashboard",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "fhir_exchange",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "recognition",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "advisory_flag",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        },
+        {
+          "code": "permits",
+          "valueCoding": {
+            "code": "ground_truth",
+            "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/permitted-use"
+          }
+        }
+      ]
     }
   ],
+  "experimental": true,
+  "caseSensitive": true,
+  "property": [
+    {
+      "code": "level",
+      "uri": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level#level",
+      "description": "Order of the level (higher is stronger); 0 means reviewed and not confirmed.",
+      "type": "integer"
+    },
+    {
+      "code": "permits",
+      "uri": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level#permits",
+      "description": "A use from the permitted-use CodeSystem that a record at this level is allowed for. Repeats once per allowed use; a Coding in the permitted-use CodeSystem.",
+      "type": "Coding"
+    }
+  ],
+  "count": 6,
   "text": {
     "status": "generated",
-    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Trust level: report (Report), assessed (Assessed), community-supported (Community-supported), expert-verified (Expert-verified), decision-grade (Decision-grade), not-confirmed (Not confirmed)</p></div>"
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>CodeSystem: Trust level</p></div>"
   }
 }

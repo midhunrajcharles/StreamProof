@@ -81,6 +81,7 @@ export type Report = {
     contradict: { id: string; position: Position }[];
     gate: { code: string; label: string; allowed: boolean; reason: string; needs: string }[];
     mission: Mission | null; can_decide: boolean; ai_suggestion: { label: string; confidence: string } | null;
+    dipteracast: { prediction: { model: string; p_present: number; distance_m: number } | null; counted_in_grade: false } | null;
   };
 };
 

@@ -8,6 +8,11 @@ import { Avatar, StarPill, useStarText } from "@/ui/profile";
 
 type Signal = { sign: string; reports: number; expert: number; community: number; decision_grade: boolean; place: string; gaps: string[] };
 type Queue = { todo: Report[]; done: Report[]; missions: Mission[]; signals: Signal[] };
+type GroundTruth = {
+  rows: { report_id: string; site_id: string; stream: string; date: string; diptera: "present" | "not_seen"; evidence_grade: string }[];
+  summary: { present: number; not_seen: number; excluded: { not_verified: number; not_about_diptera: number } };
+  needs: string;
+};
 
 /** The organisation's dashboard: what's waiting, signals, missions, you. */
 export default function Dashboard() {
@@ -16,6 +21,7 @@ export default function Dashboard() {
   const loc = localeOf(lang);
   const q = useApi<Queue>("/queue");
   const me = useApi<OrgProfile>(q.data ? "/org/profile" : null);
+  const gt = useApi<GroundTruth>(q.data ? "/export/diptera-ground-truth" : null);
   const { level } = useStarText("reviewer");
   const org = session?.org;
   const signs = (s: { code: string; chip: string }[]) => s.map((x) => sign(x.code, x.chip)).join(", ");
@@ -66,6 +72,23 @@ export default function Dashboard() {
                   ) : <div className="card secondary">{tx("No signals yet.")}</div>}
                 </Section>
               </div>
+
+              <Section title={tx("Ground truth for DipteraCAST")}
+                foot={tx("Only {level} records leave, each checked by the permitted-use gate. A verified all-clear is a visual check, so it is exported as “not seen”, never “absent”. No observer is named.", { level: tx(gt.data?.needs ?? "Expert-verified") })}>
+                {gt.data ? (
+                  <div className="card stack">
+                    <div className="stats" role="list" aria-label={tx("Ground truth")}>
+                      <div className="stat" role="listitem"><span className="secondary t-sub">{tx("Present")}</span><span className="stat-n">{gt.data.summary.present}</span></div>
+                      <div className="stat" role="listitem"><span className="secondary t-sub">{tx("Not seen")}</span><span className="stat-n">{gt.data.summary.not_seen}</span></div>
+                      <div className="stat" role="listitem"><span className="secondary t-sub">{tx("Held back")}</span><span className="stat-n">{gt.data.summary.excluded.not_verified + gt.data.summary.excluded.not_about_diptera}</span></div>
+                    </div>
+                    <div className="row-actions" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <a className="btn" href="/api/export/diptera-ground-truth?format=csv" download><I.Braces /> <span className="btn-label">{tx("Download CSV")}</span></a>
+                      <a className="btn" href="/api/export/diptera-ground-truth?format=fhir" download><I.Braces /> <span className="btn-label">{tx("Download FHIR bundle")}</span></a>
+                    </div>
+                  </div>
+                ) : <Skeleton h={120} />}
+              </Section>
 
               <div className="dash-grid">
                 <Section title={tx("Open missions")} foot={tx("Missions ask citizens near a report for more evidence, upstream first.")}>

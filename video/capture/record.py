@@ -33,7 +33,7 @@ FRAMES = ROOT / "video" / "out" / "frames"
 CAMERA_SRC = ROOT / "video" / "out" / "camera.mjpeg"
 CAMERA = Path(os.environ.get("TEMP", "C:/Temp")) / "sp-camera.mjpeg"  # Chrome needs a path without spaces
 API, BASE = "http://127.0.0.1:8741", "http://localhost:3301"
-PHONE_DPR, DESK_DPR = "--force-device-scale-factor=3", "--force-device-scale-factor=1.3334"  # the screencast only gives real pixels with these
+PHONE_DPR, DESK_DPR = "--force-device-scale-factor=2", "--force-device-scale-factor=1.3334"  # the screencast only gives real pixels with these
 HOTSPOT = (0.0, 0.0)  # set at start-up: the exact point on the Ribeira de Coselhas line 2.55 km above the Mondego
 
 
@@ -119,12 +119,13 @@ class Recorder:
 
     def stop(self) -> Path:
         self.page.wait_for_timeout(500)
+        end_t = self.now() - self.first_wall  # video time when recording stops (a still page sends no frames)
         self.cdp.send("Page.stopScreencast")
         self.page.wait_for_timeout(300)
         lst = self.dir / "list.txt"
         lines = []
         for i, (t, f) in enumerate(self.frames):
-            nxt = self.frames[i + 1][0] if i + 1 < len(self.frames) else t + 1 / 30
+            nxt = self.frames[i + 1][0] if i + 1 < len(self.frames) else max(t + 1 / 30, end_t)
             lines += [f"file '{f.name}'", f"duration {max(0.001, nxt - t):.4f}"]
         lines.append(f"file '{self.frames[-1][1].name}'")
         lst.write_text("\n".join(lines), encoding="utf-8")
@@ -147,7 +148,7 @@ class Recorder:
 
 # ---------------------------------------------------------------- shots
 def phone_context(browser, lang="en"):
-    ctx = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=3, is_mobile=True, has_touch=True,
+    ctx = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True,
                               permissions=["camera", "geolocation"], geolocation={"latitude": HOTSPOT[0], "longitude": HOTSPOT[1], "accuracy": 7},
                               locale="pt-PT" if lang == "pt" else "en-GB")
     ctx.add_init_script(f"try {{ localStorage.setItem('sp-lang', '{lang}') }} catch (e) {{}}")
@@ -169,7 +170,7 @@ def shot_citizen(p) -> str:
     pg = ctx.new_page()
     pg.goto(f"{BASE}/home", wait_until="networkidle")
     pg.wait_for_timeout(800)
-    r = Recorder(pg, "citizen", 1170, 2532)
+    r = Recorder(pg, "citizen", 780, 1688)
     r.start()
     r.mark("home")
     pg.wait_for_timeout(1200)
@@ -185,7 +186,7 @@ def shot_citizen(p) -> str:
     pg.wait_for_timeout(1200)  # the live video is swapped for the still: let the layout settle before the next tap
     r.click(pg.get_by_role("button", name="Água parada"), "chip-stagnant", pause_after=500)
     r.click(pg.get_by_role("button", name="Muitos mosquitos"), "chip-mosquitoes", pause_after=700)
-    use = pg.get_by_role("button", name=re.compile("localização|location", re.I)).first
+    use = pg.get_by_role("button", name=re.compile("^(Usar a minha localização|Use my location)"))  # not the map pin, which is "Report location"
     for _ in range(3):  # the location must come from GPS (±7 m), not from a stray tap on the map
         r.click(use, "locate", pause_after=1400)
         if pg.get_by_text(re.compile(r"\(±7 m\)")).count():
@@ -286,8 +287,9 @@ def shot_city(p) -> None:
     expect(pg.get_by_text("Download CSV")).to_be_visible(timeout=20000)
     pg.wait_for_timeout(700)
     gt = pg.get_by_role("heading", name="Ground truth for DipteraCAST")
-    gt.scroll_into_view_if_needed()
-    pg.mouse.wheel(0, -80)
+    gt.evaluate("e => e.scrollIntoView({block: 'start'})")  # card at the top, table and CSV button in view
+    pg.mouse.wheel(0, -40)
+    pg.wait_for_timeout(400)
     r.mark("groundtruth")
     pg.wait_for_timeout(2600)
     r.stop()
@@ -308,7 +310,7 @@ def shot_people(p, rid: str) -> None:
     pg = ctx.new_page()
     pg.goto(f"{BASE}/verify/{rid}", wait_until="networkidle")
     pg.wait_for_timeout(800)
-    r = Recorder(pg, "people", 1170, 2532)
+    r = Recorder(pg, "people", 780, 1688)
     r.start()
     r.mark("valid")
     pg.wait_for_timeout(2200)

@@ -57,7 +57,7 @@ export const S6Standard: React.FC = () => {
             {ROWS.map((r, i) => {
               const h = r.tag ? hl[r.tag] : 0;
               let text = r.text;
-              if (lowered && r.text.includes('"trust-level"')) text = text.replace("expert-verified", "community-supported");
+              if (lowered && r.text.includes('"trust-level"')) text = text.replace(data.trust, "community-supported");
               const red = lowered && r.text.includes('"trust-level"');
               return (
                 <div key={i} style={{ paddingLeft: r.indent * 34, position: "relative", whiteSpace: "pre",
@@ -87,7 +87,7 @@ export const S6Standard: React.FC = () => {
           <div style={{ position: "absolute", left: 1760, top: 200, width: 560, opacity: shift, fontFamily: font.mono, fontSize: 21,
             color: "rgba(255,255,255,0.8)", border: "1.5px solid rgba(255,255,255,0.2)", borderRadius: 16, padding: "24px 30px",
             background: "rgba(255,255,255,0.03)" }}>
-            <Mono size={13} color="rgba(255,255,255,0.45)">CodeSystem · trust-level · expert-verified</Mono>
+            <Mono size={13} color="rgba(255,255,255,0.45)">{`CodeSystem · trust-level · ${data.trust}`}</Mono>
             <div style={{ height: 12 }} />
             {data.permits.map((p, i) => (
               <div key={p} style={{ lineHeight: "34px", opacity: interpolate(t, [L(4).start + 0.4 + i * 0.12, L(4).start + 0.6 + i * 0.12], [0.15, 1], clamp),

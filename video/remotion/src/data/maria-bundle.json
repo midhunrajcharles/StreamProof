@@ -1,14 +1,14 @@
 {
  "resourceType": "Bundle",
  "type": "collection",
- "timestamp": "2026-10-04T17:36:48Z",
+ "timestamp": "2026-10-04T18:22:29Z",
  "identifier": {
   "system": "https://midhunrajcharles.github.io/streamproof/fhir/bundle-id",
-  "value": "SP-1138-20261004173648"
+  "value": "SP-1138-20261004182229"
  },
  "entry": [
   {
-   "fullUrl": "urn:uuid:77502a01-1653-4bbb-a051-17d352830132",
+   "fullUrl": "urn:uuid:f7b81149-2fb2-4ac2-825b-b50fcc3b5839",
    "resource": {
     "resourceType": "Location",
     "meta": {
@@ -20,7 +20,7 @@
     "identifier": [
      {
       "system": "https://midhunrajcharles.github.io/streamproof/fhir/site-id",
-      "value": "coselhas@40.227,-8.410"
+      "value": "coselhas@40.226,-8.410"
      }
     ],
     "status": "active",
@@ -39,7 +39,7 @@
     },
     "position": {
      "longitude": -8.41,
-     "latitude": 40.227
+     "latitude": 40.226
     },
     "text": {
      "status": "generated",
@@ -48,7 +48,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:bfe5a350-11a1-4e7f-bf5d-3646cc4d592a",
+   "fullUrl": "urn:uuid:5a37c2f3-8f7e-42d3-99f5-14eb92c8eac3",
    "resource": {
     "resourceType": "Device",
     "status": "active",
@@ -70,7 +70,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:165ffa71-ec42-4b1b-8ee6-fc6c9e4f0ab0",
+   "fullUrl": "urn:uuid:780309fb-fe89-4d2c-9299-abedfefe01ec",
    "resource": {
     "resourceType": "Organization",
     "active": true,
@@ -82,7 +82,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:b3125cc0-6605-4fa4-8989-0ae056eb54ed",
+   "fullUrl": "urn:uuid:664b9a32-6e9c-41bc-b98d-8d189ee49f94",
    "resource": {
     "resourceType": "Practitioner",
     "active": true,
@@ -99,7 +99,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:d266e64c-6244-42d2-83ab-dec6de9af048",
+   "fullUrl": "urn:uuid:32ae5c33-c896-45f3-9532-2a5618b879b2",
    "resource": {
     "resourceType": "Observation",
     "meta": {
@@ -138,14 +138,14 @@
      "text": "Hydrology of the stream"
     },
     "subject": {
-     "reference": "urn:uuid:77502a01-1653-4bbb-a051-17d352830132",
+     "reference": "urn:uuid:f7b81149-2fb2-4ac2-825b-b50fcc3b5839",
      "display": "Ribeira de Coselhas"
     },
-    "effectiveDateTime": "2026-10-04T17:35:26Z",
-    "issued": "2026-10-04T17:36:15Z",
+    "effectiveDateTime": "2026-10-04T18:21:36Z",
+    "issued": "2026-10-04T18:22:13Z",
     "performer": [
      {
-      "reference": "urn:uuid:165ffa71-ec42-4b1b-8ee6-fc6c9e4f0ab0",
+      "reference": "urn:uuid:780309fb-fe89-4d2c-9299-abedfefe01ec",
       "display": "StreamProof demo organization"
      }
     ],
@@ -161,7 +161,7 @@
     },
     "note": [
      {
-      "text": "Evidence reasons: Photo usable but looks blurry. [15/30]; Photo has no capture time (common after messaging apps). Time taken from submission. [5/10]; Location confirmed (GPS accuracy 10 m). [12/12]; 141 m from Ribeira de Coselhas; a little far from the channel. [4/8]; 2 other people reported the same within 500 m. [20/20]; Weather neither supports nor contradicts this sign. [7/10]; 2 of 2 earlier reports were confirmed by an expert. [10/10]"
+      "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo has no capture time (common after messaging apps). Time taken from submission. [5/10]; Location confirmed (GPS accuracy 7 m). [12/12]; On Ribeira de Coselhas (0 m from the mapped channel). [8/8]; 2 other people reported the same within 500 m. [20/20]; Weather neither supports nor contradicts this sign. [7/10]; 2 of 2 earlier reports were confirmed by an expert. [10/10]"
      }
     ],
     "component": [
@@ -180,11 +180,11 @@
        "coding": [
         {
          "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-         "code": "B",
-         "display": "Good evidence"
+         "code": "A",
+         "display": "Strong evidence"
         }
        ],
-       "text": "Good evidence"
+       "text": "Strong evidence"
       }
      },
      {
@@ -199,7 +199,7 @@
        "text": "Evidence score (0-100)"
       },
       "valueQuantity": {
-       "value": 73,
+       "value": 92,
        "unit": "score",
        "system": "http://unitsofmeasure.org",
        "code": "1"
@@ -468,12 +468,12 @@
     ],
     "text": {
      "status": "generated",
-     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Hydrology of the stream = Stagnant or ponded water (final), Evidence grade = Good evidence, Evidence score (0-100) = 73, Trust level = Decision-grade</p></div>"
+     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Hydrology of the stream = Stagnant or ponded water (final), Evidence grade = Strong evidence, Evidence score (0-100) = 92, Trust level = Decision-grade</p></div>"
     }
    }
   },
   {
-   "fullUrl": "urn:uuid:eca2b17a-28c0-4625-b901-dcc4c526f5aa",
+   "fullUrl": "urn:uuid:e80d467c-d25f-47be-8a38-befa7803dd0a",
    "resource": {
     "resourceType": "Observation",
     "meta": {
@@ -512,14 +512,14 @@
      "text": "Diptera"
     },
     "subject": {
-     "reference": "urn:uuid:77502a01-1653-4bbb-a051-17d352830132",
+     "reference": "urn:uuid:f7b81149-2fb2-4ac2-825b-b50fcc3b5839",
      "display": "Ribeira de Coselhas"
     },
-    "effectiveDateTime": "2026-10-04T17:35:26Z",
-    "issued": "2026-10-04T17:36:15Z",
+    "effectiveDateTime": "2026-10-04T18:21:36Z",
+    "issued": "2026-10-04T18:22:13Z",
     "performer": [
      {
-      "reference": "urn:uuid:165ffa71-ec42-4b1b-8ee6-fc6c9e4f0ab0",
+      "reference": "urn:uuid:780309fb-fe89-4d2c-9299-abedfefe01ec",
       "display": "StreamProof demo organization"
      }
     ],
@@ -535,7 +535,7 @@
     },
     "note": [
      {
-      "text": "Evidence reasons: Photo usable but looks blurry. [15/30]; Photo has no capture time (common after messaging apps). Time taken from submission. [5/10]; Location confirmed (GPS accuracy 10 m). [12/12]; 141 m from Ribeira de Coselhas; a little far from the channel. [4/8]; 2 other people reported the same within 500 m. [20/20]; Weather neither supports nor contradicts this sign. [7/10]; 2 of 2 earlier reports were confirmed by an expert. [10/10]"
+      "text": "Evidence reasons: Photo is clear and well exposed. [30/30]; Photo has no capture time (common after messaging apps). Time taken from submission. [5/10]; Location confirmed (GPS accuracy 7 m). [12/12]; On Ribeira de Coselhas (0 m from the mapped channel). [8/8]; 2 other people reported the same within 500 m. [20/20]; Weather neither supports nor contradicts this sign. [7/10]; 2 of 2 earlier reports were confirmed by an expert. [10/10]"
      }
     ],
     "component": [
@@ -554,11 +554,11 @@
        "coding": [
         {
          "system": "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/evidence-grade",
-         "code": "B",
-         "display": "Good evidence"
+         "code": "A",
+         "display": "Strong evidence"
         }
        ],
-       "text": "Good evidence"
+       "text": "Strong evidence"
       }
      },
      {
@@ -573,7 +573,7 @@
        "text": "Evidence score (0-100)"
       },
       "valueQuantity": {
-       "value": 73,
+       "value": 92,
        "unit": "score",
        "system": "http://unitsofmeasure.org",
        "code": "1"
@@ -842,12 +842,12 @@
     ],
     "text": {
      "status": "generated",
-     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Diptera = High mosquito activity (final), Evidence grade = Good evidence, Evidence score (0-100) = 73, Trust level = Decision-grade</p></div>"
+     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Diptera = High mosquito activity (final), Evidence grade = Strong evidence, Evidence score (0-100) = 92, Trust level = Decision-grade</p></div>"
     }
    }
   },
   {
-   "fullUrl": "urn:uuid:f1a52bd5-a5ec-4eae-95af-4411248958a0",
+   "fullUrl": "urn:uuid:9f7af69e-4963-4f33-9621-8f2de53a98e7",
    "resource": {
     "resourceType": "Provenance",
     "meta": {
@@ -857,13 +857,13 @@
     },
     "target": [
      {
-      "reference": "urn:uuid:d266e64c-6244-42d2-83ab-dec6de9af048"
+      "reference": "urn:uuid:32ae5c33-c896-45f3-9532-2a5618b879b2"
      },
      {
-      "reference": "urn:uuid:eca2b17a-28c0-4625-b901-dcc4c526f5aa"
+      "reference": "urn:uuid:e80d467c-d25f-47be-8a38-befa7803dd0a"
      }
     ],
-    "recorded": "2026-10-04T17:35:26Z",
+    "recorded": "2026-10-04T18:21:36Z",
     "policy": [
      "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
     ],
@@ -904,7 +904,7 @@
       "what": {
        "identifier": {
         "system": "urn:ietf:rfc:3986",
-        "value": "urn:hash:sha256:9f50fa774622f65638f214ffd68649b4f29b1c1b23257c493585370965c01166"
+        "value": "urn:hash:sha256:61236f19eb27ef5a5b7dce527dd75cbdd634c2a6cc95c887e1f2dcc13530a071"
        },
        "display": "Citizen photo (SHA-256 of the original file)"
       }
@@ -917,7 +917,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:6e832ea5-969f-48a4-ae4d-e2bb5f6f29b2",
+   "fullUrl": "urn:uuid:2bae1ba5-b91e-4adc-b7b2-1909e47f868b",
    "resource": {
     "resourceType": "Provenance",
     "meta": {
@@ -927,13 +927,13 @@
     },
     "target": [
      {
-      "reference": "urn:uuid:d266e64c-6244-42d2-83ab-dec6de9af048"
+      "reference": "urn:uuid:32ae5c33-c896-45f3-9532-2a5618b879b2"
      },
      {
-      "reference": "urn:uuid:eca2b17a-28c0-4625-b901-dcc4c526f5aa"
+      "reference": "urn:uuid:e80d467c-d25f-47be-8a38-befa7803dd0a"
      }
     ],
-    "recorded": "2026-10-04T17:35:27Z",
+    "recorded": "2026-10-04T18:21:36Z",
     "policy": [
      "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
     ],
@@ -960,7 +960,7 @@
        "text": "Assembler"
       },
       "who": {
-       "reference": "urn:uuid:bfe5a350-11a1-4e7f-bf5d-3646cc4d592a"
+       "reference": "urn:uuid:5a37c2f3-8f7e-42d3-99f5-14eb92c8eac3"
       }
      }
     ],
@@ -983,7 +983,7 @@
    }
   },
   {
-   "fullUrl": "urn:uuid:fa5d8b02-684d-45ca-97a2-de37bc2abc29",
+   "fullUrl": "urn:uuid:7e65fffb-d89e-4dbc-8411-907f90d9976a",
    "resource": {
     "resourceType": "Provenance",
     "meta": {
@@ -993,13 +993,13 @@
     },
     "target": [
      {
-      "reference": "urn:uuid:d266e64c-6244-42d2-83ab-dec6de9af048"
+      "reference": "urn:uuid:32ae5c33-c896-45f3-9532-2a5618b879b2"
      },
      {
-      "reference": "urn:uuid:eca2b17a-28c0-4625-b901-dcc4c526f5aa"
+      "reference": "urn:uuid:e80d467c-d25f-47be-8a38-befa7803dd0a"
      }
     ],
-    "recorded": "2026-10-04T17:36:15Z",
+    "recorded": "2026-10-04T18:22:13Z",
     "policy": [
      "https://midhunrajcharles.github.io/streamproof/fhir/CodeSystem/trust-level"
     ],
@@ -1026,10 +1026,10 @@
        "text": "Verifier"
       },
       "who": {
-       "reference": "urn:uuid:b3125cc0-6605-4fa4-8989-0ae056eb54ed"
+       "reference": "urn:uuid:664b9a32-6e9c-41bc-b98d-8d189ee49f94"
       },
       "onBehalfOf": {
-       "reference": "urn:uuid:165ffa71-ec42-4b1b-8ee6-fc6c9e4f0ab0"
+       "reference": "urn:uuid:780309fb-fe89-4d2c-9299-abedfefe01ec"
       }
      }
     ],
@@ -1039,7 +1039,7 @@
       "what": {
        "identifier": {
         "system": "urn:ietf:rfc:3986",
-        "value": "urn:hash:sha256:186c827ddd1bb928f82934d18c3a508cd419e07d01846bbeffc0a1d45316079b"
+        "value": "urn:hash:sha256:4dd3183f6a83306c24b013d241c39b459473a377c565cc005750ba08263f46e7"
        },
        "display": "De-identified verified record (field check)"
       }
@@ -1054,13 +1054,13 @@
         "display": "Verification Signature"
        }
       ],
-      "when": "2026-10-04T17:36:15Z",
+      "when": "2026-10-04T18:22:13Z",
       "who": {
-       "reference": "urn:uuid:165ffa71-ec42-4b1b-8ee6-fc6c9e4f0ab0"
+       "reference": "urn:uuid:780309fb-fe89-4d2c-9299-abedfefe01ec"
       },
       "targetFormat": "application/json",
       "sigFormat": "application/octet-stream",
-      "data": "TSqlDEHrInlZRn/5990Jlym7ryqBzS1gtLaFnoUHiXMCnVrgeJifyuvtYe3nhNGOz9x+WCsx5S3Fu8OwbzI3Aw=="
+      "data": "uKz5Jd87U7P6HaApfikpGBoFHWG1G3yF4o6EvWyhpSJauZuD7JPTp5jMCy86nKAMkn3FT87jfgUmTbapxegyAg=="
      }
     ],
     "text": {

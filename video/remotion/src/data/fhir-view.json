@@ -28,15 +28,11 @@
   "component": [
    {
     "code": "evidence-grade",
-    "value": "B"
+    "value": "A"
    },
    {
     "code": "trust-level",
-    "value": "expert-verified"
-   },
-   {
-    "code": "permitted-use",
-    "value": "fhir_exchange"
+    "value": "decision-grade"
    },
    {
     "code": "permitted-use",
@@ -45,9 +41,14 @@
    {
     "code": "permitted-use",
     "value": "ground_truth"
+   },
+   {
+    "code": "permitted-use",
+    "value": "advisory_flag"
    }
   ]
  },
+ "trust": "decision-grade",
  "permits": [
   "triage",
   "field_check",
@@ -57,6 +58,7 @@
   "oah_dashboard",
   "fhir_exchange",
   "recognition",
+  "advisory_flag",
   "ground_truth"
  ],
  "validation": [
@@ -153,7 +155,6 @@
  ],
  "negative": {
   "errors": 1,
-  "rule": "sp-obs-1",
-  "message": "Constraint failed: sp-obs-1: 'Only Expert-verified or Decision-grade records may be exchanged: nothing unverified can enter an OAH system.' (defined in https://"
+  "rule": "sp-obs-1"
  }
 }

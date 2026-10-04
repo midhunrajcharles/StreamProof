@@ -30,7 +30,7 @@ cd web && npm install && npx next dev -p 3200   # http://localhost:3200 (landing
 
 **Any city.** The five OneAquaHealth cities work offline. Any other city can be searched (Photon, then Nominatim): its named streams are fetched from OpenStreetMap and its last 45 days of rainfall from Open-Meteo, then cached in `var/`.
 
-**25 languages.** English plus the other 23 official EU languages and Norwegian, across the citizen screens, organiser screens and landing page. The language picker is in the app header and the landing page menu. `cd web && python tools/check_i18n.py` reports any missing strings or placeholder mismatches per language.
+**45 languages.** English, the other 23 official EU languages, Norwegian, Russian and Ukrainian, then 18 world languages (Arabic, Chinese, Filipino, Hebrew, Hindi, Indonesian, Japanese, Korean, Malay, Malayalam, Persian, Swahili, Tamil, Telugu, Thai, Turkish, Urdu, Vietnamese), across the citizen screens, organiser screens and landing page. The language picker is in the app header and the landing page menu. `cd web && python tools/check_i18n.py` reports any missing strings or placeholder mismatches per language. Arabic, Hebrew, Persian and Urdu are mirrored right to left.
 
 The demo story (demo logins are in `app/seed.py`; in demo mode they also open without a password):
 
@@ -112,7 +112,7 @@ Bands: A ≥ 85, B ≥ 70, C ≥ 50, D < 50. No photo caps the grade at C. The g
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
 - **Accounts are demo-grade.** Email + password accounts (scrypt hashes, in-memory rate limits); anyone can create an organisation, there is no email confirmation or password reset by email, and demo mode lets the demo accounts in without a password. A deployment would use the organisation's identity provider and would need proper GDPR advice.
-- **Machine-assisted translations.** The 24 non-English languages were written with machine assistance and have not yet been reviewed by native speakers; the app says so next to the language picker.
+- **Machine-assisted translations.** The non-English languages were written with machine assistance and have not yet been reviewed by native speakers; the app says so next to the language picker.
 - **Other cities depend on OpenStreetMap.** A city outside the five OAH cities gets only the streams OSM has mapped and named; if none are mapped, reports still work but the "on a stream" check can't score.
 - **Canonical URLs.** CodeSystem URLs use this repository's GitHub Pages base as identifiers. They don't resolve to a page yet; the definitions themselves are the JSON files in `fhir/definitions/`.
 

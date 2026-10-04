@@ -1,5 +1,5 @@
 // Languages: European ones first (the 24 official EU languages, Norwegian for Oslo, Russian and Ukrainian), then
-// 23 widely spoken world languages, each group A to Z by English name. The pickers show each language in its own
+// 18 widely spoken world languages, each group A to Z by English name. The pickers show each language in its own
 // name only. Arabic, Hebrew, Persian and Urdu are written right to left.
 // English is built in (ui/i18n.tsx); every other language is a JSON file here, loaded only when chosen.
 // Keys are either ids ("nav.report") or, for organiser screens, the landing page and server sentences,
@@ -36,21 +36,16 @@ export const LANGS = [
   { code: "sv", name: "Svenska", en: "Swedish", group: "europe" },
   { code: "uk", name: "Українська", en: "Ukrainian", group: "europe" },
   { code: "ar", name: "العربية", en: "Arabic", group: "world", rtl: true },
-  { code: "bn", name: "বাংলা", en: "Bengali", group: "world" },
   { code: "zh", name: "中文", en: "Chinese", group: "world" },
   { code: "fil", name: "Filipino", en: "Filipino", group: "world" },
-  { code: "gu", name: "ગુજરાતી", en: "Gujarati", group: "world" },
   { code: "he", name: "עברית", en: "Hebrew", group: "world", rtl: true },
   { code: "hi", name: "हिन्दी", en: "Hindi", group: "world" },
   { code: "id", name: "Bahasa Indonesia", en: "Indonesian", group: "world" },
   { code: "ja", name: "日本語", en: "Japanese", group: "world" },
-  { code: "kn", name: "ಕನ್ನಡ", en: "Kannada", group: "world" },
   { code: "ko", name: "한국어", en: "Korean", group: "world" },
   { code: "ms", name: "Bahasa Melayu", en: "Malay", group: "world" },
   { code: "ml", name: "മലയാളം", en: "Malayalam", group: "world" },
-  { code: "mr", name: "मराठी", en: "Marathi", group: "world" },
   { code: "fa", name: "فارسی", en: "Persian", group: "world", rtl: true },
-  { code: "pa", name: "ਪੰਜਾਬੀ", en: "Punjabi", group: "world" },
   { code: "sw", name: "Kiswahili", en: "Swahili", group: "world" },
   { code: "ta", name: "தமிழ்", en: "Tamil", group: "world" },
   { code: "te", name: "తెలుగు", en: "Telugu", group: "world" },
@@ -81,15 +76,15 @@ export function fromBrowser(tag: string): Lang | null {
 export const localeOf = (l: Lang) => (l === "no" ? "nb" : l);
 
 const LOADERS: Record<Exclude<Lang, "en">, () => Promise<{ default: Dict }>> = {
-  ar: () => import("./ar.json"), bn: () => import("./bn.json"), bg: () => import("./bg.json"), zh: () => import("./zh.json"),
+  ar: () => import("./ar.json"), bg: () => import("./bg.json"), zh: () => import("./zh.json"),
   hr: () => import("./hr.json"), cs: () => import("./cs.json"), da: () => import("./da.json"), nl: () => import("./nl.json"),
   et: () => import("./et.json"), fil: () => import("./fil.json"), fi: () => import("./fi.json"), fr: () => import("./fr.json"),
-  de: () => import("./de.json"), el: () => import("./el.json"), gu: () => import("./gu.json"), he: () => import("./he.json"),
+  de: () => import("./de.json"), el: () => import("./el.json"), he: () => import("./he.json"),
   hi: () => import("./hi.json"), hu: () => import("./hu.json"), id: () => import("./id.json"), ga: () => import("./ga.json"),
-  it: () => import("./it.json"), ja: () => import("./ja.json"), kn: () => import("./kn.json"), ko: () => import("./ko.json"),
+  it: () => import("./it.json"), ja: () => import("./ja.json"), ko: () => import("./ko.json"),
   lv: () => import("./lv.json"), lt: () => import("./lt.json"), ms: () => import("./ms.json"), ml: () => import("./ml.json"),
-  mt: () => import("./mt.json"), mr: () => import("./mr.json"), no: () => import("./no.json"), fa: () => import("./fa.json"),
-  pl: () => import("./pl.json"), pt: () => import("./pt.json"), pa: () => import("./pa.json"), ro: () => import("./ro.json"),
+  mt: () => import("./mt.json"), no: () => import("./no.json"), fa: () => import("./fa.json"),
+  pl: () => import("./pl.json"), pt: () => import("./pt.json"), ro: () => import("./ro.json"),
   ru: () => import("./ru.json"), sk: () => import("./sk.json"), sl: () => import("./sl.json"), es: () => import("./es.json"),
   sw: () => import("./sw.json"), sv: () => import("./sv.json"), ta: () => import("./ta.json"), te: () => import("./te.json"),
   th: () => import("./th.json"), tr: () => import("./tr.json"), uk: () => import("./uk.json"), ur: () => import("./ur.json"),

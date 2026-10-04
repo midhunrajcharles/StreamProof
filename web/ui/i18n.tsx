@@ -300,7 +300,7 @@ export const useI18n = () => useContext(I18n);
 
 function remember(l: Lang) {
   try { localStorage.setItem("sp-lang", l); } catch { /* private mode */ }
-  // the landing page is rendered on the server and reads the language from this cookie
+  // server-rendered pages can read the language from this cookie
   document.cookie = `sp-lang=${l}; path=/; max-age=31536000; samesite=lax`;
 }
 

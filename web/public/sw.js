@@ -43,7 +43,7 @@ self.addEventListener("fetch", (e) => {
   if (req.mode === "navigate") return e.respondWith(networkFirst(req, "/offline.html"));
   if (url.pathname.startsWith("/api/media/") || url.pathname.endsWith(".pdf")) return; // private files: never cached
   if (url.pathname.startsWith("/api/")) return e.respondWith(networkFirst(req));
-  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/_astro/") || url.pathname.startsWith("/icons/")) {
+  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/")) {
     return e.respondWith(cacheFirst(req));
   }
 });

@@ -24,3 +24,6 @@ research/
 # web test output
 web/tests/output/
 web/tools/media-src/
+
+# demo-video production (kept locally, not published)
+video/

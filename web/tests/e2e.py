@@ -338,8 +338,7 @@ with sync_playwright() as p:
     def try_flow():
         g = b.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True).new_page()
         g.goto(f"{BASE}/", wait_until="domcontentloaded")
-        g.locator('a[data-track-cta="header"], a[data-track-cta="mobile_menu"]').first.evaluate("a => a.click()")
-        g.wait_for_url(f"{BASE}/start")
+        g.wait_for_url(f"{BASE}/start")  # / opens the Try page
         expect(g.get_by_role("heading", name="Try StreamProof")).to_be_visible()
         g.locator("section", has_text="Report what you see").get_by_role("link", name="Sign in").click()
         g.wait_for_url(re.compile(r"/sign-in"))

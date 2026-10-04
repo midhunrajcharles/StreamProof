@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   turbopack: { root: process.cwd() },
   // separate build folder for isolated test runs (web/tests/README.md)
   distDir: process.env.NEXT_DIST_DIR || ".next",
-  // one 404 page for both root layouts (landing page and web app)
+  // one 404 page for every route
   experimental: { globalNotFound: true },
   async rewrites() {
     return [

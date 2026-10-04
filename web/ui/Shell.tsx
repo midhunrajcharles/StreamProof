@@ -111,7 +111,6 @@ function Sidebar() {
             <Link className="btn btn-sm" href="/sign-up" style={{ flex: 1 }}>{t("signup")}</Link>
           </div>
         ) : null}
-        <Link href="/" className="side-link t-sub" style={{ minHeight: 40 }}><I.Home /> {t("website")}</Link>
       </div>
     </nav>
   );

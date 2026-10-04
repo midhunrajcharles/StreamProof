@@ -1,1 +1,0 @@
-import{n as e}from"./lightScramble.Baw7Jhg2.js";document.querySelectorAll(`[data-section-heading]`).forEach(t=>{e(Array.from(t.querySelectorAll(`[data-section-heading-label]`)),{trigger:t})});

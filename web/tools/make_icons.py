@@ -39,5 +39,5 @@ if __name__ == "__main__":
     icon(512, 1.0, True).save(OUT / "icon-512.png")
     icon(512, 0.78, False).save(OUT / "maskable-512.png")  # content inside the maskable safe zone
     icon(180, 1.0, False).convert("RGB").save(OUT / "apple-touch-icon.png")  # iOS rounds it itself
-    icon(256, 1.0, True).save(OUT.parent / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])  # landing page tab icon
+    icon(256, 1.0, True).save(OUT.parent / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48)])  # browser tab icon
     print("icons written to", OUT)

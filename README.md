@@ -12,6 +12,14 @@ Citizens already photograph polluted or stagnant streams. The hard part is what 
 4. **Exports** verified evidence as **FHIR R4** (Observation + Location + Provenance) with the trust level and permitted uses inside the record. Every record is checked with the HL7 validator against the **official HL7 Europe OneAquaHealth profiles** (`ObservationIndicatorsOah`, `LocationOah`): 0 errors, 0 warnings.
 5. **Recognises** the people who produced the evidence with a signed, tamper-evident contribution record.
 
+## See it
+
+| A citizen reports (Portuguese, phone) | The gate refuses, an expert verifies |
+|---|---|
+| ![Citizen report](docs/gifs/1-report.gif) | ![Permitted-use gate](docs/gifs/3-gate.gif) |
+
+More: [grade card](docs/gifs/2-grade.gif) · [River Health Brief](docs/gifs/4-brief.gif) · [Catalogue measures and DipteraCAST ground truth](docs/gifs/5-city.gif) · [screenshots](docs/screenshots/)
+
 ## Run it
 
 ```bash
@@ -20,17 +28,17 @@ python -m app.seed                       # demo data on the real Ribeira de Cose
 python -m uvicorn app.main:app --port 8740   # the API only; opening it in a browser sends you to the web app
 ```
 
-Then the web app (landing page + installable PWA), which proxies `/api` to the server above:
+Then the web app (an installable PWA), which proxies `/api` to the server above:
 
 ```bash
-cd web && npm install && npx next dev -p 3200   # http://localhost:3200 (landing), /report, /review, /brief, /account ...
+cd web && npm install && npx next dev -p 3200   # http://localhost:3200 (opens the Try page), /report, /review, /brief ...
 ```
 
-**Try** on the landing page asks who you are. Citizens sign in, create an account or report without one, and land on their own dashboard (`/home`: stars, missions, recent reports). Organisations sign in or create one and land on the organiser dashboard (`/dashboard`: queue, signals, missions). One browser can hold both roles; each signs out separately.
+**Try** (`/start`, where `/` opens) asks who you are. Citizens sign in, create an account or report without one, and land on their own dashboard (`/home`: stars, missions, recent reports). Organisations sign in or create one and land on the organiser dashboard (`/dashboard`: queue, signals, missions). One browser can hold both roles; each signs out separately.
 
 **Any city.** The five OneAquaHealth cities work offline. Any other city can be searched (Photon, then Nominatim): its named streams are fetched from OpenStreetMap and its last 45 days of rainfall from Open-Meteo, then cached in `var/`.
 
-**45 languages.** English, the other 23 official EU languages, Norwegian, Russian and Ukrainian, then 18 world languages (Arabic, Chinese, Filipino, Hebrew, Hindi, Indonesian, Japanese, Korean, Malay, Malayalam, Persian, Swahili, Tamil, Telugu, Thai, Turkish, Urdu, Vietnamese), across the citizen screens, organiser screens and landing page. The language picker is in the app header and the landing page menu. `cd web && python tools/check_i18n.py` reports any missing strings or placeholder mismatches per language. Arabic, Hebrew, Persian and Urdu are mirrored right to left.
+**45 languages.** English, the other 23 official EU languages, Norwegian, Russian and Ukrainian, then 18 world languages (Arabic, Chinese, Filipino, Hebrew, Hindi, Indonesian, Japanese, Korean, Malay, Malayalam, Persian, Swahili, Tamil, Telugu, Thai, Turkish, Urdu, Vietnamese), across the citizen and organiser screens. The language picker is in the app header. `cd web && python tools/check_i18n.py` reports any missing strings or placeholder mismatches per language. Arabic, Hebrew, Persian and Urdu are mirrored right to left.
 
 The demo story (demo logins are in `app/seed.py`; in demo mode they also open without a password):
 
@@ -174,9 +182,8 @@ ig/               the add-on as FSH (profiles, CodeSystems incl. the permitted-u
 fhir/             compiled definitions, example Bundles, validator output
 tests/            93 tests: engine rules, the JSON API and the demo story, accounts, cities, the OAH add-on and DipteraCAST
 tools/            build_ig.py, validate_fhir.py, calibration_report.py, refresh_weather.py (+ local FHIR tooling, not committed)
-web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
-docs/             STREAMPROOF-WINNING-PLAN.md, DEVPOST.md, QA.md, CALIBRATION.md, screenshots/ (+ source/: concept files, not committed)
-research/         planning research runs (not committed)
+web/              Next.js web app app/(app), shared ui/, checks in tests/, tools/
+docs/             QA.md (hard questions, honest answers), CALIBRATION.md, screenshots/, gifs/
 var/              runtime: demo database, signing key, photos (not committed)
 ```
 
@@ -184,4 +191,5 @@ var/              runtime: demo database, signing key, photos (not committed)
 
 - Stream geometry © OpenStreetMap contributors, ODbL. City search by Photon (komoot) and Nominatim, both on OpenStreetMap data.
 - Weather data by Open-Meteo.com, CC BY 4.0.
+- Fonts: Inter, Xanh Mono and Space Grotesk, SIL Open Font License, via Google Fonts.
 - Code: MIT (see `LICENSE`).

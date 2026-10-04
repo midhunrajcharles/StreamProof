@@ -1,4 +1,4 @@
-"""Plan §17.3: the equity line (under-observed reaches), the engagement loop (updates), and calibration."""
+"""The equity line (under-observed reaches), the engagement loop (updates), and calibration."""
 
 from datetime import timedelta
 

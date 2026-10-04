@@ -28,7 +28,7 @@ const ENGAGEMENT: [string, string][] = [
   [N("No ranking between people"), N("Stars are private and printed on your own certificate. Competition rewards quantity and pushes people towards risky spots.")],
 ];
 
-// Post-project survival (plan §17.3). The commitments are proposals until the OneAquaHealth team agrees them.
+// Post-project survival. The commitments are proposals until the OneAquaHealth team agrees them.
 const AFTER: [string, string][] = [
   [N("The rules are open data"), N("The trust levels, the permitted-use rule and the profiles are plain FHIR files that any system can read and enforce, with or without this app.")],
   [N("Proposed as an add-on to the HL7 Europe OneAquaHealth guide"), N("The profiles derive from the guide's own. Offering them to the guide's authors is the proposed path; it has not been agreed.")],

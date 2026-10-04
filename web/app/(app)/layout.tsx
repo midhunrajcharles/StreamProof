@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import Shell from "@/ui/Shell";
+import { fontVars } from "@/ui/fonts";
 import "./app.css";
 
 // Root layout for the web app (report, review, brief, standards, verify).
-// The landing page keeps its own root layout in app/(site).
 
 export const metadata: Metadata = {
   title: { default: "StreamProof", template: "%s · StreamProof" },
@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" className={fontVars}>
       <body>
         <Shell>{children}</Shell>
       </body>

@@ -1,6 +1,6 @@
 # Hard questions, honest answers
 
-For the video Q&A, the Devpost comments, and the judges. Every answer says what is built and what is only proposed. Sources were checked on 2026-10-04.
+Questions a reviewer is likely to ask. Every answer says what is built and what is only proposed. Sources were checked on 2026-10-04.
 
 ## About the idea
 

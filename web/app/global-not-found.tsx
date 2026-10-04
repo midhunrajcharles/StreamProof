@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { fontVars } from "@/ui/fonts";
 import "./(app)/app.css";
 
 export const metadata: Metadata = { title: "Page not found · StreamProof" };
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" className={fontVars}>
       <body>
         <main className="page" style={{ minHeight: "100dvh", display: "grid", alignContent: "center", paddingTop: 40, paddingBottom: 40 }}>
           <div className="card stack-l" style={{ padding: 28 }}>
@@ -16,7 +17,6 @@ export default function GlobalNotFound() {
             </div>
             <div className="btn-row">
               <a className="btn btn-prominent" href="/report">Report a stream</a>
-              <a className="btn" href="/">StreamProof website</a>
               <a className="btn btn-plain" href="/sign-in">Sign in</a>
             </div>
           </div>

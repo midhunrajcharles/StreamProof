@@ -1,4 +1,4 @@
-"""StreamProof API server. The web app (landing page, citizen PWA, organisation portal) lives in
+"""StreamProof API server. The web app (citizen PWA and organisation portal) lives in
 `web/` and reaches this server through its `/api` rewrite.
 
     uvicorn app.main:app --port 8740 --reload

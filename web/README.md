@@ -1,9 +1,6 @@
 # StreamProof web
 
-Next.js 16. Two parts, each with its own root layout:
-
-- **Landing page** (`app/(site)`, route `/`): reuses an existing front-end design unchanged (layout, animations, images, fonts, scripts) with StreamProof / OneAquaHealth content.
-- **Web app** (`app/(app)`): the working product. It's an installable PWA in the same type and ink as the landing page, laid out to Apple's Human Interface Guidelines.
+Next.js 16. The web app (`app/(app)`) is an installable PWA laid out to Apple's Human Interface Guidelines. `/` opens the Try page (`/start`): choose citizen or organisation, then sign in, sign up or report without an account.
 
 ```bash
 # 1. the API (repo root)
@@ -28,9 +25,9 @@ npm run build && npm start
 
 Also: `/sign-in` (citizens start without a password; organisations sign in with email and password), `/account` (password change; admins manage the team), `/share/[id]` (public card: signs, trust level, area only). Demo accounts are in `app/seed.py`; `STREAMPROOF_DEMO=0` turns the one-tap demo sign-in off.
 
-**Six languages** (EN, PT, IT, FR, NL, NO) for everything a citizen sees, picked from the globe button (`ui/i18n.tsx`; `python tools/check_i18n.py` checks every key exists in every language). Backend sentences (reasons, hints, missions) are rebuilt from their English patterns. Reviewer screens stay in English. Translations are machine-assisted and still need review by native speakers.
+**45 languages** for citizen and organiser screens, picked from the globe button (`ui/i18n.tsx`; `python tools/check_i18n.py` checks every key exists in every language). Arabic, Hebrew, Persian and Urdu are mirrored right to left. Backend sentences (reasons, hints, missions) are rebuilt from their English patterns. Translations are machine-assisted and still need review by native speakers.
 
-**Five cities**: the report map switches between Coimbra (the hero demo, Ribeira de Coselhas), Benevento (Sabato), Ghent (Leie), Oslo (Akerselva) and Toulouse (Hers-Mort). The four new streams are example urban streams from OpenStreetMap, not OneAquaHealth study sites (`tools/fetch_streams.py`; rainfall per city from `tools/refresh_weather.py`).
+**Any city**: search for a city and its streams come from OpenStreetMap, its rainfall from Open-Meteo. The five OneAquaHealth pilot cities (Coimbra, Benevento, Ghent, Oslo, Toulouse) work offline; their streams outside Coimbra are example urban streams, not OneAquaHealth study sites.
 
 ## Design (Apple HIG, applied to the web)
 
@@ -42,23 +39,6 @@ Also: `/sign-in` (citizens start without a password; organisations sign in with 
 
 ## Code map
 
-- `ui/` shared: `api.ts` (client + types), `kit.tsx` (page chrome, sections, sheets, segmented control, toasts, sign-in, grade, ladder, reasons), `Shell.tsx` (sidebar / tab bar / rail, outbox sync, service worker), `MapView.tsx` (Leaflet), `outbox.ts` (IndexedDB), `icons.tsx`.
+- `ui/` shared: `fonts.ts` (Inter, Xanh Mono, Space Grotesk; SIL OFL), `api.ts` (client + types), `kit.tsx` (page chrome, sections, sheets, segmented control, toasts, sign-in, grade, ladder, reasons), `Shell.tsx` (sidebar / tab bar / rail, outbox sync, service worker), `MapView.tsx` (Leaflet), `outbox.ts` (IndexedDB), `icons.tsx`.
 - `app/(app)/app.css` the design system (tokens, layout, components).
 - `public/sw.js` service worker; `public/offline.html`; `app/manifest.ts`; `tools/make_icons.py` builds `public/icons/`.
-
-## Landing page: changes from the source design
-
-1. **Content only.** Text, alt text, labels and link targets are replaced. Markup, classes, styles, images and scripts are untouched.
-2. **Wordmark.** The header logo and the large footer mark read STREAMPROOF, set in the design's own display face inside the original logo box.
-3. **No tracking.** `public/_astro/analytics.DAZ5jj89.js` is a no-op stub; the original loaded a third party's Google Analytics and Contentsquare tags. The cookie notice now says so.
-4. **Links.** CTAs point to the web app pages; "Built on" links point to the OAH FHIR guide, OneAquaHealth, HL7 FHIR R4, the EU grant record and the Devpost page.
-
-## Landing-page media
-
-All photos and videos are in `public/media/`, built by `python tools/media.py` (add `--shots` to re-capture the two product screenshots from the running app):
-
-- Water footage and stills from Pexels (free licence; credited in `public/media/CREDITS.md`). Videos are re-encoded to small, silent H.264 (hero 5.4 MB).
-- The two "Product" images are screenshots of the StreamProof app itself.
-- Raw downloads stay in `tools/media-src/` (not committed). The source design's photos and videos have been removed.
-
-Still from the source design: its fonts, CSS, animation scripts and a decorative monogram drawing (hero bar and the large outline over the showcase). Check their licences before the repository is made public.

@@ -1,18 +1,13 @@
 /* StreamProof web app — design system.
-   Type and ink come from the landing page (Neue Montreal, Xanh Mono, ASModule;
-   black capsule actions, mono "(labels)"). Structure follows Apple's Human Interface
+   Type: Inter, Xanh Mono and Space Grotesk (SIL OFL, loaded in ui/fonts.ts);
+   black capsule actions, mono "(labels)". Structure follows Apple's Human Interface
    Guidelines: grouped backgrounds, 44 pt targets, 17 pt body, size-class layouts
    (tab bar -> sidebar), split views, sheets, safe areas, Dynamic Type, dark mode. */
 
-@font-face { font-family: "SP Text"; src: url("/_astro/fonts/31c7d357dbfaf1a6.woff") format("woff"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "SP Text"; src: url("/_astro/fonts/5e3f828f850a88c6.woff") format("woff"); font-weight: 500 700; font-display: swap; }
-@font-face { font-family: "SP Mono"; src: url("/_astro/fonts/4102d197f5a9ca31.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "SP Display"; src: url("/_astro/fonts/96a17ade77b0470f.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-
 :root {
-  --font-text: "SP Text", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-mono: "SP Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-display: "SP Display", Georgia, serif;
+  --font-text: var(--sp-text), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--sp-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: var(--sp-display), Georgia, serif;
 
   /* backgrounds: grouped (page) -> elevated (cards) -> fill (controls) */
   --bg: #f5f5f7;

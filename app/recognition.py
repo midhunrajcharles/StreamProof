@@ -1,6 +1,6 @@
 """Stars: recognition for contributions that held up, never a competition.
 
-Design rules (plan §17.3, engagement without leaderboards):
+Design rules (engagement without leaderboards):
 - Stars are earned by evidence that was confirmed, not by volume: a burst of unchecked
   reports earns nothing, so there is no reason to spam.
 - "Everything looks fine" earns the same as a problem, once confirmed.

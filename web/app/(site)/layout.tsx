@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HeadTags from "@/components/HeadTags";
 import { getLt, landingLang } from "@/components/lt";
+import { dirOf } from "@/ui/locales";
 
 const title = "StreamProof — citizen stream reports that cities can trust";
 const description =
@@ -27,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const lang = await landingLang();
   return (
-    <html lang={lang === "en" ? "en-GB" : lang}>
+    <html lang={lang === "en" ? "en-GB" : lang} dir={dirOf(lang)}>
       <head>
         <HeadTags />
       </head>

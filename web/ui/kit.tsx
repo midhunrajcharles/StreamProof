@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
+import { createContext, Fragment, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
 import { api, ApiError, type Reason, type Rung, type Session } from "./api";
 import { Avatar } from "./avatar";
 import { LANGS, useI18n } from "./i18n";
@@ -68,7 +68,7 @@ function AccountButton() {
   );
 }
 
-/** Language picker: six languages for everything a citizen sees. */
+/** Language picker: European languages, then world languages, each in its own name. */
 export function LanguageButton() {
   const { lang, setLang, t } = useI18n();
   const [open, setOpen] = useState(false);
@@ -79,12 +79,15 @@ export function LanguageButton() {
       </button>
       <Sheet open={open} onClose={() => setOpen(false)} title={t("language")}>
         <div className="group" role="radiogroup" aria-label={t("language")}>
-          {LANGS.map((l) => (
-            <button key={l.code} type="button" className="row" role="radio" aria-checked={l.code === lang} lang={l.code}
+          {LANGS.map((l, i) => (
+            <Fragment key={l.code}>
+            {i > 0 && l.group !== LANGS[i - 1].group ? <div className="lang-break" aria-hidden /> : null}
+            <button type="button" className="row" role="radio" aria-checked={l.code === lang} lang={l.code}
               onClick={() => { setLang(l.code); setOpen(false); }}>
               <div className="row-body"><span className="row-title">{l.name}</span></div>
               {l.code === lang ? <I.Check width={20} height={20} style={{ color: "var(--link)" }} /> : null}
             </button>
+            </Fragment>
           ))}
         </div>
         <p className="secondary t-foot">{t("language.note")}</p>

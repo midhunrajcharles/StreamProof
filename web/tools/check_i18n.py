@@ -41,7 +41,7 @@ def english() -> dict[str, str]:
 
 
 def langs() -> list[str]:
-    return sorted(p.stem for p in LOCALES.glob("??.json"))
+    return sorted(p.stem for p in LOCALES.glob("*.json") if not p.stem.startswith("_") and "." not in p.stem)
 
 
 if __name__ == "__main__":

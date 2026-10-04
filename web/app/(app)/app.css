@@ -649,3 +649,32 @@ a.stat:hover { box-shadow: var(--shadow-float); }
 .photo-note { display: flex; align-items: flex-start; gap: 6px; }
 .photo-note svg { flex: none; margin-top: 2px; }
 .city-selected { margin: 0; }
+
+/* ---------------------------------------------------------------- right to left (Arabic, Hebrew, Persian, Urdu)
+   Mirrors what sits on the leading side; maps keep their own left-to-right layout. */
+[dir="rtl"] .rtl-flip { transform: scaleX(-1); }
+[dir="rtl"] .skip-link { left: auto; right: 12px; }
+[dir="rtl"] .section-head .trail { margin-left: 0; margin-right: auto; }
+[dir="rtl"] .row, [dir="rtl"] .table th, [dir="rtl"] .table td { text-align: right; }
+[dir="rtl"] .row + .row::before { left: 0; right: var(--row-inset, 16px); }
+[dir="rtl"] .map { direction: ltr; }
+[dir="rtl"] .map-overlay { right: auto; left: 10px; }
+[dir="rtl"] .timeline li { padding: 0 24px 16px 0; }
+[dir="rtl"] .timeline li::before { left: auto; right: 5px; }
+[dir="rtl"] .timeline li::after { left: auto; right: 9px; border-left: 0; border-right: 1px solid var(--separator-strong); }
+[dir="rtl"] .legend i { margin-right: 0; margin-left: 6px; }
+[dir="rtl"] .chip-sub { margin-left: 0; margin-right: 4px; }
+[dir="rtl"] .combo-ic { left: auto; right: 12px; }
+[dir="rtl"] .combo-input { padding-left: 14px; padding-right: 38px; }
+[dir="rtl"] .combo-spin { right: auto; left: 12px; }
+[dir="rtl"] input[type="email"], [dir="rtl"] input[type="password"], [dir="rtl"] input[type="url"] { direction: ltr; text-align: right; }
+@media (min-width: 1100px) {
+  [dir="rtl"] .sidebar { inset: 0 0 0 auto; border-right: 0; border-left: 0.5px solid var(--separator);
+    padding-left: 14px; padding-right: calc(var(--safe-r) + 14px); }
+  [dir="rtl"] .main { margin-left: 0; margin-right: calc(var(--sidebar-w) + var(--safe-l)); padding-right: 0; }
+}
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1099px) {
+  [dir="rtl"] .tabbar { left: auto; right: calc(var(--safe-r) + 8px); }
+  [dir="rtl"] .main { padding-left: var(--safe-l); padding-right: calc(var(--safe-r) + var(--rail-w) + 16px); }
+}
+.lang-break { height: 8px; background: var(--bg); border-top: 0.5px solid var(--separator); border-bottom: 0.5px solid var(--separator); }

@@ -7,9 +7,9 @@
 //                      rebuilt from known patterns or looked up as text
 // Translations are machine-assisted and must be reviewed by native speakers.
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { cached, fmt, isLang, LANGS, loadDict, localeOf, type Dict, type Lang } from "./locales";
+import { cached, dirOf, fmt, fromBrowser, isLang, LANGS, loadDict, localeOf, type Dict, type Lang } from "./locales";
 
-export { LANGS, localeOf };
+export { dirOf, LANGS, localeOf };
 export type { Lang };
 
 /** Marks English text for translation where it is defined (tables, lists); render it with tx(). */
@@ -307,10 +307,10 @@ function remember(l: Lang) {
 function initialLang(): Lang | null {
   let saved: string | null = null;
   try { saved = localStorage.getItem("sp-lang"); } catch { /* private mode */ }
-  saved ??= document.cookie.match(/(?:^|; )sp-lang=([a-z]{2})/)?.[1] ?? null;
+  saved ??= document.cookie.match(/(?:^|; )sp-lang=([a-z]{2,3})/)?.[1] ?? null;
   if (isLang(saved)) return saved;
-  const nav = (navigator.language || "en").slice(0, 2).toLowerCase().replace("nb", "no").replace("nn", "no");
-  return isLang(nav) ? nav : null;
+  for (const tag of navigator.languages ?? [navigator.language]) { const l = fromBrowser(tag || ""); if (l) return l; }
+  return null;
 }
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
@@ -326,7 +326,10 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     const l = initialLang();
     if (l && l !== "en") loadDict(l).then((dict) => setState({ lang: l, dict })).catch(() => {});
   }, []);
-  useEffect(() => { document.documentElement.lang = state.lang; }, [state.lang]);
+  useEffect(() => {
+    document.documentElement.lang = state.lang;
+    document.documentElement.dir = dirOf(state.lang);
+  }, [state.lang]);
 
   const value = useMemo<Ctx>(() => makeCtx(state.lang, state.dict, setLang), [state, setLang]);
   return <I18n.Provider value={value}>{children}</I18n.Provider>;

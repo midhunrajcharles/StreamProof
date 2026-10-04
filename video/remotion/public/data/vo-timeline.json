@@ -1,0 +1,217 @@
+{
+ "voice": "af_heart",
+ "speed": 1.0,
+ "total": 165.683,
+ "sentences": [
+  {
+   "scene": 1,
+   "text": "To a computer, a rumour and a verified report look exactly the same.",
+   "start": 0.0,
+   "end": 4.267
+  },
+  {
+   "scene": 1,
+   "text": "StreamProof makes the difference machine-readable, inside OneAquaHealth's own data standard.",
+   "start": 4.547,
+   "end": 10.051
+  },
+  {
+   "scene": 2,
+   "text": "In OneAquaHealth's five cities, people walk past urban streams every day, and many already photograph what's wrong.",
+   "start": 10.651,
+   "end": 17.52
+  },
+  {
+   "scene": 2,
+   "text": "But an authority can't tell which reports to trust.",
+   "start": 17.8,
+   "end": 20.659
+  },
+  {
+   "scene": 2,
+   "text": "And the OneAquaHealth FHIR guide records what was observed, not how far to trust it, or what it may be used for.",
+   "start": 20.939,
+   "end": 27.573
+  },
+  {
+   "scene": 3,
+   "text": "So we built StreamProof: a trust layer for citizen stream reports, made as an add-on to the HL7 Europe OneAquaHealth guide.",
+   "start": 28.173,
+   "end": 36.6
+  },
+  {
+   "scene": 4,
+   "text": "Here's Maria in Coimbra.",
+   "start": 37.2,
+   "end": 38.736
+  },
+  {
+   "scene": 4,
+   "text": "The reports you'll see are demo data on the real Ribeira de Coselhas.",
+   "start": 39.016,
+   "end": 43.112
+  },
+  {
+   "scene": 4,
+   "text": "She opens the app, taps Report, and the camera opens right in the page.",
+   "start": 43.392,
+   "end": 47.637
+  },
+  {
+   "scene": 4,
+   "text": "Stagnant water, lots of mosquitoes.",
+   "start": 47.917,
+   "end": 50.093
+  },
+  {
+   "scene": 4,
+   "text": "She tags what she sees, confirms the spot on the stream, and sends it.",
+   "start": 50.373,
+   "end": 54.363
+  },
+  {
+   "scene": 4,
+   "text": "Within a second, StreamProof grades it: A, with seven reasons anyone can read.",
+   "start": 54.643,
+   "end": 59.443
+  },
+  {
+   "scene": 4,
+   "text": "Clear photo. GPS within seven metres. Right on the mapped stream.",
+   "start": 59.723,
+   "end": 64.181
+  },
+  {
+   "scene": 4,
+   "text": "And two other people, a school group among them, reported the same thing nearby, so it's already community-supported.",
+   "start": 64.461,
+   "end": 70.947
+  },
+  {
+   "scene": 5,
+   "text": "On the city side, a reviewer sees the nearby evidence, and the gaps.",
+   "start": 71.547,
+   "end": 75.387
+  },
+  {
+   "scene": 5,
+   "text": "One tap asks residents four hundred metres upstream for more.",
+   "start": 75.667,
+   "end": 79.123
+  },
+  {
+   "scene": 5,
+   "text": "Now try to send this report to a partner system.",
+   "start": 79.403,
+   "end": 82.027
+  },
+  {
+   "scene": 5,
+   "text": "Refused.",
+   "start": 82.307,
+   "end": 83.224
+  },
+  {
+   "scene": 5,
+   "text": "A community-supported report can't leave yet.",
+   "start": 83.504,
+   "end": 86.064
+  },
+  {
+   "scene": 5,
+   "text": "The reviewer checks it in the field and verifies.",
+   "start": 86.344,
+   "end": 88.861
+  },
+  {
+   "scene": 5,
+   "text": "Two different people, both expert-verified: the signal becomes decision-grade, and the River Health Brief raises an advisory.",
+   "start": 89.141,
+   "end": 96.885
+  },
+  {
+   "scene": 5,
+   "text": "May warrant inspection. Never a diagnosis.",
+   "start": 97.165,
+   "end": 99.917
+  },
+  {
+   "scene": 6,
+   "text": "Here's what leaves the system.",
+   "start": 100.517,
+   "end": 102.075
+  },
+  {
+   "scene": 6,
+   "text": "The code is OneAquaHealth's own indicator, here, Diptera.",
+   "start": 102.355,
+   "end": 105.875
+  },
+  {
+   "scene": 6,
+   "text": "The value is what Maria saw.",
+   "start": 106.155,
+   "end": 107.904
+  },
+  {
+   "scene": 6,
+   "text": "And the grade, the trust level and the permitted uses travel inside the record.",
+   "start": 108.184,
+   "end": 112.472
+  },
+  {
+   "scene": 6,
+   "text": "The rule for what each trust level may be used for is itself published as a FHIR code system, and our gate loads it when it starts.",
+   "start": 112.752,
+   "end": 120.197
+  },
+  {
+   "scene": 6,
+   "text": "Checked with the official HL7 validator against the OneAquaHealth profiles: zero errors, zero warnings.",
+   "start": 120.477,
+   "end": 127.752
+  },
+  {
+   "scene": 6,
+   "text": "Lower the trust level, and the profile itself rejects the record.",
+   "start": 128.032,
+   "end": 131.68
+  },
+  {
+   "scene": 7,
+   "text": "For the city, the Brief matches each signal to the real OneAquaHealth Catalogue of Measures, with section and page.",
+   "start": 132.28,
+   "end": 139.149
+  },
+  {
+   "scene": 7,
+   "text": "It shows the stretches nobody has looked at lately, so evidence doesn't only follow the busy paths.",
+   "start": 139.429,
+   "end": 145.019
+  },
+  {
+   "scene": 7,
+   "text": "And verified mosquito records leave as ground truth for DipteraCAST.",
+   "start": 145.299,
+   "end": 149.608
+  },
+  {
+   "scene": 8,
+   "text": "Every verified contributor gets a signed record: change one value and the check fails.",
+   "start": 150.208,
+   "end": 155.349
+  },
+  {
+   "scene": 8,
+   "text": "It works in all five OneAquaHealth cities, in any other city by search, and in forty-five languages.",
+   "start": 155.629,
+   "end": 161.837
+  },
+  {
+   "scene": 9,
+   "text": "StreamProof. Evidence a city can act on.",
+   "start": 162.437,
+   "end": 165.083
+  }
+ ]
+}

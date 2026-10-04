@@ -1,0 +1,12 @@
+# big, generated or downloaded: rebuild with the steps in video/README.md
+.venv/
+models/
+out/
+audio/
+remotion/node_modules/
+remotion/out/
+remotion/public/footage/
+remotion/public/vo/
+remotion/public/audio/
+remotion/public/bg/
+render_all.sh

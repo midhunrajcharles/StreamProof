@@ -1,0 +1,317 @@
+[
+ {
+  "code": "bg",
+  "name": "Български",
+  "en": "Bulgarian",
+  "phrase": "Подай сигнал за поток",
+  "rtl": false
+ },
+ {
+  "code": "hr",
+  "name": "Hrvatski",
+  "en": "Croatian",
+  "phrase": "Prijavi stanje potoka",
+  "rtl": false
+ },
+ {
+  "code": "cs",
+  "name": "Čeština",
+  "en": "Czech",
+  "phrase": "Nahlásit stav potoka",
+  "rtl": false
+ },
+ {
+  "code": "da",
+  "name": "Dansk",
+  "en": "Danish",
+  "phrase": "Indberet et vandløb",
+  "rtl": false
+ },
+ {
+  "code": "nl",
+  "name": "Nederlands",
+  "en": "Dutch",
+  "phrase": "Een beek melden",
+  "rtl": false
+ },
+ {
+  "code": "en",
+  "name": "English",
+  "en": "English",
+  "phrase": "Report a stream",
+  "rtl": false
+ },
+ {
+  "code": "et",
+  "name": "Eesti",
+  "en": "Estonian",
+  "phrase": "Teata ojast",
+  "rtl": false
+ },
+ {
+  "code": "fi",
+  "name": "Suomi",
+  "en": "Finnish",
+  "phrase": "Ilmoita purosta",
+  "rtl": false
+ },
+ {
+  "code": "fr",
+  "name": "Français",
+  "en": "French",
+  "phrase": "Signaler un ruisseau",
+  "rtl": false
+ },
+ {
+  "code": "de",
+  "name": "Deutsch",
+  "en": "German",
+  "phrase": "Bach melden",
+  "rtl": false
+ },
+ {
+  "code": "el",
+  "name": "Ελληνικά",
+  "en": "Greek",
+  "phrase": "Αναφορά για ρέμα",
+  "rtl": false
+ },
+ {
+  "code": "hu",
+  "name": "Magyar",
+  "en": "Hungarian",
+  "phrase": "Patak bejelentése",
+  "rtl": false
+ },
+ {
+  "code": "ga",
+  "name": "Gaeilge",
+  "en": "Irish",
+  "phrase": "Tuairiscigh sruthán",
+  "rtl": false
+ },
+ {
+  "code": "it",
+  "name": "Italiano",
+  "en": "Italian",
+  "phrase": "Segnala un torrente",
+  "rtl": false
+ },
+ {
+  "code": "lv",
+  "name": "Latviešu",
+  "en": "Latvian",
+  "phrase": "Ziņot par strautu",
+  "rtl": false
+ },
+ {
+  "code": "lt",
+  "name": "Lietuvių",
+  "en": "Lithuanian",
+  "phrase": "Pranešti apie upelį",
+  "rtl": false
+ },
+ {
+  "code": "mt",
+  "name": "Malti",
+  "en": "Maltese",
+  "phrase": "Irrapporta nixxiegħa",
+  "rtl": false
+ },
+ {
+  "code": "no",
+  "name": "Norsk",
+  "en": "Norwegian",
+  "phrase": "Meld en bekk",
+  "rtl": false
+ },
+ {
+  "code": "pl",
+  "name": "Polski",
+  "en": "Polish",
+  "phrase": "Zgłoś stan potoku",
+  "rtl": false
+ },
+ {
+  "code": "pt",
+  "name": "Português",
+  "en": "Portuguese",
+  "phrase": "Reportar um ribeiro",
+  "rtl": false
+ },
+ {
+  "code": "ro",
+  "name": "Română",
+  "en": "Romanian",
+  "phrase": "Raportează un pârâu",
+  "rtl": false
+ },
+ {
+  "code": "ru",
+  "name": "Русский",
+  "en": "Russian",
+  "phrase": "Сообщить о ручье",
+  "rtl": false
+ },
+ {
+  "code": "sk",
+  "name": "Slovenčina",
+  "en": "Slovak",
+  "phrase": "Nahlásiť stav potoka",
+  "rtl": false
+ },
+ {
+  "code": "sl",
+  "name": "Slovenščina",
+  "en": "Slovenian",
+  "phrase": "Prijavi stanje potoka",
+  "rtl": false
+ },
+ {
+  "code": "es",
+  "name": "Español",
+  "en": "Spanish",
+  "phrase": "Informar sobre un arroyo",
+  "rtl": false
+ },
+ {
+  "code": "sv",
+  "name": "Svenska",
+  "en": "Swedish",
+  "phrase": "Rapportera en bäck",
+  "rtl": false
+ },
+ {
+  "code": "uk",
+  "name": "Українська",
+  "en": "Ukrainian",
+  "phrase": "Повідомити про струмок",
+  "rtl": false
+ },
+ {
+  "code": "ar",
+  "name": "العربية",
+  "en": "Arabic",
+  "phrase": "الإبلاغ عن جدول مائي",
+  "rtl": true
+ },
+ {
+  "code": "zh",
+  "name": "中文",
+  "en": "Chinese",
+  "phrase": "报告溪流情况",
+  "rtl": false
+ },
+ {
+  "code": "fil",
+  "name": "Filipino",
+  "en": "Filipino",
+  "phrase": "Mag-ulat tungkol sa sapa",
+  "rtl": false
+ },
+ {
+  "code": "he",
+  "name": "עברית",
+  "en": "Hebrew",
+  "phrase": "דיווח על נחל",
+  "rtl": true
+ },
+ {
+  "code": "hi",
+  "name": "हिन्दी",
+  "en": "Hindi",
+  "phrase": "धारा की रिपोर्ट करें",
+  "rtl": false
+ },
+ {
+  "code": "id",
+  "name": "Bahasa Indonesia",
+  "en": "Indonesian",
+  "phrase": "Laporkan sungai kecil",
+  "rtl": false
+ },
+ {
+  "code": "ja",
+  "name": "日本語",
+  "en": "Japanese",
+  "phrase": "小川を報告",
+  "rtl": false
+ },
+ {
+  "code": "ko",
+  "name": "한국어",
+  "en": "Korean",
+  "phrase": "하천 제보하기",
+  "rtl": false
+ },
+ {
+  "code": "ms",
+  "name": "Bahasa Melayu",
+  "en": "Malay",
+  "phrase": "Laporkan anak sungai",
+  "rtl": false
+ },
+ {
+  "code": "ml",
+  "name": "മലയാളം",
+  "en": "Malayalam",
+  "phrase": "അരുവിയെക്കുറിച്ച് റിപ്പോർട്ട് ചെയ്യുക",
+  "rtl": false
+ },
+ {
+  "code": "fa",
+  "name": "فارسی",
+  "en": "Persian",
+  "phrase": "گزارش دربارهٔ یک نهر",
+  "rtl": true
+ },
+ {
+  "code": "sw",
+  "name": "Kiswahili",
+  "en": "Swahili",
+  "phrase": "Ripoti kuhusu kijito",
+  "rtl": false
+ },
+ {
+  "code": "ta",
+  "name": "தமிழ்",
+  "en": "Tamil",
+  "phrase": "ஓடை பற்றி புகாரளி",
+  "rtl": false
+ },
+ {
+  "code": "te",
+  "name": "తెలుగు",
+  "en": "Telugu",
+  "phrase": "వాగు గురించి నివేదించండి",
+  "rtl": false
+ },
+ {
+  "code": "th",
+  "name": "ไทย",
+  "en": "Thai",
+  "phrase": "รายงานลำธาร",
+  "rtl": false
+ },
+ {
+  "code": "tr",
+  "name": "Türkçe",
+  "en": "Turkish",
+  "phrase": "Dere bildir",
+  "rtl": false
+ },
+ {
+  "code": "ur",
+  "name": "اردو",
+  "en": "Urdu",
+  "phrase": "ندی کی رپورٹ کریں",
+  "rtl": true
+ },
+ {
+  "code": "vi",
+  "name": "Tiếng Việt",
+  "en": "Vietnamese",
+  "phrase": "Báo cáo về một con suối",
+  "rtl": false
+ }
+]

@@ -79,8 +79,8 @@ class Report:
     def support(self) -> float:
         return round(sum(self.supporters.values()), 2)
 
-    def log(self, by: str, note: str) -> None:
-        self.history.append(Event(now().isoformat(timespec="seconds"), self.rung.value, by, note))
+    def log(self, by: str, note: str, at: datetime | None = None) -> None:
+        self.history.append(Event((at or now()).isoformat(timespec="seconds"), self.rung.value, by, note))
 
     def to_dict(self) -> dict:
         d = asdict(self)

@@ -59,41 +59,41 @@ def submit(store: Store, observer: str, codes: list[str], lat: float, lon: float
     return r
 
 
-def verify(store: Store, rid: str, expert: str, method: str, note: str = "") -> Report:
+def verify(store: Store, rid: str, expert: str, method: str, note: str = "", at: datetime | None = None) -> Report:
     reports = store.all()
     r = next((x for x in reports if x.id == rid), None)
     if r is None:
         raise ServiceError("no such report")
     try:
-        evidence.verify(r, expert, method, note)
+        evidence.verify(r, expert, method, note, at)
     except evidence.TransitionError as e:
         raise ServiceError(str(e)) from e
-    evidence.promote_decision_grade(reports)
+    evidence.promote_decision_grade(reports, at)
     store.save_all(reports)
     for x in reports:
         if x.rung in (Rung.EXPERT, Rung.DECISION) and not store.certificate(x.id):
-            issue_certificate(store, x)
+            issue_certificate(store, x, at)
     return store.get(rid)
 
 
-def reject(store: Store, rid: str, expert: str, reason: str) -> Report:
+def reject(store: Store, rid: str, expert: str, reason: str, at: datetime | None = None) -> Report:
     r = store.get(rid)
     if r is None:
         raise ServiceError("no such report")
     try:
-        evidence.reject(r, expert, reason)
+        evidence.reject(r, expert, reason, at)
     except evidence.TransitionError as e:
         raise ServiceError(str(e)) from e
     store.save(r)
     return r
 
 
-def request_mission(store: Store, rid: str, expert: str) -> Mission:
+def request_mission(store: Store, rid: str, expert: str, at: datetime | None = None) -> Mission:
     r = store.get(rid)
     if r is None:
         raise ServiceError("no such report")
     permitted_use.require(r.rung, "mission")
-    m = evidence.open_mission(r, expert, f"M-{store.next_id('mission', 11)}")
+    m = evidence.open_mission(r, expert, f"M-{store.next_id('mission', 11)}", at)
     store.save_mission(m)
     store.save(r)
     return m
@@ -113,13 +113,13 @@ def request_coverage_mission(store: Store, reach_id: str, expert: str, streams: 
     return m
 
 
-def issue_certificate(store: Store, r: Report) -> dict:
+def issue_certificate(store: Store, r: Report, at: datetime | None = None) -> dict:
     permitted_use.require(r.rung, "recognition")
     record = signing.deidentified(r)
     signed = signing.sign(record)
-    cert = {"record": record, **signed, "issued": now().isoformat(timespec="seconds")}
+    cert = {"record": record, **signed, "issued": (at or now()).isoformat(timespec="seconds")}
     store.save_certificate(r.id, cert)
-    r.log(config.ORG_NAME, "Signed contribution record issued")
+    r.log(config.ORG_NAME, "Signed contribution record issued", at)
     store.save(r)
     return cert
 

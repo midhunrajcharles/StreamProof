@@ -81,7 +81,7 @@ def link_corroboration(new: Report, reports: list[Report]) -> list[str]:
     return linked
 
 
-def verify(r: Report, expert: str, method: str, note: str = "") -> Report:
+def verify(r: Report, expert: str, method: str, note: str = "", at: datetime | None = None) -> Report:
     if method not in ("remote", "field"):
         raise TransitionError("method must be 'remote' or 'field'")
     if r.rung not in (Rung.REPORT, Rung.ASSESSED, Rung.COMMUNITY):
@@ -89,12 +89,12 @@ def verify(r: Report, expert: str, method: str, note: str = "") -> Report:
     shortcut = r.rung != Rung.COMMUNITY
     r.rung = Rung.EXPERT
     r.status = STATUS[r.rung]
-    r.verification = {"by": expert, "method": method, "at": now().isoformat(timespec="seconds"), "note": note}
-    r.log(expert, f"Expert-verified ({method} check)" + (" via graph shortcut, no community step" if shortcut else ""))
+    r.verification = {"by": expert, "method": method, "at": (at or now()).isoformat(timespec="seconds"), "note": note}
+    r.log(expert, f"Expert-verified ({method} check)" + (" via graph shortcut, no community step" if shortcut else ""), at)
     return r
 
 
-def reject(r: Report, expert: str, reason: str) -> Report:
+def reject(r: Report, expert: str, reason: str, at: datetime | None = None) -> Report:
     if not reason.strip():
         raise TransitionError("a rejection needs a reason the citizen can read")
     if r.rung in (Rung.EXPERT, Rung.DECISION):
@@ -102,11 +102,11 @@ def reject(r: Report, expert: str, reason: str) -> Report:
     r.rung = Rung.NOT_CONFIRMED
     r.status = STATUS[r.rung]
     r.rejection = reason.strip()
-    r.log(expert, f"Not confirmed: {r.rejection}")
+    r.log(expert, f"Not confirmed: {r.rejection}", at)
     return r
 
 
-def open_mission(r: Report, by: str, mission_id: str) -> Mission:
+def open_mission(r: Report, by: str, mission_id: str, at: datetime | None = None) -> Mission:
     """Ask nearby people for evidence where it is missing: ~400 m upstream along the stream."""
     up = geo.upstream_point(r.lat, r.lon, config.MISSION_UPSTREAM_M)
     if up is None:
@@ -120,13 +120,13 @@ def open_mission(r: Report, by: str, mission_id: str) -> Mission:
               else "This shows how far the problem extends along the stream.")
     m = Mission(
         id=mission_id, report_id=r.id, indicators=list(r.indicators), lat=round(lat, 6), lon=round(lon, 6),
-        radius_m=150, created_by=by, created_at=now(),
+        radius_m=150, created_by=by, created_at=at or now(),
         request=(f"Evidence needed near you: check the stream {where}. Photograph the water surface, the bank and "
                  f"any {signs}. If everything looks fine, report that too: it counts the same. {payoff}"),
     )
     if r.rung.level < Rung.EXPERT.level:
         r.status = "Community mission open nearby"
-    r.log(by, f"More evidence requested: mission {m.id}")
+    r.log(by, f"More evidence requested: mission {m.id}", at)
     return m
 
 
@@ -186,16 +186,16 @@ def signals(reports: list[Report], at: datetime | None = None) -> list[Signal]:
     return out
 
 
-def promote_decision_grade(reports: list[Report]) -> list[str]:
+def promote_decision_grade(reports: list[Report], at: datetime | None = None) -> list[str]:
     """Move expert-verified reports in decision-grade signals to Decision-grade. Returns ids moved."""
     moved = []
-    for s in signals(reports):
+    for s in signals(reports, at):
         if not s.decision_grade:
             continue
         for r in s.reports:
             if r.rung == Rung.EXPERT:
                 r.rung = Rung.DECISION
                 r.status = STATUS[r.rung]
-                r.log("evidence-engine", f"Decision-grade: {s.why}")
+                r.log("evidence-engine", f"Decision-grade: {s.why}", at)
                 moved.append(r.id)
     return moved

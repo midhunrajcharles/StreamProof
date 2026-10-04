@@ -29,7 +29,7 @@ const ISO_19157: [string, string, string][] = [
 const BUILT_ON: [string, string, string][] = [
   ["HL7 Europe OneAquaHealth FHIR guide", N("The data standard StreamProof's records follow"), "https://github.com/hl7-eu/oah"],
   ["HL7 FHIR R4", N("Record format and validation"), "https://hl7.org/fhir/R4/"],
-  ["OneAquaHealth Catalogue of Measures", N("Source for the brief's suggested measures (mapping planned)"), "https://oneaquahealth.eu"],
+  ["OneAquaHealth Catalogue of Measures", N("Source of the brief's suggested measures, matched with section and page (CC BY 4.0)"), "https://doi.org/10.5281/zenodo.20040211"],
   ["DipteraCAST (ENORA Innovation)", N("Receives verified Diptera ground truth (export built; the model is not public)"), "https://oneaquahealth.eu"],
   ["OpenStreetMap", N("Stream geometry, city search and map tiles (ODbL)"), "https://www.openstreetmap.org/copyright"],
   ["Open-Meteo", N("Rainfall context for grading"), "https://open-meteo.com"],

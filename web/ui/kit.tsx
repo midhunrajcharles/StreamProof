@@ -180,7 +180,7 @@ export function Empty({ icon, title, children, action }: { icon?: React.ReactNod
 export function Skeleton({ h = 64, n = 1 }: { h?: number; n?: number }) {
   const { tx } = useI18n();
   return (
-    <div className="stack" aria-busy="true" aria-label={tx("Loading")}>
+    <div className="stack" role="status" aria-busy="true" aria-label={tx("Loading")}>
       {Array.from({ length: n }, (_, i) => <div key={i} className="skeleton" style={{ height: h }} />)}
     </div>
   );

@@ -1,0 +1,183 @@
+{
+  "source": {
+    "title": "D2.4 Catalogue of measures for urban aquatic ecosystems rehabilitation",
+    "short": "OneAquaHealth Catalogue of Measures",
+    "authors": "Dias, Serra, Feio (University of Coimbra)",
+    "year": 2025,
+    "doi": "10.5281/zenodo.20040211",
+    "url": "https://doi.org/10.5281/zenodo.20040211",
+    "licence": "CC BY 4.0",
+    "pages": "Printed page numbers of the PDF (the number in the page header).",
+    "note": "Matched by the StreamProof team from the Catalogue's own text; wording is paraphrased. The final choice of measure belongs to the OneAquaHealth DSS and the municipality. The Catalogue is about rehabilitating urban streams, not emergency response, so first-response checks are listed separately and are not from it."
+  },
+  "measures": {
+    "4.2.1": {
+      "title": "In-stream self-purification enhancement",
+      "group": "Essential chemical and water quality measures",
+      "line": "first line",
+      "page": 41,
+      "what": "Restore physical complexity in the channel (boulder clusters, riffle-pool sequences, macrophytes) so the stream aerates and cleans itself again.",
+      "limits": "Needs a minimum baseflow, is weak in intermittent streams, and underperforms if nutrient inputs stay high. Must be paired with source control.",
+      "cite_page": 42,
+      "evidence": "minimum baseflow"
+    },
+    "4.2.2": {
+      "title": "Sewer system and point-source improvements",
+      "group": "Essential chemical and water quality measures",
+      "line": "first line",
+      "page": 42,
+      "what": "Find and fix what feeds pollution in: overflows, leaking or misconnected pipes, untreated discharges.",
+      "limits": "High cost, long timelines, coordination between utilities and the municipality, and illicit connections that stay hidden.",
+      "cite_page": 43,
+      "evidence": "illicit connections"
+    },
+    "4.2.3": {
+      "title": "Litter, plastic, and hydrocarbon control",
+      "group": "Essential chemical and water quality measures",
+      "line": "first line",
+      "page": 43,
+      "what": "Traps and oil-water separators before outfalls, regular clean-ups, an emergency response for spills (absorbent barriers, containment), and behaviour measures such as signage and clean-up events.",
+      "limits": "Needs regular maintenance, public behaviour and enforcement; separators need proper disposal of oily residue. The Catalogue notes that documented hydrocarbon-interception cases are scarce.",
+      "cite_page": 44,
+      "evidence": "emergency response protocols"
+    },
+    "4.3.1": {
+      "title": "Removing barriers",
+      "group": "Structural measures",
+      "line": "second line",
+      "page": 47,
+      "what": "Remove obsolete weirs, dams or culverts so water, sediment and species move freely again. The Catalogue notes that low-head barriers can hold stagnant water in dry spells, which favours mosquito breeding.",
+      "limits": "Releases sediment downstream, can spread invasive species, leaves less water where a reservoir sat, and meets heritage or public attachment to the barrier.",
+      "cite_page": 47,
+      "evidence": "stagnant water, providing favourable conditions for mosquito breeding"
+    },
+    "4.3.5": {
+      "title": "Constructed riffles",
+      "group": "Structural measures",
+      "line": "second line",
+      "page": 54,
+      "what": "Size-sorted stones and boulders placed in the channel to restore a natural, flowing bed. The Catalogue lists mosquito reduction among its advantages.",
+      "limits": "Floods can scour them, they need the right slope and discharge, and their benefits can be short-lived.",
+      "cite_page": 54,
+      "evidence": "Mosquito reduction"
+    },
+    "4.4.2": {
+      "title": "Citizen Science and educational partnerships",
+      "group": "Social and community-based measures",
+      "line": "third line",
+      "page": 90,
+      "what": "Involve residents, schools and associations in monitoring the stream, building stewardship and giving the municipality more data.",
+      "limits": "Data quality varies and often needs expert validation; participation needs coordination and institutional backing.",
+      "cite_page": 91,
+      "evidence": "often needs expert validation"
+    },
+    "4.4.4": {
+      "title": "Regulatory and behavioural measures for pollution reduction",
+      "group": "Social and community-based measures",
+      "line": "third line",
+      "page": 93,
+      "what": "Work with households, schools and businesses on proper disposal of oils, litter and chemicals, backed by municipal and utility governance.",
+      "limits": "Change is slow and uneven, and needs enforcement and long-term political commitment.",
+      "cite_page": 93,
+      "evidence": "proper disposal of oils"
+    },
+    "4.7.1": {
+      "title": "Natural wastewater treatment plants",
+      "group": "Compensatory measures: chemical",
+      "line": "compensatory",
+      "page": 105,
+      "what": "Constructed wetlands and soil filters that remove nutrients and limit algal growth by reducing light. An optional measure that prevents contamination; it is not part of rehabilitating the stream itself.",
+      "limits": "Needs a large area, can clog, and can give off odour.",
+      "cite_page": 105,
+      "evidence": "limit algal growth"
+    },
+    "4.6.1": {
+      "title": "Rain gardens",
+      "group": "Compensatory measures: hydrological",
+      "line": "compensatory",
+      "page": 97,
+      "caution": "If poorly drained they can hold stagnant water that supports mosquito larvae. The Catalogue asks for well-draining substrate, no standing water for more than 48 hours, and regular maintenance.",
+      "cite_page": 97,
+      "evidence": "no standing water >48 hours"
+    },
+    "4.6.2": {
+      "title": "Rainwater harvesting systems",
+      "group": "Compensatory measures: hydrological",
+      "line": "compensatory",
+      "page": 98,
+      "caution": "Tanks and gutters that are not maintained can breed mosquito larvae, more so in warm climates.",
+      "cite_page": 98,
+      "evidence": "mosquito larvae"
+    },
+    "4.6.6": {
+      "title": "Vegetated swales",
+      "group": "Compensatory measures: hydrological",
+      "line": "compensatory",
+      "page": 102,
+      "caution": "Poorly designed or unmaintained swales may hold stagnant water, causing mosquito breeding or odour.",
+      "cite_page": 103,
+      "evidence": "mosquito breeding or odour problems"
+    },
+    "4.6.7": {
+      "title": "Retention ponds and floodable parks",
+      "group": "Compensatory measures: hydrological",
+      "line": "compensatory",
+      "page": 103,
+      "caution": "Poorly designed or unmaintained ponds may hold stagnant water, causing mosquito breeding or odour. The Catalogue also advises against ponds where none would exist naturally, to avoid attracting disease vectors.",
+      "cite_page": 104,
+      "evidence": "mosquito breeding or odour problems"
+    }
+  },
+  "signs": {
+    "stagnant-water": {
+      "measures": ["4.3.1", "4.3.5"],
+      "cautions": ["4.6.1", "4.6.6", "4.6.7"],
+      "first_response": ["Walk the reach to see whether a weir, culvert or blockage is holding the water back.", "Photograph the pond edge and note how long the water has stood."]
+    },
+    "mosquitoes": {
+      "measures": ["4.3.1", "4.3.5"],
+      "cautions": ["4.6.1", "4.6.2", "4.6.6", "4.6.7"],
+      "notes": [{"text": "The Catalogue recommends adding medically relevant Diptera to urban monitoring, alongside the usual biological indicators (section 2.3).", "page": 25, "evidence": "medically relevant Diptera"}],
+      "first_response": ["Ask the municipal vector-control team to inspect the ponded sections.", "A larval dip survey at the ponded sections would confirm breeding."]
+    },
+    "algal-scum": {
+      "measures": ["4.2.2", "4.2.1", "4.7.1"],
+      "first_response": ["Put up a temporary 'avoid contact' notice for people and dogs until it is checked.", "Sample for cyanobacteria and toxins at an accredited laboratory."]
+    },
+    "dead-fish": {
+      "measures": ["4.2.2", "4.2.1", "4.2.3"],
+      "first_response": ["Same-day water sampling (oxygen, ammonia, temperature).", "Walk upstream to look for a discharge point or a spill."]
+    },
+    "oil-sheen": {
+      "measures": ["4.2.3"],
+      "first_response": ["Trace the source at storm-drain outfalls.", "Notify the environmental authority; contain a spill quickly if one is under way."]
+    },
+    "sewage": {
+      "measures": ["4.2.2"],
+      "notes": [{"text": "The Catalogue states that sewage should always go to a waste-water treatment plant and never directly to a stream or river.", "page": 40, "evidence": "sewage waters should always be directed"}],
+      "first_response": ["Inspect upstream outfalls and misconnections.", "Faecal-indicator sampling."]
+    },
+    "odour": {
+      "measures": ["4.2.2"],
+      "inferred": "The Catalogue has no measure for odour itself. Sewage leaks and misconnections are its nearest entry, so this is the team's inference.",
+      "first_response": ["Walk the reach to locate the source."]
+    },
+    "litter": {
+      "measures": ["4.2.3", "4.4.4"],
+      "first_response": ["Schedule a clean-up with local groups."]
+    },
+    "foam": {
+      "measures": ["4.2.2"],
+      "inferred": "The Catalogue has no measure for foam itself. Persistent foam can point to a pollution source, so the point-source entry is the nearest match; this is the team's inference.",
+      "first_response": ["Note whether the foam persists after 24 hours; sample if it does."]
+    },
+    "all-clear": {
+      "measures": []
+    }
+  },
+  "about": {
+    "text": "Citizen-science data quality \"often needs expert validation\" (Catalogue section 4.4.2). StreamProof is that validation layer: only expert-verified records feed a decision.",
+    "page": 91,
+    "evidence": "often needs expert validation"
+  }
+}

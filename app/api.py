@@ -16,7 +16,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 
-from . import (auth, brief, certificate, cities, config, dipteracast, evidence, geo, grading, permitted_use, seed,
+from . import (auth, brief, catalogue, certificate, cities, config, dipteracast, evidence, geo, grading, permitted_use, seed,
                service, signing)
 from .indicators import INDICATORS, OAH, OAH_URL
 from .models import Mission, Report, Rung, now
@@ -563,7 +563,8 @@ def river_brief(request: Request):
                   "reports": len(row.signal.reports), "people": len({r.observer for r in row.signal.reports}),
                   "gaps": row.signal.gaps, "why": row.signal.why} for row in b["rows"]],
         "advisories": b["advisories"],
-        "measures": [{"code": c, "sign": INDICATORS[c].chip, "measures": m} for c, m in b["measures"].items()],
+        "measures": [{"code": c, "sign": INDICATORS[c].chip, **m} for c, m in b["measures"].items()],
+        "catalogue": {"source": catalogue.SOURCE, "about": catalogue.ABOUT},
         "missions": [mission_json(m) for m in b["missions"]],
         "threshold": b["threshold"],
     }

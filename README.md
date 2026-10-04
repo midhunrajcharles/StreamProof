@@ -39,7 +39,7 @@ The demo story (demo logins are in `app/seed.py`; in demo mode they also open wi
 3. **Verify** it. Two different people's reports are now expert-verified within 500 m and 14 days, so the signal becomes **Decision-grade**, and the **River Health Brief** shows an advisory flag.
 4. Export the FHIR Bundle. Back as Maria, download the signed certificate and change one value on the verify page to see tampering detected. Her **Account** page shows the stars she earned for checked reports.
 
-Tests: `python -m pytest` (78 tests: engine rules, the JSON API including the full story, accounts and sign-in, city search with the network faked, the OAH add-on and the DipteraCAST export). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
+Tests: `python -m pytest` (84 tests: engine rules, the JSON API including the full story, accounts and sign-in, city search with the network faked, the OAH add-on and the DipteraCAST export). Web app checks: `web/tests/` (end-to-end, accessibility, screenshots).
 FHIR: `python tools/build_ig.py` compiles the add-on (`ig/`) against the OAH guide, then `python tools/validate_fhir.py` runs the HL7 validator (needs Node, Java 11+, the HL7 `validator_cli.jar` in `tools/`, and network for SNOMED CT; the OAH guide is fetched, never copied into this repository).
 
 ## How it works
@@ -96,6 +96,10 @@ The HL7 Europe OAH guide (`http://hl7.eu/fhir/ig/oah`) says *what* was observed,
 - No Patient resource, no names, no contact details, no exact GPS.
 - Sources are FSH in `ig/input/fsh/`; `tools/build_ig.py` compiles them (SUSHI) into `fhir/definitions/`: 6 CodeSystems, 4 ValueSets, 1 ConceptMap, 3 profiles.
 
+### Catalogue of Measures in the brief (`app/catalogue.py`, `data/measures-oah.json`)
+
+The brief's "Suggested next steps" cite the real **OneAquaHealth Catalogue of Measures** (D2.4, Dias, Serra and Feio, 2025, CC BY 4.0, [doi:10.5281/zenodo.20040211](https://doi.org/10.5281/zenodo.20040211)): each sign maps to numbered Catalogue entries (for example sewage → 4.2.2 *Sewer system and point-source improvements*, p. 42; mosquitoes → 4.3.1 *Removing barriers*, p. 47, and 4.3.5 *Constructed riffles*, p. 54) with the Catalogue's own title, its "line" (first = essential, second = structural, third = social), the printed page, what it does and its stated limits. For mosquito and stagnant-water signs the brief also repeats the Catalogue's own caution that rain gardens, swales and retention ponds can breed mosquitoes if they hold water. First-response checks are listed apart, labelled as not from the Catalogue (it covers rehabilitation, not emergency response). A test (`tests/test_catalogue.py`) checks every title and quoted phrase against the Catalogue text, so a wrong page number fails. The Catalogue itself says citizen-science data "often needs expert validation" (section 4.4.2, p. 91): StreamProof is that validation layer.
+
 ### DipteraCAST interface (`app/dipteracast.py`)
 
 Expert-verified records that say something about Diptera leave as labelled ground truth for the DipteraCAST model (OneAquaHealth, built by ENORA Innovation): a verified mosquito report is `present`; a verified all-clear is `not_seen` (a visual check, not a trap or dip-sample survey, so never called "absent"). Download CSV or a FHIR Bundle (the same OAH-profiled Observations, code `#diptera`) from the organiser dashboard or `GET /api/export/diptera-ground-truth?format=json|csv|fhir`. Every record passes the gate (use `ground_truth`, from Expert-verified up); no observer is named. In the other direction there is an optional prediction slot, shown to the expert as one context line and never counted in the grade. **It is an interface only: DipteraCAST is not public, so nothing is loaded unless you supply `dipteracast-predictions.json`.**
@@ -119,7 +123,7 @@ Expert-verified records that say something about Diptera leave as labelled groun
 ## Honest caveats
 
 - **Synthetic demo data.** Observers, reports and verifications in the seed are invented and labelled "(synthetic)". The stream line (OpenStreetMap) and rainfall (Open-Meteo) are real.
-- **Not connected to OneAquaHealth systems.** We found no public API for the OAH Citizen Science App. Integration is the proposed adoption path: StreamProof would sit between the app and the OAH dashboards/DSS. The suggested measures in the brief are illustrative stand-ins for the OneAquaHealth Catalogue of Measures (mapping in progress). DipteraCAST is not public: the export is real, the prediction slot is an empty interface.
+- **Not connected to OneAquaHealth systems.** We found no public API for the OAH Citizen Science App. Integration is the proposed adoption path: StreamProof would sit between the app and the OAH dashboards/DSS. DipteraCAST is not public: the export is real, the prediction slot is an empty interface. The brief's measures are matched to the real OneAquaHealth Catalogue by the team, not by the Catalogue's authors; wording is paraphrased and the choice belongs to the DSS and the municipality. The Catalogue has no measure for foam or odour, so those entries say they are the team's inference.
 - **Thresholds are not validated.** Grade weights, the 500 m / 14-day window and the advisory threshold are configurable defaults to calibrate with ecologists.
 - **Advisory, never diagnostic.** Flags say conditions "may warrant inspection". They make no claim about disease.
 - **Accounts are demo-grade.** Email + password accounts (scrypt hashes, in-memory rate limits); anyone can create an organisation, there is no email confirmation or password reset by email, and demo mode lets the demo accounts in without a password. A deployment would use the organisation's identity provider and would need proper GDPR advice.
@@ -136,7 +140,7 @@ app/              engine (grading, evidence, permitted_use, fhir, dipteracast, s
 data/             real stream geometry (OSM) and rainfall (Open-Meteo)
 ig/               the add-on as FSH (profiles, CodeSystems incl. the permitted-use rule, ConceptMap)
 fhir/             compiled definitions, example Bundles, validator output
-tests/            78 tests: engine rules, the JSON API and the demo story, accounts, cities, the OAH add-on and DipteraCAST
+tests/            84 tests: engine rules, the JSON API and the demo story, accounts, cities, the OAH add-on and DipteraCAST
 tools/            build_ig.py, validate_fhir.py, refresh_weather.py (+ local FHIR tooling, not committed)
 web/              Next.js: landing page app/(site), web app app/(app), shared ui/, checks in tests/, tools/
 docs/             STREAMPROOF-WINNING-PLAN.md, screenshots/ (+ source/: concept files, not committed)

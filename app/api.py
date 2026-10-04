@@ -11,13 +11,14 @@ and exact GPS is returned to the organization only; everyone else gets the ~100 
 """
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, JSONResponse, Response
 
-from . import (auth, brief, catalogue, certificate, cities, config, dipteracast, evidence, geo, grading, permitted_use, seed,
-               service, signing)
+from . import (auth, brief, calibration, catalogue, certificate, cities, config, dipteracast, evidence, geo, grading,
+               permitted_use, seed, service, signing)
 from .indicators import INDICATORS, OAH, OAH_URL
 from .models import Mission, Report, Rung, now
 
@@ -263,7 +264,7 @@ def report_json(r: Report, exact: bool) -> dict:
 
 
 def mission_json(m: Mission) -> dict:
-    return {"id": m.id, "report_id": m.report_id, "signs": _signs(m.indicators),
+    return {"id": m.id, "report_id": m.report_id, "kind": m.kind, "signs": _signs(m.indicators),
             "position": {"lat": m.lat, "lon": m.lon}, "radius_m": m.radius_m, "request": m.request,
             "safety": m.safety, "status": m.status, "submissions": len(m.submissions),
             "created_at": m.created_at.isoformat(), "place": place(m.lat, m.lon)}
@@ -330,6 +331,28 @@ def city_get(name: str):
 
 # ---------------- citizen ----------------
 
+UPDATE_KINDS = [("Expert-verified", "verified"), ("Not confirmed", "not_confirmed"), ("Community-supported", "community"),
+                ("Decision-grade", "decision"), ("More evidence requested", "mission"), ("Signed contribution", "certificate")]
+
+
+def updates_for(mine: list[Report], days: int = 14, limit: int = 8) -> list[dict]:
+    """What changed on a citizen's reports lately: the reason to come back. Events made by other people or by
+    the engine (never the citizen's own, never the intake grading), without naming anyone."""
+    since = now().timestamp() - days * 86400
+    out = []
+    for r in mine:
+        for e in r.history:
+            kind = next((k for prefix, k in UPDATE_KINDS if e.note.startswith(prefix)), None)
+            try:
+                when = datetime.fromisoformat(e.at).timestamp()
+            except ValueError:
+                continue
+            if kind and e.by != r.observer and when >= since:
+                out.append({"report_id": r.id, "at": e.at, "kind": kind, "text": e.note, "signs": _signs(r.indicators)})
+    out.sort(key=lambda x: x["at"], reverse=True)
+    return out[:limit]
+
+
 @router.get("/me")
 def me(request: Request):
     u = role(request, "citizen")
@@ -341,6 +364,10 @@ def me(request: Request):
         "demo": bool(u.get("demo")),
         "consent": store.consent(u["id"]),
         "reports": [report_json(r, exact=False) for r in mine],
+        "updates": updates_for(mine),
+        # what would strengthen the reports that are still open (the hint the grader wrote)
+        "strengthen": [{"report_id": r.id, "hint": r.hint, "signs": _signs(r.indicators)} for r in mine
+                       if r.hint and r.rung in (Rung.ASSESSED, Rung.COMMUNITY)][:3],
         "missions": [mission_json(m) for m in store.missions() if m.status == "open"],
         "counts": {"reports": len(mine),
                    "verified": sum(r.rung in (Rung.EXPERT, Rung.DECISION) for r in mine),
@@ -546,13 +573,23 @@ def diptera_ground_truth(request: Request, format: str = "json"):
     return data
 
 
+@router.post("/coverage/mission")
+def coverage_mission(request: Request, reach: str = Form(...)):
+    """Send a community mission to a thinly observed reach of this organisation's city."""
+    u = role(request, "org")
+    city = u.get("city")
+    streams = [s for s in geo.streams() if s.city == (city or "Coimbra")]
+    return mission_json(_act(lambda: service.request_coverage_mission(_store(), reach, u["id"], streams)))
+
+
 @router.get("/brief")
 def river_brief(request: Request):
     u = role(request, "org")
     store = _store()
-    b = brief.build([r for r in store.all() if in_scope(request, r.lat, r.lon)],
-                    [m for m in store.missions() if in_scope(request, m.lat, m.lon)])
     city = u.get("city")
+    scope_streams = [s for s in geo.streams() if s.city == (city or "Coimbra")]
+    b = brief.build([r for r in store.all() if in_scope(request, r.lat, r.lon)],
+                    [m for m in store.missions() if in_scope(request, m.lat, m.lon)], streams=scope_streams)
     stream = next((s.name for s in geo.streams() if s.city == city), None)
     area = b["area"] if city in (None, "Coimbra") else f"{stream} catchment, {city}" if stream else city
     return {
@@ -566,6 +603,8 @@ def river_brief(request: Request):
         "measures": [{"code": c, "sign": INDICATORS[c].chip, **m} for c, m in b["measures"].items()],
         "catalogue": {"source": catalogue.SOURCE, "about": catalogue.ABOUT},
         "missions": [mission_json(m) for m in b["missions"]],
+        "coverage": {**b["coverage"], "under": [{**x, "last": x["last"].isoformat() if x["last"] else None}
+                                                for x in b["coverage"]["under"]]},
         "threshold": b["threshold"],
     }
 
@@ -606,6 +645,7 @@ def standards():
         "oah_map": [{"sign": code, "system": sysurl, "code": c, "display": disp,
                      "kind": "wider" if sysurl == OAH_URL else "proposed"} for code, (sysurl, c, disp) in OAH.items()],
         "negative_control": negative,
+        "calibration": calibration.report(_store().all()),
         "profiles": [{"name": "StreamProofObservation", "parent": "ObservationIndicatorsOah"},
                      {"name": "StreamProofLocation", "parent": "LocationOah"},
                      {"name": "StreamProofProvenance", "parent": "Provenance"}],

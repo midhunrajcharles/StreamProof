@@ -9,7 +9,7 @@ Suggested next steps come from the real OneAquaHealth Catalogue of Measures (app
 from dataclasses import dataclass
 from datetime import datetime
 
-from . import catalogue, config, geo, permitted_use
+from . import catalogue, config, coverage, geo, permitted_use
 from .evidence import Signal, signals
 from .indicators import INDICATORS
 from .models import Mission, Report, Rung, now
@@ -24,7 +24,7 @@ class Row:
     label: str
 
 
-MOUTHS = {"coselhas": "the Mondego"}  # streams whose downstream end we can name
+MOUTHS = coverage.MOUTHS
 
 
 def place_name(lat: float, lon: float) -> str:
@@ -52,7 +52,8 @@ def _confidence(s: Signal) -> str:
     return "Low"
 
 
-def build(reports: list[Report], missions: list[Mission], at: datetime | None = None) -> dict:
+def build(reports: list[Report], missions: list[Mission], at: datetime | None = None,
+          streams: list[geo.Stream] | None = None) -> dict:
     at = at or now()
     visible = [r for r in reports if permitted_use.check(r.rung, "org_dashboard").allowed]
     rows = []
@@ -90,6 +91,7 @@ def build(reports: list[Report], missions: list[Mission], at: datetime | None = 
         "advisories": advisories,
         "measures": {c: catalogue.for_sign(c) for c in INDICATORS if c != "all-clear"},
         "missions": open_missions,
+        "coverage": coverage.build(streams if streams is not None else list(geo.streams()), reports, missions, at),
         "threshold": (f">= {config.ADVISORY_MIN_EXPERT} expert-verified, or >= {config.ADVISORY_MIN_COMMUNITY} "
                       f"community-supported, reports of the same sign within {config.NEARBY_RADIUS_M} m and "
                       f"{config.NEARBY_WINDOW_DAYS} days (illustrative default, to be calibrated with ecologists)"),

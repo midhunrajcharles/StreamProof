@@ -43,13 +43,13 @@ A permitted-use gate sits in front of every output: the dashboard, the public ma
 
 Verified records are exported as FHIR R4 that conform to the official OneAquaHealth profiles. Observation.code is the OAH indicator, the citizen's sign is the value, and the evidence grade, score, trust level and permitted uses travel inside the record. Our profile also rejects any record below Expert-verified, so an unverified report cannot validate even if an app skipped its own gate (we show this with a negative control).
 
-The River Health Brief gives a municipality the signals, how sure we are, and suggested next steps matched to the real OneAquaHealth Catalogue of Measures, with section and page. Expert-verified Diptera records leave as labelled ground truth (CSV or FHIR) for DipteraCAST. People who helped get a signed, tamper-evident contribution record.
+The River Health Brief gives a municipality the signals, how sure we are, and suggested next steps matched to the real OneAquaHealth Catalogue of Measures, with section and page. Expert-verified Diptera records leave as labelled ground truth (CSV or FHIR) for DipteraCAST. The brief also lists under-observed stretches of the stream and lets an organisation send residents there. People who helped get a signed, tamper-evident contribution record.
 ```
 
 **How we built it**
 
 ```
-Backend: Python, FastAPI and SQLite. The evidence engine, evidence graph and permitted-use gate are plain, tested Python (84 tests). Frontend: Next.js 16 and React, an installable PWA with a camera in the photo step, 45 languages (machine-assisted, with Arabic, Hebrew, Persian and Urdu mirrored), and an accessibility audit (axe) that is clean on every page in light and dark.
+Backend: Python, FastAPI and SQLite. The evidence engine, evidence graph and permitted-use gate are plain, tested Python (93 tests). Frontend: Next.js 16 and React, an installable PWA with a camera in the photo step, 45 languages (machine-assisted, with Arabic, Hebrew, Persian and Urdu mirrored), and an accessibility audit (axe) that is clean on every page in light and dark.
 
 FHIR: the add-on is written in FHIR Shorthand and compiled with SUSHI against the OAH guide, which we compile locally from hl7-eu/oah (it has no licence file, so we never copy it into our repository). The HL7 FHIR Validator checks every example Bundle against ObservationIndicatorsOah and LocationOah. A ConceptMap (citizen-sign to OAH) publishes the mapping: six of nine problem signs match an existing OAH indicator; the others use proposed codes we offer back to the guide as new concepts.
 
@@ -65,7 +65,7 @@ The OAH guide is not published as a package, and its profiles come without snaps
 **Accomplishments that we're proud of**
 
 ```
-Records that validate against the official OneAquaHealth profiles with 0 errors and 0 warnings, and a profile that refuses unverified records on its own. The gate and the published rule cannot disagree, because the gate is the published file (a test proves it, and another proves that editing the file changes the gate). Every measure in the brief is a real Catalogue entry, and a test checks each title and quoted phrase against the Catalogue text, so a wrong page number fails the build.
+Records that validate against the official OneAquaHealth profiles with 0 errors and 0 warnings, and a profile that refuses unverified records on its own. The gate and the published rule cannot disagree, because the gate is the published file (a test proves it, and another proves that editing the file changes the gate). Every measure in the brief is a real Catalogue entry, and a test checks each title and quoted phrase against the Catalogue text, so a wrong page number fails the build. We also publish a calibration report that says what the grade cannot show.
 ```
 
 **What we learned**
@@ -91,7 +91,7 @@ python, fastapi, sqlite, nextjs, react, typescript, fhir, hl7, fhir-shorthand, s
 ## Step 3: Additional info (honest notes to include)
 
 ```
-Demo data is synthetic and labelled "(synthetic)". StreamProof is not integrated with the OneAquaHealth Citizen Science App: that is the proposed adoption path. DipteraCAST is not public, so the export is real but the prediction input is an empty interface. The suggested measures are matched by us to the real Catalogue of Measures (Dias, Serra, Feio 2025, CC BY 4.0), not by its authors. Grade weights and thresholds are configurable defaults, not validated values. Translations are machine-assisted and not yet reviewed by native speakers.
+Demo data is synthetic and labelled "(synthetic)". StreamProof is not integrated with the OneAquaHealth Citizen Science App: that is the proposed adoption path. No public DipteraCAST access or API is announced yet, so the export is real but the prediction input is an empty interface. The suggested measures are matched by us to the real Catalogue of Measures (Dias, Serra, Feio 2025, CC BY 4.0), not by its authors. Grade weights and thresholds are configurable defaults, not validated values. Translations are machine-assisted and not yet reviewed by native speakers; the organiser-side screens added late are English only.
 ```
 
 ## Prior art (README and Devpost, sources checked 2026-10-04)

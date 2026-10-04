@@ -32,3 +32,7 @@ CORROBORATIONS_PER_ACCOUNT_PER_DAY = 3
 MIN_CORROBORATION_GAP_MIN = 30  # same-place reports closer than this in time don't count as independent
 MIN_CORROBORATION_GAP_M = 50  # ...unless they are at least this far apart
 MISSION_UPSTREAM_M = 400
+# Coverage (the brief's equity line): reach length, look-back window, people needed for a reach to count as covered.
+COVERAGE_REACH_M = 500
+COVERAGE_WINDOW_DAYS = 30
+COVERAGE_MIN_PEOPLE = 2

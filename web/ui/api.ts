@@ -86,7 +86,7 @@ export type Report = {
 };
 
 export type Mission = {
-  id: string; report_id: string; signs: Sign[]; position: Position; radius_m: number; request: string; safety: string;
+  id: string; report_id: string; kind: "evidence" | "coverage"; signs: Sign[]; position: Position; radius_m: number; request: string; safety: string;
   status: string; submissions: number; created_at: string; place: string;
 };
 

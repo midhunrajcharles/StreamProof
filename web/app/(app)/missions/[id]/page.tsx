@@ -24,7 +24,7 @@ export default function MissionPage() {
           return (
             <>
               <div className="card section stack">
-                <p className="eyebrow">({m.signs.map((s) => sign(s.code, s.chip)).join(", ")})</p>
+                <p className="eyebrow">({m.signs.length ? m.signs.map((s) => sign(s.code, s.chip)).join(", ") : t("missionp.eyebrow")})</p>
                 <p className="t-title3">{tr(m.request)}</p>
                 <p className="secondary t-sub">{t("missionp.meta", { place: tr(m.place), date: when(m.created_at, { day: "numeric", month: "short" }, localeOf(lang)), n: m.submissions })}</p>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useApi, type Mission } from "@/ui/api";
+import { useState } from "react";
+import { api, useApi, type Mission } from "@/ui/api";
 import { useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Page, Row, Section, Skeleton } from "@/ui/kit";
@@ -13,6 +14,8 @@ type Brief = {
   rows: { sign: string; code: string; place: string; best_grade: string; confidence: string; label: string; reports: number; people: number; gaps: string[]; why: string }[];
   advisories: { sign: string; place: string; why: string; text: string }[];
   measures: { code: string; sign: string; measures: Measure[]; cautions: Measure[]; notes: { text: string; page: number }[]; inferred: string | null; first_response: string[] }[];
+  coverage: { reach_m: number; window_days: number; min_people: number; total: number; covered: number; none: number; thin: number;
+    under: { id: string; label: string; status: "none" | "thin"; reports: number; people: number; last: string | null; mission: string | null }[] };
   catalogue: { source: { short: string; title: string; authors: string; year: number; doi: string; url: string; licence: string }; about: { text: string; page: number } };
   missions: Mission[];
   threshold: string;
@@ -29,6 +32,14 @@ const LABEL_KIND: Record<string, string> = { "Decision-grade": "ok", "Expert-ver
 
 export default function BriefPage() {
   const q = useApi<Brief>("/brief");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const ask = async (reach: string) => {
+    setBusy(reach); setErr(null);
+    try { await api("/coverage/mission", { form: { reach } }); await q.reload(); }
+    catch (e) { setErr((e as Error).message); }
+    finally { setBusy(null); }
+  };
   const { tx, tr, sign } = useI18n();
   const conf = (c: string) => tx("{c} confidence", { c: tx(c) });
   return (
@@ -54,7 +65,7 @@ export default function BriefPage() {
                 ) : <div className="card secondary">{tx("No advisories. Nothing has reached decision grade for a health-relevant sign.")}</div>}
               </Section>
 
-              <Section title={tx("Evidence by trust level")} n={2} foot={tx("{n} reports in total.", { n: b.total })}>
+              <Section title={tx("Evidence by trust level")} n={2} foot={tx("{n} reports in total. The grade says how well a report is supported, not the ecological status of the stream; formal assessment stays with the OneAquaHealth field protocols.", { n: b.total })}>
                 <div className="card stack">
                   <div className="stack-bar" role="img" aria-label={shown.map((c) => `${tx(c.label)}: ${c.count}`).join(", ")}>
                     {shown.map((c) => <span key={c.label} style={{ flex: c.count, background: SHADES[c.label] }} />)}
@@ -139,11 +150,39 @@ export default function BriefPage() {
                 </p>
               </Section>
 
-              <Section title={tx("Open missions")} n={5} foot={tx("Missions ask people nearby for evidence where it's thin, including under-observed reaches.")}>
+              <div id="coverage">
+                <Section title={tx("Under-observed stretches")} n={5}
+                  foot={tx("Stretches of {m} m where fewer than {p} different people reported in the last {d} days. Evidence that only follows busy paths gives a skewed picture, so missions can point people to where it is thin. This shows where evidence is thin, not who lives there.", { m: b.coverage.reach_m, p: b.coverage.min_people, d: b.coverage.window_days })}>
+                  <div className="card stack" style={{ gap: 4 }}>
+                    <p className="t-headline">{tx("{a} of {b} stretches are covered", { a: b.coverage.covered, b: b.coverage.total })}</p>
+                    <p className="secondary t-sub">{tx("{n} with no reports, {t} with a single observer", { n: b.coverage.none, t: b.coverage.thin })}</p>
+                  </div>
+                  {err ? <div className="section"><Callout kind="bad" title={tx("Couldn't send the mission")}>{err}</Callout></div> : null}
+                  {b.coverage.under.length ? (
+                    <div className="group" style={{ marginTop: 12 }}>
+                      {b.coverage.under.slice(0, 6).map((x) => (
+                        <div key={x.id} className="row has-lead">
+                          <div className="row-lead">{x.status === "none" ? <I.XCircle className="status-ic fail" /> : <I.Info className="status-ic warn" />}</div>
+                          <div className="row-body">
+                            <span className="row-title">{tr(x.label)}</span>
+                            <span className="row-sub">{x.status === "none" ? tx("No reports in {d} days", { d: b.coverage.window_days }) : tx("One observer, {n} report(s)", { n: x.reports })}</span>
+                          </div>
+                          <span className="row-trail">
+                            {x.mission ? <span className="pill ok">{tx("Mission open")}</span>
+                              : <button className="btn btn-sm no-print" disabled={busy === x.id} onClick={() => ask(x.id)}>{busy === x.id ? <I.Spinner /> : <I.Flag />} <span className="btn-label">{tx("Ask residents to check")}</span></button>}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : <div className="card secondary" style={{ marginTop: 12 }}>{tx("Every stretch has reports from enough people.")}</div>}
+                </Section>
+              </div>
+
+              <Section title={tx("Open missions")} n={6} foot={tx("Missions ask people nearby for evidence where it's thin, including under-observed reaches.")}>
                 {b.missions.length ? (
                   <div className="group">
-                    {b.missions.map((m) => <Row key={m.id} href={`/review/${m.report_id}`} lead={<I.Flag className="status-ic info" />}
-                      title={`${m.id} · ${m.signs.map((s) => sign(s.code, s.chip)).join(", ")}`}
+                    {b.missions.map((m) => <Row key={m.id} href={m.kind === "coverage" ? "/brief#coverage" : `/review/${m.report_id}`} lead={<I.Flag className="status-ic info" />}
+                      title={`${m.id} · ${m.kind === "coverage" ? tx("Look at this stretch") : m.signs.map((s) => sign(s.code, s.chip)).join(", ")}`}
                       sub={`${tr(m.place)} · ${m.submissions === 1 ? tx("1 answer") : tx("{n} answers", { n: m.submissions })}`} />)}
                   </div>
                 ) : <div className="card secondary">{tx("No open missions.")}</div>}

@@ -11,7 +11,8 @@ OUT  Expert-verified records that say something about Diptera, as labelled groun
      as a FHIR Bundle (the same OAH-profiled records, code #diptera) or a CSV. Each record passes the
      permitted-use gate (`ground_truth`), so unverified reports can never leave. No observer is named.
 IN   An optional site prediction, shown to the expert as ONE context line and never counted in the grade.
-     Honest status: this is an interface only. DipteraCAST is not public, so nothing is loaded unless
+     Honest status: this is an interface only. The announcement (31 Jul 2026) gives no public access or API and
+     says integration into the OneAquaHealth Open Information Hub is planned, so nothing is loaded unless
      someone supplies `dipteracast-predictions.json` (see `prediction`).
 """
 
@@ -24,7 +25,7 @@ from . import config, fhir, geo, permitted_use
 from .models import Report
 
 USE = "ground_truth"
-INTERFACE_NOTE = "Interface only: DipteraCAST is not public, so no prediction is loaded."
+INTERFACE_NOTE = "Interface only: no public DipteraCAST access or API is announced yet, so no prediction is loaded."
 BASIS = {
     "present": "Citizen report of high mosquito activity, confirmed by an expert",
     "not_seen": "Citizen all-clear (visual check), confirmed by an expert; not a trap or dip-sample survey",

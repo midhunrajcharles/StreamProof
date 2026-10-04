@@ -6,11 +6,15 @@ import * as I from "@/ui/icons";
 import { Callout, Empty, Gate, Grade, Page, Row, Section, Skeleton } from "@/ui/kit";
 import { Avatar, StarPill, useStarText } from "@/ui/profile";
 
-type Me = { name: string; demo: boolean; reports: Report[]; missions: Mission[]; counts: { reports: number; verified: number; missions: number } };
+type Update = { report_id: string; at: string; kind: "verified" | "not_confirmed" | "community" | "decision" | "mission" | "certificate"; text: string; signs: { code: string; chip: string }[] };
+type Me = {
+  name: string; demo: boolean; reports: Report[]; missions: Mission[]; counts: { reports: number; verified: number; missions: number };
+  updates: Update[]; strengthen: { report_id: string; hint: string; signs: { code: string; chip: string }[] }[];
+};
 
 /** The citizen's dashboard: report, follow your reports, open missions, stars. */
 export default function CitizenHome() {
-  const { t, tr, sign, rung, lang } = useI18n();
+  const { t, tx, tr, sign, rung, lang } = useI18n();
   const loc = localeOf(lang);
   const me = useApi<Me>("/me");
   const profile = useApi<CitizenProfile>(me.data ? "/citizen/profile" : null);
@@ -63,12 +67,34 @@ export default function CitizenHome() {
               </Section>
             ) : null}
 
+            {m.updates.length ? (
+              <Section title={tx("What changed on your reports")} foot={tx("Updates from the last 14 days. No one is named.")}>
+                <div className="group">
+                  {m.updates.slice(0, 4).map((u, i) => (
+                    <Row key={i} href={`/reports/${u.report_id}`}
+                      lead={u.kind === "not_confirmed" ? <I.Info className="status-ic warn" /> : <I.CheckCircle className="status-ic ok" />}
+                      title={tr(u.text)} sub={`${signs(u)} · ${ago(u.at, loc)}`} />
+                  ))}
+                </div>
+              </Section>
+            ) : null}
+
+            {m.strengthen.length ? (
+              <Section title={tx("What would strengthen your reports")} foot={tx("Small steps that can raise a report's evidence. No points for volume: only checked evidence counts, and everything-looks-fine counts the same.")}>
+                <div className="group">
+                  {m.strengthen.map((s) => (
+                    <Row key={s.report_id} href={`/reports/${s.report_id}`} lead={<I.Info className="status-ic info" />} title={tr(s.hint)} sub={signs(s)} />
+                  ))}
+                </div>
+              </Section>
+            ) : null}
+
             {m.missions.length ? (
               <Section title={t("missions.title")} foot={t("missions.foot")}>
                 <div className="group">
                   {m.missions.slice(0, 3).map((x) => (
                     <Row key={x.id} href={`/missions/${x.id}`} lead={<I.Flag className="status-ic info" />}
-                      title={`${signs(x)} · ${tr(x.place)}`} sub={<span className="clamp-2">{tr(x.request)}</span>} />
+                      title={`${x.kind === "coverage" ? tx("Look at this stretch") : signs(x)} · ${tr(x.place)}`} sub={<span className="clamp-2">{tr(x.request)}</span>} />
                   ))}
                 </div>
               </Section>

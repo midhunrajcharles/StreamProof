@@ -95,8 +95,8 @@ export default function Dashboard() {
                   {open.length ? (
                     <div className="group">
                       {open.slice(0, 4).map((m) => (
-                        <Row key={m.id} href={`/review/${m.report_id}`} lead={<I.Flag className="status-ic info" />}
-                          title={`${signs(m.signs)} · ${tr(m.place)}`}
+                        <Row key={m.id} href={m.kind === "coverage" ? "/brief#coverage" : `/review/${m.report_id}`} lead={<I.Flag className="status-ic info" />}
+                          title={`${m.kind === "coverage" ? tx("Look at this stretch") : signs(m.signs)} · ${tr(m.place)}`}
                           sub={`${m.submissions === 1 ? tx("1 new report") : tx("{n} new reports", { n: m.submissions })} · ${tx("opened {ago}", { ago: ago(m.created_at, loc) })}`} />
                       ))}
                     </div>

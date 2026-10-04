@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from . import config, evidence, fhir, grading, imaging, permitted_use, signing
+from . import config, coverage, evidence, fhir, geo, grading, imaging, permitted_use, signing
 from .indicators import validate_codes
 from .models import Mission, Report, Rung, now
 from .store import Store
@@ -96,6 +96,20 @@ def request_mission(store: Store, rid: str, expert: str) -> Mission:
     m = evidence.open_mission(r, expert, f"M-{store.next_id('mission', 11)}")
     store.save_mission(m)
     store.save(r)
+    return m
+
+
+def request_coverage_mission(store: Store, reach_id: str, expert: str, streams: list) -> Mission:
+    """Ask residents to look at a thinly observed reach. There is no record behind it, so no trust level applies."""
+    reach = coverage.find(reach_id, streams)
+    if reach is None:
+        raise ServiceError("no such stretch of stream")
+    lat, lon = reach.mid
+    for m in store.missions():
+        if m.kind == "coverage" and m.status == "open" and geo.distance_m(lat, lon, m.lat, m.lon) <= 300:
+            raise ServiceError("a community mission is already open for this stretch")
+    m = coverage.mission_for(reach, expert, f"M-{store.next_id('mission', 11)}")
+    store.save_mission(m)
     return m
 
 

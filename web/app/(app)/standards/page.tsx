@@ -12,7 +12,29 @@ type Standards = {
   oah_map: { sign: string; system: string; code: string; display: string; kind: "wider" | "proposed" }[];
   negative_control: { file: string; rejected: boolean; errors: number } | null;
   profiles: { name: string; parent: string }[];
+  calibration: {
+    confusion: { rows: { grade: string; decided: number; confirmed: number; not_confirmed: number; share_confirmed: number | null }[]; decided: number; confirmed: number; not_confirmed: number; enough: boolean; min_decided: number; note: string | null };
+    scenarios: { name: string; isolates: string; score: number; grade: string }[];
+    limits: string[];
+  };
 };
+
+// Why recognition works the way it does (app/recognition.py). Team design reasoning, not a study.
+const ENGAGEMENT: [string, string][] = [
+  [N("You come back because something changed"), N("Your report's status moves, an expert explains a decision, a mission appears near you. That is the reason to return, not a score.")],
+  [N("Stars come from checked evidence, not volume"), N("A burst of unchecked reports earns nothing, so there is nothing to gain by spamming.")],
+  [N("Everything looks fine counts the same"), N("Otherwise people would only report problems, and the record would lean towards alarm.")],
+  [N("No one is penalised for a report that was not confirmed"), N("A kind, specific reason is shown instead. Learning is the point.")],
+  [N("No ranking between people"), N("Stars are private and printed on your own certificate. Competition rewards quantity and pushes people towards risky spots.")],
+];
+
+// Post-project survival (plan §17.3). The commitments are proposals until the OneAquaHealth team agrees them.
+const AFTER: [string, string][] = [
+  [N("The rules are open data"), N("The trust levels, the permitted-use rule and the profiles are plain FHIR files that any system can read and enforce, with or without this app.")],
+  [N("Proposed as an add-on to the HL7 Europe OneAquaHealth guide"), N("The profiles derive from the guide's own. Offering them to the guide's authors is the proposed path; it has not been agreed.")],
+  [N("The app is a reference client"), N("It shows how the rules work. The OneAquaHealth Citizen Science App could host the same layer behind it.")],
+  [N("A hosted verification service is the proposed paid layer"), N("Open core: the standard stays free; running the expert review queue for a city is the service. A proposal, not a product yet.")],
+];
 
 // The seven grading checks (+ intake) read as ISO 19157 data-quality elements. Team interpretation.
 const ISO_19157: [string, string, string][] = [
@@ -30,7 +52,7 @@ const BUILT_ON: [string, string, string][] = [
   ["HL7 Europe OneAquaHealth FHIR guide", N("The data standard StreamProof's records follow"), "https://github.com/hl7-eu/oah"],
   ["HL7 FHIR R4", N("Record format and validation"), "https://hl7.org/fhir/R4/"],
   ["OneAquaHealth Catalogue of Measures", N("Source of the brief's suggested measures, matched with section and page (CC BY 4.0)"), "https://doi.org/10.5281/zenodo.20040211"],
-  ["DipteraCAST (ENORA Innovation)", N("Receives verified Diptera ground truth (export built; the model is not public)"), "https://oneaquahealth.eu"],
+  ["DipteraCAST (ENORA Innovation)", N("Receives verified Diptera ground truth (export built; no public access announced yet)"), "https://oneaquahealth.eu"],
   ["OpenStreetMap", N("Stream geometry, city search and map tiles (ODbL)"), "https://www.openstreetmap.org/copyright"],
   ["Open-Meteo", N("Rainfall context for grading"), "https://open-meteo.com"],
   ["EU Horizon Europe grant 101086521", N("Funding context of the OneAquaHealth project"), "https://cordis.europa.eu/project/id/101086521"],
@@ -38,7 +60,7 @@ const BUILT_ON: [string, string, string][] = [
 
 export default function StandardsPage() {
   const q = useApi<Standards>("/standards");
-  const { tx, sign, rung } = useI18n();
+  const { tx, tr, sign, rung } = useI18n();
   return (
     <Page title={tx("Standards")} eyebrow={tx("Open data")} width="wide"
       subtitle={tx("The rules StreamProof enforces, published as data any system can read.")}>
@@ -147,7 +169,52 @@ export default function StandardsPage() {
                 ) : <div className="card secondary">{tx("No validation results saved yet.")}</div>}
               </Section>
 
-              <Section title={tx("Built on")} n={6} foot={tx("Credited, not endorsed. StreamProof is designed as a trust layer behind OneAquaHealth's Citizen Science App; this web app is a reference client.")}>
+              <Section title={tx("Calibration and limits")} n={6}
+                foot={tx("The grade says how well a report is supported, not the ecological status of the stream. Formal assessment stays with the OneAquaHealth field protocols.")}>
+                <div className="stack">
+                  <Callout title={tx("Does the grade predict what experts decide?")}>
+                    {s.calibration.confusion.note ? tr(s.calibration.confusion.note) : tx("Share of decided reports that experts confirmed, by grade.")}
+                  </Callout>
+                  <div className="table-wrap" tabIndex={0} role="region" aria-label={tx("Grade against expert decisions")}>
+                    <table className="table">
+                      <thead><tr><th scope="col">{tx("Grade")}</th><th scope="col" className="c">{tx("Decided")}</th><th scope="col" className="c">{tx("Confirmed")}</th><th scope="col" className="c">{tx("Not confirmed")}</th><th scope="col" className="c">{tx("Share confirmed")}</th></tr></thead>
+                      <tbody>{s.calibration.confusion.rows.map((r) => (
+                        <tr key={r.grade}><th scope="row"><span className="grade" data-g={r.grade}>{r.grade}</span></th><td className="c num">{r.decided}</td><td className="c num">{r.confirmed}</td><td className="c num">{r.not_confirmed}</td>
+                          <td className="c num">{r.share_confirmed === null ? "–" : `${Math.round(r.share_confirmed * 100)}%`}</td></tr>
+                      ))}</tbody>
+                    </table>
+                  </div>
+                  <p className="t-headline">{tx("What the rules do")}</p>
+                  <div className="table-wrap" tabIndex={0} role="region" aria-label={tx("What the rules do")}>
+                    <table className="table">
+                      <thead><tr><th scope="col">{tx("Scenario")}</th><th scope="col" className="c">{tx("Score")}</th><th scope="col" className="c">{tx("Grade")}</th></tr></thead>
+                      <tbody>{s.calibration.scenarios.map((x) => (
+                        <tr key={x.name}><th scope="row" style={{ fontWeight: 400 }}>{tx(x.name)}<div className="secondary t-foot">{tx(x.isolates)}</div></th><td className="c num">{x.score}</td><td className="c"><span className="grade" data-g={x.grade} style={{ margin: "0 auto" }}>{x.grade}</span></td></tr>
+                      ))}</tbody>
+                    </table>
+                  </div>
+                  <ul className="t-callout" style={{ margin: 0, paddingLeft: 18 }}>{s.calibration.limits.map((l) => <li key={l}>{tx(l)}</li>)}</ul>
+                </div>
+              </Section>
+
+              <Section title={tx("Why there is no leaderboard")} n={7}>
+                <div className="group">
+                  {ENGAGEMENT.map(([title, why]) => (
+                    <div key={title} className="row"><div className="row-body"><span className="row-title">{tx(title)}</span><span className="row-sub">{tx(why)}</span></div></div>
+                  ))}
+                </div>
+              </Section>
+
+              <Section title={tx("After December 2026")} n={8}
+                foot={tx("The OneAquaHealth project ends on 31 December 2026. StreamProof is built so that what matters outlives it.")}>
+                <div className="group">
+                  {AFTER.map(([title, why]) => (
+                    <div key={title} className="row"><div className="row-body"><span className="row-title">{tx(title)}</span><span className="row-sub">{tx(why)}</span></div></div>
+                  ))}
+                </div>
+              </Section>
+
+              <Section title={tx("Built on")} n={9} foot={tx("Credited, not endorsed. StreamProof is designed as a trust layer behind OneAquaHealth's Citizen Science App; this web app is a reference client.")}>
                 <div className="group">
                   {BUILT_ON.map(([name, role, url]) => (
                     <a key={name} className="row" href={url} target="_blank" rel="noopener">

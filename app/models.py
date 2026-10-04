@@ -104,3 +104,4 @@ class Mission:
     submissions: list[str] = field(default_factory=list)
     safety: str = ("Stay on public paths. Don't enter or touch the water. "
                    "Don't photograph people. Leave if it feels unsafe.")
+    kind: str = "evidence"  # "evidence": more proof for a report; "coverage": look at a thinly observed reach

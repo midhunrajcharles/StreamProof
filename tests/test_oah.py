@@ -263,7 +263,7 @@ def test_report_detail_shows_the_prediction_slot_to_the_expert_only(client):
     client.post("/api/session", data={"role": "org"})
     rid = next(r.id for r in store.all() if "mosquitoes" in r.indicators)
     d = client.get(f"/api/reports/{rid}").json()["org"]["dipteracast"]
-    assert d["counted_in_grade"] is False and "not public" in d["note"] and d["prediction"] is None
+    assert d["counted_in_grade"] is False and "no public DipteraCAST access" in d["note"] and d["prediction"] is None
     other = next(r.id for r in store.all() if not {"mosquitoes", "stagnant-water"} & set(r.indicators))
     assert client.get(f"/api/reports/{other}").json()["org"]["dipteracast"] is None
 

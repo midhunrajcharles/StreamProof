@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Fehér vagy barna hab, amely nem bomlik fel gyorsan.",
 "Everything looks fine": "Minden rendben látszik",
 "No problem observed": "Nem észlelt probléma",
-"The observer checked the site and saw nothing of concern. Credited equally.": "A megfigyelő ellenőrizte a helyszínt, és semmi aggasztót nem látott. Ugyanannyit ér."
+"The observer checked the site and saw nothing of concern. Credited equally.": "A megfigyelő ellenőrizte a helyszínt, és semmi aggasztót nem látott. Ugyanannyit ér.",
+"Upload a photo": "Fénykép feltöltése",
+"Capture": "Felvétel",
+"Switch camera": "Kamera váltása",
+"Opening the camera…": "Kamera megnyitása…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "A kamerához való hozzáférést letiltották. Engedélyezze a böngésző beállításaiban, vagy töltsön fel inkább egy fényképet.",
+"No camera was found on this device. Upload a photo instead.": "Ezen az eszközön nem található kamera. Töltsön fel inkább egy fényképet.",
+"Camera preview": "Kamera-előnézet"
 }

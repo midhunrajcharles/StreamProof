@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Spumă albă sau maronie care nu se destramă repede.",
 "Everything looks fine": "Totul pare în regulă",
 "No problem observed": "Nicio problemă observată",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Observatorul a verificat locul și nu a văzut nimic îngrijorător. Contează la fel."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Observatorul a verificat locul și nu a văzut nimic îngrijorător. Contează la fel.",
+"Upload a photo": "Încarcă o fotografie",
+"Capture": "Capturează",
+"Switch camera": "Schimbă camera",
+"Opening the camera…": "Se deschide camera…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Accesul la cameră a fost blocat. Permite-l din setările browserului sau încarcă în schimb o fotografie.",
+"No camera was found on this device. Upload a photo instead.": "Nu a fost găsită nicio cameră pe acest dispozitiv. Încarcă în schimb o fotografie.",
+"Camera preview": "Previzualizare cameră"
 }

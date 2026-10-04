@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Bela ali rjava pena, ki ne razpade hitro.",
 "Everything looks fine": "Vse je videti v redu",
 "No problem observed": "Ni opažene težave",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Opazovalec je preveril kraj in ni opazil nič zaskrbljujočega. Šteje enako."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Opazovalec je preveril kraj in ni opazil nič zaskrbljujočega. Šteje enako.",
+"Upload a photo": "Naloži fotografijo",
+"Capture": "Zajemi",
+"Switch camera": "Zamenjaj kamero",
+"Opening the camera…": "Odpiranje kamere …",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Dostop do kamere je bil blokiran. Dovolite ga v nastavitvah brskalnika ali namesto tega naložite fotografijo.",
+"No camera was found on this device. Upload a photo instead.": "V tej napravi ni bilo najdene nobene kamere. Naložite fotografijo.",
+"Camera preview": "Predogled kamere"
 }

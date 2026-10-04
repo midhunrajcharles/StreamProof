@@ -14,6 +14,13 @@ BASE = os.environ.get("STREAMPROOF_WEB", "http://localhost:3200")
 ok = True
 
 
+def pick_city(scope, name):
+    """Cities are chosen by searching; the picked one shows as a pill."""
+    scope.get_by_role("combobox", name=re.compile("^Search any city")).fill(name)
+    scope.get_by_role("option", name=re.compile("^" + name)).first.click()
+    expect(scope.locator(".city-selected")).to_contain_text(name)
+
+
 def step(name, fn):
     global ok
     try:
@@ -219,7 +226,7 @@ with sync_playwright() as p:
 
     def city_switch():
         page.goto(f"{BASE}/report", wait_until="networkidle")
-        page.get_by_role("radio", name="Oslo").click()
+        pick_city(page, "Oslo")
         expect(page.get_by_text("Example stream for the demo")).to_be_visible()
         page.get_by_role("button", name="Litter").click()
         page.get_by_role("button", name="Submit report").click()
@@ -230,10 +237,7 @@ with sync_playwright() as p:
 
     def any_city():  # needs the internet: Photon/Nominatim (OpenStreetMap) and Open-Meteo
         page.goto(f"{BASE}/report", wait_until="networkidle")
-        box = page.get_by_role("combobox", name="Search any city")
-        box.fill("Lyon")
-        page.get_by_role("option", name=re.compile(r"^Lyon")).first.click()
-        expect(page.get_by_role("radio", name=re.compile(r"^Lyon"))).to_have_attribute("aria-checked", "true")
+        pick_city(page, "Lyon")
         expect(page.locator(".city-status")).to_contain_text("mapped streams in Lyon", timeout=30000)
         page.get_by_role("button", name="Litter").click()
         page.get_by_role("button", name="Submit report").click()
@@ -273,7 +277,9 @@ with sync_playwright() as p:
         page.get_by_label("Email").fill(citizen_email)
         page.get_by_label("Password").fill("a-long-citizen-password")
         submit_btn = page.get_by_role("button", name="Create account")
-        expect(submit_btn).to_be_disabled()  # needs the agreement
+        expect(submit_btn).to_be_disabled()  # needs a city and the agreement
+        pick_city(page, "Coimbra")
+        expect(submit_btn).to_be_disabled()  # still needs the agreement
         page.get_by_label("I agree to how my reports are used.").check()
         submit_btn.click()
         page.wait_for_url(f"{BASE}/account")
@@ -288,7 +294,7 @@ with sync_playwright() as p:
         dlg = page.get_by_role("dialog")
         dlg.get_by_label("Bio").fill("Walks the Coselhas path at weekends.")
         dlg.get_by_role("radio", name="moss").click()
-        dlg.get_by_role("radio", name="Benevento").click()
+        pick_city(dlg, "Benevento")
         dlg.get_by_role("button", name="Save").click()
         expect(page.locator(".toast-region")).to_contain_text("Profile saved")
         expect(page.locator(".profile-bio").first).to_have_text("Walks the Coselhas path at weekends.")
@@ -314,7 +320,7 @@ with sync_playwright() as p:
         op = b.new_context(viewport={"width": 1280, "height": 860}).new_page()
         op.goto(f"{BASE}/sign-up?role=org")
         op.get_by_label("Organisation name").fill("Ghent water lab (e2e)")
-        op.get_by_role("radio", name="Ghent").click()
+        pick_city(op, "Ghent")
         op.get_by_label("Your name").fill("Lien V.")
         op.get_by_label("Work email").fill(f"e2e.org.{int(time.time())}@example.org")
         op.get_by_label("Password").fill("a-long-org-password")
@@ -356,6 +362,45 @@ with sync_playwright() as p:
         tabs = o.get_by_role("navigation", name="Sections").last
         assert [x.strip() for x in tabs.locator(".tab").all_inner_texts()] == ["Dashboard", "Review", "Brief", "Standards"]
     step("organiser signs in and lands on the organisation dashboard", org_dashboard)
+
+    def photo_sample():
+        import io
+        from PIL import Image
+        buf = io.BytesIO()
+        Image.effect_noise((320, 240), 60).convert("RGB").save(buf, "JPEG")
+        return {"name": "stream.jpg", "mimeType": "image/jpeg", "buffer": buf.getvalue()}
+
+    def camera_capture():  # a fake camera device stands in for a real one
+        cb = p.chromium.launch(args=["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"])
+        c = cb.new_context(viewport={"width": 390, "height": 844}, permissions=["camera"])
+        pg = c.new_page()
+        pg.goto(f"{BASE}/report")
+        pg.get_by_label("What should we call you? (optional)").fill("Camera tester")
+        pg.get_by_role("button", name="Start reporting").click()
+        pg.get_by_role("button", name="Take a photo").click()
+        expect(pg.locator("video.photo-video")).to_be_visible()
+        pg.get_by_role("button", name="Capture").click()
+        expect(pg.get_by_alt_text("Your photo")).to_be_visible()
+        expect(pg.locator("video.photo-video")).to_have_count(0)
+        pg.get_by_role("button", name="Remove").click()
+        expect(pg.get_by_alt_text("Your photo")).to_have_count(0)
+        cb.close()
+    step("photo: take a picture with the camera in the page", camera_capture)
+
+    def camera_missing():  # headless Chromium without a camera: say so, upload still works
+        cb = p.chromium.launch()
+        c = cb.new_context(viewport={"width": 390, "height": 844})
+        pg = c.new_page()
+        pg.goto(f"{BASE}/report")
+        pg.get_by_label("What should we call you? (optional)").fill("Upload tester")
+        pg.get_by_role("button", name="Start reporting").click()
+        pg.get_by_role("button", name="Take a photo").click()  # no device: not found, or denied without a prompt
+        expect(pg.get_by_text(re.compile("No camera was found on this device|Camera access was blocked"))).to_be_visible()
+        expect(pg.get_by_role("button", name="Take a photo")).to_have_count(0)
+        pg.locator("input[type=file]").set_input_files(photo_sample())
+        expect(pg.get_by_alt_text("Your photo")).to_be_visible()
+        cb.close()
+    step("photo: no camera, so the upload takes over", camera_missing)
 
     print("console errors:", [e for e in errors if "favicon" not in e][:5])
     b.close()

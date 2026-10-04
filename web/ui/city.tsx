@@ -1,6 +1,6 @@
 "use client";
-// City picker: the five OneAquaHealth cities as quick picks, plus a search for any other city.
-// Picking a new city registers it; the server then fetches its streams (OpenStreetMap) and rainfall.
+// City picker: one search box for any city in the world (the five OneAquaHealth cities are found by it too,
+// and work offline). Picking a new city registers it; the server then fetches its streams (OpenStreetMap) and rainfall.
 import { useEffect, useId, useRef, useState } from "react";
 import { api, ApiError, type City, type CityHit } from "./api";
 import { useI18n } from "./i18n";
@@ -34,7 +34,6 @@ export function CityStatus({ city }: { city: City | null }) {
 export function CityPicker({ value, onChange, label }: { value: string; onChange: (c: City) => void; label: string }) {
   const { t, lang } = useI18n();
   const meta = useMeta();
-  const oah = meta?.cities.filter((c) => c.oah) ?? [];
   const [picked, setPicked] = useState<City | null>(null);
   const [q, setQ] = useState("");
   const [hits, setHits] = useState<CityHit[]>([]);
@@ -43,7 +42,7 @@ export function CityPicker({ value, onChange, label }: { value: string; onChange
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const listId = useId();
-  const labelId = useId();
+  const inputId = useId();
   const seq = useRef(0);
 
   const update = (c: City) => { setPicked(c); onChange(c); };
@@ -81,21 +80,14 @@ export function CityPicker({ value, onChange, label }: { value: string; onChange
     } catch (e) { setError((e as ApiError).message); }
   };
 
-  const chips = [...oah, ...(picked && !picked.oah ? [picked] : [])];
+  const shown = picked && picked.city === value ? picked : meta?.cities.find((c) => c.city === value) ?? null;
+  const name = shown?.city ?? value;
   return (
     <div className="field city-picker">
-      <span className="field-label" id={labelId}>{label}</span>
-      <div className="chips city-chips" role="radiogroup" aria-labelledby={labelId}>
-        {chips.map((c) => (
-          <button key={c.city} type="button" role="radio" aria-checked={c.city === value} className="chip"
-            onClick={() => { if (c.oah) { setPicked(null); onChange(c); } else update(c); }}>
-            <I.Check /> {c.city}{!c.oah && c.country ? <span className="chip-sub">{c.cc.toUpperCase()}</span> : null}
-          </button>
-        ))}
-      </div>
+      <label className="field-label" htmlFor={inputId}>{label}</label>
       <div className="combo">
         <I.Globe className="combo-ic" aria-hidden />
-        <input className="input combo-input" type="search" role="combobox" aria-expanded={open && hits.length > 0} aria-controls={listId}
+        <input id={inputId} className="input combo-input" type="search" role="combobox" aria-expanded={open && hits.length > 0} aria-controls={listId}
           aria-autocomplete="list" aria-activedescendant={open && active >= 0 ? `${listId}-${active}` : undefined}
           aria-label={t("city.search")} placeholder={t("city.searchPh")} value={q} autoComplete="off"
           onChange={(e) => setQ(e.target.value)} onFocus={() => hits.length && setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 150)}
@@ -118,6 +110,9 @@ export function CityPicker({ value, onChange, label }: { value: string; onChange
           </ul>
         ) : null}
       </div>
+      {name ? (
+        <p className="city-selected" role="status"><span className="pill ok"><I.Check width={14} height={14} /> {name}{shown && !shown.oah && shown.cc ? <span className="chip-sub">{shown.cc.toUpperCase()}</span> : null}</span></p>
+      ) : null}
       {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
       <CityStatus city={picked && picked.city === value ? picked : null} />
     </div>

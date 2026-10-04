@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Espuma blanca o marrón que no se deshace rápido.",
 "Everything looks fine": "Todo parece bien",
 "No problem observed": "Ningún problema observado",
-"The observer checked the site and saw nothing of concern. Credited equally.": "El observador revisó el lugar y no vio nada preocupante. Cuenta igual."
+"The observer checked the site and saw nothing of concern. Credited equally.": "El observador revisó el lugar y no vio nada preocupante. Cuenta igual.",
+"Upload a photo": "Subir una foto",
+"Capture": "Capturar",
+"Switch camera": "Cambiar de cámara",
+"Opening the camera…": "Abriendo la cámara…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Se bloqueó el acceso a la cámara. Permítelo en los ajustes del navegador o sube una foto.",
+"No camera was found on this device. Upload a photo instead.": "No se encontró ninguna cámara en este dispositivo. Sube una foto.",
+"Camera preview": "Vista previa de la cámara"
 }

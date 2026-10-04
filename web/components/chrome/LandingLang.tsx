@@ -11,14 +11,14 @@ export default function LandingLang({ current, label }: { current: string; label
       </svg>
       <span aria-hidden="true">{current}</span>
       <select aria-label={label} value={current} lang="en"
-        style={{ position: "absolute", inset: "-8px", opacity: 0, cursor: "pointer", width: "calc(100% + 16px)", height: "calc(100% + 16px)", fontSize: 16 }}
+        style={{ position: "absolute", inset: "-8px", opacity: 0, cursor: "pointer", width: "calc(100% + 16px)", height: "calc(100% + 16px)", fontSize: 16, colorScheme: "light", color: "#111", textTransform: "none" }}
         onChange={(e) => {
           const l = e.target.value;
           try { localStorage.setItem("sp-lang", l); } catch { /* private mode */ }
           document.cookie = `sp-lang=${l}; path=/; max-age=31536000; samesite=lax`;
           window.location.reload();
         }}>
-        {LANGS.map((l) => <option key={l.code} value={l.code} lang={l.code}>{l.name}</option>)}
+        {LANGS.map((l) => <option key={l.code} value={l.code} lang={l.code} style={{ color: "#111", background: "#fff" }}>{l.name}</option>)}
       </select>
     </span>
   );

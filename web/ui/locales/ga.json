@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Cúr bán nó donn nach mbriseann suas go tapa.",
 "Everything looks fine": "Tá gach rud go breá",
 "No problem observed": "Níor breathnaíodh aon fhadhb",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Sheiceáil an breathnóir an láthair agus ní fhaca sé aon ábhar imní. Creidiúint chomhionann."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Sheiceáil an breathnóir an láthair agus ní fhaca sé aon ábhar imní. Creidiúint chomhionann.",
+"Upload a photo": "Uaslódáil grianghraf",
+"Capture": "Tóg",
+"Switch camera": "Athraigh an ceamara",
+"Opening the camera…": "An ceamara á hoscailt…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Cuireadh bac ar rochtain ar an gceamara. Ceadaigh í i socruithe an bhrabhsálaí, nó uaslódáil grianghraf ina ionad.",
+"No camera was found on this device. Upload a photo instead.": "Níor aimsíodh ceamara ar an ngléas seo. Uaslódáil grianghraf ina ionad.",
+"Camera preview": "Réamhamharc ceamara"
 }

@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Baltas vai brūnas putas, kas ātri neizzūd.",
 "Everything looks fine": "Viss izskatās labi",
 "No problem observed": "Problēma nav novērota",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Novērotājs pārbaudīja vietu un neko satraucošu neredzēja. Ieskaitīts vienlīdzīgi."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Novērotājs pārbaudīja vietu un neko satraucošu neredzēja. Ieskaitīts vienlīdzīgi.",
+"Upload a photo": "Augšupielādēt fotogrāfiju",
+"Capture": "Uzņemt",
+"Switch camera": "Mainīt kameru",
+"Opening the camera…": "Atver kameru…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Piekļuve kamerai tika bloķēta. Atļaujiet to pārlūkprogrammas iestatījumos vai tā vietā augšupielādējiet fotogrāfiju.",
+"No camera was found on this device. Upload a photo instead.": "Šajā ierīcē netika atrasta neviena kamera. Augšupielādējiet fotogrāfiju.",
+"Camera preview": "Kameras priekšskatījums"
 }

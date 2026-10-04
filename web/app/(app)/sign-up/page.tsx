@@ -24,7 +24,7 @@ function ConsentSheet({ open, onClose }: { open: boolean; onClose: () => void })
 function CitizenSignUp({ onDone }: { onDone: () => void }) {
   const { session, refreshSession, toast } = useApp();
   const { t, tr } = useI18n();
-  const [f, setF] = useState({ display: session?.citizen && !session.citizen.demo ? session.citizen.name : "", email: "", password: "", city: "Coimbra" });
+  const [f, setF] = useState({ display: session?.citizen && !session.citizen.demo ? session.citizen.name : "", email: "", password: "", city: "" });
   const [agree, setAgree] = useState(false);
   const [why, setWhy] = useState(false);
   const [error, setError] = useState("");
@@ -64,7 +64,7 @@ function CitizenSignUp({ onDone }: { onDone: () => void }) {
           <button type="button" className="btn btn-plain btn-sm" onClick={() => setWhy(true)}>{t("su.what")}</button>
         </div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={busy || !agree || f.password.length < 10}>{busy ? <I.Spinner /> : null} {t("signup")}</button>
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy || !agree || !f.city || f.password.length < 10}>{busy ? <I.Spinner /> : null} {t("signup")}</button>
       </div>
       <ConsentSheet open={why} onClose={() => setWhy(false)} />
     </form>
@@ -74,7 +74,7 @@ function CitizenSignUp({ onDone }: { onDone: () => void }) {
 function OrgSignUp({ onDone }: { onDone: () => void }) {
   const { refreshSession, toast } = useApp();
   const { tx, tr } = useI18n();
-  const [f, setF] = useState({ org_name: "", city: "Coimbra", name: "", email: "", password: "" });
+  const [f, setF] = useState({ org_name: "", city: "", name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   return (
@@ -106,7 +106,7 @@ function OrgSignUp({ onDone }: { onDone: () => void }) {
           <input id="os-pw" className="input" type="password" required minLength={10} autoComplete="new-password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} aria-describedby="os-pw-help" />
           <p id="os-pw-help" className="field-help">{tx("At least 10 characters.")}</p></div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
-        <button className="btn btn-prominent btn-large btn-block" disabled={busy || f.password.length < 10}>{busy ? <I.Spinner /> : null} {tx("Create organisation")}</button>
+        <button className="btn btn-prominent btn-large btn-block" disabled={busy || !f.city || f.password.length < 10}>{busy ? <I.Spinner /> : null} {tx("Create organisation")}</button>
         <p className="field-help">{tx("In this demo anyone can create an organisation. A real deployment would confirm the organisation with OneAquaHealth first.")}</p>
       </div>
     </form>

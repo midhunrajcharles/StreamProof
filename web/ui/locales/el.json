@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Λευκός ή καφέ αφρός που δεν διαλύεται γρήγορα.",
 "Everything looks fine": "Όλα φαίνονται εντάξει",
 "No problem observed": "Δεν παρατηρήθηκε πρόβλημα",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Ο παρατηρητής έλεγξε το σημείο και δεν είδε τίποτα ανησυχητικό. Μετράει το ίδιο."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Ο παρατηρητής έλεγξε το σημείο και δεν είδε τίποτα ανησυχητικό. Μετράει το ίδιο.",
+"Upload a photo": "Μεταφόρτωση φωτογραφίας",
+"Capture": "Λήψη",
+"Switch camera": "Αλλαγή κάμερας",
+"Opening the camera…": "Άνοιγμα της κάμερας…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Η πρόσβαση στην κάμερα αποκλείστηκε. Επιτρέψτε την από τις ρυθμίσεις του προγράμματος περιήγησης ή μεταφορτώστε μια φωτογραφία.",
+"No camera was found on this device. Upload a photo instead.": "Δεν βρέθηκε κάμερα σε αυτήν τη συσκευή. Μεταφορτώστε μια φωτογραφία.",
+"Camera preview": "Προεπισκόπηση κάμερας"
 }

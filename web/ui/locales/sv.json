@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Vitt eller brunt skum som inte löses upp snabbt.",
 "Everything looks fine": "Allt ser bra ut",
 "No problem observed": "Inget problem observerat",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Observatören kontrollerade platsen och såg inget oroande. Räknas lika mycket."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Observatören kontrollerade platsen och såg inget oroande. Räknas lika mycket.",
+"Upload a photo": "Ladda upp ett foto",
+"Capture": "Ta bild",
+"Switch camera": "Byt kamera",
+"Opening the camera…": "Öppnar kameran…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Kameraåtkomsten blockerades. Tillåt den i webbläsarens inställningar eller ladda upp ett foto i stället.",
+"No camera was found on this device. Upload a photo instead.": "Ingen kamera hittades på den här enheten. Ladda upp ett foto i stället.",
+"Camera preview": "Kameraförhandsvisning"
 }

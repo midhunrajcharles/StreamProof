@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Valge või pruun vaht, mis kiiresti ei lagune.",
 "Everything looks fine": "Kõik paistab korras",
 "No problem observed": "Probleemi ei täheldatud",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Vaatleja kontrollis kohta ega näinud midagi muret tekitavat. Loeb sama palju."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Vaatleja kontrollis kohta ega näinud midagi muret tekitavat. Loeb sama palju.",
+"Upload a photo": "Laadi foto üles",
+"Capture": "Tee pilt",
+"Switch camera": "Vaheta kaamerat",
+"Opening the camera…": "Kaamera avamine…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Juurdepääs kaamerale blokeeriti. Luba see brauseri seadetes või laadi selle asemel foto üles.",
+"No camera was found on this device. Upload a photo instead.": "Sellest seadmest ei leitud kaamerat. Laadi selle asemel foto üles.",
+"Camera preview": "Kaamera eelvaade"
 }

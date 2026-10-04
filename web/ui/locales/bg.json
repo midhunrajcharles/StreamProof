@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Бяла или кафява пяна, която не се разпада бързо.",
 "Everything looks fine": "Всичко изглежда наред",
 "No problem observed": "Не е забелязан проблем",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Наблюдателят е проверил мястото и не е видял нищо тревожно. Брои се еднакво."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Наблюдателят е проверил мястото и не е видял нищо тревожно. Брои се еднакво.",
+"Upload a photo": "Качи снимка",
+"Capture": "Снимай",
+"Switch camera": "Смени камерата",
+"Opening the camera…": "Камерата се отваря…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Достъпът до камерата е блокиран. Разрешете го в настройките на браузъра или качете снимка.",
+"No camera was found on this device. Upload a photo instead.": "На това устройство не е намерена камера. Качете снимка.",
+"Camera preview": "Преглед на камерата"
 }

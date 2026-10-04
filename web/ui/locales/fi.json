@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Valkoinen tai ruskea vaahto, joka ei hajoa nopeasti.",
 "Everything looks fine": "Kaikki näyttää hyvältä",
 "No problem observed": "Ei havaittua ongelmaa",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Havainnoija tarkisti paikan eikä nähnyt mitään huolestuttavaa. On yhtä arvokas."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Havainnoija tarkisti paikan eikä nähnyt mitään huolestuttavaa. On yhtä arvokas.",
+"Upload a photo": "Lataa valokuva",
+"Capture": "Ota kuva",
+"Switch camera": "Vaihda kameraa",
+"Opening the camera…": "Avataan kameraa…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Kameran käyttö estettiin. Salli se selaimen asetuksissa tai lataa valokuva sen sijaan.",
+"No camera was found on this device. Upload a photo instead.": "Tältä laitteelta ei löytynyt kameraa. Lataa valokuva sen sijaan.",
+"Camera preview": "Kameran esikatselu"
 }

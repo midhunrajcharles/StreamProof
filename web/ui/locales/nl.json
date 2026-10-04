@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Wit of bruin schuim dat niet snel verdwijnt.",
 "Everything looks fine": "Alles lijkt in orde",
 "No problem observed": "Geen probleem gezien",
-"The observer checked the site and saw nothing of concern. Credited equally.": "De waarnemer controleerde de plek en zag niets zorgwekkends. Telt evenveel."
+"The observer checked the site and saw nothing of concern. Credited equally.": "De waarnemer controleerde de plek en zag niets zorgwekkends. Telt evenveel.",
+"Upload a photo": "Foto uploaden",
+"Capture": "Vastleggen",
+"Switch camera": "Camera wisselen",
+"Opening the camera…": "Camera openen…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Toegang tot de camera is geblokkeerd. Sta het toe in de browserinstellingen of upload in plaats daarvan een foto.",
+"No camera was found on this device. Upload a photo instead.": "Er is geen camera gevonden op dit apparaat. Upload in plaats daarvan een foto.",
+"Camera preview": "Cameravoorbeeld"
 }

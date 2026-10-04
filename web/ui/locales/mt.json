@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Ragħwa bajda jew kannella li ma tinqasamx malajr.",
 "Everything looks fine": "Kollox jidher tajjeb",
 "No problem observed": "L-ebda problema osservata",
-"The observer checked the site and saw nothing of concern. Credited equally.": "L-osservatur iċċekkja s-sit u ma ra xejn ta' tħassib. Jingħata l-istess kreditu."
+"The observer checked the site and saw nothing of concern. Credited equally.": "L-osservatur iċċekkja s-sit u ma ra xejn ta' tħassib. Jingħata l-istess kreditu.",
+"Upload a photo": "Tella' ritratt",
+"Capture": "Ikkaptura",
+"Switch camera": "Biddel il-kamera",
+"Opening the camera…": "Qed tinfetaħ il-kamera…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "L-aċċess għall-kamera ġie mblukkat. Ippermettih fis-settings tal-brawżer jew tella' ritratt minflok.",
+"No camera was found on this device. Upload a photo instead.": "Ma nstabet l-ebda kamera fuq dan it-tagħmir. Tella' ritratt minflok.",
+"Camera preview": "Previżjoni tal-kamera"
 }

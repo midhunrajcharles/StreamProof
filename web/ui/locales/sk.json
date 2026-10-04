@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Biela alebo hnedá pena, ktorá sa rýchlo nerozpadne.",
 "Everything looks fine": "Všetko vyzerá v poriadku",
 "No problem observed": "Žiadny problém nezistený",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Pozorovateľ miesto skontroloval a nevidel nič znepokojivé. Počíta sa rovnako."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Pozorovateľ miesto skontroloval a nevidel nič znepokojivé. Počíta sa rovnako.",
+"Upload a photo": "Nahrať fotku",
+"Capture": "Odfotiť",
+"Switch camera": "Prepnúť fotoaparát",
+"Opening the camera…": "Otvára sa fotoaparát…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Prístup k fotoaparátu bol zablokovaný. Povoľte ho v nastaveniach prehliadača alebo namiesto toho nahrajte fotku.",
+"No camera was found on this device. Upload a photo instead.": "V tomto zariadení sa nenašiel žiadny fotoaparát. Nahrajte fotku.",
+"Camera preview": "Náhľad fotoaparátu"
 }

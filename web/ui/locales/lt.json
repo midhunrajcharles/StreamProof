@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Baltos ar rudos putos, kurios greitai neišnyksta.",
 "Everything looks fine": "Viskas atrodo gerai",
 "No problem observed": "Problemų nepastebėta",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Stebėtojas patikrino vietą ir nieko nerimą keliančio nematė. Įskaitoma vienodai."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Stebėtojas patikrino vietą ir nieko nerimą keliančio nematė. Įskaitoma vienodai.",
+"Upload a photo": "Įkelti nuotrauką",
+"Capture": "Fotografuoti",
+"Switch camera": "Perjungti kamerą",
+"Opening the camera…": "Atidaroma kamera…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Prieiga prie kameros buvo užblokuota. Leiskite ją naršyklės nustatymuose arba vietoj to įkelkite nuotrauką.",
+"No camera was found on this device. Upload a photo instead.": "Šiame įrenginyje kameros nerasta. Įkelkite nuotrauką.",
+"Camera preview": "Kameros peržiūra"
 }

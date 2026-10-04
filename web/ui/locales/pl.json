@@ -906,5 +906,12 @@
 "White or brown foam that does not break up quickly.": "Biała lub brązowa piana, która szybko nie znika.",
 "Everything looks fine": "Wszystko wygląda dobrze",
 "No problem observed": "Nie zauważono problemu",
-"The observer checked the site and saw nothing of concern. Credited equally.": "Obserwator sprawdził miejsce i nie zauważył niczego niepokojącego. Liczy się tak samo."
+"The observer checked the site and saw nothing of concern. Credited equally.": "Obserwator sprawdził miejsce i nie zauważył niczego niepokojącego. Liczy się tak samo.",
+"Upload a photo": "Prześlij zdjęcie",
+"Capture": "Zrób zdjęcie",
+"Switch camera": "Przełącz aparat",
+"Opening the camera…": "Otwieranie aparatu…",
+"Camera access was blocked. Allow it in your browser settings, or upload a photo instead.": "Dostęp do aparatu został zablokowany. Zezwól na niego w ustawieniach przeglądarki albo prześlij zdjęcie.",
+"No camera was found on this device. Upload a photo instead.": "Na tym urządzeniu nie znaleziono aparatu. Prześlij zdjęcie.",
+"Camera preview": "Podgląd z aparatu"
 }

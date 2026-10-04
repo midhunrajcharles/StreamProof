@@ -7,6 +7,7 @@ import { useI18n } from "@/ui/i18n";
 import * as I from "@/ui/icons";
 import { Callout, Page, Section, SignIn, Skeleton, useApp } from "@/ui/kit";
 import { Map, useMeta } from "@/ui/Map";
+import { PhotoField } from "@/ui/photo";
 import { formOf, saveDraft, type Draft } from "@/ui/outbox";
 
 function distanceKm(a: [number, number], b: [number, number]) {
@@ -188,34 +189,7 @@ function ReportForm() {
         ) : null}
 
         <Section title={t("photo.section")} n={1} foot={t("photo.foot")}>
-          <label className="photo-pick">
-            <input type="file" accept="image/*" capture="environment" className="visually-hidden"
-              onChange={(e) => { const f = e.target.files?.[0]; if (f) setPhoto(f); }} />
-            {preview ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={preview} alt={t("photo.alt")} />
-            ) : (
-              <>
-                <I.Camera className="big" />
-                <span className="t-headline" style={{ color: "var(--label)" }}>{t("photo.take")}</span>
-                <span className="t-sub">{t("photo.optional")}</span>
-              </>
-            )}
-          </label>
-          {photo ? (
-            <div className="btn-row" style={{ marginTop: 10 }}>
-              <label className="btn btn-sm"><I.Photo /> {t("photo.another")}
-                <input type="file" accept="image/*" className="visually-hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) setPhoto(f); }} />
-              </label>
-              <button type="button" className="btn btn-sm btn-destructive" onClick={() => setPhoto(null)}><I.Trash /> {t("photo.remove")}</button>
-            </div>
-          ) : (
-            <div style={{ marginTop: 10 }}>
-              <label className="btn btn-sm btn-plain" style={{ paddingLeft: 4 }}><I.Photo /> {t("photo.library")}
-                <input type="file" accept="image/*" className="visually-hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) setPhoto(f); }} />
-              </label>
-            </div>
-          )}
+          <PhotoField photo={photo} preview={preview} onChange={setPhoto} />
         </Section>
 
         <Section title={t("where.section")} n={2} foot={<>{t(locMsg.key, locMsg.vars)}{example ? <> {t("where.example")}</> : null}</>}>

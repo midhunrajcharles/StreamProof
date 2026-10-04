@@ -1,7 +1,7 @@
 # StreamProof: Devpost "About the project" (paste-ready)
 
 Paste everything between the two `=====` lines into the Devpost story box (it accepts Markdown).
-Where it says `[GIF: …]`, upload that file from `docs/gifs/` with the editor's image button, at that spot.
+The GIFs load from the public GitHub repo (`docs/gifs/`), so push the repo before pasting; Devpost has no GIF upload in the story box.
 Facts match the repository and `docs/DEVPOST.md`. Fill the two `[YOU]` links before submitting.
 
 =====
@@ -9,7 +9,7 @@ Facts match the repository and `docs/DEVPOST.md`. Fill the two `[YOU]` links bef
 > **Anyone can photograph a stream. StreamProof decides how far to trust that photo, writes the answer into the record, and makes every downstream system enforce it.**
 > A trust and provenance add-on to HL7 Europe's official OneAquaHealth FHIR guide · Track 7, Digital Health Standards
 
-🎬 **3-minute demo:** [YOU: YouTube link] · 💻 **Code:** [YOU: GitHub link]
+🎬 **3-minute demo:** [YOU: YouTube link] · 💻 **Code:** https://github.com/midhunrajcharles/StreamProof
 
 ## 💡 Inspiration
 
@@ -25,10 +25,10 @@ OneAquaHealth's FHIR guide says *what* was observed, but not *how far to trust i
 
 A citizen reports in about a minute, in their own language. The report gets a grade from A to D straight away, **with reasons a person can read and argue with**.
 
-[GIF: docs/gifs/1-report.gif]
+![1-report](https://raw.githubusercontent.com/midhunrajcharles/StreamProof/master/docs/gifs/1-report.gif)
 *📸 Report in Portuguese: camera, "stagnant water" + "many mosquitoes", GPS snapped to the real stream, send.*
 
-[GIF: docs/gifs/2-grade.gif]
+![2-grade](https://raw.githubusercontent.com/midhunrajcharles/StreamProof/master/docs/gifs/2-grade.gif)
 *🅰️ Instant grade A (92/100) from seven checks, plus the neighbours who saw the same thing. Neighbours are counted as people, not reports.*
 
 Then the trust layer takes over:
@@ -36,17 +36,17 @@ Then the trust layer takes over:
 - 🔒 **A permitted-use gate** sits in front of every output: dashboard, public map, FHIR exchange, DipteraCAST export, advisory. The rule isn't hidden in code. It's a **published FHIR CodeSystem** (`trust-level`, property `permits`) that the app loads, so any receiving system can enforce the same rule.
 - 🧑‍🔬 **Experts verify in one tap**, by remote check or field check, and the record upgrades.
 
-[GIF: docs/gifs/3-gate.gif]
+![3-gate](https://raw.githubusercontent.com/midhunrajcharles/StreamProof/master/docs/gifs/3-gate.gif)
 *🚫 "Export refused by the gate": a community-supported record can't leave as FHIR. One expert field check later, it can.*
 
 - 🏛️ **The River Health Brief** gives a municipality the signals, how sure we are, and next steps matched to the **real OneAquaHealth Catalogue of Measures**, with section and page.
 - 🦟 **DipteraCAST ground truth:** expert-verified Diptera records leave as labelled CSV or FHIR. A visual all-clear is exported as *not seen*, never *absent*.
 - 🗺️ **Under-observed stretches** are listed, and an organisation can send residents there.
 
-[GIF: docs/gifs/4-brief.gif]
+![4-brief](https://raw.githubusercontent.com/midhunrajcharles/StreamProof/master/docs/gifs/4-brief.gif)
 *📋 The brief: decision-grade signals and an advisory, only where the evidence allows one.*
 
-[GIF: docs/gifs/5-city.gif]
+![5-city](https://raw.githubusercontent.com/midhunrajcharles/StreamProof/master/docs/gifs/5-city.gif)
 *🧭 Catalogue measures, coverage gaps, "ask residents to check", and the DipteraCAST ground-truth card (present 2 · not seen 10 · held back 48).*
 
 ### ✅ What the judges asked, and how we answer

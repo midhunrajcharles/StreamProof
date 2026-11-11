@@ -28,7 +28,7 @@ const en: Dict = {
   // citizen start
   "cs.title": "Report as a citizen", "cs.body": "No account and no password. You get a pseudonym on this device; your name is never attached to the evidence.",
   "cs.name": "What should we call you? (optional)", "cs.nameHelp": "Shown only to you and on your certificate.", "cs.ph": "For example: Ana",
-  "cs.start": "Start reporting", "cs.demoText": "Or explore with Maria S., the demo citizen who already has reports.", "cs.demo": "Use the demo citizen",
+  "cs.start": "Start reporting", "cs.demoText": "Or explore with Maria S., a sample citizen who already has reports.", "cs.demo": "Use the sample citizen",
   // report form
   "report.eyebrow": "Citizen", "report.subtitle": "About a minute. Your report is graded straight away, with reasons.",
   "consent.title": "Before your first report", "consent.private": "Private", "consent.privateText": "Your exact location and contact details. Only the reviewers see them.",
@@ -44,7 +44,7 @@ const en: Dict = {
   "where.far": "You're outside the cities in the list. Search for your city above so its streams load.", "where.gps": "Using your location (±{m} m).",
   "where.nogps": "Couldn't get your location. Place the pin on the map.", "where.unavailable": "Location isn't available on this device. Place the pin on the map.",
   "where.confirmed": "Spot confirmed on the map.", "where.mission": "Mission spot: {place}. Adjust if you're elsewhere.",
-  "where.map": "Report location. Drag the pin or tap the map to move it.", "where.example": "Example stream for the demo, not a OneAquaHealth study site.",
+  "where.map": "Report location. Drag the pin or tap the map to move it.", "where.example": "Example stream, not a OneAquaHealth study site.",
   "see.section": "What do you see", "see.foot": "Tap everything that applies. “Everything looks fine” counts just as much.",
   "else.section": "Anything else", "else.notes": "Notes (optional)", "else.notesPh": "For example: side pool by the footbridge, lots of mosquitoes at dusk",
   "else.contact": "Email or phone for updates (optional, private)",
@@ -55,7 +55,7 @@ const en: Dict = {
   "offline.text": "Your report and photo are kept on this device. They'll be sent and graded as soon as you're back online, even if you close the app.",
   "offline.another": "Make another report",
   // my reports
-  "reports.signedIn": "Signed in as {name}", "reports.demo": "(demo)", "stats.reports": "Reports", "stats.verified": "Verified", "stats.review": "Under review", "stats.missions": "Missions helped",
+  "reports.signedIn": "Signed in as {name}", "reports.demo": "(sample)", "stats.reports": "Reports", "stats.verified": "Verified", "stats.review": "Under review", "stats.missions": "Missions helped",
   "waiting.title": "Waiting to send", "waiting.sendNow": "Send now", "waiting.foot": "Saved on this device while you were offline. They're sent automatically when you're back online.",
   "waiting.signs": "Signs: {n}", "waiting.photo": "with photo", "waiting.saved": "Saved {ago}", "waiting.failed": "Couldn't send: {err}", "waiting.delete": "Delete saved report",
   "waiting.still": "Still offline. We'll try again automatically.", "waiting.sent": "Reports sent: {n}",
@@ -78,7 +78,7 @@ const en: Dict = {
   "card.signedText": "Issued {date}. Anyone can check it hasn't been changed.", "card.pdf": "Certificate (PDF)", "card.check": "Check signature",
   "card.share": "Share", "card.shareText": "A stream report I made", "card.copied": "Share link copied",
   "card.noCert": "You'll receive a signed contribution record once an expert verifies this report.", "card.history": "History", "card.points": "{p} of {max} points",
-  "photo.synthetic": "Synthetic demo report: photo metrics only, no image stored.", "photo.none": "No photo with this report.",
+  "photo.synthetic": "Sample report: photo metrics only, no image stored.", "photo.none": "No photo with this report.",
   // mission page
   "missionp.title": "Mission {id}", "missionp.eyebrow": "Evidence needed", "missionp.meta": "{place} · opened {date} · answers so far: {n}",
   "missionp.where": "Where to look", "missionp.whereFoot": "Anywhere inside the circle ({m} m).", "missionp.cta": "Report for this mission", "missionp.closed": "This mission is closed.",
@@ -158,7 +158,7 @@ const en: Dict = {
   "acc.saved": "Profile saved",
   "acc.since": "Member since {d}",
   "acc.pseudonym": "Pseudonym",
-  "acc.demo": "demo citizen",
+  "acc.demo": "sample citizen",
   "acc.anonTitle": "Reporting without an account",
   "acc.anonBody": "Create an account to keep your reports and stars if you change device. Bio and city need an account.",
   "acc.security": "Sign-in and security",
@@ -172,7 +172,7 @@ const en: Dict = {
   "acc.signOutCitizen": "Sign out as citizen",
   "acc.outAccount": "You can sign in again with your email and password. Your reports stay in the record.",
   "acc.outAnon": "You have no account, so after signing out this device can't open your reports again. Create an account first to keep them.",
-  "acc.outDemo": "You can come back to the demo citizen at any time.",
+  "acc.outDemo": "You can come back to the sample citizen at any time.",
   "acc.stay": "Stay signed in",
   "acc.outTitle": "You're not signed in",
   "acc.outBody": "Citizens can report with or without an account. Reviewers sign in with their organisation account.",

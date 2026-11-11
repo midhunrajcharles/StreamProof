@@ -190,7 +190,7 @@ with sync_playwright() as p:
         sp.get_by_label("Password").fill(demo_pw)
         sp.get_by_role("button", name="Sign in", exact=True).click()
         sp.wait_for_url(f"{BASE}/account")
-        expect(sp.get_by_text("Pilot coordinator (demo)").first).to_be_visible()
+        expect(sp.get_by_text("Stream coordinator").first).to_be_visible()
     step("organisation sign-in with email and password", org_login)
 
     new_email = f"e2e.{int(time.time())}@example.org"  # accounts survive demo resets

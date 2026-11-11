@@ -209,7 +209,7 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
       <div className="stack" style={{ gap: 6 }}>
         <span className="grade grade-md" style={{ color: "var(--label)", background: "var(--fill)" }}><I.Shield /></span>
         <h2 className="t-title2">{tx("Organisation sign-in")}</h2>
-        <p className="secondary">{tx("For reviewers and coordinators of a OneAquaHealth pilot.")}</p>
+        <p className="secondary">{tx("For reviewers and coordinators of a stream monitoring team.")}</p>
       </div>
       <div className="stack">
         <div className="field">
@@ -222,15 +222,15 @@ export function OrgSignIn({ onDone }: { onDone: () => void }) {
         </div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
         <button className="btn btn-prominent btn-large btn-block" disabled={Boolean(busy)}>{busy === "login" ? <I.Spinner /> : null} {tx("Sign in")}</button>
-        <p className="auth-links secondary">{tx("New pilot or partner?")} <Link href="/sign-up?role=org">{tx("Create an organisation account")}</Link></p>
+        <p className="auth-links secondary">{tx("New organisation?")} <Link href="/sign-up?role=org">{tx("Create an organisation account")}</Link></p>
       </div>
       {session?.demo ? (
         <div className="stack" style={{ gap: 8, borderTop: "0.5px solid var(--separator)", paddingTop: 16 }}>
-          <p className="secondary t-sub">{tx("Judging the demo? Use the demo reviewer account. The reports are synthetic.")}</p>
+          <p className="secondary t-sub">{tx("Want to look around first? Open the sample reviewer account. Its reports are sample data.")}</p>
           <button type="button" className="btn btn-block" disabled={Boolean(busy)} onClick={async () => {
             setBusy("demo");
             try { await api("/session", { form: { role: "org" } }); await done(); } finally { setBusy(""); }
-          }}>{busy === "demo" ? <I.Spinner /> : <I.Person />} {tx("Continue with the demo reviewer")}</button>
+          }}>{busy === "demo" ? <I.Spinner /> : <I.Person />} {tx("Continue with the sample reviewer")}</button>
         </div>
       ) : null}
     </form>

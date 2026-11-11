@@ -14,7 +14,7 @@ export default async function Header() {
           </div>
           <div className="lg:col-start-4 lg:col-span-4 hidden items-center lg:flex uppercase">
             <span className="dot">
-              {lt("(OneAquaHealth · IEEE 2026)")}
+              {lt("(OneAquaHealth · FHIR R4)")}
             </span>
           </div>
           <ul className="md:col-span-3 lg:col-start-8 lg:col-span-2 hidden md:flex items-center gap-4 uppercase">

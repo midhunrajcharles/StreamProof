@@ -64,11 +64,6 @@ export default async function Footer() {
                     {lt("EU grant 101086521")}
                   </a>
                 </li>
-                <li>
-                  <a className="text-[2.375rem] md:text-[2.5rem] leading-[1.1] md:leading-12 font-medium hover:text-[#C0C0C0] transition-colors duration-150 ease-[ease]" href="https://oneaquahealth-ieee-hackathon.devpost.com/" target="_blank" rel="noopener noreferrer">
-                    {lt("Devpost")}
-                  </a>
-                </li>
               </ul>
             </div>
             <div className="col-span-4">

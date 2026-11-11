@@ -54,4 +54,4 @@ def test_brief_and_exports_have_what_the_script_shows(s):
     d = dipteracast.export(s.all())["summary"]
     assert d["present"] >= 5 and d["not_seen"] >= 5
     assert s.citizen_account(DEMO_CITIZEN[0])["city"] == "Coimbra"
-    assert all(s.user(email) for email in ("reviewer@coimbra-pilot.demo", "reviewer@oslo-pilot.demo", "coordinator@toulouse-pilot.demo"))
+    assert all(s.user(email) for email in ("reviewer@coimbra.streamproof.example", "reviewer@oslo-pilot.demo", "coordinator@toulouse-pilot.demo"))

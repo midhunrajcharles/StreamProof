@@ -24,7 +24,7 @@ from datetime import date, datetime
 
 from . import config, context, geo
 
-UA = {"User-Agent": "StreamProof hackathon demo (OneAquaHealth; city streams lookup)"}
+UA = {"User-Agent": "StreamProof (OneAquaHealth; city streams lookup)"}
 NETWORK = os.environ.get("STREAMPROOF_NETWORK", "1") == "1"
 STREAMS_DIR = config.DATA_DIR / "streams"
 WEATHER_DIR = config.DATA_DIR / "weather"

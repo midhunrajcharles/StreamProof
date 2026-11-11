@@ -1,0 +1,114 @@
+{
+ "phone-silver": {
+  "file": "bezels/phone-silver.png",
+  "w": 1350,
+  "h": 2760,
+  "holes": [
+   {
+    "x": 72,
+    "y": 69,
+    "w": 1206,
+    "h": 2622,
+    "px": 3101168
+   }
+  ]
+ },
+ "phone-black": {
+  "file": "bezels/phone-black.png",
+  "w": 1350,
+  "h": 2760,
+  "holes": [
+   {
+    "x": 72,
+    "y": 69,
+    "w": 1206,
+    "h": 2622,
+    "px": 3101168
+   }
+  ]
+ },
+ "duo-white": {
+  "file": "bezels/duo-white.png",
+  "w": 3093,
+  "h": 2247,
+  "holes": [
+   {
+    "x": 120,
+    "y": 120,
+    "w": 2853,
+    "h": 2007,
+    "px": 5701701
+   }
+  ]
+ },
+ "duo-black": {
+  "file": "bezels/duo-black.png",
+  "w": 3093,
+  "h": 2247,
+  "holes": [
+   {
+    "x": 120,
+    "y": 120,
+    "w": 2853,
+    "h": 2007,
+    "px": 5701701
+   }
+  ]
+ },
+ "tablet-silver": {
+  "file": "bezels/tablet-silver.png",
+  "w": 1880,
+  "h": 2640,
+  "holes": [
+   {
+    "x": 106,
+    "y": 110,
+    "w": 1668,
+    "h": 2420,
+    "px": 4033224
+   }
+  ]
+ },
+ "tablet-black": {
+  "file": "bezels/tablet-black.png",
+  "w": 1880,
+  "h": 2640,
+  "holes": [
+   {
+    "x": 106,
+    "y": 110,
+    "w": 1668,
+    "h": 2420,
+    "px": 4033224
+   }
+  ]
+ },
+ "laptop-silver": {
+  "file": "bezels/laptop-silver.png",
+  "w": 3860,
+  "h": 2540,
+  "holes": [
+   {
+    "x": 418,
+    "y": 288,
+    "w": 3024,
+    "h": 1964,
+    "px": 5914824
+   }
+  ]
+ },
+ "laptop-black": {
+  "file": "bezels/laptop-black.png",
+  "w": 3860,
+  "h": 2540,
+  "holes": [
+   {
+    "x": 418,
+    "y": 288,
+    "w": 3024,
+    "h": 1964,
+    "px": 5914824
+   }
+  ]
+ }
+}

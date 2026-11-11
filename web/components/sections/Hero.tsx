@@ -45,9 +45,9 @@ export default async function Hero() {
                   <path fillRule="evenodd" d="M59.6,20C59.6,20,24.6,61,24.6,90A35,35,0,0,0,94.6,90C94.6,61,59.6,20,59.6,20ZM42.5,90.5L49.5,83.5L56,90L71,75L78,82L56,104Z" data-astro-cid-ifbtycyl="" />
                 </svg>
                 <span className="w-full" data-astro-cid-ifbtycyl="">
-                  {lt("Track 7")}
+                  {lt("HL7 Europe")}
                   <br data-astro-cid-ifbtycyl="" />
-                  {lt("IEEE 2026")}
+                  {lt("FHIR R4")}
                 </span>
               </div>
               <div className="col-start-12 justify-end items-end leading-none hidden lg:flex" data-astro-cid-ifbtycyl="">

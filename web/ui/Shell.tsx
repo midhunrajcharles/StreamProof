@@ -87,7 +87,7 @@ function Sidebar() {
               <Avatar name={session.citizen.name} colour={session.citizen.avatar} size={30} />
               <span className="stack" style={{ gap: 0, minWidth: 0 }}>
                 <span className="side-name">{session.citizen.name}</span>
-                <span className="t-foot side-sub">{t("group.citizen")}{session.citizen.demo ? " · demo" : ""}</span>
+                <span className="t-foot side-sub">{t("group.citizen")}</span>
               </span>
             </Link>
             <SignOut role="citizen" variant="icon" after={() => setTimeout(() => window.location.reload(), 600)} />

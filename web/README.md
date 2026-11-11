@@ -51,7 +51,7 @@ Also: `/sign-in` (citizens start without a password; organisations sign in with 
 1. **Content only.** Text, alt text, labels and link targets are replaced. Markup, classes, styles, images and scripts are untouched.
 2. **Wordmark.** The header logo and the large footer mark read STREAMPROOF, set in the design's own display face inside the original logo box.
 3. **No tracking.** `public/_astro/analytics.DAZ5jj89.js` is a no-op stub; the original loaded a third party's Google Analytics and Contentsquare tags. The cookie notice now says so.
-4. **Links.** CTAs point to the web app pages; "Built on" links point to the OAH FHIR guide, OneAquaHealth, HL7 FHIR R4, the EU grant record and the Devpost page.
+4. **Links.** CTAs point to the web app pages; "Built on" links point to the OAH FHIR guide, OneAquaHealth, HL7 FHIR R4, and the EU grant record.
 
 ## Landing-page media
 

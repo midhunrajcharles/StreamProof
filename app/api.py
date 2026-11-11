@@ -4,7 +4,7 @@ Demo sign-in keeps one session per role, so one browser can hold the citizen and
 reviewer at the same time:
 
     session["citizen"] = {"id": pseudonym, "name": display}
-    session["org"]     = {"id": expert id, "name": "Reviewer (demo)"}
+    session["org"]     = {"id": expert id, "name": "Reviewer"}
 
 Privacy rules carry over from the HTML app: a citizen only ever sees their own reports,
 and exact GPS is returned to the organization only; everyone else gets the ~100 m area.
@@ -103,7 +103,7 @@ def session_get(request: Request):
 def session_start(request: Request, role: str = Form(...)):
     """One-tap demo accounts (demo mode only)."""
     if not config.DEMO_MODE:
-        raise HTTPException(403, "Demo sign-in is switched off. Sign in with your account.")
+        raise HTTPException(403, "Quick sign-in is switched off. Sign in with your account.")
     if role == "citizen":
         _citizen_session(request, seed.DEMO_CITIZEN[0], demo=True)
     elif role == "org":

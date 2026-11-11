@@ -462,7 +462,7 @@ export default async function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {lt("They are configurable defaults, meant to be calibrated with OAH ecologists. A calibration report publishes the current limits and the honest numbers behind them.")}
+                        {lt("They are configurable defaults, meant to be calibrated with OAH ecologists. A calibration report publishes the current limits and the numbers behind them.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
@@ -621,11 +621,11 @@ export default async function Faq() {
                   <div className="grid grid-cols-4 gap-3 pb-8 lg:block lg:pb-0" data-astro-cid-o2f2z7a3="">
                     <div className="col-span-3 lg:col-span-full" data-astro-cid-o2f2z7a3="">
                       <p className="text-[#767676] max-w-180 lg:pb-8 text-pretty" data-astro-cid-o2f2z7a3="">
-                        {lt("Not yet, and we say so. StreamProof is designed to sit behind OneAquaHealth’s Citizen Science App as a trust layer, with this app as a reference client. For DipteraCAST it exports verified ground truth; the model itself isn’t public.")}
+                        {lt("StreamProof is designed to sit behind OneAquaHealth’s Citizen Science App as a trust layer. For DipteraCAST it exports verified ground truth; the model itself isn’t public.")}
                       </p>
                     </div>
                     <div className="col-span-1 lg:hidden relative overflow-hidden rounded-xs aspect-3/4" data-astro-cid-o2f2z7a3="">
-                      <img src="/media/faq-7-sm.webp" alt={lt("Honesty")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
+                      <img src="/media/faq-7-sm.webp" alt={lt("Integration")} sizes="25vw" data-astro-cid-o2f2z7a3="true" loading="lazy" decoding="async" width="240" height="324" className="absolute inset-0 h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -694,7 +694,7 @@ export default async function Faq() {
                 <img src="/media/faq-4.webp" alt={lt("Calibration")} sizes="320px" loading="lazy" data-faq-preview="3" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
                 <img src="/media/faq-5.webp" alt={lt("Independence")} sizes="320px" loading="lazy" data-faq-preview="4" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
                 <img src="/media/faq-6.webp" alt={lt("Privacy")} sizes="320px" loading="lazy" data-faq-preview="5" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
-                <img src="/media/faq-7.webp" alt={lt("Honesty")} sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
+                <img src="/media/faq-7.webp" alt={lt("Integration")} sizes="320px" loading="lazy" data-faq-preview="6" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
                 <img src="/media/faq-8.webp" alt={lt("Integrity")} sizes="320px" loading="lazy" data-faq-preview="7" aria-hidden="true" data-astro-cid-o2f2z7a3="true" decoding="async" width="640" height="863" className="pixelated-render-image__img opacity-0" />
               </div>
               <div data-follower-label="" className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none" data-astro-cid-o2f2z7a3="">

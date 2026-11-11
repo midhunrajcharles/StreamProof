@@ -9,22 +9,22 @@ export default async function MobileMenu() {
             <div data-css-marquee-list="" className="relative flex flex-none items-center animate-[translateX_30s_linear_infinite] [animation-play-state:paused] motion-reduce:[animation-play-state:paused]!" data-astro-cid-xlat7obg="">
               <div className="flex shrink-0 items-center gap-4 py-4 pr-px" data-astro-cid-xlat7obg="">
                 <p className="dot mb-0 whitespace-nowrap font-mono uppercase leading-none" data-astro-cid-xlat7obg="">
-                  {lt("(OneAquaHealth · IEEE 2026)")}
+                  {lt("(OneAquaHealth · FHIR R4)")}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4 py-4 pr-px" data-astro-cid-xlat7obg="">
                 <p className="dot mb-0 whitespace-nowrap font-mono uppercase leading-none" data-astro-cid-xlat7obg="">
-                  {lt("(OneAquaHealth · IEEE 2026)")}
+                  {lt("(OneAquaHealth · FHIR R4)")}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4 py-4 pr-px" data-astro-cid-xlat7obg="">
                 <p className="dot mb-0 whitespace-nowrap font-mono uppercase leading-none" data-astro-cid-xlat7obg="">
-                  {lt("(OneAquaHealth · IEEE 2026)")}
+                  {lt("(OneAquaHealth · FHIR R4)")}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4 py-4 pr-px" data-astro-cid-xlat7obg="">
                 <p className="dot mb-0 whitespace-nowrap font-mono uppercase leading-none" data-astro-cid-xlat7obg="">
-                  {lt("(OneAquaHealth · IEEE 2026)")}
+                  {lt("(OneAquaHealth · FHIR R4)")}
                 </p>
               </div>
             </div>

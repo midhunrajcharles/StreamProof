@@ -107,7 +107,6 @@ function OrgSignUp({ onDone }: { onDone: () => void }) {
           <p id="os-pw-help" className="field-help">{tx("At least 10 characters.")}</p></div>
         {error ? <p className="field-error" role="alert"><I.Warn width={18} height={18} /> {error}</p> : null}
         <button className="btn btn-prominent btn-large btn-block" disabled={busy || !f.city || f.password.length < 10}>{busy ? <I.Spinner /> : null} {tx("Create organisation")}</button>
-        <p className="field-help">{tx("In this demo anyone can create an organisation. A real deployment would confirm the organisation with OneAquaHealth first.")}</p>
       </div>
     </form>
   );

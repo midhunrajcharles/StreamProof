@@ -21,7 +21,7 @@ SESSION_SECRET = os.environ.get("STREAMPROOF_SESSION_SECRET", "dev-only-change-m
 # Demo mode: one-tap demo sign-in and the demo accounts' details on the sign-in page.
 # Set STREAMPROOF_DEMO=0 for a real deployment: reviewers must use their password.
 DEMO_MODE = os.environ.get("STREAMPROOF_DEMO", "1") == "1"
-ORG_NAME = os.environ.get("STREAMPROOF_ORG", "StreamProof demo organization")
+ORG_NAME = os.environ.get("STREAMPROOF_ORG", "StreamProof")
 
 # Evidence rules. Illustrative defaults to be calibrated with OAH ecologists, not validated values.
 NEARBY_RADIUS_M = 500

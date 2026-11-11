@@ -43,3 +43,5 @@ next-env.d.ts
 # isolated test build
 /.next-e2e/
 /.next-verify/
+
+.vercel

@@ -56,7 +56,7 @@ export default async function About() {
                 {lt("Every stream counts")}
               </p>
               <p>
-                {lt("(Track 7)")}
+                {lt("(2026)")}
               </p>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default async function About() {
               {lt("Trust in citizen-science data is an old problem. Alabri & Hunter (IEEE e-Science 2010) combined quality checks with trust metrics, and Baker et al. (2021) reviewed 259 schemes and recommended layered verification. StreamProof implements that and adds a machine-readable rule for what each trust level may be used for, carried inside standard FHIR records.")}
             </p>
             <p data-intro-text="" className="text-[1.563rem] md:text-[2.5rem] leading-[1.2] md:leading-12 tracking-[-0.01em] -mt-2 pr-8 font-medium opacity-0 data-intro-ready:opacity-100">
-              {lt("It is designed for OneAquaHealth’s five cities (Benevento, Coimbra, Ghent, Oslo and Toulouse) and to outlive the project: the add-on is proposed as a module for the HL7 Europe OAH guide, and the rule files stay open.")}
+              {lt("It is built for OneAquaHealth’s five cities (Benevento, Coimbra, Ghent, Oslo and Toulouse), works as a module of the HL7 Europe OAH guide, and keeps its rule files open.")}
             </p>
           </div>
         </div>

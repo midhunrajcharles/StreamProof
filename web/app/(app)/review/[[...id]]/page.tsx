@@ -248,7 +248,7 @@ export default function Review() {
   return (
     <Page title={compactDetail ? tx("Report {id}", { id: sel }) : tx("Review")} eyebrow={tx("Organisation")} width="wide"
       back={compactDetail ? { href: "/review", label: tx("Review") } : undefined}
-      actions={!compactDetail ? <button className="btn btn-sm" onClick={() => setResetOpen(true)} aria-label={tx("Demo options")}><I.More /></button> : undefined}>
+      actions={!compactDetail ? <button className="btn btn-sm" onClick={() => setResetOpen(true)} aria-label={tx("Sample data")}><I.More /></button> : undefined}>
       <Gate q={q} skeleton={<Skeleton n={5} h={64} />}>
         {(data) => (
           <div className="split" data-has-detail={sel ? "true" : "false"}>
@@ -301,12 +301,12 @@ export default function Review() {
         )}
       </Gate>
 
-      <Sheet open={resetOpen} onClose={() => setResetOpen(false)} title={tx("Demo options")}>
-        <p className="secondary">{tx("Reset puts the synthetic demo data back to its starting state. Reports made in this session are removed.")}</p>
+      <Sheet open={resetOpen} onClose={() => setResetOpen(false)} title={tx("Sample data")}>
+        <p className="secondary">{tx("Reset puts the sample data back to its starting state. Reports made in this session are removed.")}</p>
         <button className="btn btn-block btn-prominent btn-destructive" onClick={async () => {
-          try { await api("/demo/reset", { method: "POST" }); toast(tx("Demo data reset")); setResetOpen(false); router.push("/review"); q.reload(); }
+          try { await api("/demo/reset", { method: "POST" }); toast(tx("Sample data reset")); setResetOpen(false); router.push("/review"); q.reload(); }
           catch (e) { toast(tr((e as ApiError).message), "bad"); }
-        }}><I.Refresh /> {tx("Reset demo data")}</button>
+        }}><I.Refresh /> {tx("Reset sample data")}</button>
       </Sheet>
     </Page>
   );

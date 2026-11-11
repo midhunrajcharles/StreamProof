@@ -28,12 +28,12 @@ const ENGAGEMENT: [string, string][] = [
   [N("No ranking between people"), N("Stars are private and printed on your own certificate. Competition rewards quantity and pushes people towards risky spots.")],
 ];
 
-// Post-project survival (plan §17.3). The commitments are proposals until the OneAquaHealth team agrees them.
+// What stays open, whoever runs the service.
 const AFTER: [string, string][] = [
   [N("The rules are open data"), N("The trust levels, the permitted-use rule and the profiles are plain FHIR files that any system can read and enforce, with or without this app.")],
-  [N("Proposed as an add-on to the HL7 Europe OneAquaHealth guide"), N("The profiles derive from the guide's own. Offering them to the guide's authors is the proposed path; it has not been agreed.")],
-  [N("The app is a reference client"), N("It shows how the rules work. The OneAquaHealth Citizen Science App could host the same layer behind it.")],
-  [N("A hosted verification service is the proposed paid layer"), N("Open core: the standard stays free; running the expert review queue for a city is the service. A proposal, not a product yet.")],
+  [N("An add-on to the HL7 Europe OneAquaHealth guide"), N("The profiles derive from the guide's own, so they can sit alongside it as a module.")],
+  [N("Works behind any citizen-science app"), N("The same trust layer can run behind other apps, including OneAquaHealth's Citizen Science App.")],
+  [N("Hosted verification for cities"), N("Open core: the standard stays free; running the expert review queue for a city is the service.")],
 ];
 
 // The seven grading checks (+ intake) read as ISO 19157 data-quality elements. Team interpretation.
@@ -76,7 +76,7 @@ export default function StandardsPage() {
                   {s.uses.map((u) => {
                     const lvl = s.matrix.find((m) => m.rung.level === from[u.code])?.rung;
                     return (
-                      <div key={u.code} className="row">
+                      <div key={u.code} className="row row-wrap">
                         <div className="row-body"><span className="row-title" style={{ fontWeight: 400 }}>{tx(u.label)}</span></div>
                         <span className="row-trail"><span className="pill">{tx("From {level}", { level: lvl ? rung(lvl.value, lvl.label) : "" })}</span></span>
                       </div>
@@ -205,8 +205,8 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title={tx("After December 2026")} n={8}
-                foot={tx("The OneAquaHealth project ends on 31 December 2026. StreamProof is built so that what matters outlives it.")}>
+              <Section title={tx("Open by design")} n={8}
+                foot={tx("The rules and records stay readable without StreamProof.")}>
                 <div className="group">
                   {AFTER.map(([title, why]) => (
                     <div key={title} className="row"><div className="row-body"><span className="row-title">{tx(title)}</span><span className="row-sub">{tx(why)}</span></div></div>
@@ -214,7 +214,7 @@ export default function StandardsPage() {
                 </div>
               </Section>
 
-              <Section title={tx("Built on")} n={9} foot={tx("Credited, not endorsed. StreamProof is designed as a trust layer behind OneAquaHealth's Citizen Science App; this web app is a reference client.")}>
+              <Section title={tx("Built on")} n={9} foot={tx("Credited, not endorsed. StreamProof is a trust layer that can run behind any citizen-science app.")}>
                 <div className="group">
                   {BUILT_ON.map(([name, role, url]) => (
                     <a key={name} className="row" href={url} target="_blank" rel="noopener">

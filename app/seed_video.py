@@ -45,8 +45,8 @@ ORGS = {  # other pilots; Coimbra's comes from app/seed.py
     "org-toulouse": ("Toulouse pilot (demo)", "Toulouse", "Reviewers for the Hers-Mort through north-east Toulouse."),
 }
 STAFF = {  # org -> (reviewer, coordinator): (id, email, name, title)
-    DEMO_ORG["id"]: (("exp-coimbra-01", "reviewer@coimbra-pilot.demo", "Helena M.", "Reviewer, freshwater ecology"),
-                     ("adm-coimbra-01", "coordinator@coimbra-pilot.demo", "Rui T.", "Pilot coordinator")),
+    DEMO_ORG["id"]: (("exp-coimbra-01", "reviewer@coimbra.streamproof.example", "Helena M.", "Reviewer, freshwater ecology"),
+                     ("adm-coimbra-01", "coordinator@coimbra.streamproof.example", "Rui T.", "Pilot coordinator")),
     "org-benevento": (("exp-benevento-01", "reviewer@benevento-pilot.demo", "Giulia R.", "Reviewer, river ecology"),
                       ("adm-benevento-01", "coordinator@benevento-pilot.demo", "Marco D.", "Pilot coordinator")),
     "org-ghent": (("exp-ghent-01", "reviewer@ghent-pilot.demo", "Femke J.", "Reviewer, water quality"),

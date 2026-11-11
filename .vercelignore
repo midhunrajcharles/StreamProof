@@ -1,0 +1,12 @@
+# API deployment only: the web app deploys separately from web/
+web
+video
+docs
+research
+tools
+tests
+ig
+var
+_old_judged
+*.zip
+**/__pycache__

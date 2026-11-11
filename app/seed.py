@@ -19,17 +19,17 @@ DEMO_EXPERT = "exp-coimbra-01"
 # Demo organisation accounts (test values for this demo; override with environment
 # variables, and change them for any real deployment).
 DEMO_ACCOUNTS = [
-    {"email": os.environ.get("STREAMPROOF_DEMO_REVIEWER", "reviewer@coimbra-pilot.demo"), "name": "Reviewer (demo)",
+    {"email": os.environ.get("STREAMPROOF_DEMO_REVIEWER", "reviewer@coimbra.streamproof.example"), "name": "Reviewer",
      "role": "reviewer", "id": DEMO_EXPERT, "password": os.environ.get("STREAMPROOF_DEMO_PASSWORD", "stream-demo-2026")},
-    {"email": os.environ.get("STREAMPROOF_DEMO_ADMIN", "coordinator@coimbra-pilot.demo"), "name": "Pilot coordinator (demo)",
+    {"email": os.environ.get("STREAMPROOF_DEMO_ADMIN", "coordinator@coimbra.streamproof.example"), "name": "Stream coordinator",
      "role": "admin", "id": "adm-coimbra-01", "password": os.environ.get("STREAMPROOF_DEMO_PASSWORD", "stream-demo-2026")},
 ]
 
 
-DEMO_ORG = {"id": "org-coimbra", "name": "Coimbra pilot (demo)", "city": "Coimbra",
-            "about": "Demo organisation for the Ribeira de Coselhas pilot. Reviewers verify citizen reports and publish the River Health Brief.",
+DEMO_ORG = {"id": "org-coimbra", "name": "Coimbra streams team", "city": "Coimbra",
+            "about": "Looks after the Ribeira de Coselhas in Coimbra. Reviewers verify citizen reports and publish the River Health Brief.",
             "website": ""}
-DEMO_CITIZEN_EMAIL = os.environ.get("STREAMPROOF_DEMO_CITIZEN", "maria@coimbra-pilot.demo")
+DEMO_CITIZEN_EMAIL = os.environ.get("STREAMPROOF_DEMO_CITIZEN", "maria@coimbra.streamproof.example")
 
 
 def ensure_accounts(store: Store) -> None:
@@ -54,11 +54,11 @@ def ensure_accounts(store: Store) -> None:
 
 OBSERVERS = [
     DEMO_CITIZEN,
-    ("obs-7f3a", "Ana R. (synthetic)"),
-    ("obs-c21e", "Escola Básica volunteers (synthetic)"),
-    ("obs-0b44", "Rui M. (synthetic)"),
-    ("obs-91d2", "Rios Vivos NGO (synthetic)"),
-    ("obs-5e10", "Jo T. (synthetic)"),
+    ("obs-7f3a", "Ana R."),
+    ("obs-c21e", "Escola Básica volunteers"),
+    ("obs-0b44", "Rui M."),
+    ("obs-91d2", "River volunteers group"),
+    ("obs-5e10", "Jo T."),
 ]
 
 

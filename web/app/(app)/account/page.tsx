@@ -264,7 +264,7 @@ export default function AccountPage() {
           </div>
         </Section>
       ) : null}
-      {session.demo ? <p className="secondary t-foot">{tx("Demo mode is on: the demo accounts can also be opened without a password.")}</p> : null}
+      {session.demo ? <p className="secondary t-foot">{tx("Sample accounts can be opened without a password.")}</p> : null}
     </Page>
   );
 }
